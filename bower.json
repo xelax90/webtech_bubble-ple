@@ -1,0 +1,37 @@
+{
+  "name": "xelax90/skelleton",
+  "version": "0.0.0",
+  "description": "A Skelleton Application with configured ZF 2, Doctrine 2, ZfcUser, BjyAuthorize and Bower",
+  "main": "public/index.php",
+  "keywords": [
+    "Skelleton",
+    "Zend",
+    "Doctrine",
+    "ZfcUser",
+    "BjyAuthorize",
+    "Bower"
+  ],
+  "authors": [
+    {
+      "name": "xelax",
+      "email": "schurix@gmx.de",
+      "homepage" : "https://github.com/xelax90"
+    }
+  ],
+  "license": "GPL-2.0",
+  "homepage": "https://github.com/xelax90/skelleton",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies" : {
+    "jquery" : "1.*",
+    "bootstrap" : "3.*",
+    "html5shiv" : "*",
+    "respond" : "*",
+	"fontawesome" : "*"
+  }
+}

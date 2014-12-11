@@ -1,0 +1,35 @@
+{
+    "name": "xelax90/skelleton",
+    "description": "A Skelleton Application with configured ZF 2, Doctrine 2, ZfcUser, BjyAuthorize and Bower",
+	"license": "GPL-2.0",
+	"keywords": [
+		"Skelleton",
+		"Zend",
+		"Doctrine",
+		"ZfcUser",
+		"BjyAuthorize",
+		"Bower"
+	],
+	"homepage" : "https://github.com/xelax90/skelleton",
+    "authors": [
+        {
+            "name": "xelax",
+            "email": "schurix@gmx.de",
+			"homepage" : "https://github.com/xelax90"
+        }
+    ],
+    "require": {
+		"php": ">=5.4",
+		"zendframework/zendframework": "2.3.*",
+		"articus/zf2-bower-module" : "dev-master",
+		"doctrine/doctrine-module" : "dev-master",
+		"doctrine/doctrine-orm-module": "dev-master",
+		"zf-commons/zfc-user": "1.*",
+		"zf-commons/zfc-user-doctrine-orm": "dev-master",
+		"bjyoungblood/bjy-authorize" : "*",
+		"doctrine/data-fixtures" : "*"
+	},
+	"require-dev" : {
+		"zendframework/zend-developer-tools": "dev-master"
+	}
+}
