@@ -1,0 +1,54 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath() . '/css/style.css')
+                        ->prependStylesheet($this->basePath() . '/css/font-awesome.css')
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.css')
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap.css') ?>
+
+        <!-- Scripts -->
+		<?php $this->bower('main', \BowerModule\View\Helper\Bower::CONTAINER_HEAD); ?>
+		<?php $this->bower('ieLT9', \BowerModule\View\Helper\Bower::CONTAINER_HEAD); ?>
+		<?php echo $this->headScript(); ?> 
+
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+					<a class="brand" href="<?php echo $this->url('home') ?>"></a>
+                </div>
+                <div class="collapse navbar-collapse">
+					<?php echo $this->navigation('navigation')
+					    ->menu()
+					    ->setMinDepth(0)
+					    ->setMaxDepth(0)
+						->setonlyActiveBranch(false)
+						->setUlClass('nav navbar-nav')
+					    ->render(); ?>
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+		
+        <div class="container">
+            <?php echo $this->content; ?>
+        </div> <!-- /container -->
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>

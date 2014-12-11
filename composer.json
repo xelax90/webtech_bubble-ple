@@ -27,7 +27,8 @@
 		"zf-commons/zfc-user": "1.*",
 		"zf-commons/zfc-user-doctrine-orm": "dev-master",
 		"bjyoungblood/bjy-authorize" : "*",
-		"doctrine/data-fixtures" : "*"
+		"doctrine/data-fixtures" : "*",
+		"hounddog/doctrine-data-fixture-module" : "dev-master"
 	},
 	"require-dev" : {
 		"zendframework/zend-developer-tools": "dev-master"

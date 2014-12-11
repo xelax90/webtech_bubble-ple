@@ -1,0 +1,11 @@
+<?php
+$options = array(
+	'guest_role' => 'guest',
+	'user_role' => 'user',
+	'moderator_role' => 'moderator',
+	'admin_role' => 'administrator',
+);
+
+return array(
+	'skelletion_application' => $options,
+)

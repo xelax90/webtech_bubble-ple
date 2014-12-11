@@ -19,7 +19,6 @@ return array(
 				'modules' => array(
 					'jquery',
 					'bootstrap',
-					"fontawesome",
 				)
 			),
 			'ieLT9' => array(

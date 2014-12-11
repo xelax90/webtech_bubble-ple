@@ -6,10 +6,12 @@ return array(
 		'BowerModule',
 		'DoctrineModule',
 		'DoctrineORMModule',
+		'DoctrineDataFixtureModule',
 		'ZfcBase',
 		'ZfcUser',
 		'ZfcUserDoctrineORM',
 		'BjyAuthorize',
+		'SkelletonApplication',
     ),
 
     // These are various options for the listeners attached to the ModuleManager
