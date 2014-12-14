@@ -73,35 +73,26 @@ class LoadUserRoles implements FixtureInterface, ServiceLocatorAwareInterface, D
     public function load(ObjectManager $manager)
     {
 		$skelletonOptions = $this->getSkelletonOptions();
+		$roles = $skelletonOptions->getRoles();
 		
-		$guest = new Role();
-		$guest->setRoleId($skelletonOptions->getGuestRole());
-		
-		$user = new Role();
-		$user->setRoleId($skelletonOptions->getGuestRole());
-		$user->setParent($guest);
-		
-		$mod = new Role();
-		$mod->setRoleId($skelletonOptions->getGuestRole());
-		$mod->setParent($user);
-		
-		$admin = new Role();
-		$admin->setRoleId($skelletonOptions->getGuestRole());
-		$admin->setParent($mod);
-		
-        $manager->persist($guest);
-        $manager->persist($user);
-        $manager->persist($mod);
-        $manager->persist($admin);
-		
+		$this->saveRoles($manager, $roles);
         $manager->flush();
-		
-		$this->addReference('guest-role', $guest);
-		$this->addReference('user-role', $user);
-		$this->addReference('moderator-role', $mod);
-		$this->addReference('admin-role', $admin);
     }
-
+	
+	protected function saveRoles(ObjectManager $manager, $roles, $parent = null){
+		foreach($roles as $roleName => $children){
+			$role = new Role();
+			$role->setRoleId($roleName);
+			$role->setParent($parent);
+			$manager->persist($role);
+			$this->saveRoles($children, $role);
+			
+			if(empty($children) && strpos(strtolower($roleName), 'admin') !== false){
+				$this->addReference('admin-role', $role);
+			}
+		}
+	}
+	
 	/**
 	 * Returns ServiceLocator
 	 * @return ServiceLocatorInterface

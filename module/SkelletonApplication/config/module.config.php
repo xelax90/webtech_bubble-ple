@@ -27,11 +27,18 @@ return array(
 	),
 	
 	'skelleton_application' => array(
-		'guest_role' => 'guest',
-		'user_role' => 'user',
-		'moderator_role' => 'moderator',
-		'admin_role' => 'administrator',
+		'roles' => array(
+			'guest' => array(
+				'user' => array(
+					'moderator' => array(
+						'administrator' // Admin role must be leaf and must contain 'admin'
+					)
+				)
+			)
+		)
 	),
+	
+	
 	
     'service_manager' => array(
         'abstract_factories' => array(
@@ -40,6 +47,7 @@ return array(
         ),
 		'factories' => array(
 			'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
+			'login_navigation' => 'SkelletonApplication\Navigation\Service\LoginNavigationFactory',
 			'SkelletionApplication\Options\Application' => function ($sm) {
                 $config = $sm->get('Config');
                 return new Options\SkelletonOptions(isset($config['skelleton_application']) ? $config['skelleton_application'] : array());
@@ -81,9 +89,19 @@ return array(
 	
 	// Site navigation
 	'navigation' => array(
+		// default navigation
 		'default' => array(
 			array('label' => 'Home',   'route' => 'home'),
+			array('label' => 'Login',   'route' => 'zfcuser/login'),
+			array('label' => 'Registrieren',   'route' => 'zfcuser/register'),
 		),
+		// navigation for logged in users
+		'default_login' => array(
+			array('label' => 'Home',   'route' => 'home'),
+			array('label' => 'Profil',   'route' => 'zfcuser'),
+			array('label' => 'Passwort Ändern',   'route' => 'zfcuser/changepassword'),
+			array('label' => 'Logout',   'route' => 'zfcuser/logout'),
+		)
 	),
 
 	

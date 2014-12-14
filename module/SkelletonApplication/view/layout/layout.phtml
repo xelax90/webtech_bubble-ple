@@ -35,13 +35,19 @@
 					<a class="brand" href="<?php echo $this->url('home') ?>"></a>
                 </div>
                 <div class="collapse navbar-collapse">
-					<?php echo $this->navigation('navigation')
-					    ->menu()
-					    ->setMinDepth(0)
-					    ->setMaxDepth(0)
-						->setonlyActiveBranch(false)
-						->setUlClass('nav navbar-nav')
-					    ->render(); ?>
+					<?php
+						$navigation = $this->navigation('navigation');
+						if($this->zfcUserIdentity()){
+							$navigation = $this->navigation('login_navigation');
+						}
+						echo $navigation
+								->menu()
+								->setMinDepth(0)
+								->setMaxDepth(0)
+								->setonlyActiveBranch(false)
+								->setUlClass('nav navbar-nav')
+								->render(); 
+					?>
                 </div><!--/.nav-collapse -->
             </div>
         </nav>

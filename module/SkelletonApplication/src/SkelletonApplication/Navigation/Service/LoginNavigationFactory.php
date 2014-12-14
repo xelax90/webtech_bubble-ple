@@ -17,27 +17,25 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-namespace SkelletonApplication\Options;
+namespace SkelletonApplication\Navigation\Service;
 
-use Zend\Stdlib\AbstractOptions;
- 
-class SkelletonOptions extends AbstractOptions
+use Zend\Navigation\Service\DefaultNavigationFactory;
+
+/**
+ * Factory for the ZfcAdmin admin navigation
+ *
+ * @package    SkelletonApplication
+ * @subpackage Navigation\Service
+ */
+class LoginNavigationFactory extends DefaultNavigationFactory
 {
-	protected $roles = array(
-			'guest' => array(
-				'user' => array(
-					'moderator' => array(
-						'administrator'
-					)
-				)
-			)
-		);
-	
-	public function getRoles(){
-		return $this->roles;
-	}
-
-	public function setRoles($roles){
-		$this->roles = $roles;
-	}
+    /**
+     * @{inheritdoc}
+     */
+    protected function getName()
+    {
+        return 'default_login';
+    }
 }
+
+

@@ -52,7 +52,7 @@ class Module
 			),
 		);
 	}
-	
+
 	
 	/**
 	 * Extends the ZfcUser registration form with custom fields

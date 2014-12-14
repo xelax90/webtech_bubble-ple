@@ -1,9 +1,14 @@
 <?php
 $options = array(
-	'guest_role' => 'guest',
-	'user_role' => 'user',
-	'moderator_role' => 'moderator',
-	'admin_role' => 'administrator',
+	'roles' => array(
+		'guest' => array(
+			'user' => array(
+				'moderator' => array(
+					'administrator' // Admin role must be leaf and must contain 'admin'
+				)
+			)
+		)
+	)
 );
 
 return array(
