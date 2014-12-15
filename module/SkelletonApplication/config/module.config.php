@@ -26,13 +26,59 @@ return array(
 		),
 	),
 	
+	'bjyauthorize' => array(
+		// resource providers provide a list of resources that will be tracked
+        // in the ACL. like roles, they can be hierarchical
+        'resource_providers' => array(
+            "BjyAuthorize\Provider\Resource\Config" => array(
+                'user' => array(),
+            ),
+        ),
+
+		
+		'rule_providers' => array(
+			"BjyAuthorize\Provider\Rule\Config" => array(
+                'allow' => array(
+					// config for navigation
+                    [['user'], 'user', 'profile'],
+                    [['user'], 'user', 'logout'],
+                    [['user'], 'user', 'changepassword'],
+                    [['guest'], 'user', 'login'],
+                    [['guest'], 'user', 'register'],
+                ),
+
+                // Don't mix allow/deny rules if you are using role inheritance.
+                // There are some weird bugs.
+                'deny' => array(
+                    // ...
+                ),
+            )
+		),
+		
+		'guards' => array(
+			'BjyAuthorize\Guard\Controller' => array(
+				[
+					'controller' => 'zfcuser', 
+					'action' => ['login', 'register', 'authenticate'], 
+					'roles' => ['guest']
+				],
+				[
+					'controller' => 'zfcuser', 
+					'action' => ['logout', 'index', 'changepassword', 'changeEmail'], 
+					'roles' => ['user']
+				],
+				['controller' => 'SkelletonApplication\Controller\Index', 'roles' => ['guest', 'user']]
+			),
+		)
+		
+	),
+	
 	'skelleton_application' => array(
 		'roles' => array(
-			'guest' => array(
-				'user' => array(
-					'moderator' => array(
-						'administrator' // Admin role must be leaf and must contain 'admin'
-					)
+			'guest' => array(),
+			'user' => array(
+				'moderator' => array(
+					'administrator' => array() // Admin role must be leaf and must contain 'admin'
 				)
 			)
 		)
@@ -47,7 +93,6 @@ return array(
         ),
 		'factories' => array(
 			'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
-			'login_navigation' => 'SkelletonApplication\Navigation\Service\LoginNavigationFactory',
 			'SkelletionApplication\Options\Application' => function ($sm) {
                 $config = $sm->get('Config');
                 return new Options\SkelletonOptions(isset($config['skelleton_application']) ? $config['skelleton_application'] : array());
@@ -91,17 +136,13 @@ return array(
 	'navigation' => array(
 		// default navigation
 		'default' => array(
-			array('label' => 'Home',   'route' => 'home'),
-			array('label' => 'Login',   'route' => 'zfcuser/login'),
-			array('label' => 'Registrieren',   'route' => 'zfcuser/register'),
+			array('label' => 'Home',            'route' => 'home'),
+			array('label' => 'Login',           'route' => 'zfcuser/login',          'resource' => 'user', 'privilege' => 'login'),
+			array('label' => 'Registrieren',    'route' => 'zfcuser/register',       'resource' => 'user', 'privilege' => 'register'),
+			array('label' => 'Profil',          'route' => 'zfcuser',                'resource' => 'user', 'privilege' => 'profile'),
+			array('label' => 'Passwort Ändern', 'route' => 'zfcuser/changepassword', 'resource' => 'user', 'privilege' => 'changepassword'),
+			array('label' => 'Logout',          'route' => 'zfcuser/logout',         'resource' => 'user', 'privilege' => 'logout'),
 		),
-		// navigation for logged in users
-		'default_login' => array(
-			array('label' => 'Home',   'route' => 'home'),
-			array('label' => 'Profil',   'route' => 'zfcuser'),
-			array('label' => 'Passwort Ändern',   'route' => 'zfcuser/changepassword'),
-			array('label' => 'Logout',   'route' => 'zfcuser/logout'),
-		)
 	),
 
 	

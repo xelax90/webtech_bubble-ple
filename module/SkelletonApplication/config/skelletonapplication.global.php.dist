@@ -1,11 +1,10 @@
 <?php
 $options = array(
 	'roles' => array(
-		'guest' => array(
-			'user' => array(
-				'moderator' => array(
-					'administrator' // Admin role must be leaf and must contain 'admin'
-				)
+		'guest' => array(),
+		'user' => array(
+			'moderator' => array(
+				'administrator' => array() // Admin role must be leaf and must contain 'admin'
 			)
 		)
 	)

@@ -37,9 +37,6 @@
                 <div class="collapse navbar-collapse">
 					<?php
 						$navigation = $this->navigation('navigation');
-						if($this->zfcUserIdentity()){
-							$navigation = $this->navigation('login_navigation');
-						}
 						echo $navigation
 								->menu()
 								->setMinDepth(0)

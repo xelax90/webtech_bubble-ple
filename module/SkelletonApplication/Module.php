@@ -8,6 +8,7 @@ use SkelletonApplication\Entity\User;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerInterface;
 use Doctrine\ORM\EntityManager;
+use Zend\View\Helper\Navigation;
 
 class Module
 {
@@ -20,7 +21,14 @@ class Module
 		
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
-
+		
+		// Add ACL information to the Navigation view helper
+		$authorize = $sm->get('BjyAuthorizeServiceAuthorize');
+		$acl = $authorize->getAcl();
+		$role = $authorize->getIdentity();
+		Navigation::setDefaultAcl($acl);
+		Navigation::setDefaultRole($role);		
+		
 		// Protect all views except whitelist by login form
 		//$this->protectViewsLogin($e);
 		// Extend the ZfcUser registration form with custom fields 
