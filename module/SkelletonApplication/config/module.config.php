@@ -57,17 +57,20 @@ return array(
 		
 		'guards' => array(
 			'BjyAuthorize\Guard\Controller' => array(
-				[
+				[ // ZfcUser public
 					'controller' => 'zfcuser', 
 					'action' => ['login', 'register', 'authenticate'], 
 					'roles' => ['guest']
 				],
-				[
+				[ // ZfcUser private
 					'controller' => 'zfcuser', 
 					'action' => ['logout', 'index', 'changepassword', 'changeEmail'], 
 					'roles' => ['user']
 				],
-				['controller' => 'SkelletonApplication\Controller\Index', 'roles' => ['guest', 'user']]
+				// home
+				['controller' => 'SkelletonApplication\Controller\Index', 'roles' => ['guest', 'user']],
+				// Yuml diagram
+				['controller' => 'DoctrineORMModule\Yuml\YumlController', 'roles' => ['administrator']],
 			),
 		)
 		
