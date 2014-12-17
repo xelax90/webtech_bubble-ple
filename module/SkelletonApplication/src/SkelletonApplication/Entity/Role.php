@@ -102,7 +102,7 @@ class Role implements HierarchicalRoleInterface, JsonSerializable
      *
      * @return void
      */
-    public function setParent(Role $parent)
+    public function setParent(Role $parent = null)
     {
         $this->parent = $parent;
     }

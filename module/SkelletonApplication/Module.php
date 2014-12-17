@@ -22,12 +22,14 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 		
-		// Add ACL information to the Navigation view helper
-		$authorize = $sm->get('BjyAuthorizeServiceAuthorize');
-		$acl = $authorize->getAcl();
-		$role = $authorize->getIdentity();
-		Navigation::setDefaultAcl($acl);
-		Navigation::setDefaultRole($role);		
+		if(!\Zend\Console\Console::isConsole()) {
+			// Add ACL information to the Navigation view helper
+			$authorize = $sm->get('BjyAuthorizeServiceAuthorize');
+			$acl = $authorize->getAcl();
+			$role = $authorize->getIdentity();
+			Navigation::setDefaultAcl($acl);
+			Navigation::setDefaultRole($role);		
+		}
 		
 		// Protect all views except whitelist by login form
 		//$this->protectViewsLogin($e);

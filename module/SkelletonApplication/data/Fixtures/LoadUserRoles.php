@@ -26,8 +26,9 @@ use SkelletonApplication\Entity\Role;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use \Doctrine\Common\DataFixtures\AbstractFixture;
 
-class LoadUserRoles implements FixtureInterface, ServiceLocatorAwareInterface, DependentFixtureInterface
+class LoadUserRoles extends AbstractFixture implements FixtureInterface, ServiceLocatorAwareInterface
 {
 	/**
 	 *
@@ -37,33 +38,16 @@ class LoadUserRoles implements FixtureInterface, ServiceLocatorAwareInterface, D
 	
 	/**
 	 *
-	 * @var \ZfcUser\Options\ModuleOptions
-	 */
-	protected $zfcUserOptions;
-	
-	/**
-	 *
 	 * @var \SkelletonApplication\Options\SkelletonOptions
 	 */
 	protected $skelletonOptions;
-	
-    /**
-     * @return \ZfcUser\Options\ModuleOptions
-     */
-    public function getZfcUserOptions()
-    {
-        if (!$this->zfcUserOptions instanceof ZfcUserModuleOptions) {
-            $this->zfcUserOptions = $this->getServiceLocator()->get('zfcuser_module_options');
-        }
-        return $this->zfcUserOptions;
-    }
 	
     /**
      * @return \SkelletonApplication\Options\SkelletonOptions
      */
     public function getSkelletonOptions()
     {
-        if (!$this->skelletonOptions instanceof ZfcUserModuleOptions) {
+        if (!$this->skelletonOptions instanceof \SkelletonApplication\Options\SkelletonOptions) {
             $this->skelletonOptions = $this->getServiceLocator()->get('SkelletionApplication\Options\Application');
         }
         return $this->skelletonOptions;
@@ -85,7 +69,7 @@ class LoadUserRoles implements FixtureInterface, ServiceLocatorAwareInterface, D
 			$role->setRoleId($roleName);
 			$role->setParent($parent);
 			$manager->persist($role);
-			$this->saveRoles($children, $role);
+			$this->saveRoles($manager, $children, $role);
 			
 			if(empty($children) && strpos(strtolower($roleName), 'admin') !== false){
 				$this->addReference('admin-role', $role);
@@ -107,10 +91,6 @@ class LoadUserRoles implements FixtureInterface, ServiceLocatorAwareInterface, D
 	 */
 	public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
 		$this->sl = $serviceLocator;
-	}
-
-	public function getDependencies() {
-		return array('SkelletonApplication\Fixtures\LoadUserRoles');
 	}
 
 }

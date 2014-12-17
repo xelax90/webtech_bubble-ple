@@ -27,8 +27,9 @@ use Zend\Crypt\Password\Bcrypt;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 
-class LoadAdminUser implements FixtureInterface, ServiceLocatorAwareInterface, DependentFixtureInterface
+class LoadAdminUser extends AbstractFixture implements FixtureInterface, ServiceLocatorAwareInterface, DependentFixtureInterface
 {
 	/**
 	 *
