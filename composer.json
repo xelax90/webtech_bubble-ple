@@ -31,6 +31,13 @@
 		"hounddog/doctrine-data-fixture-module" : "dev-master"
 	},
 	"require-dev" : {
+		"xelax90/xelax-admin" : "dev-master",
 		"zendframework/zend-developer-tools": "dev-master"
-	}
+	},
+	"repositories": [
+        {
+            "url": "https://github.com/xelax90/xelax-admin.git",
+            "type": "git"
+        }
+    ]
 }

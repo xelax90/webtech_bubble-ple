@@ -18,6 +18,8 @@ class Module
 		$eventManager = $app->getEventManager(); 
 		$sm = $app->getServiceManager();
 	    $em = $sm->get('doctrine.entitymanager.orm_default');
+		// Add UTF8 handler to EntityManager
+		$em->getEventManager()->addEventSubscriber( new \Doctrine\DBAL\Event\Listeners\MysqlSessionInit('utf8', 'utf8_unicode_ci') );
 		
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
@@ -31,8 +33,6 @@ class Module
 			Navigation::setDefaultRole($role);		
 		}
 		
-		// Protect all views except whitelist by login form
-		//$this->protectViewsLogin($e);
 		// Extend the ZfcUser registration form with custom fields 
 		$this->extendUserRegistrationForm($eventManager, $em);	
     }

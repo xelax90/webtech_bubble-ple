@@ -11,6 +11,7 @@ return array(
 		'ZfcUser',
 		'ZfcUserDoctrineORM',
 		'BjyAuthorize',
+		'XelaxAdmin',
 		'SkelletonApplication',
     ),
 

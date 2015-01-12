@@ -40,9 +40,9 @@ return array(
 			"BjyAuthorize\Provider\Rule\Config" => array(
                 'allow' => array(
 					// config for navigation
-                    [['user'], 'user', 'profile'],
-                    [['user'], 'user', 'logout'],
-                    [['user'], 'user', 'changepassword'],
+                    [['user'],  'user', 'profile'],
+                    [['user'],  'user', 'logout'],
+                    [['user'],  'user', 'changepassword'],
                     [['guest'], 'user', 'login'],
                     [['guest'], 'user', 'register'],
                 ),
@@ -56,22 +56,16 @@ return array(
 		),
 		
 		'guards' => array(
-			'BjyAuthorize\Guard\Controller' => array(
-				[ // ZfcUser public
-					'controller' => 'zfcuser', 
-					'action' => ['login', 'register', 'authenticate'], 
-					'roles' => ['guest']
-				],
-				[ // ZfcUser private
-					'controller' => 'zfcuser', 
-					'action' => ['logout', 'index', 'changepassword', 'changeEmail'], 
-					'roles' => ['user']
-				],
-				// home
-				['controller' => 'SkelletonApplication\Controller\Index', 'roles' => ['guest', 'user']],
-				// Yuml diagram
-				['controller' => 'DoctrineORMModule\Yuml\YumlController', 'roles' => ['administrator']],
-			),
+			'BjyAuthorize\Guard\Route' => array(
+				['route' => 'zfcuser/login',            'roles' => ['guest'] ],
+				['route' => 'zfcuser/register',         'roles' => ['guest'] ],
+				['route' => 'zfcuser/authenticate',     'roles' => ['guest'] ],
+				['route' => 'zfcuser/logout',           'roles' => ['user'] ],
+				['route' => 'zfcuser/changepassword',   'roles' => ['user'] ],
+				['route' => 'zfcuser/changeemail',      'roles' => ['user'] ],
+				['route' => 'home',                     'roles' => ['guest', 'user'] ],
+				['route' => 'doctrine_orm_module_yuml', 'roles' => ['administrator'] ],
+			)
 		)
 		
 	),
@@ -96,7 +90,7 @@ return array(
         ),
 		'factories' => array(
 			'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
-			'SkelletionApplication\Options\Application' => function ($sm) {
+			'SkelletionApplication\Options\Application' => function (\Zend\ServiceManager\ServiceManager $sm) {
                 $config = $sm->get('Config');
                 return new Options\SkelletonOptions(isset($config['skelleton_application']) ? $config['skelleton_application'] : array());
             },
