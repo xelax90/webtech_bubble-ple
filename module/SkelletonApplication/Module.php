@@ -3,12 +3,11 @@ namespace SkelletonApplication;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use SkelletonApplication\Entity\User;
 
 use Zend\EventManager\EventManager;
-use Zend\EventManager\EventManagerInterface;
 use Doctrine\ORM\EntityManager;
 use Zend\View\Helper\Navigation;
+use SkelletonApplication\Event\UserListener;
 
 class Module
 {
@@ -16,6 +15,8 @@ class Module
     {
 		$app = $e->getApplication();
 		$eventManager = $app->getEventManager(); 
+		$eventManager->attach(new UserListener());
+		
 		$sm = $app->getServiceManager();
 	    $em = $sm->get('doctrine.entitymanager.orm_default');
 		// Add UTF8 handler to EntityManager
