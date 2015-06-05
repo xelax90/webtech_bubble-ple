@@ -45,16 +45,27 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
     }
 
     /**
-     * Add a role to the user.
+     * Add a roles to the user.
      *
-     * @param Role $role
-     *
-     * @return void
+     * @param \Doctrine\Common\Collections\Collection $roles
      */
-    public function addRole($role)
+    public function addRoles($roles)
     {
-        $this->roles[] = $role;
+		foreach($roles as $role){
+			$this->roles->add($role);
+		}
     }
+	
+	/**
+	 * Remove roles from the user
+	 * 
+	 * @param \Doctrine\Common\Collections\Collection $roles
+	 */
+	public function removeRoles($roles){
+		foreach($roles as $role){
+			$this->roles->removeElement($role);
+		}
+	}
 	
 	/**
 	 * Returns an array containing data of this object
