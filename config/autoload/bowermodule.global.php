@@ -14,11 +14,21 @@ return array(
         ),
         'debug_mode' => true,
 		'packs' => array(
-			'main' => array(
+			'backend' => array(
+				'token' => 'admin',
+				'modules' => array(
+					'jquery',
+					'bootstrap',
+					'bootstrap-switch',
+					'select2',
+				)
+			),
+			'frontend' => array(
 				'token' => 'main',
 				'modules' => array(
 					'jquery',
 					'bootstrap',
+					'select2',
 				)
 			),
 			'ieLT9' => array(

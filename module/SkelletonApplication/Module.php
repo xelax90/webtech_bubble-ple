@@ -7,7 +7,7 @@ use Zend\Mvc\MvcEvent;
 use Zend\EventManager\EventManager;
 use Doctrine\ORM\EntityManager;
 use Zend\View\Helper\Navigation;
-use SkelletonApplication\Event\UserListener;
+use SkelletonApplication\Listener\UserListener;
 
 class Module
 {

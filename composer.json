@@ -19,24 +19,33 @@
         }
     ],
     "require": {
-		"php": ">=5.4",
+		"php": ">=5.5",
 		"zendframework/zendframework": "2.3.*",
 		"articus/zf2-bower-module" : "dev-master",
-		"doctrine/doctrine-module" : "dev-master",
-		"doctrine/doctrine-orm-module": "dev-master",
-		"zf-commons/zfc-user": "1.*",
+		"doctrine/doctrine-module" : "*",
+		"doctrine/doctrine-orm-module": "*",
+		"zf-commons/zfc-user": "*",
 		"zf-commons/zfc-user-doctrine-orm": "dev-master",
 		"bjyoungblood/bjy-authorize" : "*",
-		"doctrine/data-fixtures" : "*",
-		"hounddog/doctrine-data-fixture-module" : "dev-master"
+		"doctrine/data-fixtures" : "dev-master",
+		"hounddog/doctrine-data-fixture-module" : "dev-master",
+		
+		"zf-commons/zfc-admin": "*",
+		"danielss89/zfc-user-admin" : "dev-master",
+		
+		"xelax90/xelax-admin": "dev-master",
+		"neilime/zf2-twb-bundle" : "dev-master",
+		"xelax90/xelax-twb-unmask": "dev-master",
+		"xelax90/zf2-filter-htmlpurifier": "*",
+		"xelax90/password-generator-module" : "dev-master"
 	},
 	"require-dev" : {
-		"xelax90/xelax-admin" : "dev-master",
-		"zendframework/zend-developer-tools": "dev-master"
+		"zendframework/zend-developer-tools": "dev-master",
+		"zendframework/zftool" : "*"
 	},
 	"repositories": [
         {
-            "url": "https://github.com/xelax90/xelax-admin.git",
+            "url": "https://github.com/xelax90/zf2-bower-module.git",
             "type": "git"
         }
     ]

@@ -11,7 +11,13 @@ $config = array(
 		'ZfcUser',
 		'ZfcUserDoctrineORM',
 		'BjyAuthorize',
+		'ZfcAdmin',
+		'ZfcUserAdmin',
 		'XelaxAdmin',
+		'TwbBundle',
+        'XelaxTwbUnmask',
+		'XelaxHTMLPurifier',
+		'XelaxPasswordGeneratorModule',
 		'SkelletonApplication',
     ),
 
