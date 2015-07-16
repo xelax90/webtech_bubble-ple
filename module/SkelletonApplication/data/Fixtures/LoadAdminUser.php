@@ -57,25 +57,26 @@ class LoadAdminUser extends AbstractFixture implements FixtureInterface, Service
 	
     public function load(ObjectManager $manager)
     {
-        $zfcUserOptions = $this->getZfcUserOptions();
-		// create user schurix@gmx.de with password schurix
-        $user = new User();
-		$user->setEmail('schurix@gmx.de');
-		$user->setDisplayName('Xelax 90');
-		$user->setUsername('xelax90');
-		$user->setState(1);
+		$userService = $this->getServiceLocator()->get('zfcuser_user_service');
 		
-		$role = $this->getReference('admin-role');
-		$user->addRole($role);
-		
-        $bcrypt = new Bcrypt;
-        $bcrypt->setCost($zfcUserOptions->getPasswordCost());
-        $user->setPassword($bcrypt->create('schurix'));
-
-        $manager->persist($user);
+		$data = array(
+			'username' => 'xelax90',
+			'display_name' => 'Xelax 90',
+			'email' => 'schurix@gmx.de',
+			'password' => 'schurix',
+			'passwordVerify' => 'schurix'
+		);
+		/* @var $userObject User */
+		$userObject = $userService->register($data);
+		if(!$userObject){
+			throw new Exception(sprintf('Registration of user %s failed', $item->name));
+		}
+		$userObject->setUsername($data['username']);
+		$userObject->setEmail($data['email']);
+		$userObject->setState(1);
         $manager->flush();
 		
-		$this->addReference('admin-user', $user);
+		$this->addReference('admin-user', $userObject);
     }
 
 	/**
