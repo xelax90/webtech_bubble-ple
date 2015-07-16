@@ -2,6 +2,7 @@
 namespace SkelletonApplication;
 
 use SkelletonApplication\Options;
+use SkelletonApplication\Listener;
 
 return array(
 	'controllers' => array(
@@ -32,6 +33,7 @@ return array(
         'resource_providers' => array(
             "BjyAuthorize\Provider\Resource\Config" => array(
                 'user' => array(),
+				'debug' => array(),
             ),
         ),
 
@@ -45,6 +47,9 @@ return array(
                     [['user'],  'user', 'changepassword'],
                     [['guest'], 'user', 'login'],
                     [['guest'], 'user', 'register'],
+					
+					[['moderator'], 'debug', 'moderator'],
+					[['administrator'], 'debug', 'administrator'],
                 ),
 
                 // Don't mix allow/deny rules if you are using role inheritance.
@@ -57,14 +62,27 @@ return array(
 		
 		'guards' => array(
 			'BjyAuthorize\Guard\Route' => array(
-				['route' => 'zfcuser/login',            'roles' => ['guest'] ],
+				['route' => 'zfcuser',                  'roles' => ['guest', 'user'] ],
+				['route' => 'zfcuser/login',            'roles' => ['guest', 'user'] ],
 				['route' => 'zfcuser/register',         'roles' => ['guest'] ],
 				['route' => 'zfcuser/authenticate',     'roles' => ['guest'] ],
-				['route' => 'zfcuser/logout',           'roles' => ['user'] ],
+				['route' => 'zfcuser/logout',           'roles' => ['guest', 'user'] ],
 				['route' => 'zfcuser/changepassword',   'roles' => ['user'] ],
 				['route' => 'zfcuser/changeemail',      'roles' => ['user'] ],
 				['route' => 'home',                     'roles' => ['guest', 'user'] ],
+				
+				// modules
 				['route' => 'doctrine_orm_module_yuml', 'roles' => ['administrator'] ],
+				
+				// admin
+				['route' => 'zfcadmin',                      'roles' => ['moderator']],
+				
+				// user admin
+				['route' => 'zfcadmin/zfcuseradmin',         'roles' => ['administrator']],
+				['route' => 'zfcadmin/zfcuseradmin/list',    'roles' => ['administrator']],
+				['route' => 'zfcadmin/zfcuseradmin/create',  'roles' => ['administrator']],
+				['route' => 'zfcadmin/zfcuseradmin/edit',    'roles' => ['administrator']],
+				['route' => 'zfcadmin/zfcuseradmin/remove',  'roles' => ['administrator']],
 			)
 		)
 		
@@ -88,6 +106,9 @@ return array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
         ),
+		'invokables' => array(
+			'SkelletonApplication\UserListener' => Listener\UserListener::class,
+		),
 		'factories' => array(
 			'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
 			'SkelletionApplication\Options\Application' => function (\Zend\ServiceManager\ServiceManager $sm) {
@@ -134,11 +155,16 @@ return array(
 		// default navigation
 		'default' => array(
 			array('label' => 'Home',            'route' => 'home'),
+			array('label' => 'Admin',           'route' => 'zfcadmin',               'resource' => 'user', 'privilege' => 'login'),
 			array('label' => 'Login',           'route' => 'zfcuser/login',          'resource' => 'user', 'privilege' => 'login'),
 			array('label' => 'Registrieren',    'route' => 'zfcuser/register',       'resource' => 'user', 'privilege' => 'register'),
 			array('label' => 'Profil',          'route' => 'zfcuser',                'resource' => 'user', 'privilege' => 'profile'),
 			array('label' => 'Passwort Ändern', 'route' => 'zfcuser/changepassword', 'resource' => 'user', 'privilege' => 'changepassword'),
 			array('label' => 'Logout',          'route' => 'zfcuser/logout',         'resource' => 'user', 'privilege' => 'logout'),
+		),
+		// admin navigation
+		'admin' => array(
+			array('label' => 'User Profiles',      'route' => 'zfcadmin/userprofile')
 		),
 	),
 

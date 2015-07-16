@@ -20,7 +20,8 @@
 namespace SkelletonApplication\Options;
 
 use Zend\Stdlib\AbstractOptions;
- 
+use SkelletonApplication\Entity\UserProfile;
+
 class SkelletonOptions extends AbstractOptions
 {
 	protected $roles = array(
@@ -33,11 +34,23 @@ class SkelletonOptions extends AbstractOptions
 			)
 		);
 	
+	protected $userProfileEntity = UserProfile::class;
+	
 	public function getRoles(){
 		return $this->roles;
 	}
 
 	public function setRoles($roles){
 		$this->roles = $roles;
+		return $this;
+	}
+	
+	public function getUserProfileEntity() {
+		return $this->userProfileEntity;
+	}
+
+	public function setUserProfileEntity($userProfileEntity) {
+		$this->userProfileEntity = $userProfileEntity;
+		return $this;
 	}
 }
