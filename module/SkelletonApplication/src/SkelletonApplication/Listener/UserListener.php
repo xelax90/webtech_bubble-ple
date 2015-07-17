@@ -91,12 +91,12 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 		/* @var $options \SkelletonApplication\Options\SkelletonOptions */
 		$options = $sm->get('SkelletionApplication\Options\Application');
 		
-		if(count($user->getProfile()) == 0){
+		if($user->getProfile() === null){
 			$profileEntity = $options->getUserProfileEntity();
 			/* @var $profile \SkelletonApplication\Entity\UserProfile */
 			$profile = new $profileEntity();
 			$profile->setUser($user);
-			$user->setProfile(array($profile));
+			$user->setProfile($profile);
 			$em->persist($profile);
 			$em->flush();
 		}
@@ -123,12 +123,12 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 		$hydrator = new DoctrineObject($em);
 		$hydrator->hydrate($uData, $user);
 		
-		if(count($user->getProfile()) == 0){
+		if($user->getProfile() === null){
 			$profileEntity = $options->getUserProfileEntity();
 			/* @var $profile \SkelletonApplication\Entity\UserProfile */
 			$profile = new $profileEntity();
 			$profile->setUser($user);
-			$user->setProfile(array($profile));
+			$user->setProfile($profile);
 			$em->persist($profile);
 		}
 		$em->flush();

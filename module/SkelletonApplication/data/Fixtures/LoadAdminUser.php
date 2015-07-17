@@ -74,6 +74,7 @@ class LoadAdminUser extends AbstractFixture implements FixtureInterface, Service
 		$userObject->setUsername($data['username']);
 		$userObject->setEmail($data['email']);
 		$userObject->setState(1);
+		$userObject->addRoles(array($this->getReference('admin-role')));
         $manager->flush();
 		
 		$this->addReference('admin-user', $userObject);

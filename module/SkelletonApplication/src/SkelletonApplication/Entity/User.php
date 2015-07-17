@@ -26,6 +26,12 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
      */
     protected $roles;
 	
+	/**
+	 * @var UserProfile
+	 * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user")
+	 */
+	protected $profile;
+	
     /**
      * Initialies the roles variable.
      */
@@ -45,7 +51,7 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
     }
 
     /**
-     * Add a roles to the user.
+     * Add roles to the user.
      *
      * @param \Doctrine\Common\Collections\Collection $roles
      */
@@ -55,6 +61,14 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 			$this->roles->add($role);
 		}
     }
+	
+	/**
+	 * Add a role to the user
+	 * @param Role $role
+	 */
+	public function addRole($role){
+		$this->roles->add($role);
+	}
 	
 	/**
 	 * Remove roles from the user
@@ -67,6 +81,24 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 		}
 	}
 	
+	/**
+	 * Returns the user profile or null.
+	 * @return UserProfile
+	 */
+	public function getProfile() {
+		return $this->profile;
+	}
+	
+	/**
+	 * Sets the profile. 
+	 * @param UserProfile $profile
+	 * @return User
+	 */
+	public function setProfile($profile) {
+		$this->profile = $profile;
+		return $this;
+	}
+
 	/**
 	 * Returns an array containing data of this object
 	 * @return array
@@ -104,6 +136,7 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 			'displayname' => $this->getDisplayName(),
 			'state' => $this->getState(),
 			'roles' => $this->getRoles(),
+			'profile' => $this->getProfile(),
 		);
 		return $data;
 	}

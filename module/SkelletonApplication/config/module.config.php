@@ -11,9 +11,12 @@ $xelaxConfig = array(
 			'name' => 'UserProfile', 
 			'controller_class' => 'XelaxAdmin\Controller\ListController', 
 			'base_namespace' => 'SkelletonApplication',
-			'list_columns' => array('Id' => 'id', 'Name' => 'displayName'),
+			'list_columns' => array('Id' => 'userId', 'Name' => 'displayName'),
 			'list_title' => 'User Profiles',
 			'create_route' => array(
+				'disabled' => true
+			),
+			'delete_route' => array(
 				'disabled' => true
 			),
 			'route_base' => 'zfcadmin/userprofile',

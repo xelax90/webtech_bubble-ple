@@ -1013,16 +1013,16 @@
         },
         {
             "name": "hackzilla/password-generator",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hackzilla/password-generator.git",
-                "reference": "365b8782f90b021f8f90de71783ee57dfffb0b73"
+                "reference": "35f338d209b767192fc3e5c33bdae0ca15cd9633"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hackzilla/password-generator/zipball/365b8782f90b021f8f90de71783ee57dfffb0b73",
-                "reference": "365b8782f90b021f8f90de71783ee57dfffb0b73",
+                "url": "https://api.github.com/repos/hackzilla/password-generator/zipball/35f338d209b767192fc3e5c33bdae0ca15cd9633",
+                "reference": "35f338d209b767192fc3e5c33bdae0ca15cd9633",
                 "shasum": ""
             },
             "require": {
@@ -1049,7 +1049,7 @@
                 }
             ],
             "description": "Password Generator Library",
-            "time": "2015-01-10 22:15:10"
+            "time": "2015-07-16 22:30:35"
         },
         {
             "name": "hounddog/doctrine-data-fixture-module",
