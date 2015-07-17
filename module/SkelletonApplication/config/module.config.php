@@ -1,37 +1,89 @@
 <?php
 namespace SkelletonApplication;
 
-use SkelletonApplication\Options;
-use SkelletonApplication\Listener;
+use XelaxAdmin\Router\ListRoute;
+use BjyAuthorize\Provider;
+use BjyAuthorize\Guard;
+
+$xelaxConfig = array(
+	'list_controller' => array(
+		'userprofile' => array(
+			'name' => 'UserProfile', 
+			'controller_class' => 'XelaxAdmin\Controller\ListController', 
+			'base_namespace' => 'SkelletonApplication',
+			'list_columns' => array('Id' => 'id', 'Name' => 'displayName'),
+			'list_title' => 'User Profiles',
+			'create_route' => array(
+				'disabled' => true
+			),
+			'route_base' => 'zfcadmin/userprofile',
+			'rest_enabled' => true,
+			'id_name' => 'userId',
+		),
+	),
+);
+
+$routerConfig = array(
+	'home' => array(
+		'type' => 'literal',
+		'options' => array(
+			'route' => '/',
+			'defaults' => array(
+				'controller' => 'SkelletonApplication\Controller\Index',
+				'action'     => 'index',
+			),
+		),
+	),
+	'zfcadmin' => array(
+		'child_routes' => array(
+			'userprofile' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'userprofile' ) ),
+		),
+	),
+);
+
+$guardConfig = array(
+	['route' => 'zfcuser',                  'roles' => ['guest', 'user'] ],
+	['route' => 'zfcuser/login',            'roles' => ['guest', 'user'] ],
+	['route' => 'zfcuser/register',         'roles' => ['guest'] ],
+	['route' => 'zfcuser/authenticate',     'roles' => ['guest'] ],
+	['route' => 'zfcuser/logout',           'roles' => ['guest', 'user'] ],
+	['route' => 'zfcuser/changepassword',   'roles' => ['user'] ],
+	['route' => 'zfcuser/changeemail',      'roles' => ['user'] ],
+	['route' => 'home',                     'roles' => ['guest', 'user'] ],
+
+	// modules
+	['route' => 'doctrine_orm_module_yuml', 'roles' => ['administrator'] ],
+
+	// admin
+	['route' => 'zfcadmin',                      'roles' => ['moderator']],
+
+	// user admin
+	['route' => 'zfcadmin/zfcuseradmin',         'roles' => ['administrator']],
+	['route' => 'zfcadmin/zfcuseradmin/list',    'roles' => ['administrator']],
+	['route' => 'zfcadmin/zfcuseradmin/create',  'roles' => ['administrator']],
+	['route' => 'zfcadmin/zfcuseradmin/edit',    'roles' => ['administrator']],
+	['route' => 'zfcadmin/zfcuseradmin/remove',  'roles' => ['administrator']],
+	['route' => 'zfcadmin/userprofile',          'roles' => ['administrator']],
+);
 
 return array(
 	'controllers' => array(
 		'invokables' => array(
-			'SkelletonApplication\Controller\Index' => 'SkelletonApplication\Controller\IndexController',
+			'SkelletonApplication\Controller\Index' => Controller\IndexController::class,
 		),
 	),
 	
-	// Routes
+    'xelax' => $xelaxConfig,
+	
 	'router' => array(
-		'routes' => array(
-			'home' => array(
-				'type' => 'literal',
-				'options' => array(
-					'route' => '/',
-					'defaults' => array(
-						'controller' => 'SkelletonApplication\Controller\Index',
-						'action'     => 'index',
-					),
-				),
-			),
-		),
+		'routes' => $routerConfig,
 	),
 	
 	'bjyauthorize' => array(
 		// resource providers provide a list of resources that will be tracked
         // in the ACL. like roles, they can be hierarchical
         'resource_providers' => array(
-            "BjyAuthorize\Provider\Resource\Config" => array(
+            Provider\Resource\Config::class => array(
                 'user' => array(),
 				'debug' => array(),
             ),
@@ -39,7 +91,7 @@ return array(
 
 		
 		'rule_providers' => array(
-			"BjyAuthorize\Provider\Rule\Config" => array(
+			Provider\Rule\Config::class => array(
                 'allow' => array(
 					// config for navigation
                     [['user'],  'user', 'profile'],
@@ -60,32 +112,9 @@ return array(
             )
 		),
 		
-		'guards' => array(
-			'BjyAuthorize\Guard\Route' => array(
-				['route' => 'zfcuser',                  'roles' => ['guest', 'user'] ],
-				['route' => 'zfcuser/login',            'roles' => ['guest', 'user'] ],
-				['route' => 'zfcuser/register',         'roles' => ['guest'] ],
-				['route' => 'zfcuser/authenticate',     'roles' => ['guest'] ],
-				['route' => 'zfcuser/logout',           'roles' => ['guest', 'user'] ],
-				['route' => 'zfcuser/changepassword',   'roles' => ['user'] ],
-				['route' => 'zfcuser/changeemail',      'roles' => ['user'] ],
-				['route' => 'home',                     'roles' => ['guest', 'user'] ],
-				
-				// modules
-				['route' => 'doctrine_orm_module_yuml', 'roles' => ['administrator'] ],
-				
-				// admin
-				['route' => 'zfcadmin',                      'roles' => ['moderator']],
-				
-				// user admin
-				['route' => 'zfcadmin/zfcuseradmin',         'roles' => ['administrator']],
-				['route' => 'zfcadmin/zfcuseradmin/list',    'roles' => ['administrator']],
-				['route' => 'zfcadmin/zfcuseradmin/create',  'roles' => ['administrator']],
-				['route' => 'zfcadmin/zfcuseradmin/edit',    'roles' => ['administrator']],
-				['route' => 'zfcadmin/zfcuseradmin/remove',  'roles' => ['administrator']],
-			)
-		)
-		
+        'guards' => array(
+            Guard\Route::class => $guardConfig
+		),
 	),
 	
 	'skelleton_application' => array(
@@ -101,55 +130,55 @@ return array(
 	
 	
 	
-    'service_manager' => array(
-        'abstract_factories' => array(
-            'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
-            'Zend\Log\LoggerAbstractServiceFactory',
-        ),
+	'service_manager' => array(
+		'abstract_factories' => array(
+			\Zend\Cache\Service\StorageCacheAbstractServiceFactory::class,
+			\Zend\Log\LoggerAbstractServiceFactory::class,
+		),
 		'invokables' => array(
 			'SkelletonApplication\UserListener' => Listener\UserListener::class,
 		),
 		'factories' => array(
-			'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
+			'Navigation' => \Zend\Navigation\Service\DefaultNavigationFactory::class,
 			'SkelletionApplication\Options\Application' => function (\Zend\ServiceManager\ServiceManager $sm) {
-                $config = $sm->get('Config');
-                return new Options\SkelletonOptions(isset($config['skelleton_application']) ? $config['skelleton_application'] : array());
-            },
+				$config = $sm->get('Config');
+				return new Options\SkelletonOptions(isset($config['skelleton_application']) ? $config['skelleton_application'] : array());
+			},
 		),
-        'aliases' => array(
-            'translator' => 'MvcTranslator',
-        ),
-    ),
-	
+		'aliases' => array(
+			'translator' => 'MvcTranslator',
+		),
+	),
+
 	// language options
-    'translator' => array(
-        'locale' => 'de_DE',
-        'translation_file_patterns' => array(
-            array(
-                'type'     => 'gettext',
-                'base_dir' => __DIR__ . '/../language',
-                'pattern'  => '%s.mo',
-            ),
-        ),
-    ),
-	
+	'translator' => array(
+		'locale' => 'de_DE',
+		'translation_file_patterns' => array(
+			array(
+				'type'     => 'gettext',
+				'base_dir' => __DIR__ . '/../language',
+				'pattern'  => '%s.mo',
+			),
+		),
+	),
+
 	// view options
-    'view_manager' => array(
-        'display_not_found_reason' => true,
-        'display_exceptions'       => true,
-        'doctype'                  => 'HTML5',
-        'not_found_template'       => 'error/404',
-        'exception_template'       => 'error/index',
-        'template_map' => array(
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'error/404'               => __DIR__ . '/../view/error/404.phtml',
-            'error/index'             => __DIR__ . '/../view/error/index.phtml',
-        ),
-        'template_path_stack' => array(
-            __DIR__ . '/../view',
-        ),
-    ),
-	
+	'view_manager' => array(
+		'display_not_found_reason' => true,
+		'display_exceptions'       => true,
+		'doctype'                  => 'HTML5',
+		'not_found_template'       => 'error/404',
+		'exception_template'       => 'error/index',
+		'template_map' => array(
+			'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+			'error/404'               => __DIR__ . '/../view/error/404.phtml',
+			'error/index'             => __DIR__ . '/../view/error/index.phtml',
+		),
+		'template_path_stack' => array(
+			__DIR__ . '/../view',
+		),
+	),
+
 	// Site navigation
 	'navigation' => array(
 		// default navigation
@@ -168,20 +197,20 @@ return array(
 		),
 	),
 
-	
-    // Placeholder for console routes
-    'console' => array(
-        'router' => array(
-            'routes' => array(
-            ),
-        ),
-    ),
-	
+
+	// Placeholder for console routes
+	'console' => array(
+		'router' => array(
+			'routes' => array(
+			),
+		),
+	),
+
 	// doctrine config
 	'doctrine' => array(
 		'driver' => array(
 			__NAMESPACE__ . '_driver' => array(
-				'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver', // use AnnotationDriver
+				'class' => \Doctrine\ORM\Mapping\Driver\AnnotationDriver::class, // use AnnotationDriver
 				'cache' => 'array',
 				'paths' => array(__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity') // entity path
 			),
@@ -191,7 +220,7 @@ return array(
 				)
 			)
 		),
-		
+
 		// Fixtures to create admin user and default roles
 		'fixture' => array(
 			'SkelletonApplication_fixture' => __DIR__ . '/../data/Fixtures',

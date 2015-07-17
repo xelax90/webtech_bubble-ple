@@ -60,8 +60,16 @@ class UserProfile implements JsonSerializable{
 	 * Returns the user id
 	 * @return int
 	 */
-	function getUserId() {
+	public function getUserId() {
 		return $this->getUser()->getId();
+	}
+	
+	/**
+	 * Returns the user displayName
+	 * @return string
+	 */
+	public function getDisplayName(){
+		return $this->getUser()->getDisplayName();
 	}
 	
 	/**
