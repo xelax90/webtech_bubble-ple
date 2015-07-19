@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-19 16:05+0200\n"
+"POT-Creation-Date: 2015-07-19 16:56+0200\n"
 "PO-Revision-Date: 2015-07-19 16:21+0200\n"
 "Last-Translator: xelax90 <schurix@gmx.de>\n"
 "Language-Team: ZF Contributors <zf-devteam@zend.com>\n"
@@ -15,149 +15,149 @@ msgstr ""
 "X-Generator: Poedit 1.8.2\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: module/SkelletonApplication/config/module.config.php:14
+#: ../module/SkelletonApplication/config/module.config.php:14
 msgid "Id"
 msgstr "Id"
 
-#: module/SkelletonApplication/config/module.config.php:14
+#: ../module/SkelletonApplication/config/module.config.php:14
 msgid "Name"
 msgstr "Name"
 
-#: module/SkelletonApplication/config/module.config.php:203
-#: module/SkelletonApplication/config/module.config.php:214
+#: ../module/SkelletonApplication/config/module.config.php:203
+#: ../module/SkelletonApplication/config/module.config.php:214
 msgid "Home"
 msgstr "Startseite"
 
-#: module/SkelletonApplication/config/module.config.php:204
+#: ../module/SkelletonApplication/config/module.config.php:204
 msgid "Admin"
 msgstr "Admin"
 
-#: module/SkelletonApplication/config/module.config.php:205
+#: ../module/SkelletonApplication/config/module.config.php:205
 msgid "Login"
 msgstr "Login"
 
-#: module/SkelletonApplication/config/module.config.php:206
+#: ../module/SkelletonApplication/config/module.config.php:206
 msgid "Register"
 msgstr "Registrieren"
 
-#: module/SkelletonApplication/config/module.config.php:207
+#: ../module/SkelletonApplication/config/module.config.php:207
 msgid "Profile"
 msgstr "Profil"
 
-#: module/SkelletonApplication/config/module.config.php:208
+#: ../module/SkelletonApplication/config/module.config.php:208
 msgid "Change Password"
 msgstr "Passwort ändern"
 
-#: module/SkelletonApplication/config/module.config.php:209
+#: ../module/SkelletonApplication/config/module.config.php:209
 msgid "Logout"
 msgstr "Logout"
 
-#: module/SkelletonApplication/config/module.config.php:215
+#: ../module/SkelletonApplication/config/module.config.php:215
 msgid "Users"
 msgstr "Benutzer"
 
-#: module/SkelletonApplication/config/module.config.php:217
+#: ../module/SkelletonApplication/config/module.config.php:217
 msgid "New User"
 msgstr "Neuer Benutzer"
 
-#: module/SkelletonApplication/config/module.config.php:220
+#: ../module/SkelletonApplication/config/module.config.php:220
 msgid "User Profiles"
 msgstr "Benutzerprofile"
 
-#: module/SkelletonApplication/src/SkelletonApplication/Listener/UserListener.php:154
+#: ../module/SkelletonApplication/src/SkelletonApplication/Listener/UserListener.php:154
 msgid "Roles"
 msgstr "Rollen"
 
-#: module/SkelletonApplication/view/error/404.phtml:1
+#: ../module/SkelletonApplication/view/error/404.phtml:1
 msgid "A 404 error occurred"
 msgstr "Es trat ein 404 Fehler auf"
 
-#: module/SkelletonApplication/view/error/404.phtml:10
+#: ../module/SkelletonApplication/view/error/404.phtml:10
 msgid "The requested controller was unable to dispatch the request."
 msgstr ""
 "Der angeforderte Controller war nicht in der Lage die Anfrage zu verarbeiten."
 
-#: module/SkelletonApplication/view/error/404.phtml:13
+#: ../module/SkelletonApplication/view/error/404.phtml:13
 msgid ""
 "The requested controller could not be mapped to an existing controller class."
 msgstr ""
 "Der angeforderte Controller konnte keiner Controller Klasse zugeordnet "
 "werden."
 
-#: module/SkelletonApplication/view/error/404.phtml:16
+#: ../module/SkelletonApplication/view/error/404.phtml:16
 msgid "The requested controller was not dispatchable."
 msgstr "Der angeforderte Controller ist nicht aufrufbar."
 
-#: module/SkelletonApplication/view/error/404.phtml:19
+#: ../module/SkelletonApplication/view/error/404.phtml:19
 msgid "The requested URL could not be matched by routing."
 msgstr "Für die angeforderte URL konnte keine Übereinstimmung gefunden werden."
 
-#: module/SkelletonApplication/view/error/404.phtml:22
+#: ../module/SkelletonApplication/view/error/404.phtml:22
 msgid "We cannot determine at this time why a 404 was generated."
 msgstr ""
 "Zu diesem Zeitpunkt ist es uns nicht möglich zu bestimmen, warum ein 404 "
 "Fehler aufgetreten ist."
 
-#: module/SkelletonApplication/view/error/404.phtml:34
+#: ../module/SkelletonApplication/view/error/404.phtml:34
 msgid "Controller"
 msgstr "Controller"
 
-#: module/SkelletonApplication/view/error/404.phtml:41
+#: ../module/SkelletonApplication/view/error/404.phtml:41
 #, php-format
 msgid "resolves to %s"
 msgstr "wird aufgelöst in %s"
 
-#: module/SkelletonApplication/view/error/404.phtml:53
-#: module/SkelletonApplication/view/error/index.phtml:8
+#: ../module/SkelletonApplication/view/error/404.phtml:53
+#: ../module/SkelletonApplication/view/error/index.phtml:8
 msgid "Additional information"
 msgstr "Zusätzliche Information"
 
-#: module/SkelletonApplication/view/error/404.phtml:56
-#: module/SkelletonApplication/view/error/404.phtml:80
-#: module/SkelletonApplication/view/error/index.phtml:11
-#: module/SkelletonApplication/view/error/index.phtml:35
+#: ../module/SkelletonApplication/view/error/404.phtml:56
+#: ../module/SkelletonApplication/view/error/404.phtml:80
+#: ../module/SkelletonApplication/view/error/index.phtml:11
+#: ../module/SkelletonApplication/view/error/index.phtml:35
 msgid "File"
 msgstr "Datei"
 
-#: module/SkelletonApplication/view/error/404.phtml:60
-#: module/SkelletonApplication/view/error/404.phtml:84
-#: module/SkelletonApplication/view/error/index.phtml:15
-#: module/SkelletonApplication/view/error/index.phtml:39
+#: ../module/SkelletonApplication/view/error/404.phtml:60
+#: ../module/SkelletonApplication/view/error/404.phtml:84
+#: ../module/SkelletonApplication/view/error/index.phtml:15
+#: ../module/SkelletonApplication/view/error/index.phtml:39
 msgid "Message"
 msgstr "Meldung"
 
-#: module/SkelletonApplication/view/error/404.phtml:64
-#: module/SkelletonApplication/view/error/404.phtml:88
-#: module/SkelletonApplication/view/error/index.phtml:19
-#: module/SkelletonApplication/view/error/index.phtml:43
+#: ../module/SkelletonApplication/view/error/404.phtml:64
+#: ../module/SkelletonApplication/view/error/404.phtml:88
+#: ../module/SkelletonApplication/view/error/index.phtml:19
+#: ../module/SkelletonApplication/view/error/index.phtml:43
 msgid "Stack trace"
 msgstr "Stapelüberwachung"
 
-#: module/SkelletonApplication/view/error/404.phtml:74
-#: module/SkelletonApplication/view/error/index.phtml:29
+#: ../module/SkelletonApplication/view/error/404.phtml:74
+#: ../module/SkelletonApplication/view/error/index.phtml:29
 msgid "Previous exceptions"
 msgstr "Vorherige Ausnahme"
 
-#: module/SkelletonApplication/view/error/404.phtml:103
-#: module/SkelletonApplication/view/error/index.phtml:58
+#: ../module/SkelletonApplication/view/error/404.phtml:103
+#: ../module/SkelletonApplication/view/error/index.phtml:58
 msgid "No Exception available"
 msgstr "Es ist keine Ausnahme verfügbar"
 
-#: module/SkelletonApplication/view/error/index.phtml:1
+#: ../module/SkelletonApplication/view/error/index.phtml:1
 msgid "An error occurred"
 msgstr "Ein Fehler ist aufgetreten"
 
-#: module/SkelletonApplication/view/layout/admin.phtml:6
-#: module/SkelletonApplication/view/layout/layout.phtml:6
+#: ../module/SkelletonApplication/view/layout/admin.phtml:6
+#: ../module/SkelletonApplication/view/layout/layout.phtml:6
 msgid "Skeleton Application"
 msgstr "Skeleton Application"
 
-#: module/SkelletonApplication/view/layout/admin.phtml:6
-#: module/SkelletonApplication/view/layout/admin.phtml:32
+#: ../module/SkelletonApplication/view/layout/admin.phtml:6
+#: ../module/SkelletonApplication/view/layout/admin.phtml:32
 msgid "Administration"
 msgstr "Administration"
 
-#: module/SkelletonApplication/view/skelleton-application/index/index.phtml:1
+#: ../module/SkelletonApplication/view/skelleton-application/index/index.phtml:1
 msgid "Hello World!"
 msgstr "Hallo Welt!"
 
