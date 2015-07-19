@@ -1,0 +1,1 @@
+find ./module -type f \( -name '*.php' -or -name '*.phtml' \) | xargs xgettext --language=php --add-location --keyword=translate --from-code=UTF-8 -o ./module/SkelletonApplication/language/messages.pot

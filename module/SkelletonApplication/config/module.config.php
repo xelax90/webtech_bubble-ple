@@ -69,6 +69,28 @@ $guardConfig = array(
 	['route' => 'zfcadmin/userprofile',          'roles' => ['administrator']],
 );
 
+$ressources = array(
+	'debug',
+	'user', // navigation ZfcUser
+	'administration', // navigation for administration
+);
+
+$ressourceAllowRules = array(
+	[['user'],  'user', 'profile'],
+	[['user'],  'user', 'logout'],
+	[['user'],  'user', 'changepassword'],
+	[['guest'], 'user', 'login'],
+	[['guest'], 'user', 'register'],
+
+	[['moderator'], 'administration', 'login'],
+	[['moderator'], 'administration', 'user/list'],
+	[['moderator'], 'administration', 'user/create'],
+	[['moderator'], 'administration', 'userprofile'],
+
+	[['moderator'], 'debug', 'moderator'],
+	[['administrator'], 'debug', 'administrator'],
+);
+
 return array(
 	'controllers' => array(
 		'invokables' => array(
@@ -86,26 +108,13 @@ return array(
 		// resource providers provide a list of resources that will be tracked
         // in the ACL. like roles, they can be hierarchical
         'resource_providers' => array(
-            Provider\Resource\Config::class => array(
-                'user' => array(),
-				'debug' => array(),
-            ),
+            Provider\Resource\Config::class => $ressources,
         ),
 
 		
 		'rule_providers' => array(
 			Provider\Rule\Config::class => array(
-                'allow' => array(
-					// config for navigation
-                    [['user'],  'user', 'profile'],
-                    [['user'],  'user', 'logout'],
-                    [['user'],  'user', 'changepassword'],
-                    [['guest'], 'user', 'login'],
-                    [['guest'], 'user', 'register'],
-					
-					[['moderator'], 'debug', 'moderator'],
-					[['administrator'], 'debug', 'administrator'],
-                ),
+                'allow' => $ressourceAllowRules,
 
                 // Don't mix allow/deny rules if you are using role inheritance.
                 // There are some weird bugs.
@@ -162,6 +171,11 @@ return array(
 				'base_dir' => __DIR__ . '/../language',
 				'pattern'  => '%s.mo',
 			),
+			array(
+				'type'     => 'gettext',
+				'base_dir' => __DIR__ . '/../../../vendor/zf-commons/zfc-user/src/ZfcUser/language',
+				'pattern'  => '%s.mo',
+			),
 		),
 	),
 
@@ -187,16 +201,23 @@ return array(
 		// default navigation
 		'default' => array(
 			array('label' => 'Home',            'route' => 'home'),
-			array('label' => 'Admin',           'route' => 'zfcadmin',               'resource' => 'user', 'privilege' => 'login'),
+			array('label' => 'Admin',           'route' => 'zfcadmin',               'resource' => 'administration', 'privilege' => 'login'),
 			array('label' => 'Login',           'route' => 'zfcuser/login',          'resource' => 'user', 'privilege' => 'login'),
-			array('label' => 'Registrieren',    'route' => 'zfcuser/register',       'resource' => 'user', 'privilege' => 'register'),
-			array('label' => 'Profil',          'route' => 'zfcuser',                'resource' => 'user', 'privilege' => 'profile'),
-			array('label' => 'Passwort Ändern', 'route' => 'zfcuser/changepassword', 'resource' => 'user', 'privilege' => 'changepassword'),
+			array('label' => 'Register',        'route' => 'zfcuser/register',       'resource' => 'user', 'privilege' => 'register'),
+			array('label' => 'Profile',         'route' => 'zfcuser',                'resource' => 'user', 'privilege' => 'profile'),
+			array('label' => 'Change Password', 'route' => 'zfcuser/changepassword', 'resource' => 'user', 'privilege' => 'changepassword'),
 			array('label' => 'Logout',          'route' => 'zfcuser/logout',         'resource' => 'user', 'privilege' => 'logout'),
 		),
 		// admin navigation
 		'admin' => array(
-			array('label' => 'User Profiles',      'route' => 'zfcadmin/userprofile')
+			'zfcuseradmin' => null,
+			array('label' => 'Home',            'route' => 'home'),
+			array('label' => 'Users', 'route' => 'zfcadmin/zfcuseradmin/list',        'resource' => 'administration', 'privilege' => 'user/list',
+				'pages' => array(
+					'create' => array('label' => 'New User', 'route' => 'zfcadmin/zfcuseradmin/create', 'resource' => 'administration', 'privilege' => 'user/create' ),
+				),
+			),
+			array('label' => 'User Profiles',      'route' => 'zfcadmin/userprofile', 'resource' => 'administration', 'privilege' => 'userprofile')
 		),
 	),
 
