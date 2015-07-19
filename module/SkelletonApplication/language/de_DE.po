@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-19 23:46+0200\n"
-"PO-Revision-Date: 2015-07-19 23:50+0200\n"
+"POT-Creation-Date: 2015-07-20 01:10+0200\n"
+"PO-Revision-Date: 2015-07-20 01:10+0200\n"
 "Last-Translator: xelax90 <schurix@gmx.de>\n"
 "Language-Team: ZF Contributors <zf-devteam@zend.com>\n"
 "Language: de_DE\n"
@@ -16,54 +16,62 @@ msgstr ""
 "X-Poedit-SearchPath-0: ..\n"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:14
+#: bin/../module/SkelletonApplication/config/module.config.php:30
 msgid "Id"
 msgstr "Id"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:14
+#: bin/../module/SkelletonApplication/config/module.config.php:30
 msgid "Name"
 msgstr "Name"
 
-#: bin/../module/SkelletonApplication/config/module.config.php:207
-#: bin/../module/SkelletonApplication/config/module.config.php:218
+#: bin/../module/SkelletonApplication/config/module.config.php:15
+#: bin/../module/SkelletonApplication/config/module.config.php:227
+msgid "User Profiles"
+msgstr "Benutzerprofile"
+
+#: bin/../module/SkelletonApplication/config/module.config.php:30
+msgid "E-Mail"
+msgstr "E-Mail"
+
+#: bin/../module/SkelletonApplication/config/module.config.php:30
+msgid "State"
+msgstr "Status"
+
+#: bin/../module/SkelletonApplication/config/module.config.php:31
+#: bin/../module/SkelletonApplication/config/module.config.php:226
+msgid "Users"
+msgstr "Benutzer"
+
+#: bin/../module/SkelletonApplication/config/module.config.php:214
+#: bin/../module/SkelletonApplication/config/module.config.php:225
 msgid "Home"
 msgstr "Startseite"
 
-#: bin/../module/SkelletonApplication/config/module.config.php:208
+#: bin/../module/SkelletonApplication/config/module.config.php:215
 msgid "Admin"
 msgstr "Admin"
 
-#: bin/../module/SkelletonApplication/config/module.config.php:209
+#: bin/../module/SkelletonApplication/config/module.config.php:216
 msgid "Login"
 msgstr "Login"
 
-#: bin/../module/SkelletonApplication/config/module.config.php:210
+#: bin/../module/SkelletonApplication/config/module.config.php:217
 #: bin/../module/SkelletonApplication/view/zfc-user/user/register.phtml:1
 msgid "Register"
 msgstr "Registrieren"
 
-#: bin/../module/SkelletonApplication/config/module.config.php:211
+#: bin/../module/SkelletonApplication/config/module.config.php:218
 msgid "Profile"
 msgstr "Profil"
 
-#: bin/../module/SkelletonApplication/config/module.config.php:212
+#: bin/../module/SkelletonApplication/config/module.config.php:219
 msgid "Change Password"
 msgstr "Passwort ändern"
 
-#: bin/../module/SkelletonApplication/config/module.config.php:213
+#: bin/../module/SkelletonApplication/config/module.config.php:220
 msgid "Logout"
 msgstr "Logout"
-
-#: bin/../module/SkelletonApplication/config/module.config.php:219
-msgid "Users"
-msgstr "Benutzer"
-
-#: bin/../module/SkelletonApplication/config/module.config.php:221
-msgid "New User"
-msgstr "Neuer Benutzer"
-
-#: bin/../module/SkelletonApplication/config/module.config.php:224
-msgid "User Profiles"
-msgstr "Benutzerprofile"
 
 #: bin/../module/SkelletonApplication/language/msgids.php:9
 msgid ""
@@ -260,6 +268,9 @@ msgstr "Registrierung ist gesperrt"
 #: bin/../config/autoload/goalioforgotpassword.global.php:26
 msgid "[SkelletonApplication] Your new password"
 msgstr "[SkelletonApplication] Dein neues Passwort"
+
+#~ msgid "New User"
+#~ msgstr "Neuer Benutzer"
 
 #~ msgid "All rights reserved."
 #~ msgstr "Alle Rechte vorbehalten."

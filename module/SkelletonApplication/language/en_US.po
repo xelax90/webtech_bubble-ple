@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-19 23:46+0200\n"
+"POT-Creation-Date: 2015-07-20 01:10+0200\n"
 "PO-Revision-Date: 2015-07-19 16:21+0200\n"
 "Last-Translator: xelax90 <schurix@gmx.de>\n"
 "Language-Team: ZF Contibutors <zf-devteam@zend.com>\n"
@@ -16,53 +16,61 @@ msgstr ""
 "X-Poedit-SearchPath-0: ..\n"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:14
+#: bin/../module/SkelletonApplication/config/module.config.php:30
 msgid "Id"
 msgstr ""
 
 #: bin/../module/SkelletonApplication/config/module.config.php:14
+#: bin/../module/SkelletonApplication/config/module.config.php:30
 msgid "Name"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/config/module.config.php:207
-#: bin/../module/SkelletonApplication/config/module.config.php:218
+#: bin/../module/SkelletonApplication/config/module.config.php:15
+#: bin/../module/SkelletonApplication/config/module.config.php:227
+msgid "User Profiles"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/config/module.config.php:30
+msgid "E-Mail"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/config/module.config.php:30
+msgid "State"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/config/module.config.php:31
+#: bin/../module/SkelletonApplication/config/module.config.php:226
+msgid "Users"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/config/module.config.php:214
+#: bin/../module/SkelletonApplication/config/module.config.php:225
 msgid "Home"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/config/module.config.php:208
+#: bin/../module/SkelletonApplication/config/module.config.php:215
 msgid "Admin"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/config/module.config.php:209
+#: bin/../module/SkelletonApplication/config/module.config.php:216
 msgid "Login"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/config/module.config.php:210
+#: bin/../module/SkelletonApplication/config/module.config.php:217
 #: bin/../module/SkelletonApplication/view/zfc-user/user/register.phtml:1
 msgid "Register"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/config/module.config.php:211
+#: bin/../module/SkelletonApplication/config/module.config.php:218
 msgid "Profile"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/config/module.config.php:212
+#: bin/../module/SkelletonApplication/config/module.config.php:219
 msgid "Change Password"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/config/module.config.php:213
+#: bin/../module/SkelletonApplication/config/module.config.php:220
 msgid "Logout"
-msgstr ""
-
-#: bin/../module/SkelletonApplication/config/module.config.php:219
-msgid "Users"
-msgstr ""
-
-#: bin/../module/SkelletonApplication/config/module.config.php:221
-msgid "New User"
-msgstr ""
-
-#: bin/../module/SkelletonApplication/config/module.config.php:224
-msgid "User Profiles"
 msgstr ""
 
 #: bin/../module/SkelletonApplication/language/msgids.php:9
