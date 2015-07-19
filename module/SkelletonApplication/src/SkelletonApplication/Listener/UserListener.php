@@ -151,7 +151,7 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 				'options' => array(
 					'object_manager' => $em,
 					'target_class'   => $roleEntity,
-					'label' => 'Roles',
+					'label' => gettext_noop('Roles'),
 					'label_generator' => function($role) {
 						/* @var $role \SkelletonApplication\Entity\Role */
 						return str_repeat('&nbsp', 2*$role->getLevel()) . $role->getRoleId();

@@ -11,7 +11,7 @@ $xelaxConfig = array(
 			'name' => 'UserProfile', 
 			'controller_class' => 'XelaxAdmin\Controller\ListController', 
 			'base_namespace' => 'SkelletonApplication',
-			'list_columns' => array('Id' => 'userId', 'Name' => 'displayName'),
+			'list_columns' => array(gettext_noop('Id') => 'userId', gettext_noop('Name') => 'displayName'),
 			'list_title' => 'User Profiles',
 			'create_route' => array(
 				'disabled' => true
@@ -200,24 +200,24 @@ return array(
 	'navigation' => array(
 		// default navigation
 		'default' => array(
-			array('label' => 'Home',            'route' => 'home'),
-			array('label' => 'Admin',           'route' => 'zfcadmin',               'resource' => 'administration', 'privilege' => 'login'),
-			array('label' => 'Login',           'route' => 'zfcuser/login',          'resource' => 'user', 'privilege' => 'login'),
-			array('label' => 'Register',        'route' => 'zfcuser/register',       'resource' => 'user', 'privilege' => 'register'),
-			array('label' => 'Profile',         'route' => 'zfcuser',                'resource' => 'user', 'privilege' => 'profile'),
-			array('label' => 'Change Password', 'route' => 'zfcuser/changepassword', 'resource' => 'user', 'privilege' => 'changepassword'),
-			array('label' => 'Logout',          'route' => 'zfcuser/logout',         'resource' => 'user', 'privilege' => 'logout'),
+			array('label' => gettext_noop('Home'),            'route' => 'home'),
+			array('label' => gettext_noop('Admin'),           'route' => 'zfcadmin',               'resource' => 'administration', 'privilege' => 'login'),
+			array('label' => gettext_noop('Login'),           'route' => 'zfcuser/login',          'resource' => 'user', 'privilege' => 'login'),
+			array('label' => gettext_noop('Register'),        'route' => 'zfcuser/register',       'resource' => 'user', 'privilege' => 'register'),
+			array('label' => gettext_noop('Profile'),         'route' => 'zfcuser',                'resource' => 'user', 'privilege' => 'profile'),
+			array('label' => gettext_noop('Change Password'), 'route' => 'zfcuser/changepassword', 'resource' => 'user', 'privilege' => 'changepassword'),
+			array('label' => gettext_noop('Logout'),          'route' => 'zfcuser/logout',         'resource' => 'user', 'privilege' => 'logout'),
 		),
 		// admin navigation
 		'admin' => array(
 			'zfcuseradmin' => null,
-			array('label' => 'Home',            'route' => 'home'),
-			array('label' => 'Users', 'route' => 'zfcadmin/zfcuseradmin/list',        'resource' => 'administration', 'privilege' => 'user/list',
+			array('label' => gettext_noop('Home'),            'route' => 'home'),
+			array('label' => gettext_noop('Users'), 'route' => 'zfcadmin/zfcuseradmin/list',        'resource' => 'administration', 'privilege' => 'user/list',
 				'pages' => array(
-					'create' => array('label' => 'New User', 'route' => 'zfcadmin/zfcuseradmin/create', 'resource' => 'administration', 'privilege' => 'user/create' ),
+					'create' => array('label' => gettext_noop('New User'), 'route' => 'zfcadmin/zfcuseradmin/create', 'resource' => 'administration', 'privilege' => 'user/create' ),
 				),
 			),
-			array('label' => 'User Profiles',      'route' => 'zfcadmin/userprofile', 'resource' => 'administration', 'privilege' => 'userprofile')
+			array('label' => gettext_noop('User Profiles'),      'route' => 'zfcadmin/userprofile', 'resource' => 'administration', 'privilege' => 'userprofile')
 		),
 	),
 

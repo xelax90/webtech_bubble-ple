@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ce05e6fb1b821b12acf48915d3bf9349",
+    "hash": "fd20ce960e932bc3ed22c5f89694122c",
     "packages": [
         {
             "name": "articus/zf2-bower-module",
@@ -41,6 +41,46 @@
                 "zf2"
             ],
             "time": "2015-07-02 10:28:29"
+        },
+        {
+            "name": "azatoth/php-pgettext",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/azatoth/php-pgettext.git",
+                "reference": "1d0abe74934e3ca15d792d2a57f00a88d54eff6b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/azatoth/php-pgettext/zipball/1d0abe74934e3ca15d792d2a57f00a88d54eff6b",
+                "reference": "1d0abe74934e3ca15d792d2a57f00a88d54eff6b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gettext": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "pgettext.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Carl Fürstenberg"
+                }
+            ],
+            "description": "Extension of gettext functions for PHP like pgettext, dpgettext, etc.",
+            "homepage": "https://github.com/azatoth/php-pgettext",
+            "keywords": [
+                "library"
+            ],
+            "time": "2014-12-05 11:08:25"
         },
         {
             "name": "bjyoungblood/bjy-authorize",
@@ -2011,6 +2051,7 @@
         "neilime/zf2-twb-bundle": 20,
         "xelax90/xelax-twb-unmask": 20,
         "xelax90/password-generator-module": 20,
+        "azatoth/php-pgettext": 20,
         "zendframework/zend-developer-tools": 20
     },
     "prefer-stable": false,
