@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fd20ce960e932bc3ed22c5f89694122c",
+    "hash": "233a7cf47ad41eb29dfbda5a4aeb47f2",
     "packages": [
         {
             "name": "articus/zf2-bower-module",
@@ -1050,6 +1050,140 @@
                 "html"
             ],
             "time": "2013-11-30 08:25:19"
+        },
+        {
+            "name": "goalio/goalio-forgotpassword",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/goalio/GoalioForgotPassword.git",
+                "reference": "2b463a6df01a2fbecccd3467f080d02d5f500c02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/goalio/GoalioForgotPassword/zipball/2b463a6df01a2fbecccd3467f080d02d5f500c02",
+                "reference": "2b463a6df01a2fbecccd3467f080d02d5f500c02",
+                "shasum": ""
+            },
+            "require": {
+                "goalio/goalio-mailservice": "1.*",
+                "zf-commons/zfc-user": "1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "GoalioForgotPassword": "src/"
+                },
+                "classmap": [
+                    "./Module.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Philipp Dobrigkeit",
+                    "email": "p.dobrigkeit@goalio.de",
+                    "homepage": "http://www.goalio.de"
+                }
+            ],
+            "description": "Adding Forgot Password functionalitiy to ZfcUser",
+            "homepage": "https://github.com/goalio/GoalioForgotPassword",
+            "keywords": [
+                "zf2",
+                "zfcuser"
+            ],
+            "time": "2014-05-26 07:07:29"
+        },
+        {
+            "name": "goalio/goalio-forgotpassword-doctrine-orm",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/goalio/GoalioForgotPasswordDoctrineORM.git",
+                "reference": "8894334eacb279ac5dcb6dc4fef97c39658ff259"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/goalio/GoalioForgotPasswordDoctrineORM/zipball/8894334eacb279ac5dcb6dc4fef97c39658ff259",
+                "reference": "8894334eacb279ac5dcb6dc4fef97c39658ff259",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-orm-module": "0.*",
+                "goalio/goalio-forgotpassword": "1.*",
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "GoalioForgotPasswordDoctrineORM": "src/"
+                },
+                "classmap": [
+                    "./Module.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Philipp Dobrigkeit",
+                    "email": "p.dobrigkeit@goalio.de",
+                    "homepage": "http://www.goalio.de"
+                }
+            ],
+            "description": "Doctrine2 ORM storage adapter for GoalioForgotPassword.",
+            "homepage": "https://github.com/goalio/GoalioForgotPasswordDoctrineORM",
+            "keywords": [
+                "zf2"
+            ],
+            "time": "2014-07-07 12:50:56"
+        },
+        {
+            "name": "goalio/goalio-mailservice",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/goalio/GoalioMailService.git",
+                "reference": "db303ad9057fd1b707e2187e58e83f83fadac850"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/goalio/GoalioMailService/zipball/db303ad9057fd1b707e2187e58e83f83fadac850",
+                "reference": "db303ad9057fd1b707e2187e58e83f83fadac850",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "zendframework/zendframework": "2.3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "GoalioMailService": "src/"
+                },
+                "classmap": [
+                    "./Module.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Philipp Dobrigkeit",
+                    "email": "p.dobrigkeit@goalio.de",
+                    "homepage": "http://www.goalio.de"
+                }
+            ],
+            "description": "Provide configurable Mail Transport Factories for ZF2",
+            "homepage": "https://github.com/goalio/GoalioMailService",
+            "keywords": [
+                "zf2"
+            ],
+            "time": "2014-10-27 14:19:01"
         },
         {
             "name": "hackzilla/password-generator",

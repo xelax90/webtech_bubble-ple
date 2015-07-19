@@ -1,0 +1,36 @@
+<h1><?php echo $this->translate('Forgot your password?'); ?></h1>
+
+<?php
+$form = $this->forgotForm;
+$form->prepare();
+$form->setAttribute('action', $this->url('zfcuser/forgotpassword'));
+$form->setAttribute('method', 'post');
+
+
+$submitLabel = $form->get('submit')->getLabel();
+$form->remove('submit');
+$elms = $form->getElements();
+foreach($elms as $k => $element){
+	/* @var $element \Zend\Form\Element */
+	$element
+		->setOption('column-size', 'sm-10')
+		->setOption('label', $element->getLabel())
+		->setLabelAttributes(array('class' => 'col-sm-2'));
+}
+
+$form->add(array(
+	'name' => 'submit',
+	'type' => 'Submit',
+	'options' => array(
+		'as-group' => true,
+	),
+	'attributes' => array(
+		'value' => $submitLabel,
+		'class' => 'btn-success',
+	)
+));
+
+?>
+
+<?php echo $this->twbForm($form); ?>
+<a href="<?php echo $this->url('zfcuser/login') ?>"><?php echo $this->translate('Back to login.'); ?></a>

@@ -52,6 +52,9 @@ $guardConfig = array(
 	['route' => 'zfcuser/logout',           'roles' => ['guest', 'user'] ],
 	['route' => 'zfcuser/changepassword',   'roles' => ['user'] ],
 	['route' => 'zfcuser/changeemail',      'roles' => ['user'] ],
+	['route' => 'zfcuser/forgotpassword',   'roles' => ['guest']],
+	['route' => 'zfcuser/resetpassword',    'roles' => ['guest']],
+	
 	['route' => 'home',                     'roles' => ['guest', 'user'] ],
 
 	// modules
@@ -190,6 +193,7 @@ return array(
 			'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
 			'error/404'               => __DIR__ . '/../view/error/404.phtml',
 			'error/index'             => __DIR__ . '/../view/error/index.phtml',
+			'zfc-user/user/login'     => __DIR__ . '/../view/zfc-user/user/login.phtml',
 		),
 		'template_path_stack' => array(
 			__DIR__ . '/../view',

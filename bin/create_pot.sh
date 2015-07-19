@@ -3,7 +3,7 @@ apppath="`dirname \"$0\"`/.."
 
 echo "Generation POT file"
 
-find ${apppath}"/module" -type f \( -name '*.php' -or -name '*.phtml' \) \
+find ${apppath}"/module" ${apppath}"/config" -type f \( -name '*.php' -or -name '*.phtml' \) \
 	| xargs \
 		${apppath}"/vendor/azatoth/php-pgettext/php-xgettext" \
 			--add-location \

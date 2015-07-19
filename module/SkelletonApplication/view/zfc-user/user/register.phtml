@@ -1,0 +1,47 @@
+<h1><?php echo $this->translate('Register'); ?></h1>
+
+<?php
+if (!$this->enableRegistration) {
+    echo $this->translate("Registration is disabled");
+    return;
+}
+$form = $this->registerForm;
+$form->prepare();
+$form->setAttribute('action', $this->url('zfcuser/register'));
+$form->setAttribute('method', 'post');
+
+/* @var $form \Zend\Form\Form */
+if($this->redirect){
+	$form->add(array(
+		'name' => 'redirect',
+		'type' => 'Hidden',
+		'attributes' => array(
+			'value' => $this->redirect
+		)
+	));
+}
+
+$submitLabel = $form->get('submit')->getLabel();
+$form->remove('submit');
+$elms = $form->getElements();
+foreach($elms as $k => $element){
+	/* @var $element \Zend\Form\Element */
+	$element
+		->setOption('column-size', 'sm-9')
+		->setOption('label', $element->getLabel())
+		->setLabelAttributes(array('class' => 'col-sm-3'));
+}
+
+$form->add(array(
+	'name' => 'submit',
+	'type' => 'Submit',
+	'options' => array(
+		'as-group' => true,
+	),
+	'attributes' => array(
+		'value' => $submitLabel,
+		'class' => 'btn-success',
+	)
+));
+
+echo $this->twbForm($form);

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-19 16:56+0200\n"
+"POT-Creation-Date: 2015-07-19 23:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,143 +17,241 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../module/SkelletonApplication/config/module.config.php:14
+#: bin/../module/SkelletonApplication/config/module.config.php:14
 msgid "Id"
 msgstr ""
 
-#: ../module/SkelletonApplication/config/module.config.php:14
+#: bin/../module/SkelletonApplication/config/module.config.php:14
 msgid "Name"
 msgstr ""
 
-#: ../module/SkelletonApplication/config/module.config.php:203
-#: ../module/SkelletonApplication/config/module.config.php:214
+#: bin/../module/SkelletonApplication/config/module.config.php:207
+#: bin/../module/SkelletonApplication/config/module.config.php:218
 msgid "Home"
 msgstr ""
 
-#: ../module/SkelletonApplication/config/module.config.php:204
+#: bin/../module/SkelletonApplication/config/module.config.php:208
 msgid "Admin"
 msgstr ""
 
-#: ../module/SkelletonApplication/config/module.config.php:205
+#: bin/../module/SkelletonApplication/config/module.config.php:209
 msgid "Login"
 msgstr ""
 
-#: ../module/SkelletonApplication/config/module.config.php:206
+#: bin/../module/SkelletonApplication/config/module.config.php:210
+#: bin/../module/SkelletonApplication/view/zfc-user/user/register.phtml:1
 msgid "Register"
 msgstr ""
 
-#: ../module/SkelletonApplication/config/module.config.php:207
+#: bin/../module/SkelletonApplication/config/module.config.php:211
 msgid "Profile"
 msgstr ""
 
-#: ../module/SkelletonApplication/config/module.config.php:208
+#: bin/../module/SkelletonApplication/config/module.config.php:212
 msgid "Change Password"
 msgstr ""
 
-#: ../module/SkelletonApplication/config/module.config.php:209
+#: bin/../module/SkelletonApplication/config/module.config.php:213
 msgid "Logout"
 msgstr ""
 
-#: ../module/SkelletonApplication/config/module.config.php:215
+#: bin/../module/SkelletonApplication/config/module.config.php:219
 msgid "Users"
 msgstr ""
 
-#: ../module/SkelletonApplication/config/module.config.php:217
+#: bin/../module/SkelletonApplication/config/module.config.php:221
 msgid "New User"
 msgstr ""
 
-#: ../module/SkelletonApplication/config/module.config.php:220
+#: bin/../module/SkelletonApplication/config/module.config.php:224
 msgid "User Profiles"
 msgstr ""
 
-#: ../module/SkelletonApplication/src/SkelletonApplication/Listener/UserListener.php:154
+#: bin/../module/SkelletonApplication/language/msgids.php:9
+msgid ""
+"You have received this email because you initiated to reset your password "
+"with us. To continue with the process, please click the link below:"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/language/msgids.php:10
+#: bin/../module/SkelletonApplication/view/goalio-forgot-password/forgot/forgot.phtml:1
+#: bin/../module/SkelletonApplication/view/zfc-user/user/login.phtml:50
+msgid "Forgot your password?"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/language/msgids.php:11
+#: bin/../module/SkelletonApplication/view/goalio-forgot-password/forgot/forgot.phtml:36
+msgid "Back to login."
+msgstr ""
+
+#: bin/../module/SkelletonApplication/language/msgids.php:13
+#, php-format
+msgid "A reminder has been sent to your e-mail address %s."
+msgstr ""
+
+#: bin/../module/SkelletonApplication/language/msgids.php:14
+msgid "Back to login?"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/language/msgids.php:16
+msgid "Your password has been changed."
+msgstr ""
+
+#: bin/../module/SkelletonApplication/language/msgids.php:17
+msgid "You can now login using your new password."
+msgstr ""
+
+#: bin/../module/SkelletonApplication/language/msgids.php:19
+msgid "Request new password"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/language/msgids.php:20
+msgid "Set new password"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/src/SkelletonApplication/Listener/UserListener.php:154
 msgid "Roles"
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/404.phtml:1
+#: bin/../module/SkelletonApplication/view/error/404.phtml:1
 msgid "A 404 error occurred"
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/404.phtml:10
+#: bin/../module/SkelletonApplication/view/error/404.phtml:10
 msgid "The requested controller was unable to dispatch the request."
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/404.phtml:13
+#: bin/../module/SkelletonApplication/view/error/404.phtml:13
 msgid ""
 "The requested controller could not be mapped to an existing controller class."
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/404.phtml:16
+#: bin/../module/SkelletonApplication/view/error/404.phtml:16
 msgid "The requested controller was not dispatchable."
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/404.phtml:19
+#: bin/../module/SkelletonApplication/view/error/404.phtml:19
 msgid "The requested URL could not be matched by routing."
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/404.phtml:22
+#: bin/../module/SkelletonApplication/view/error/404.phtml:22
 msgid "We cannot determine at this time why a 404 was generated."
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/404.phtml:34
+#: bin/../module/SkelletonApplication/view/error/404.phtml:34
 msgid "Controller"
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/404.phtml:41
+#: bin/../module/SkelletonApplication/view/error/404.phtml:41
 #, php-format
 msgid "resolves to %s"
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/404.phtml:53
-#: ../module/SkelletonApplication/view/error/index.phtml:8
+#: bin/../module/SkelletonApplication/view/error/404.phtml:53
+#: bin/../module/SkelletonApplication/view/error/index.phtml:8
 msgid "Additional information"
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/404.phtml:56
-#: ../module/SkelletonApplication/view/error/404.phtml:80
-#: ../module/SkelletonApplication/view/error/index.phtml:11
-#: ../module/SkelletonApplication/view/error/index.phtml:35
+#: bin/../module/SkelletonApplication/view/error/404.phtml:56
+#: bin/../module/SkelletonApplication/view/error/404.phtml:80
+#: bin/../module/SkelletonApplication/view/error/index.phtml:11
+#: bin/../module/SkelletonApplication/view/error/index.phtml:35
 msgid "File"
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/404.phtml:60
-#: ../module/SkelletonApplication/view/error/404.phtml:84
-#: ../module/SkelletonApplication/view/error/index.phtml:15
-#: ../module/SkelletonApplication/view/error/index.phtml:39
+#: bin/../module/SkelletonApplication/view/error/404.phtml:60
+#: bin/../module/SkelletonApplication/view/error/404.phtml:84
+#: bin/../module/SkelletonApplication/view/error/index.phtml:15
+#: bin/../module/SkelletonApplication/view/error/index.phtml:39
 msgid "Message"
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/404.phtml:64
-#: ../module/SkelletonApplication/view/error/404.phtml:88
-#: ../module/SkelletonApplication/view/error/index.phtml:19
-#: ../module/SkelletonApplication/view/error/index.phtml:43
+#: bin/../module/SkelletonApplication/view/error/404.phtml:64
+#: bin/../module/SkelletonApplication/view/error/404.phtml:88
+#: bin/../module/SkelletonApplication/view/error/index.phtml:19
+#: bin/../module/SkelletonApplication/view/error/index.phtml:43
 msgid "Stack trace"
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/404.phtml:74
-#: ../module/SkelletonApplication/view/error/index.phtml:29
+#: bin/../module/SkelletonApplication/view/error/404.phtml:74
+#: bin/../module/SkelletonApplication/view/error/index.phtml:29
 msgid "Previous exceptions"
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/404.phtml:103
-#: ../module/SkelletonApplication/view/error/index.phtml:58
+#: bin/../module/SkelletonApplication/view/error/404.phtml:103
+#: bin/../module/SkelletonApplication/view/error/index.phtml:58
 msgid "No Exception available"
 msgstr ""
 
-#: ../module/SkelletonApplication/view/error/index.phtml:1
+#: bin/../module/SkelletonApplication/view/error/index.phtml:1
 msgid "An error occurred"
 msgstr ""
 
-#: ../module/SkelletonApplication/view/layout/admin.phtml:6
-#: ../module/SkelletonApplication/view/layout/layout.phtml:6
+#: bin/../module/SkelletonApplication/view/goalio-forgot-password/forgot/reset.phtml:1
+#: bin/../module/SkelletonApplication/view/zfc-user/user/changepassword.phtml:1
+#, php-format
+msgid "Change Password for %s"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/view/layout/admin.phtml:6
+#: bin/../module/SkelletonApplication/view/layout/layout.phtml:6
 msgid "Skeleton Application"
 msgstr ""
 
-#: ../module/SkelletonApplication/view/layout/admin.phtml:6
-#: ../module/SkelletonApplication/view/layout/admin.phtml:32
+#: bin/../module/SkelletonApplication/view/layout/admin.phtml:6
+#: bin/../module/SkelletonApplication/view/layout/admin.phtml:32
 msgid "Administration"
 msgstr ""
 
-#: ../module/SkelletonApplication/view/skelleton-application/index/index.phtml:1
+#: bin/../module/SkelletonApplication/view/skelleton-application/index/index.phtml:1
 msgid "Hello World!"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/view/zfc-user/user/changeemail.phtml:1
+#, php-format
+msgid "Change Email for %s"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/view/zfc-user/user/changeemail.phtml:3
+msgid "Email address changed successfully."
+msgstr ""
+
+#: bin/../module/SkelletonApplication/view/zfc-user/user/changeemail.phtml:5
+msgid "Unable to update your email address. Please try again."
+msgstr ""
+
+#: bin/../module/SkelletonApplication/view/zfc-user/user/changepassword.phtml:3
+msgid "Password changed successfully."
+msgstr ""
+
+#: bin/../module/SkelletonApplication/view/zfc-user/user/changepassword.phtml:5
+msgid "Unable to update your password. Please try again."
+msgstr ""
+
+#: bin/../module/SkelletonApplication/view/zfc-user/user/index.phtml:2
+msgid "Hello"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/view/zfc-user/user/index.phtml:3
+msgid "Sign Out"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/view/zfc-user/user/login.phtml:1
+msgid "Sign In"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/view/zfc-user/user/login.phtml:52
+msgid "Not registered?"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/view/zfc-user/user/login.phtml:52
+msgid "Sign up!"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/view/zfc-user/user/register.phtml:5
+msgid "Registration is disabled"
+msgstr ""
+
+#: bin/../config/autoload/goalioforgotpassword.global.php:26
+msgid "[SkelletonApplication] Your new password"
 msgstr ""

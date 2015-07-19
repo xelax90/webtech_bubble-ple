@@ -30,6 +30,8 @@
 		"doctrine/data-fixtures" : "dev-master",
 		"hounddog/doctrine-data-fixture-module" : "dev-master",
 		
+		"goalio/goalio-forgotpassword": "*",
+		"goalio/goalio-forgotpassword-doctrine-orm" : "*",
 		"zf-commons/zfc-admin": "*",
 		"danielss89/zfc-user-admin" : "dev-master",
 		
