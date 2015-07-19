@@ -12,7 +12,7 @@ $xelaxConfig = array(
 			'controller_class' => 'XelaxAdmin\Controller\ListController', 
 			'base_namespace' => 'SkelletonApplication',
 			'list_columns' => array(gettext_noop('Id') => 'userId', gettext_noop('Name') => 'displayName'),
-			'list_title' => 'User Profiles',
+			'list_title' => gettext_noop('User Profiles'),
 			'create_route' => array(
 				'disabled' => true
 			),
@@ -22,6 +22,15 @@ $xelaxConfig = array(
 			'route_base' => 'zfcadmin/userprofile',
 			'rest_enabled' => true,
 			'id_name' => 'userId',
+		),
+		'user' => array(
+			'name' => 'User', 
+			'controller_class' => 'SkelletonApplication\Controller\User', 
+			'base_namespace' => 'SkelletonApplication',
+			'list_columns' => array(gettext_noop('Id') => 'id', gettext_noop('Name') => 'display_name', gettext_noop('E-Mail') => 'email', gettext_noop('State') => 'state'),
+			'list_title' => gettext_noop('Users'),
+			'route_base' => 'zfcadmin/user',
+			'rest_enabled' => true,
 		),
 	),
 );
@@ -40,6 +49,7 @@ $routerConfig = array(
 	'zfcadmin' => array(
 		'child_routes' => array(
 			'userprofile' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'userprofile' ) ),
+			'user'        => array( 'type' => ListRoute::class, 'priority' => 1001, 'options' => array( 'controller_options_name' => 'user'        ) ),
 		),
 	),
 );
@@ -64,12 +74,8 @@ $guardConfig = array(
 	['route' => 'zfcadmin',                      'roles' => ['moderator']],
 
 	// user admin
-	['route' => 'zfcadmin/zfcuseradmin',         'roles' => ['administrator']],
-	['route' => 'zfcadmin/zfcuseradmin/list',    'roles' => ['administrator']],
-	['route' => 'zfcadmin/zfcuseradmin/create',  'roles' => ['administrator']],
-	['route' => 'zfcadmin/zfcuseradmin/edit',    'roles' => ['administrator']],
-	['route' => 'zfcadmin/zfcuseradmin/remove',  'roles' => ['administrator']],
 	['route' => 'zfcadmin/userprofile',          'roles' => ['administrator']],
+	['route' => 'zfcadmin/user' ,                'roles' => ['administrator']],
 );
 
 $ressources = array(
@@ -98,6 +104,7 @@ return array(
 	'controllers' => array(
 		'invokables' => array(
 			'SkelletonApplication\Controller\Index' => Controller\IndexController::class,
+			'SkelletonApplication\Controller\User' => Controller\UserController::class,
 		),
 	),
 	
@@ -216,12 +223,8 @@ return array(
 		'admin' => array(
 			'zfcuseradmin' => null,
 			array('label' => gettext_noop('Home'),            'route' => 'home'),
-			array('label' => gettext_noop('Users'), 'route' => 'zfcadmin/zfcuseradmin/list',        'resource' => 'administration', 'privilege' => 'user/list',
-				'pages' => array(
-					'create' => array('label' => gettext_noop('New User'), 'route' => 'zfcadmin/zfcuseradmin/create', 'resource' => 'administration', 'privilege' => 'user/create' ),
-				),
-			),
-			array('label' => gettext_noop('User Profiles'),      'route' => 'zfcadmin/userprofile', 'resource' => 'administration', 'privilege' => 'userprofile')
+			array('label' => gettext_noop('Users'),           'route' => 'zfcadmin/user',        'resource' => 'administration', 'privilege' => 'user/list' ),
+			array('label' => gettext_noop('User Profiles'),   'route' => 'zfcadmin/userprofile', 'resource' => 'administration', 'privilege' => 'userprofile')
 		),
 	),
 

@@ -28,7 +28,7 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 	
 	/**
 	 * @var UserProfile
-	 * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user")
+	 * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade={"remove"})
 	 */
 	protected $profile;
 	
