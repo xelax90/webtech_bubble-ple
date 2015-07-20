@@ -24,7 +24,7 @@ $xelaxConfig = array(
 			'id_name' => 'userId',
 		),
 		'user' => array(
-			'name' => 'User', 
+			'name' => gettext_noop('User'),
 			'controller_class' => 'SkelletonApplication\Controller\User', 
 			'base_namespace' => 'SkelletonApplication',
 			'list_columns' => array(gettext_noop('Id') => 'id', gettext_noop('Name') => 'display_name', gettext_noop('E-Mail') => 'email', gettext_noop('State') => 'state'),

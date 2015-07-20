@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-20 01:10+0200\n"
+"POT-Creation-Date: 2015-07-20 18:53+0200\n"
 "PO-Revision-Date: 2015-07-19 16:21+0200\n"
 "Last-Translator: xelax90 <schurix@gmx.de>\n"
 "Language-Team: ZF Contibutors <zf-devteam@zend.com>\n"
@@ -28,6 +28,10 @@ msgstr ""
 #: bin/../module/SkelletonApplication/config/module.config.php:15
 #: bin/../module/SkelletonApplication/config/module.config.php:227
 msgid "User Profiles"
+msgstr ""
+
+#: bin/../module/SkelletonApplication/config/module.config.php:27
+msgid "User"
 msgstr ""
 
 #: bin/../module/SkelletonApplication/config/module.config.php:30
