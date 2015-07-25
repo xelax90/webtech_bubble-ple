@@ -26,6 +26,7 @@ use Zend\Stdlib\Hydrator\ClassMethods;
 use ZfcUser\Mapper\UserInterface;
 use ZfcUser\Options\ModuleOptions as ZfcUserModuleOptions;
 use ZfcUserAdmin\Options\ModuleOptions;
+use SkelletonApplication\Options\SkelletonOptions;
 
 /**
  * User admin controller
@@ -146,6 +147,79 @@ class UserController extends ListController{
 				return true;
 			}
         }
+		return false;
+	}
+	
+	public function blockAction(){
+        /** @var $identity \ZfcUser\Entity\UserInterface */
+        $identity = $this->zfcUserAuthentication()->getIdentity();
+        if ($identity && $identity->getId() == $item->getId()) {
+            $this->flashMessenger()->addErrorMessage('You can not block yourself');
+			return $this->_redirectToList();
+		}
+        $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
+		/* @var $user \ZfcUser\Entity\UserInterface */
+        $user = $this->getUserMapper()->findById($userId);
+		
+		$user->setState($user->getState() & ~1);
+		$this->getUserMapper()->update($user);
+		$this->flashMessenger()->addSuccessMessage(sprintf('User %s successfully blocked', $user->getDisplayName()));
+		if($this->sendUserDisabledMail($user)){
+			$this->flashMessenger()->addSuccessMessage(sprintf('Notification successfully sent', $user->getDisplayName()));
+		}
+		return $this->_redirectToList();
+	}
+	
+	public function unblockAction(){
+        $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
+        $user = $this->getUserMapper()->findById($userId);
+		
+		$user->setState($user->getState() | 1);
+		$this->getUserMapper()->update($user);
+		
+		$this->flashMessenger()->addSuccessMessage(sprintf('User %s successfully activated', $user->getDisplayName()));
+		if($this->sendUserActivateMail($user)){
+			$this->flashMessenger()->addSuccessMessage(sprintf('Notification successfully sent', $user->getDisplayName()));
+		}
+		
+		return $this->_redirectToList();
+	}
+	
+	protected function sendUserActivateMail($user){
+		/* @var $options \SkelletonApplication\Options\SkelletonOptions */
+		$options = $this->getServiceLocator()->get('SkelletionApplication\Options\Application');
+		
+		if($options->getRegistrationEmailFlag() & SkelletonOptions::REGISTRATION_EMAIL_ACTIVATED){
+			$email = $options->getRegistrationUserEmailActivated();
+			/* @var $transport \GoalioMailService\Mail\Service\Message */
+			if($email){
+				try{
+					$transport = $this->getServiceLocator()->get('goaliomailservice_message');
+					$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $user->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user));
+					$transport->send($message);
+					return true;
+				} catch (Exception $ex) {}
+			}
+		}
+		return false;
+	}
+	
+	protected function sendUserDisabledMail($user){
+		/* @var $options \SkelletonApplication\Options\SkelletonOptions */
+		$options = $this->getServiceLocator()->get('SkelletionApplication\Options\Application');
+		
+		if($options->getRegistrationEmailFlag() & SkelletonOptions::REGISTRATION_EMAIL_DISABLED){
+			$email = $options->getRegistrationUserEmailDisabled();
+			/* @var $transport \GoalioMailService\Mail\Service\Message */
+			if($email){
+				try{
+					$transport = $this->getServiceLocator()->get('goaliomailservice_message');
+					$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $user->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user));
+					$transport->send($message);
+					return true;
+				} catch (Exception $ex) {}
+			}
+		}
 		return false;
 	}
 	

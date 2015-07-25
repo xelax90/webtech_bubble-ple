@@ -28,6 +28,8 @@ use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use SkelletonApplication\Options\SkelletonOptions;
+use ZfcUser\Entity\UserInterface;
 
 /**
  * Creates user profile and adds default role after registration and creation
@@ -100,6 +102,8 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 			$em->persist($profile);
 			$em->flush();
 		}
+		
+		$this->sendEmailRegistered($sm, $user);
 	}
 	
 	/**
@@ -162,6 +166,45 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 				),
 			)
 		);
+	}
+	
+	protected function sendEmailRegistered(UserInterface $user){
+		$sm = $this->getServiceLocator();
+		/* @var $em \Doctrine\ORM\EntityManager */
+		$em = $sm->get('doctrine.entitymanager.orm_default');
+		/* @var $options \SkelletonApplication\Options\SkelletonOptions */
+		$options = $sm->get('SkelletionApplication\Options\Application');
+		
+		$email = null;
+		$flag = $options->getRegistrationMethodFlag();
+		if($flag === SkelletonOptions::REGISTRATION_METHOD_AUTO_ENABLE){
+			$email = $options->getRegistrationUserEmailWelcome();
+		} elseif($flag & SkelletonOptions::REGISTRATION_METHOD_AUTO_ENABLE & SkelletonOptions::REGISTRATION_METHOD_SELF_CONFIRM){
+			$email = $options->getRegistrationUserEmailWelcomeConfirmMail();
+		} elseif($flag & SkelletonOptions::REGISTRATION_METHOD_SELF_CONFIRM){
+			$email = $options->getRegistrationUserEmailConfirmMail();
+		} elseif($flag & SkelletonOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM){
+			$email = $options->getRegistrationUserEmailConfirmModerator();
+		}
+		
+		/* @var $transport \GoalioMailService\Mail\Service\Message */
+		$transport = $sm->get('goaliomailservice_message');
+		if($email){
+			$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $user->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user));
+			$transport->send($message);
+		}
+		
+		if($options->getRegistrationEmailFlag() & SkelletonOptions::REGISTRATION_EMAIL_MODERATOR){
+			$users = $em->getRepository(get_class($user))->createQueryBuilder('u')
+					->leftJoin('u.roles', 'r')
+					->andWhere('r.roleId IN (:roleIds)')
+					->setParameter('roleIds', $options->getRegistrationNotify());
+			$email = $options->getRegistrationModeratorEmail();
+			foreach($users as $mod){
+				$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $mod->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user));
+				$transport->send($message);
+			}
+		}
 	}
 	
 	/**
