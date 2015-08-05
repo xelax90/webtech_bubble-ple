@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Entity
  * @ORM\Table(name="user")
+ * @ORM\HasLifecycleCallbacks
  */
 class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 {
@@ -31,6 +32,31 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 	 * @ORM\OneToOne(targetEntity="UserProfile", mappedBy="user", cascade={"remove"})
 	 */
 	protected $profile;
+	
+	/**
+	 * @var string
+	 * @ORM\Column(type="string")
+	 */
+	protected $token;
+	
+	/**
+	 * @var \DateTime
+	 * @ORM\Column(type="datetime")
+	 */
+	protected $tokenCreatedAt;
+	
+	/**
+	 * @var \DateTime
+	 * @ORM\Column(type="datetime")
+	 */
+	protected $createdAt;
+	
+	/**
+	 * @var \DateTime
+	 * @ORM\Column(type="datetime")
+	 */
+	protected $updatedAt;
+	
 	
     /**
      * Initialies the roles variable.
@@ -98,7 +124,101 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 		$this->profile = $profile;
 		return $this;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getToken() {
+		return $this->token;
+	}
+	
+	/**
+	 * @return \DateTime
+	 */
+	public function getTokenCreatedAt() {
+		return $this->tokenCreatedAt;
+	}
 
+	/**
+	 * @return \DateTime
+	 */
+	public function getCreatedAt() {
+		return $this->createdAt;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getUpdatedAt() {
+		return $this->updatedAt;
+	}
+	
+	/**
+	 * @param string $token
+	 * @return User
+	 */
+	public function setToken($token) {
+		$this->token = $token;
+		return $this;
+	}
+
+	/**
+	 * @param \DateTime $tokenCreatedAt
+	 * @return User
+	 */
+	public function setTokenCreatedAt($tokenCreatedAt) {
+		$this->tokenCreatedAt = $tokenCreatedAt;
+		return $this;
+	}
+	
+	/**
+	 * @param \DateTime $createdAt
+	 * @return User
+	 */
+	public function setCreatedAt($createdAt) {
+		$this->createdAt = $createdAt;
+		return $this;
+	}
+	
+	/**
+	 * @param \DateTime $updatedAt
+	 * @return User
+	 */
+	public function setUpdatedAt($updatedAt) {
+		$this->updatedAt = $updatedAt;
+		return $this;
+	}
+	
+	/**
+	 * Generates token for email verification
+	 */
+	protected function generateToken(){
+		$this->setToken(strtoupper(substr(sha1(
+            $this->getEmail() . 
+            '0#c#n#c#r#u0#y#h7' . 
+            strtotime($this->getTokenCreatedAt())
+        ),0,15)));
+	}
+
+	/** 
+	 * @ORM\PrePersist 
+	 */  
+	public function prePersist()  
+	{
+		$this->createdAt = new \DateTime();
+		$this->updatedAt = new \DateTime();
+		$this->setTokenCreatedAt(new \DateTime());
+		$this->generateToken();
+	}
+	
+	/** 
+	 * @ORM\PreUpdate 
+	 */  
+	public function preUpdate()  
+	{  
+		$this->updatedAt = new \DateTime();  
+	}
+	
 	/**
 	 * Returns an array containing data of this object
 	 * @return array
@@ -137,6 +257,10 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 			'state' => $this->getState(),
 			'roles' => $this->getRoles(),
 			'profile' => $this->getProfile(),
+			'createdAt' => $this->getCreatedAt(),
+			'updatedAt' => $this->getUpdatedAt(),
+			'token' => $this->getToken(),
+			'tokenCretedAt' => $this->getTokenCreatedAt()
 		);
 		return $data;
 	}

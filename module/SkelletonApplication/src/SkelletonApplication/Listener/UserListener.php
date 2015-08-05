@@ -201,7 +201,7 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 					->setParameter('roleIds', $options->getRegistrationNotify());
 			$email = $options->getRegistrationModeratorEmail();
 			foreach($users as $mod){
-				$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $mod->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user));
+				$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $mod->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user, 'moderator' => $mod));
 				$transport->send($message);
 			}
 		}

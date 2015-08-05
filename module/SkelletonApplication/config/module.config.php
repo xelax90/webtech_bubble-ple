@@ -52,6 +52,23 @@ $routerConfig = array(
 			'user'        => array( 'type' => ListRoute::class, 'priority' => 1001, 'options' => array( 'controller_options_name' => 'user'        ) ),
 		),
 	),
+	'zfcuser' => array(
+		'child_routes' => array(
+			'check-token' => array(
+				'type' => 'segment',
+				'options' => array(
+					'route' => '/activate/:token',
+					'defaults' => array(
+						'controller' => 'SkelletonApplication\Controller\FrontendUser',
+						'action' => 'checkToken',
+					),
+					'constraints' => array(
+						'token' => '[a-zA-Z0-9]',
+					),
+				),
+			),
+		),
+	),
 );
 
 $guardConfig = array(
@@ -105,6 +122,7 @@ return array(
 		'invokables' => array(
 			'SkelletonApplication\Controller\Index' => Controller\IndexController::class,
 			'SkelletonApplication\Controller\User' => Controller\UserController::class,
+			'SkelletonApplication\Controller\FrontendUser' => Controller\FrontendUserController::class,
 		),
 	),
 	

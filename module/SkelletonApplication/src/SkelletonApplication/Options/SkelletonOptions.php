@@ -65,9 +65,11 @@ class SkelletonOptions extends AbstractOptions
 	/** @var EmailOptions */
 	protected $registrationUserEmailWelcome; // Without confirmation (only auto enable)
 	/** @var EmailOptions */
-	protected $registrationUserEmailWelcomeConfirmMail; // Auto enable | self confirm
+	protected $registrationUserEmailWelcomeConfirmMail; // Auto enable & self confirm
 	/** @var EmailOptions */
 	protected $registrationUserEmailConfirmMail; // Self confirm
+	/** @var EmailOptions */
+	protected $registrationUserEmailDoubleConfirm; // Sent after successful email confirmation when using both self confirm and moderator confirm
 	/** @var EmailOptions */
 	protected $registrationUserEmailConfirmModerator; // Without self confirm, with moderator confirm
 	/** @var EmailOptions */
@@ -96,6 +98,13 @@ class SkelletonOptions extends AbstractOptions
 			$this->registrationUserEmailWelcomeConfirmMail = array(
 				'subject' => gettext_noop('[SkelletonApplication] Welcome. Please confirm your E-Mail'),
 				'template' => 'skelleton-application/email/register_welcome_confirm_mail'
+			);
+		}
+		
+		if(empty($this->registrationUserEmailDoubleConfirm)){
+			$this->registrationUserEmailDoubleConfirm = array(
+				'subject' => gettext_noop('[SkelletonApplication] Welcome'),
+				'template' => 'skelleton-application/email/register_double_confirm_mail'
 			);
 		}
 		
@@ -130,6 +139,7 @@ class SkelletonOptions extends AbstractOptions
 		$this->registrationModeratorEmail = new EmailOptions($this->registrationModeratorEmail);
 		$this->registrationUserEmailWelcome = new EmailOptions($this->registrationUserEmailWelcome);
 		$this->registrationUserEmailWelcomeConfirmMail = new EmailOptions($this->registrationUserEmailWelcomeConfirmMail);
+		$this->registrationUserEmailDoubleConfirm = new EmailOptions($this->registrationUserEmailDoubleConfirm);
 		$this->registrationUserEmailConfirmMail = new EmailOptions($this->registrationUserEmailConfirmMail);
 		$this->registrationUserEmailConfirmModerator = new EmailOptions($this->registrationUserEmailConfirmModerator);
 		$this->registrationUserEmailActivated = new EmailOptions($this->registrationUserEmailActivated);
@@ -259,4 +269,14 @@ class SkelletonOptions extends AbstractOptions
 		$this->registrationUserEmailDisabled = $registrationUserEmailDisabled;
 		return $this;
 	}
+	
+	public function getRegistrationUserEmailDoubleConfirm() {
+		return $this->registrationUserEmailDoubleConfirm;
+	}
+
+	public function setRegistrationUserEmailDoubleConfirm($registrationUserEmailDoubleConfirm) {
+		$this->registrationUserEmailDoubleConfirm = $registrationUserEmailDoubleConfirm;
+		return $this;
+	}
+
 }
