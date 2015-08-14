@@ -40,3 +40,10 @@ Dont forget to enable `mod_rewrite`
 5. run `php vendor/bin/doctrine-module orm:schema-tool:create`
 6. run `php vendor/bin/doctrine-module data-fixture:import`
 7. run `php public/index.php bower prepare-packs`
+
+# Things to know
+
+## User state
+* The user state is a bitmask
+* Activated: $user->getState & (1 << 0) !== 0
+* E-Mail verified: $user->getState & (1 << 1) !== 0

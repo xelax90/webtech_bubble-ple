@@ -179,7 +179,7 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 		$flag = $options->getRegistrationMethodFlag();
 		if($flag === SkelletonOptions::REGISTRATION_METHOD_AUTO_ENABLE){
 			$email = $options->getRegistrationUserEmailWelcome();
-		} elseif($flag & SkelletonOptions::REGISTRATION_METHOD_AUTO_ENABLE & SkelletonOptions::REGISTRATION_METHOD_SELF_CONFIRM){
+		} elseif(($flag & SkelletonOptions::REGISTRATION_METHOD_AUTO_ENABLE) && ($flag & SkelletonOptions::REGISTRATION_METHOD_SELF_CONFIRM)){
 			$email = $options->getRegistrationUserEmailWelcomeConfirmMail();
 		} elseif($flag & SkelletonOptions::REGISTRATION_METHOD_SELF_CONFIRM){
 			$email = $options->getRegistrationUserEmailConfirmMail();

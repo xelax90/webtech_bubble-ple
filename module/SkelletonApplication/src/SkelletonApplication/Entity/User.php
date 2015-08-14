@@ -7,16 +7,20 @@ use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 use Zend\Json\Json;
 use Doctrine\Common\Collections\ArrayCollection;
+use DateTime;
 
 /**
  * A User.
- *
- * @ORM\Entity
+ * 
+ * @ORM\Entity(repositoryClass="SkelletonApplication\Model\UserRepository")
  * @ORM\Table(name="user")
  * @ORM\HasLifecycleCallbacks
  */
 class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 {
+	const STATE_ACTIVE_BIT = 0;
+	const STATE_EMAIL_BIT = 1;
+	
     /**
      * @var \Doctrine\Common\Collections\Collection
      * @ORM\ManyToMany(targetEntity="Role")
@@ -40,19 +44,19 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 	protected $token;
 	
 	/**
-	 * @var \DateTime
+	 * @var DateTime
 	 * @ORM\Column(type="datetime")
 	 */
 	protected $tokenCreatedAt;
 	
 	/**
-	 * @var \DateTime
+	 * @var DateTime
 	 * @ORM\Column(type="datetime")
 	 */
 	protected $createdAt;
 	
 	/**
-	 * @var \DateTime
+	 * @var DateTime
 	 * @ORM\Column(type="datetime")
 	 */
 	protected $updatedAt;
@@ -133,21 +137,21 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 	}
 	
 	/**
-	 * @return \DateTime
+	 * @return DateTime
 	 */
 	public function getTokenCreatedAt() {
 		return $this->tokenCreatedAt;
 	}
 
 	/**
-	 * @return \DateTime
+	 * @return DateTime
 	 */
 	public function getCreatedAt() {
 		return $this->createdAt;
 	}
 
 	/**
-	 * @return \DateTime
+	 * @return DateTime
 	 */
 	public function getUpdatedAt() {
 		return $this->updatedAt;
@@ -163,7 +167,7 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 	}
 
 	/**
-	 * @param \DateTime $tokenCreatedAt
+	 * @param DateTime $tokenCreatedAt
 	 * @return User
 	 */
 	public function setTokenCreatedAt($tokenCreatedAt) {
@@ -172,7 +176,7 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 	}
 	
 	/**
-	 * @param \DateTime $createdAt
+	 * @param DateTime $createdAt
 	 * @return User
 	 */
 	public function setCreatedAt($createdAt) {
@@ -181,12 +185,41 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 	}
 	
 	/**
-	 * @param \DateTime $updatedAt
+	 * @param DateTime $updatedAt
 	 * @return User
 	 */
 	public function setUpdatedAt($updatedAt) {
 		$this->updatedAt = $updatedAt;
 		return $this;
+	}
+	
+	/**
+	 * Returns true if the user is active (aka can sign in)
+	 * @return boolean
+	 */
+	public function isActive(){
+		return $this->getState() & (1 << static::STATE_ACTIVE_BIT) !== 0;
+	}
+	
+	/**
+	 * Returns true if the user has verified his email
+	 * @return boolean
+	 */
+	public function isEmailVerified(){
+		return $this->getState() & (1 << static::STATE_EMAIL_BIT) !== 0;
+	}
+	
+	public function setIsActive($isActive){
+		$this->setState($this->setBitTo($this->getState(), static::STATE_ACTIVE_BIT, $isActive));
+	}
+	
+	public function setEmailIsVerified($isVerified){
+		$this->setState($this->setBitTo($this->getState(), static::STATE_EMAIL_BIT, $isVerified));
+	}
+	
+	protected function setBitTo($mask, $bit, $value){
+		$mask = $mask & ~(1 << $bit);
+		return $mask | (!!$value << $bit);
 	}
 	
 	/**
@@ -205,9 +238,9 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 	 */  
 	public function prePersist()  
 	{
-		$this->createdAt = new \DateTime();
-		$this->updatedAt = new \DateTime();
-		$this->setTokenCreatedAt(new \DateTime());
+		$this->createdAt = new DateTime();
+		$this->updatedAt = new DateTime();
+		$this->setTokenCreatedAt(new DateTime());
 		$this->generateToken();
 	}
 	
@@ -216,7 +249,7 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 	 */  
 	public function preUpdate()  
 	{  
-		$this->updatedAt = new \DateTime();  
+		$this->updatedAt = new DateTime();  
 	}
 	
 	/**

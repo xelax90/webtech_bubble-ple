@@ -27,6 +27,7 @@ use ZfcUser\Mapper\UserInterface;
 use ZfcUser\Options\ModuleOptions as ZfcUserModuleOptions;
 use ZfcUserAdmin\Options\ModuleOptions;
 use SkelletonApplication\Options\SkelletonOptions;
+use SkelletonApplication\Entity\User;
 
 /**
  * User admin controller
@@ -35,11 +36,13 @@ use SkelletonApplication\Options\SkelletonOptions;
  * @author schurix
  */
 class UserController extends ListController{
-	protected $zfcUserAdminOptions, $userMapper;
+	/** @var \ZfcUserAdmin\Options\ModuleOptions */
+	protected $zfcUserAdminOptions;
+	/** @var \ZfcUser\Mapper\User */
+	protected $userMapper;
+	/** @var \ZfcUser\Options\ModuleOptions */
 	protected $zfcUserOptions;
-	/**
-	 * @var \ZfcUserAdmin\Service\User
-	 */
+	/** @var \ZfcUserAdmin\Service\User */
 	protected $adminUserService;
 
 	protected function getAll() {
@@ -161,7 +164,12 @@ class UserController extends ListController{
 		/* @var $user \ZfcUser\Entity\UserInterface */
         $user = $this->getUserMapper()->findById($userId);
 		
-		$user->setState($user->getState() & ~1);
+		if($user instanceof User){
+			// TODO this should be done cleaner
+			$user->setIsActive(false);
+		} else {
+			$user->setState($user->getState() & ~(1 << User::STATE_ACTIVE_BIT));
+		}
 		$this->getUserMapper()->update($user);
 		$this->flashMessenger()->addSuccessMessage(sprintf('User %s successfully blocked', $user->getDisplayName()));
 		if($this->sendUserDisabledMail($user)){
@@ -174,7 +182,12 @@ class UserController extends ListController{
         $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
         $user = $this->getUserMapper()->findById($userId);
 		
-		$user->setState($user->getState() | 1);
+		if($user instanceof User){
+			// TODO this should be done cleaner
+			$user->setIsActive(true);
+		} else {
+			$user->setState($user->getState() | (1 << User::STATE_ACTIVE_BIT));
+		}
 		$this->getUserMapper()->update($user);
 		
 		$this->flashMessenger()->addSuccessMessage(sprintf('User %s successfully activated', $user->getDisplayName()));

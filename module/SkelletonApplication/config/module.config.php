@@ -63,7 +63,7 @@ $routerConfig = array(
 						'action' => 'checkToken',
 					),
 					'constraints' => array(
-						'token' => '[a-zA-Z0-9]',
+						'token' => '[A-F0-9]',
 					),
 				),
 			),
@@ -177,6 +177,7 @@ return array(
 		),
 		'invokables' => array(
 			'SkelletonApplication\UserListener' => Listener\UserListener::class,
+			'SkelletonApplication\UserService' => Service\UserService::class,
 		),
 		'factories' => array(
 			'Navigation' => \Zend\Navigation\Service\DefaultNavigationFactory::class,
