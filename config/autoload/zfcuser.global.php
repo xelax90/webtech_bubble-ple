@@ -203,7 +203,7 @@ $settings = array(
      * What state user should have upon registration?
      * Allowed value type: integer
      */
-    'default_user_state' => 0b01,
+    'default_user_state' => 0,
     
     /**
      * States which are allowing user to login
