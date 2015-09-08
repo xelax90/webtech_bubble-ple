@@ -38,11 +38,10 @@ class SkelletonOptions extends AbstractOptions
 	const REGISTRATION_EMAIL_DISABLED             = 0b10000000;
 	
 	protected $roles = array(
-			'guest' => array(
-				'user' => array(
-					'moderator' => array(
-						'administrator'
-					)
+			'guest' => array(),
+			'user' => array(
+				'moderator' => array(
+					'administrator' => array() // Admin role must be leaf and must contain 'admin'
 				)
 			)
 		);
