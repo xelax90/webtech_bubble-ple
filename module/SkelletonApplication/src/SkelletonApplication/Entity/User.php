@@ -229,7 +229,7 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 		$this->setToken(strtoupper(substr(sha1(
             $this->getEmail() . 
             '0#c#n#c#r#u0#y#h7' . 
-            strtotime($this->getTokenCreatedAt())
+            $this->getTokenCreatedAt()->format('U')
         ),0,15)));
 	}
 
