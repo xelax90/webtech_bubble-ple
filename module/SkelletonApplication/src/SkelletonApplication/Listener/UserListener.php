@@ -103,7 +103,7 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 			$em->flush();
 		}
 		
-		$this->sendEmailRegistered($sm, $user);
+		$this->sendEmailRegistered($user);
 	}
 	
 	/**
