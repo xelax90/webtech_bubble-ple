@@ -1,7 +1,7 @@
 #!/bin/sh
 apppath="`dirname \"$0\"`/.."
 
-echo "Generation POT file"
+echo "Generating POT file"
 
 find ${apppath}"/module" ${apppath}"/config" -type f \( -name '*.php' -or -name '*.phtml' \) \
 	| xargs \

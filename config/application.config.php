@@ -17,6 +17,7 @@ $config = array(
 		'GoalioForgotPassword',
 		'GoalioForgotPasswordDoctrineORM',
 		'XelaxAdmin',
+		'XelaxFormgen',
 		'TwbBundle',
         'XelaxTwbUnmask',
 		'XelaxHTMLPurifier',
