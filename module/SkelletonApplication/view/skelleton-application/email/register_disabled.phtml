@@ -2,6 +2,6 @@
 $link = $this->serverUrl($this->url('zfcuser/login', array('token' => $this->user->getToken())));
 $linkFormat = '<a href="%s">%s</a>';
 echo sprintf(
-	$this->translate('Hello %s,<br><br>your account has been disabled by a moderator and you cannot sign in anymore. If you feel that should not have happened, pleas contact a moderator.'),
+	$this->translate('Hello %s,<br><br>your account has been disabled by a moderator and you cannot sign in anymore. If you feel that should not have happened, please contact a moderator.'),
 	$this->user->getDisplayName()
 );
