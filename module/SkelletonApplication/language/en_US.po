@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-13 17:48+0200\n"
-"PO-Revision-Date: 2015-07-19 16:21+0200\n"
+"PO-Revision-Date: 2015-09-14 03:30+0200\n"
 "Last-Translator: xelax90 <schurix@gmx.de>\n"
 "Language-Team: ZF Contibutors <zf-devteam@zend.com>\n"
 "Language: en_US\n"
@@ -12,235 +12,238 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.8.2\n"
+"X-Generator: Poedit 1.8.4\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:14
 #: bin/../module/SkelletonApplication/config/module.config.php:30
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:14
 #: bin/../module/SkelletonApplication/config/module.config.php:30
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:15
 #: bin/../module/SkelletonApplication/config/module.config.php:246
 msgid "User Profiles"
-msgstr ""
+msgstr "User Profiles"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:27
 msgid "User"
-msgstr ""
+msgstr "User"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:30
 msgid "E-Mail"
-msgstr ""
+msgstr "E-Mail"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:30
 msgid "State"
-msgstr ""
+msgstr "State"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:31
 #: bin/../module/SkelletonApplication/config/module.config.php:245
 msgid "Users"
-msgstr ""
+msgstr "Users"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:233
 #: bin/../module/SkelletonApplication/config/module.config.php:244
 msgid "Home"
-msgstr ""
+msgstr "Home"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:234
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:235
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:236
 #: bin/../module/SkelletonApplication/view/zfc-user/user/register.phtml:1
 msgid "Register"
-msgstr ""
+msgstr "Register"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:237
 msgid "Profile"
-msgstr ""
+msgstr "Profile"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:238
 msgid "Change Password"
-msgstr ""
+msgstr "Change Password"
 
 #: bin/../module/SkelletonApplication/config/module.config.php:239
 msgid "Logout"
-msgstr ""
+msgstr "Logout"
 
 #: bin/../module/SkelletonApplication/language/msgids.php:9
 msgid ""
 "You have received this email because you initiated to reset your password "
 "with us. To continue with the process, please click the link below:"
 msgstr ""
+"You have received this email because you initiated to reset your password "
+"with us. To continue with the process, please click the link below:"
 
 #: bin/../module/SkelletonApplication/language/msgids.php:10
 #: bin/../module/SkelletonApplication/view/goalio-forgot-password/forgot/forgot.phtml:1
 #: bin/../module/SkelletonApplication/view/zfc-user/user/login.phtml:50
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Forgot your password?"
 
 #: bin/../module/SkelletonApplication/language/msgids.php:11
 #: bin/../module/SkelletonApplication/view/goalio-forgot-password/forgot/forgot.phtml:36
 msgid "Back to login."
-msgstr ""
+msgstr "Back to login."
 
 #: bin/../module/SkelletonApplication/language/msgids.php:13
 #, php-format
 msgid "A reminder has been sent to your e-mail address %s."
-msgstr ""
+msgstr "A reminder has been sent to your e-mail address %s."
 
 #: bin/../module/SkelletonApplication/language/msgids.php:14
 msgid "Back to login?"
-msgstr ""
+msgstr "Back to login?"
 
 #: bin/../module/SkelletonApplication/language/msgids.php:16
 msgid "Your password has been changed."
-msgstr ""
+msgstr "Your password has been changed."
 
 #: bin/../module/SkelletonApplication/language/msgids.php:17
 msgid "You can now login using your new password."
-msgstr ""
+msgstr "You can now login using your new password."
 
 #: bin/../module/SkelletonApplication/language/msgids.php:19
 msgid "Request new password"
-msgstr ""
+msgstr "Request new password"
 
 #: bin/../module/SkelletonApplication/language/msgids.php:20
 msgid "Set new password"
-msgstr ""
+msgstr "Set new password"
 
 #: bin/../module/SkelletonApplication/src/SkelletonApplication/Controller/FrontendUserController.php:82
 #: bin/../module/SkelletonApplication/src/SkelletonApplication/Controller/FrontendUserController.php:88
 #: bin/../module/SkelletonApplication/src/SkelletonApplication/Controller/FrontendUserController.php:95
 msgid "Invalid Token!"
-msgstr ""
+msgstr "Invalid Token!"
 
 #: bin/../module/SkelletonApplication/src/SkelletonApplication/Listener/UserListener.php:158
 msgid "Roles"
-msgstr ""
+msgstr "Roles"
 
 #: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:86
 msgid "[SkelletonApplication] A new user has registered"
-msgstr ""
+msgstr "[SkelletonApplication] A new user has registered"
 
 #: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:93
 #: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:107
 #: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:121
 msgid "[SkelletonApplication] Welcome"
-msgstr ""
+msgstr "[SkelletonApplication] Welcome"
 
 #: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:100
 #: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:114
 msgid "[SkelletonApplication] Welcome. Please confirm your E-Mail"
-msgstr ""
+msgstr "[SkelletonApplication] Welcome. Please confirm your E-Mail"
 
 #: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:128
 msgid "[SkelletonApplication] Your Account has been verified"
-msgstr ""
+msgstr "[SkelletonApplication] Your Account has been verified"
 
 #: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:135
 msgid "[SkelletonApplication] Your Account has been disabled"
-msgstr ""
+msgstr "[SkelletonApplication] Your Account has been disabled"
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:1
 msgid "A 404 error occurred"
-msgstr ""
+msgstr "A 404 error occurred"
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:10
 msgid "The requested controller was unable to dispatch the request."
-msgstr ""
+msgstr "The requested controller was unable to dispatch the request."
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:13
 msgid ""
 "The requested controller could not be mapped to an existing controller class."
 msgstr ""
+"The requested controller could not be mapped to an existing controller class."
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:16
 msgid "The requested controller was not dispatchable."
-msgstr ""
+msgstr "The requested controller was not dispatchable."
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:19
 msgid "The requested URL could not be matched by routing."
-msgstr ""
+msgstr "The requested URL could not be matched by routing."
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:22
 msgid "We cannot determine at this time why a 404 was generated."
-msgstr ""
+msgstr "We cannot determine at this time why a 404 was generated."
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:34
 msgid "Controller"
-msgstr ""
+msgstr "Controller"
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:41
 #, php-format
 msgid "resolves to %s"
-msgstr ""
+msgstr "resolves to %s"
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:53
 #: bin/../module/SkelletonApplication/view/error/index.phtml:8
 msgid "Additional information"
-msgstr ""
+msgstr "Additional information"
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:56
 #: bin/../module/SkelletonApplication/view/error/404.phtml:80
 #: bin/../module/SkelletonApplication/view/error/index.phtml:11
 #: bin/../module/SkelletonApplication/view/error/index.phtml:35
 msgid "File"
-msgstr ""
+msgstr "File"
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:60
 #: bin/../module/SkelletonApplication/view/error/404.phtml:84
 #: bin/../module/SkelletonApplication/view/error/index.phtml:15
 #: bin/../module/SkelletonApplication/view/error/index.phtml:39
 msgid "Message"
-msgstr ""
+msgstr "Message"
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:64
 #: bin/../module/SkelletonApplication/view/error/404.phtml:88
 #: bin/../module/SkelletonApplication/view/error/index.phtml:19
 #: bin/../module/SkelletonApplication/view/error/index.phtml:43
 msgid "Stack trace"
-msgstr ""
+msgstr "Stack trace"
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:74
 #: bin/../module/SkelletonApplication/view/error/index.phtml:29
 msgid "Previous exceptions"
-msgstr ""
+msgstr "Previous exceptions"
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:103
 #: bin/../module/SkelletonApplication/view/error/index.phtml:58
 msgid "No Exception available"
-msgstr ""
+msgstr "No Exception available"
 
 #: bin/../module/SkelletonApplication/view/error/index.phtml:1
 msgid "An error occurred"
-msgstr ""
+msgstr "An error occurred"
 
 #: bin/../module/SkelletonApplication/view/goalio-forgot-password/forgot/reset.phtml:1
 #: bin/../module/SkelletonApplication/view/zfc-user/user/changepassword.phtml:1
 #, php-format
 msgid "Change Password for %s"
-msgstr ""
+msgstr "Change Password for %s"
 
 #: bin/../module/SkelletonApplication/view/layout/admin.phtml:6
 #: bin/../module/SkelletonApplication/view/layout/layout.phtml:6
 msgid "Skeleton Application"
-msgstr ""
+msgstr "Skeleton Application"
 
 #: bin/../module/SkelletonApplication/view/layout/admin.phtml:6
 #: bin/../module/SkelletonApplication/view/layout/admin.phtml:32
 msgid "Administration"
-msgstr ""
+msgstr "Administration"
 
 #: bin/../module/SkelletonApplication/view/skelleton-application/email/register_activated.phtml:5
 #, php-format
@@ -248,6 +251,8 @@ msgid ""
 "Hello %s,<br><br>your account has been activated by a moderator. You can now "
 "sign in using the link below:<br><br>%s"
 msgstr ""
+"Hello %s,<br><br>your account has been activated by a moderator. You can now "
+"sign in using the link below:<br><br>%s"
 
 #: bin/../module/SkelletonApplication/view/skelleton-application/email/register_confirm_mail.phtml:5
 #, php-format
@@ -255,6 +260,8 @@ msgid ""
 "Hello %s,<br><br>thanks for registering on our website. Please click the "
 "link below to activate your account:<br><br>%s"
 msgstr ""
+"Hello %s,<br><br>thanks for registering on our website. Please click the "
+"link below to activate your account:<br><br>%s"
 
 #: bin/../module/SkelletonApplication/view/skelleton-application/email/register_confirm_moderator.phtml:3
 #, php-format
@@ -263,6 +270,9 @@ msgid ""
 "be confirmed by a moderator before you can sign in. You will be notified "
 "when your account is activated."
 msgstr ""
+"Hello %s,<br><br>thanks for registering on our website. Your account has to "
+"be confirmed by a moderator before you can sign in. You will be notified "
+"when your account is activated."
 
 #: bin/../module/SkelletonApplication/view/skelleton-application/email/register_disabled.phtml:5
 #, php-format
@@ -271,6 +281,9 @@ msgid ""
 "cannot sign in anymore. If you feel that should not have happened, please "
 "contact a moderator."
 msgstr ""
+"Hello %s,<br><br>your account has been disabled by a moderator and you "
+"cannot sign in anymore. If you feel that should not have happened, please "
+"contact a moderator."
 
 #: bin/../module/SkelletonApplication/view/skelleton-application/email/register_double_confirm_mail.phtml:3
 #, php-format
@@ -279,6 +292,9 @@ msgid ""
 "to be confirmed by a moderator before you can sign in. You will be notified "
 "when your account is activated."
 msgstr ""
+"Hello %s,<br><br>thanks for verifying your email address. Your account has "
+"to be confirmed by a moderator before you can sign in. You will be notified "
+"when your account is activated."
 
 #: bin/../module/SkelletonApplication/view/skelleton-application/email/register_moderator_notification.phtml:5
 #, php-format
@@ -286,6 +302,8 @@ msgid ""
 "Hello %s,<br><br>the user %s has registered on our website. You can view the "
 "registration using the link below:<br><br>%s"
 msgstr ""
+"Hello %s,<br><br>the user %s has registered on our website. You can view the "
+"registration using the link below:<br><br>%s"
 
 #: bin/../module/SkelletonApplication/view/skelleton-application/email/register_welcome.phtml:5
 #, php-format
@@ -293,6 +311,8 @@ msgid ""
 "Hello %s,<br><br>thanks for registering on our website. You can now sign in "
 "using the link below:<br><br>%s"
 msgstr ""
+"Hello %s,<br><br>thanks for registering on our website. You can now sign in "
+"using the link below:<br><br>%s"
 
 #: bin/../module/SkelletonApplication/view/skelleton-application/email/register_welcome_confirm_mail.phtml:5
 #, php-format
@@ -301,10 +321,13 @@ msgid ""
 "your provided credentials to sign in. Please click the link below to confirm "
 "your email address:<br><br>%s"
 msgstr ""
+"Hello %s,<br><br>thanks for registering on our website. You can already use "
+"your provided credentials to sign in. Please click the link below to confirm "
+"your email address:<br><br>%s"
 
 #: bin/../module/SkelletonApplication/view/skelleton-application/index/index.phtml:1
 msgid "Hello World!"
-msgstr ""
+msgstr "Hello World!"
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/changeemail.phtml:1
 #, php-format

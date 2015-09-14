@@ -37,12 +37,16 @@ $xelaxConfig = array(
 
 $routerConfig = array(
 	'home' => array(
-		'type' => 'literal',
+		'type' => 'Segment',
 		'options' => array(
-			'route' => '/',
+			'route' => '/[:lang]',
 			'defaults' => array(
 				'controller' => 'SkelletonApplication\Controller\Index',
 				'action'     => 'index',
+				'lang'       => 'de', //default language
+			),
+			'constraints' => array(
+				'lang' => '(en|de)?',
 			),
 		),
 	),
@@ -193,7 +197,7 @@ return array(
 
 	// language options
 	'translator' => array(
-		'locale' => 'de_DE',
+		'locale' => array('de_DE', 'de_DE'),
 		'translation_file_patterns' => array(
 			array(
 				'type'     => 'gettext',

@@ -19,7 +19,8 @@ class Module
 
 		$moduleRouteListener = new ModuleRouteListener();
 		$moduleRouteListener->attach($eventManager);
-
+		$eventManager->attach(MvcEvent::EVENT_ROUTE, array($this, 'initTranslator'));
+		
 		// Enable BjyAuthorize when not in console mode
 		if(!\Zend\Console\Console::isConsole()) {
 			// Add ACL information to the Navigation view helper
@@ -29,6 +30,27 @@ class Module
 			Navigation::setDefaultAcl($acl);
 			Navigation::setDefaultRole($role);		
 		}
+	}
+	
+	public function initTranslator(MvcEvent $e){
+		$languages = array(
+			'de' => 'de_DE',
+			'en' => 'en_US'
+		);
+		
+		$routeMatch = $e->getRouteMatch();
+		if(!$routeMatch){
+			return;
+		}
+		/* @var $translator \Zend\I18n\Translator\Translator */
+		$translator = $e->getApplication()->getServiceManager()->get('translator');
+		
+		$lang = $routeMatch->getParam('lang');
+		if(!$lang || !$languages[$lang]){
+			return;
+		}
+		
+		$translator->setLocale($languages[$lang]);
 	}
 
 	public function getConfig(){
