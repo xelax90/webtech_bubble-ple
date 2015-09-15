@@ -34,6 +34,7 @@
 		"html5shiv" : "*",
 		"respond" : "*",
 		"fontawesome" : "*",
-		"select2" : "4.*"
+		"select2" : "4.*",
+		"bootstrap-languages" : "https://github.com/xelax90/bootstrap-languages.git"
 	}
 }

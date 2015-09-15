@@ -61,10 +61,17 @@ class LanguageTreeRouteStack extends TranslatorAwareTreeRouteStack {
 		
 		$oldBase = $this->baseUrl; // save old baseUrl
 		
-		// check if translator can tell his locale
-		if(count($languages) > 1 && is_callable(array($translator, 'getLocale'))){
-			$locale = $translator->getLocale();
-			$key = array_search($locale, $languages); // get key for locale
+		// only add language key when more than one language is supported
+		if(count($languages) > 1){
+			if(isset($params['locale'])){
+				// use parameter if provided
+				$locale = $params['locale'];
+				$key = array_search($locale, $languages); // get key for locale
+			} elseif(is_callable(array($translator, 'getLocale'))){
+				// use getLocale if possible
+				$locale = $translator->getLocale();
+				$key = array_search($locale, $languages); // get key for locale
+			}
 			
 			if(!empty($key)){
 				$this->setBaseUrl($oldBase . '/'.$key); // add key to baseUrl

@@ -227,6 +227,12 @@ return array(
 		),
 	),
 
+	'view_helpers' => array(
+		'invokables' => array(
+			'languageSwitch'          => 'SkelletonApplication\View\Helper\LanguageSwitch',
+		),
+	),
+	
 	// Site navigation
 	'navigation' => array(
 		// default navigation

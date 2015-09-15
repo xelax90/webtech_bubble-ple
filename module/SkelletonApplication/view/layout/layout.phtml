@@ -42,10 +42,13 @@
 								->setUlClass('nav navbar-nav')
 								->render(); 
 					?>
+					<?php
+						echo $this->languageSwitch();
+					?>
 				</div><!--/.nav-collapse -->
 			</div>
 		</nav>
-
+		
 		<div class="container">
 			<?php echo $this->content; ?>
 		</div> <!-- /container -->
