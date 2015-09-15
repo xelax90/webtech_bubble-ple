@@ -49,15 +49,7 @@ class SkelletonOptions extends AbstractOptions
 	protected $userProfileEntity = UserProfile::class;
 	
 	protected $registrationMethodFlag = self::REGISTRATION_METHOD_MODERATOR_CONFIRM;
-	protected $registrationEmailFlag = 
-			self::REGISTRATION_EMAIL_MODERATOR | 
-			self::REGISTRATION_EMAIL_WELCOME | 
-			self::REGISTRATION_EMAIL_WELCOME_CONFIRM_MAIL |
-			self::REGISTRATION_EMAIL_CONFIRM_MAIL | 
-			self::REGISTRATION_EMAIL_DOUBLE_CONFIRM_MAIL | 
-			self::REGISTRATION_EMAIL_CONFIRM_MODERATOR | 
-			self::REGISTRATION_EMAIL_ACTIVATED | 
-			self::REGISTRATION_EMAIL_DISABLED;
+	protected $registrationEmailFlag;
 	protected $registrationNotify = array('moderator', 'administrator');
 	protected $registrationNotificationFrom = 'SkelletonApplication <schurix@gmx.de>';
 	
@@ -77,8 +69,29 @@ class SkelletonOptions extends AbstractOptions
 	protected $registrationUserEmailActivated; // Activated by moderator
 	/** @var EmailOptions */
 	protected $registrationUserEmailDisabled; // Disabled by moderator
+
+	/**
+	 * List of supported languages. The key is shown in the url, the value is passed to the translator
+	 * If only one language is provided, no language will be shown in the url
+	 * @var array
+	 */
+	protected $languages = array(
+		'de' => 'de_DE', 
+		'en' => 'en_US'
+	);
 	
 	public function __construct($options = null) {
+		$this->registrationEmailFlag = 
+				self::REGISTRATION_EMAIL_MODERATOR | 
+				self::REGISTRATION_EMAIL_WELCOME | 
+				self::REGISTRATION_EMAIL_WELCOME_CONFIRM_MAIL |
+				self::REGISTRATION_EMAIL_CONFIRM_MAIL | 
+				self::REGISTRATION_EMAIL_DOUBLE_CONFIRM_MAIL | 
+				self::REGISTRATION_EMAIL_CONFIRM_MODERATOR | 
+				self::REGISTRATION_EMAIL_ACTIVATED | 
+				self::REGISTRATION_EMAIL_DISABLED;
+		
+		
 		parent::__construct($options);
 		
 		if(empty($this->registrationModeratorEmail)){
@@ -277,6 +290,15 @@ class SkelletonOptions extends AbstractOptions
 
 	public function setRegistrationUserEmailDoubleConfirm($registrationUserEmailDoubleConfirm) {
 		$this->registrationUserEmailDoubleConfirm = $registrationUserEmailDoubleConfirm;
+		return $this;
+	}
+	
+	public function getLanguages() {
+		return $this->languages;
+	}
+
+	public function setLanguages($languages) {
+		$this->languages = $languages;
 		return $this;
 	}
 

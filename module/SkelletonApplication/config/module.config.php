@@ -39,14 +39,10 @@ $routerConfig = array(
 	'home' => array(
 		'type' => 'Segment',
 		'options' => array(
-			'route' => '/[:lang]',
+			'route' => '/',
 			'defaults' => array(
 				'controller' => 'SkelletonApplication\Controller\Index',
 				'action'     => 'index',
-				'lang'       => 'de', //default language
-			),
-			'constraints' => array(
-				'lang' => '(en|de)?',
 			),
 		),
 	),
@@ -133,6 +129,7 @@ return array(
     'xelax' => $xelaxConfig,
 	
 	'router' => array(
+		'router_class' => 'SkelletonApplication\Mvc\Router\Http\LanguageTreeRouteStack',
 		'routes' => $routerConfig,
 	),
 	

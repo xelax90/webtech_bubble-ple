@@ -30,6 +30,10 @@ class Module
 			Navigation::setDefaultAcl($acl);
 			Navigation::setDefaultRole($role);		
 		}
+		
+		/* @var $translator \Zend\I18n\Translator\Translator */
+		$translator = $e->getApplication()->getServiceManager()->get('translator');
+		$e->getRouter()->setTranslator($translator);
 	}
 	
 	public function initTranslator(MvcEvent $e){
@@ -45,12 +49,11 @@ class Module
 		/* @var $translator \Zend\I18n\Translator\Translator */
 		$translator = $e->getApplication()->getServiceManager()->get('translator');
 		
-		$lang = $routeMatch->getParam('lang');
-		if(!$lang || !$languages[$lang]){
+		$lang = $routeMatch->getParam('locale');
+		if(!$lang || !in_array($lang, $languages)){
 			return;
 		}
-		
-		$translator->setLocale($languages[$lang]);
+		$translator->setLocale($lang);
 	}
 
 	public function getConfig(){
