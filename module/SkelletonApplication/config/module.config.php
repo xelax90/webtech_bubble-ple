@@ -186,9 +186,7 @@ return array(
 				$config = $sm->get('Config');
 				return new Options\SkelletonOptions(isset($config['skelleton_application']) ? $config['skelleton_application'] : array());
 			},
-		),
-		'aliases' => array(
-			'translator' => 'MvcTranslator',
+			'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
 		),
 	),
 

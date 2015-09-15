@@ -11,8 +11,8 @@
 		?>
 
 		<!-- Styles -->
-		<?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
-						->prependStylesheet($this->basePath() . '/css/backend.css') ?>
+		<?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath('/img/favicon.ico')))
+						->prependStylesheet($this->basePath('/css/backend.css')) ?>
 
 		<!-- Scripts -->
 		<?php $this->bower('backend', \BowerModule\View\Helper\Bower::CONTAINER_HEAD); ?>

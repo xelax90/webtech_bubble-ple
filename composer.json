@@ -20,7 +20,7 @@
     ],
     "require": {
 		"php": ">=5.5",
-		"zendframework/zendframework": "2.3.*",
+		"zendframework/zendframework": "2.5.*",
 		"articus/zf2-bower-module" : "dev-master",
 		"doctrine/doctrine-module" : "*",
 		"doctrine/doctrine-orm-module": "*",

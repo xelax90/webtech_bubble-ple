@@ -21,11 +21,13 @@ The Document root is `public/`. Example Apache config:
 <VirtualHost *:80>
         DocumentRoot "/var/www/fsmpivideo/public"
         ServerName fsmpivideo.localhost
-        SetEnv APPLICATION_ENV "development"
         <Directory "/var/www/fsmpivideo/public">
                 DirectoryIndex index.php
                 AllowOverride All
                 Order allow,deny
+                <IfModule mod_authz_core.c>
+                        Require all granted
+                </IfModule>
                 Allow from all
         </Directory>
 </VirtualHost>
