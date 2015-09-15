@@ -4,16 +4,22 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "deb87b29d342ce3b698b5c38c7736a33",
-    "content-hash": "fee945a8cd8326da9b7170595f6b555f",
+    "hash": "8e7cbfbae0e4d1a67ef27bf4b609253a",
+    "content-hash": "0a7e73d801a4ef9113bda5a5ab9b8d33",
     "packages": [
         {
             "name": "articus/zf2-bower-module",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/xelax90/zf2-bower-module.git",
-                "reference": "b879fb80d0925bab369a2ea3d1ea30eb22cc3103"
+                "url": "https://github.com/Articus/zf2-bower-module.git",
+                "reference": "163f8c32b443c6afa2d47d67804c6c9e2e5b60a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Articus/zf2-bower-module/zipball/163f8c32b443c6afa2d47d67804c6c9e2e5b60a2",
+                "reference": "163f8c32b443c6afa2d47d67804c6c9e2e5b60a2",
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.5",
@@ -27,6 +33,7 @@
                     "BowerModule\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -41,7 +48,7 @@
                 "module",
                 "zf2"
             ],
-            "time": "2015-09-13 20:15:15"
+            "time": "2015-09-15 10:31:51"
         },
         {
             "name": "azatoth/php-pgettext",
@@ -2351,12 +2358,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/xelax90/xelax-admin.git",
-                "reference": "b2d0e7479bca294677ea4dcae219fb39bdda0bab"
+                "reference": "838617dc25cda1da5b10577930871390835928bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xelax90/xelax-admin/zipball/b2d0e7479bca294677ea4dcae219fb39bdda0bab",
-                "reference": "b2d0e7479bca294677ea4dcae219fb39bdda0bab",
+                "url": "https://api.github.com/repos/xelax90/xelax-admin/zipball/838617dc25cda1da5b10577930871390835928bf",
+                "reference": "838617dc25cda1da5b10577930871390835928bf",
                 "shasum": ""
             },
             "require": {
@@ -2395,7 +2402,7 @@
                 "zf2",
                 "zfc-admin"
             ],
-            "time": "2015-09-15 18:25:19"
+            "time": "2015-09-15 19:04:42"
         },
         {
             "name": "xelax90/xelax-formgen",
@@ -2641,28 +2648,28 @@
         },
         {
             "name": "zendframework/zend-cache",
-            "version": "2.5.2",
+            "version": "2.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-cache.git",
-                "reference": "325afc68d4381cf8b95288ebb9b1d38dc32ed579"
+                "reference": "7ff9d6b922ae29dbdc53f6a62b471fb6e58565df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-cache/zipball/325afc68d4381cf8b95288ebb9b1d38dc32ed579",
-                "reference": "325afc68d4381cf8b95288ebb9b1d38dc32ed579",
+                "url": "https://api.github.com/repos/zendframework/zend-cache/zipball/7ff9d6b922ae29dbdc53f6a62b471fb6e58565df",
+                "reference": "7ff9d6b922ae29dbdc53f6a62b471fb6e58565df",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5",
                 "zendframework/zend-eventmanager": "~2.5",
-                "zendframework/zend-serializer": "~2.5",
                 "zendframework/zend-servicemanager": "~2.5",
                 "zendframework/zend-stdlib": "~2.5"
             },
             "require-dev": {
                 "fabpot/php-cs-fixer": "1.7.*",
                 "phpunit/phpunit": "~4.0",
+                "zendframework/zend-serializer": "~2.5",
                 "zendframework/zend-session": "~2.5"
             },
             "suggest": {
@@ -2700,7 +2707,7 @@
                 "cache",
                 "zf2"
             ],
-            "time": "2015-07-16 18:44:41"
+            "time": "2015-09-15 16:09:09"
         },
         {
             "name": "zendframework/zend-captcha",

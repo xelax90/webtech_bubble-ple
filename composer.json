@@ -47,11 +47,5 @@
 	"require-dev" : {
 		"zendframework/zend-developer-tools": "dev-master",
 		"zendframework/zftool" : "*"
-	},
-	"repositories": [
-        {
-            "url": "https://github.com/xelax90/zf2-bower-module.git",
-            "type": "git"
-        }
-    ]
+	}
 }
