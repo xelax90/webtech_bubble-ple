@@ -67,14 +67,54 @@ class UserController extends ListController{
 	
 	protected function getCreateForm() {
         $form = $this->getServiceLocator()->get('zfcuseradmin_createuser_form');
+		$this->bootstrapizeForm($form);
 		return $form;
 	}
 	
 	protected function getEditForm() {
         $form = $this->getServiceLocator()->get('zfcuseradmin_edituser_form');
+		$this->bootstrapizeForm($form);
 		return $form;
 	}
-
+	
+	protected function bootstrapizeForm($form){
+		$submitLabel = $form->get('submit')->getLabel();
+		$form->remove('submit');
+		$elms = $form->getElements();
+		foreach($elms as $k => $element){
+			/* @var $element \Zend\Form\Element */
+			
+			if($element instanceof \Zend\Form\Element\Checkbox){
+				$element
+					->setOption('use-switch', true)
+					->setLabelOption('position', \Zend\Form\View\Helper\FormRow::LABEL_PREPEND)
+					->setOption('column-size', 'sm-10 col-sm-offset-2')
+					->setAttribute('data-label-text', $element->getLabel())
+					->setOption('label', '')
+					->setAttribute('data-off-color', 'warning')
+					->setAttribute('data-on-text', 'Yes')
+					->setAttribute('data-off-text', 'No');
+			} else {
+				$element
+					->setOption('column-size', 'sm-9')
+					->setOption('label', $element->getLabel())
+					->setLabelAttributes(array('class' => 'col-sm-3'));
+			}
+		}
+		
+		$form->add(array(
+			'name' => 'submit',
+			'type' => 'Submit',
+			'options' => array(
+				'as-group' => true,
+			),
+			'attributes' => array(
+				'value' => $submitLabel ?: 'Submit' ,
+				'class' => 'btn-success',
+			)
+		));
+	}
+	
 	protected function _createItem($item, $form, $data = null) {
 		$em = $this->getEntityManager();
         $request = $this->getRequest();
