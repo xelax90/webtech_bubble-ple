@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-13 17:48+0200\n"
+"POT-Creation-Date: 2015-09-16 10:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +28,7 @@ msgid "Name"
 msgstr ""
 
 #: bin/../module/SkelletonApplication/config/module.config.php:15
-#: bin/../module/SkelletonApplication/config/module.config.php:246
+#: bin/../module/SkelletonApplication/config/module.config.php:251
 msgid "User Profiles"
 msgstr ""
 
@@ -45,37 +45,37 @@ msgid "State"
 msgstr ""
 
 #: bin/../module/SkelletonApplication/config/module.config.php:31
-#: bin/../module/SkelletonApplication/config/module.config.php:245
+#: bin/../module/SkelletonApplication/config/module.config.php:250
 msgid "Users"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/config/module.config.php:233
-#: bin/../module/SkelletonApplication/config/module.config.php:244
+#: bin/../module/SkelletonApplication/config/module.config.php:238
+#: bin/../module/SkelletonApplication/config/module.config.php:249
 msgid "Home"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/config/module.config.php:234
+#: bin/../module/SkelletonApplication/config/module.config.php:239
 msgid "Admin"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/config/module.config.php:235
+#: bin/../module/SkelletonApplication/config/module.config.php:240
 msgid "Login"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/config/module.config.php:236
+#: bin/../module/SkelletonApplication/config/module.config.php:241
 #: bin/../module/SkelletonApplication/view/zfc-user/user/register.phtml:1
 msgid "Register"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/config/module.config.php:237
+#: bin/../module/SkelletonApplication/config/module.config.php:242
 msgid "Profile"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/config/module.config.php:238
+#: bin/../module/SkelletonApplication/config/module.config.php:243
 msgid "Change Password"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/config/module.config.php:239
+#: bin/../module/SkelletonApplication/config/module.config.php:244
 msgid "Logout"
 msgstr ""
 
@@ -131,26 +131,26 @@ msgstr ""
 msgid "Roles"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:86
+#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:99
 msgid "[SkelletonApplication] A new user has registered"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:93
-#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:107
-#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:121
+#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:106
+#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:120
+#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:134
 msgid "[SkelletonApplication] Welcome"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:100
-#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:114
+#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:113
+#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:127
 msgid "[SkelletonApplication] Welcome. Please confirm your E-Mail"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:128
+#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:141
 msgid "[SkelletonApplication] Your Account has been verified"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:135
+#: bin/../module/SkelletonApplication/src/SkelletonApplication/Options/SkelletonOptions.php:148
 msgid "[SkelletonApplication] Your Account has been disabled"
 msgstr ""
 
@@ -194,33 +194,33 @@ msgid "Additional information"
 msgstr ""
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:56
-#: bin/../module/SkelletonApplication/view/error/404.phtml:80
+#: bin/../module/SkelletonApplication/view/error/404.phtml:81
 #: bin/../module/SkelletonApplication/view/error/index.phtml:11
-#: bin/../module/SkelletonApplication/view/error/index.phtml:35
+#: bin/../module/SkelletonApplication/view/error/index.phtml:36
 msgid "File"
 msgstr ""
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:60
-#: bin/../module/SkelletonApplication/view/error/404.phtml:84
+#: bin/../module/SkelletonApplication/view/error/404.phtml:85
 #: bin/../module/SkelletonApplication/view/error/index.phtml:15
-#: bin/../module/SkelletonApplication/view/error/index.phtml:39
+#: bin/../module/SkelletonApplication/view/error/index.phtml:40
 msgid "Message"
 msgstr ""
 
 #: bin/../module/SkelletonApplication/view/error/404.phtml:64
-#: bin/../module/SkelletonApplication/view/error/404.phtml:88
+#: bin/../module/SkelletonApplication/view/error/404.phtml:89
 #: bin/../module/SkelletonApplication/view/error/index.phtml:19
-#: bin/../module/SkelletonApplication/view/error/index.phtml:43
+#: bin/../module/SkelletonApplication/view/error/index.phtml:44
 msgid "Stack trace"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/view/error/404.phtml:74
-#: bin/../module/SkelletonApplication/view/error/index.phtml:29
+#: bin/../module/SkelletonApplication/view/error/404.phtml:75
+#: bin/../module/SkelletonApplication/view/error/index.phtml:30
 msgid "Previous exceptions"
 msgstr ""
 
-#: bin/../module/SkelletonApplication/view/error/404.phtml:103
-#: bin/../module/SkelletonApplication/view/error/index.phtml:58
+#: bin/../module/SkelletonApplication/view/error/404.phtml:109
+#: bin/../module/SkelletonApplication/view/error/index.phtml:64
 msgid "No Exception available"
 msgstr ""
 

@@ -3,13 +3,15 @@ apppath="`dirname \"$0\"`/.."
 
 echo "Updating PO files using POT file"
 
-for i in $(find ${apppath}"/module/SkelletonApplication/language" -type f -name '*.po')
-do
-	filename="${i%.*}";
-	echo $(basename $filename)
-	msgmerge \
-		--update \
-		--backup=simple\
-		$i \
-		${apppath}"/module/SkelletonApplication/language/messages.pot"
+for mod in $( ls ${apppath}"/module" ); do
+	echo "  "$mod
+	for i in $(find ${apppath}"/module/"${mod}"/language" -type f -name '*.po'); do
+		filename="${i%.*}";
+		printf "    "$(basename $filename)" "
+		msgmerge \
+			--update \
+			--backup=simple\
+			$i \
+			${apppath}"/module/"${mod}"/language/messages.pot"
+	done
 done
