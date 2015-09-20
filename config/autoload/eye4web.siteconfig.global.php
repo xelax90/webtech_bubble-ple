@@ -29,7 +29,7 @@ return [
              * \Eye4web\SiteConfig\Reader\ReaderInterface
              * \Zend\Config\Read\ReaderInterface
              */
-            'readerClass' => 'Eye4web\SiteConfig\Reader\DoctrineORMReader',
+            'readerClass' => 'SkelletonApplication\SiteConfig\Reader\DoctrineORMReader',
 
             /**
              * If you use a reader implementing Zend\Config\Reader\ReaderInterface class,
