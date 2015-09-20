@@ -23,14 +23,14 @@ namespace SkelletonApplication\Options\Service;
 use SkelletonApplication\Options\SiteEmailOptions;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\FactoryInterface;
-use Eye4web\SiteConfig\Service\SiteConfigAwareInterface;
-use Eye4web\SiteConfig\Service\SiteConfigAwareTrait;
+use Eye4web\SiteConfig\Service\SiteConfigService;
 
-class SiteEmailOptionsFactory implements FactoryInterface, SiteConfigAwareInterface {
-	use SiteConfigAwareTrait;
+class SiteEmailOptionsFactory implements FactoryInterface {
 	
     public function createService(ServiceLocatorInterface $serviceLocator) {
-		$config = $this->getSiteConfigService()->getAll();
+		/* @var $siteConfigService SiteConfigService */
+		$siteConfigService = $serviceLocator->get(SiteConfigService::class);
+		$config = $siteConfigService->getAll();
         return new SiteEmailOptions(isset($config['skelletonapplication']['email']) ? $config['skelletonapplication']['email'] : array());
     }
 

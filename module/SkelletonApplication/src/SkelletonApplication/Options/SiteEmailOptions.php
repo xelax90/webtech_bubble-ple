@@ -22,7 +22,6 @@ namespace SkelletonApplication\Options;
 use Zend\Stdlib\AbstractOptions;
 
 use Zend\Mail\Transport\Sendmail;
-use Zend\Mail\Transport\SmtpOptions;
 
 /**
  * Description of SiteEmailOptions
