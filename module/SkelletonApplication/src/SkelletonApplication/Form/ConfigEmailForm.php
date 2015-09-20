@@ -19,37 +19,43 @@
 
 namespace SkelletonApplication\Form;
 
-use Zend\Form\Fieldset;
-use Zend\InputFilter\InputFilterProviderInterface;
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use DoctrineModule\Persistence\ProvidesObjectManager;
-
-use SkelletonApplication\Entity\UserProfile;
+use Zend\Form\Form;
+use Zend\InputFilter\InputFilter;
 
 /**
- * UserProfileFieldset Fieldset
+ * ConfigEmailForm
  *
  * @author schurix
  */
-class UserProfileFieldset extends Fieldset implements InputFilterProviderInterface, ObjectManagerAwareInterface{
-	use ProvidesObjectManager;
+class ConfigEmailForm extends Form{
 	
 	public function __construct($name = "", $options = array()){
-		if($name == ""){
-			$name = 'UserProfileFieldset';
-		}
-		parent::__construct($name, $options);
+		// we want to ignore the name passed
+		parent::__construct('ConfigEmailForm', $options);
+		$this->setAttribute('method', 'post');
 	}
 	
 	public function init(){
-		$this->setHydrator(new DoctrineHydrator($this->getObjectManager()))
-			 ->setObject(new UserProfile());
-	}
-	
-	public function getInputFilterSpecification() {
-		$filters = array(
-		);
-		return $filters;
+		$this->setInputFilter(new InputFilter());
+		
+		$this->add(array(
+			'name' => 'configemail',
+            'type' => ConfigEmailFieldset::class,
+            'options' => array(
+                'use_as_base_fieldset' => true,
+            ),
+        ));
+		
+		$this->add(array(
+			'name' => 'submit',
+			'type' => 'Submit',
+			'attributes' => array(
+				'value' => 'Save',
+				'class' => 'btn-success'
+			),
+			'options' => array(
+				'as-group' => true,
+			)
+		));
 	}
 }

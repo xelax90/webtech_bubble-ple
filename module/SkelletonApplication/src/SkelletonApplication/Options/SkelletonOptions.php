@@ -21,6 +21,8 @@ namespace SkelletonApplication\Options;
 
 use Zend\Stdlib\AbstractOptions;
 use SkelletonApplication\Entity\UserProfile;
+use Zend\Mail\Transport\Sendmail;
+use Zend\Mail\Transport\Smtp;
 
 class SkelletonOptions extends AbstractOptions
 {
@@ -45,6 +47,8 @@ class SkelletonOptions extends AbstractOptions
 				)
 			)
 		);
+	
+	protected $allowedEmailTransports = array( Sendmail::class => 'Sendmail', Smtp::class => 'SMTP' ); // list of allowed transports SiteEmailOptions
 	
 	protected $userProfileEntity = UserProfile::class;
 	
@@ -301,5 +305,13 @@ class SkelletonOptions extends AbstractOptions
 		$this->languages = $languages;
 		return $this;
 	}
+	
+	public function getAllowedEmailTransports() {
+		return $this->allowedEmailTransports;
+	}
 
+	public function setAllowedEmailTransports($allowedEmailTransports) {
+		$this->allowedEmailTransports = $allowedEmailTransports;
+		return $this;
+	}
 }

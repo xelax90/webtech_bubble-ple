@@ -50,6 +50,16 @@ $routerConfig = array(
 		'child_routes' => array(
 			'userprofile' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'userprofile' ) ),
 			'user'        => array( 'type' => ListRoute::class, 'priority' => 1001, 'options' => array( 'controller_options_name' => 'user'        ) ),
+			'siteconfig'  => array(
+				'type' => 'literal',
+				'options' => array(
+					'route' => '/siteConfig',
+					'defaults' => array(
+						'controller' => 'SkelletonApplication\Controller\SiteConfig',
+						'action' => 'index',
+					),
+				),
+			),
 		),
 	),
 	'zfcuser' => array(
@@ -93,6 +103,9 @@ $guardConfig = array(
 	// user admin
 	['route' => 'zfcadmin/userprofile',          'roles' => ['administrator']],
 	['route' => 'zfcadmin/user' ,                'roles' => ['administrator']],
+	
+	// config
+	['route' => 'zfcadmin/siteconfig' ,          'roles' => ['administrator']],
 );
 
 $ressources = array(
@@ -123,6 +136,7 @@ return array(
 			'SkelletonApplication\Controller\Index' => Controller\IndexController::class,
 			'SkelletonApplication\Controller\User' => Controller\UserController::class,
 			'SkelletonApplication\Controller\FrontendUser' => Controller\FrontendUserController::class,
+			'SkelletonApplication\Controller\SiteConfig' => Controller\SiteConfigController::class,
 		),
 	),
 	
