@@ -23,7 +23,6 @@ use Zend\Form\Form;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Zend\InputFilter\InputFilter;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * UserProfileForm
@@ -31,7 +30,7 @@ use Doctrine\Common\Persistence\ObjectManager;
  * @author schurix
  */
 class UserProfileForm extends Form implements ObjectManagerAwareInterface{
-	protected $em;
+	use \DoctrineModule\Persistence\ProvidesObjectManager;
 	
 	public function __construct($name = "", $options = array()){
 		// we want to ignore the name passed
@@ -62,13 +61,5 @@ class UserProfileForm extends Form implements ObjectManagerAwareInterface{
 				'as-group' => true,
 			)
 		));
-	}
-	
-	public function getObjectManager() {
-		return $this->em;
-	}
-
-	public function setObjectManager(ObjectManager $objectManager) {
-		$this->em = $objectManager;
 	}
 }

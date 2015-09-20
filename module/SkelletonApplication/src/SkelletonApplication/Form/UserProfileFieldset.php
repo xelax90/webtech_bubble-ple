@@ -23,7 +23,6 @@ use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilterProviderInterface;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 
 use SkelletonApplication\Entity\UserProfile;
 
@@ -33,7 +32,7 @@ use SkelletonApplication\Entity\UserProfile;
  * @author schurix
  */
 class UserProfileFieldset extends Fieldset implements InputFilterProviderInterface, ObjectManagerAwareInterface{
-	protected $objectManager;
+	use \DoctrineModule\Persistence\ProvidesObjectManager;
 	
 	public function __construct($name = "", $options = array()){
 		if($name == ""){
@@ -51,14 +50,5 @@ class UserProfileFieldset extends Fieldset implements InputFilterProviderInterfa
 		$filters = array(
 		);
 		return $filters;
-	}
-
-	public function getObjectManager() {
-		return $this->objectManager;
-	}
-
-	public function setObjectManager(ObjectManager $objectManager) {
-		$this->objectManager = $objectManager;
-		return $this;
 	}
 }
