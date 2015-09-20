@@ -51,12 +51,15 @@ $routerConfig = array(
 			'userprofile' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'userprofile' ) ),
 			'user'        => array( 'type' => ListRoute::class, 'priority' => 1001, 'options' => array( 'controller_options_name' => 'user'        ) ),
 			'siteconfig'  => array(
-				'type' => 'literal',
+				'type' => 'segment',
 				'options' => array(
-					'route' => '/siteConfig',
+					'route' => '/config[/:action]',
 					'defaults' => array(
 						'controller' => 'SkelletonApplication\Controller\SiteConfig',
 						'action' => 'index',
+					),
+					'constraints' => array(
+						'action' => '(index|email)',
 					),
 				),
 			),
@@ -203,6 +206,12 @@ return array(
 			'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
 			'goaliomailservice_options' => 'SkelletonApplication\Options\Service\TransportOptionsFactory',
 			'SkelletonApplication\Options\Site\Email' => 'SkelletonApplication\Options\Service\SiteEmailOptionsFactory',
+			'SkelletonApplication\SiteConfig\Reader\DoctrineORMReader' => function (\Zend\ServiceManager\ServiceManager $sm){
+				$objectManager = $sm->get(\Doctrine\ORM\EntityManager::class);
+				$options = $sm->get(\Eye4web\SiteConfig\Options\ModuleOptions::class);
+				$reader = new SiteConfig\Reader\DoctrineORMReader($objectManager, $options);
+				return $reader;
+			}
 		),
 	),
 
