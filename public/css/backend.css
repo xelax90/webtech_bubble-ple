@@ -9662,4 +9662,7 @@ h6 > .lang-xs:after {
 body {
   padding-top: 60px;
 }
+.form-horizontal .form-value-only {
+  padding-top: 7px;
+}
 /*# sourceMappingURL=backend.css.map */
