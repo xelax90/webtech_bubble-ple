@@ -46,7 +46,7 @@ class ConfigEmailFieldset extends Fieldset implements InputFilterProviderInterfa
 	 */
 	public function getSkelletonOptions(){
 		if(null === $this->skelletonOptions){
-			$this->skelletonOptions = $this->getServiceLocator()->get('SkelletionApplication\Options\Application');
+			$this->skelletonOptions = $this->getServiceLocator()->getServiceLocator()->get('SkelletionApplication\Options\Application');
 		}
 		return $this->skelletonOptions;
 	}
@@ -58,15 +58,20 @@ class ConfigEmailFieldset extends Fieldset implements InputFilterProviderInterfa
             'name' => 'type',
             'type' => 'select',
             'options' => array(
-                'label' => gettext_noop('Type'),
+                'label' => gettext_noop('Transport type'),
                 'value_options' => $options->getAllowedEmailTransports(),
+				'column-size' => 'sm-10',
+				'label_attributes' => array(
+					'class' => 'col-sm-2',
+				),
             )
         ));
 		
 		$this->add(array(
-			'name' => 'userprofile',
+			'name' => 'smtpOptions',
             'type' => SmtpOptionsFieldset::class,
             'options' => array(
+				'label' => gettext_noop('SMTP Options (only for type SMTP)'),
                 'use_as_base_fieldset' => false,
             ),
         ));

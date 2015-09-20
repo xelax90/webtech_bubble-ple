@@ -82,6 +82,10 @@ class SmtpOptionsFieldset extends Fieldset implements InputFilterProviderInterfa
 					'login'   => 'Login',
 					'crammd5' => 'CRAM-MD5',
 				),
+				'column-size' => 'sm-10',
+				'label_attributes' => array(
+					'class' => 'col-sm-2',
+				),
             )
         ));
 		
@@ -124,6 +128,10 @@ class SmtpOptionsFieldset extends Fieldset implements InputFilterProviderInterfa
 					'tls'  => 'TLS',
 					'ssl'  => 'SSL',
 					''     => gettext_noop('None'),
+				),
+				'column-size' => 'sm-10',
+				'label_attributes' => array(
+					'class' => 'col-sm-2',
 				),
             ),
         ));
