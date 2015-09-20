@@ -31,9 +31,11 @@ class Module
 			Navigation::setDefaultRole($role);		
 		}
 		
-		/* @var $translator \Zend\I18n\Translator\Translator */
-		$translator = $e->getApplication()->getServiceManager()->get('translator');
-		$e->getRouter()->setTranslator($translator);
+		if($e->getRouter() instanceof \Zend\Mvc\Router\Http\TranslatorAwareTreeRouteStack){
+			/* @var $translator \Zend\I18n\Translator\Translator */
+			$translator = $e->getApplication()->getServiceManager()->get('translator');
+			$e->getRouter()->setTranslator($translator);
+		}
 	}
 	
 	public function initTranslator(MvcEvent $e){
