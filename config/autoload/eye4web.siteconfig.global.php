@@ -16,20 +16,23 @@
  * and is licensed under the MIT license.
  */
 
+use SkelletonApplication\Entity\SiteConfig;
+use SkelletonApplication\SiteConfig\Reader\DoctrineORMReader;
+
 return [
     'eye4web' => [
         'site-config' => [
             /**
              *
              */
-            'doctrineORMEntityClass' => 'Eye4web\SiteConfig\Entity\SiteConfig',
+            'doctrineORMEntityClass' => SiteConfig::class,
 
             /**
              * You can use any class implementing either of the two interfaces:
              * \Eye4web\SiteConfig\Reader\ReaderInterface
              * \Zend\Config\Read\ReaderInterface
              */
-            'readerClass' => 'SkelletonApplication\SiteConfig\Reader\DoctrineORMReader',
+            'readerClass' => DoctrineORMReader::class,
 
             /**
              * If you use a reader implementing Zend\Config\Reader\ReaderInterface class,
@@ -37,5 +40,17 @@ return [
              */
             'configFile' => null,
         ]
-    ]
+    ],
+	
+	// ignore default SiteConfig entity
+    'doctrine' => [
+        'driver' => [
+            'eye4web_siteconfig_driver' => null,
+            'orm_default' => [
+                'drivers' => [
+                    'Eye4web\SiteConfig' => null,
+                ],
+            ],
+        ],
+    ],
 ];

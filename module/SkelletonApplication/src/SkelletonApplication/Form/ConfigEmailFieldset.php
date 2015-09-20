@@ -68,7 +68,7 @@ class ConfigEmailFieldset extends Fieldset implements InputFilterProviderInterfa
         ));
 		
 		$this->add(array(
-			'name' => 'smtpOptions',
+			'name' => 'smtp_options',
             'type' => SmtpOptionsFieldset::class,
             'options' => array(
 				'label' => gettext_noop('SMTP Options (only for type SMTP)'),

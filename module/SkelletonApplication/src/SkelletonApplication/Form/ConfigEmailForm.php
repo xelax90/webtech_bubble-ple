@@ -58,4 +58,15 @@ class ConfigEmailForm extends Form{
 			)
 		));
 	}
+	
+	public function setData($data) {
+		$parsedData = $data;
+		if($data instanceof \SkelletonApplication\Options\SiteEmailOptions){
+			$parsedData = array(
+				'configemail' => $data->toArray(),
+			);
+		}
+		
+		parent::setData($parsedData);
+	}
 }
