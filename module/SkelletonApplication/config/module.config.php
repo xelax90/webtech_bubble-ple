@@ -187,6 +187,8 @@ return array(
 				return new Options\SkelletonOptions(isset($config['skelleton_application']) ? $config['skelleton_application'] : array());
 			},
 			'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+			'goaliomailservice_options' => 'SkelletonApplication\Options\Service\TransportOptionsFactory',
+			'SkelletonApplication\Options\Site\Email' => 'SkelletonApplication\Options\Service\SiteEmailOptionsFactory',
 		),
 	),
 
