@@ -16,6 +16,7 @@ $config = array(
 		'GoalioMailService',
 		'GoalioForgotPassword',
 		'GoalioForgotPasswordDoctrineORM',
+		'Eye4web\SiteConfig',
 		'XelaxAdmin',
 		'XelaxFormgen',
 		'TwbBundle',

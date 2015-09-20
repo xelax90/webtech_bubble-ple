@@ -34,6 +34,7 @@
 		"goalio/goalio-forgotpassword-doctrine-orm" : "*",
 		"zf-commons/zfc-admin": "*",
 		"danielss89/zfc-user-admin" : "dev-master",
+		"eye4web/zf2-site-config" : "dev-master",
 		
 		"xelax90/xelax-admin": "dev-master",
 		"neilime/zf2-twb-bundle" : "dev-master",
