@@ -17,15 +17,16 @@ $config = array(
 		'GoalioForgotPassword',
 		'GoalioForgotPasswordDoctrineORM',
 		'Eye4web\SiteConfig',
+		'XelaxSiteConfig',
 		'XelaxAdmin',
 		'XelaxFormgen',
 		'TwbBundle',
-        'XelaxTwbUnmask',
+		'XelaxTwbUnmask',
 		'XelaxHTMLPurifier',
 		'XelaxPasswordGeneratorModule',
 		'SkelletonApplication',
     ),
-
+	
     // These are various options for the listeners attached to the ModuleManager
     'module_listener_options' => array(
         // This should be an array of paths in which modules reside.
@@ -36,14 +37,14 @@ $config = array(
             './module',
             './vendor',
         ),
-
+		
         // An array of paths from which to glob configuration files after
         // modules are loaded. These effectively override configuration
         // provided by modules themselves. Paths may use GLOB_BRACE notation.
         'config_glob_paths' => array(
             'config/autoload/{{,*.}global,{,*.}local}.php',
         ),
-
+		
         // Whether or not to enable a configuration cache.
         // If enabled, the merged configuration will be cached and used in
         // subsequent requests.
@@ -68,7 +69,7 @@ $config = array(
         // that weren't loaded.
         // 'check_dependencies' => true,
     ),
-
+	
     // Used to create an own service manager. May contain one or more child arrays.
     //'service_listener_options' => array(
     //     array(

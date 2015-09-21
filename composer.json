@@ -42,6 +42,7 @@
 		"xelax90/zf2-filter-htmlpurifier": "*",
 		"xelax90/password-generator-module" : "dev-master",
 		"xelax90/xelax-formgen" : "dev-master",
+		"xelax90/xelax-site-config" : "dev-master",
 		
 		"azatoth/php-pgettext" : "dev-master"
 	},

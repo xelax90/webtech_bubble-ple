@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "86aa2dcfe4200a1545c57935a7939f20",
-    "content-hash": "66b2b1395963803366b2093258c38689",
+    "hash": "8ddb3fa1f155b19b759071432de2d04d",
+    "content-hash": "21196661c552688a48688c3457dab193",
     "packages": [
         {
             "name": "articus/zf2-bower-module",
@@ -2570,17 +2570,61 @@
             "time": "2015-09-20 01:35:18"
         },
         {
+            "name": "xelax90/xelax-site-config",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xelax90/xelax-site-config.git",
+                "reference": "690e4f1d4379ca6caa28b85f2d470739109dcc46"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/xelax90/xelax-site-config/zipball/690e4f1d4379ca6caa28b85f2d470739109dcc46",
+                "reference": "690e4f1d4379ca6caa28b85f2d470739109dcc46",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "zendframework/zendframework": "~2.5"
+            },
+            "type": "module",
+            "autoload": {
+                "psr-0": {
+                    "XelaxSiteConfig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "xelax",
+                    "email": "schurix@gmx.de",
+                    "homepage": "https://github.com/xelax90"
+                }
+            ],
+            "description": "ZF2 module for basic front-end configuration",
+            "homepage": "https://github.com/xelax90/xelax-site-config",
+            "keywords": [
+                "config",
+                "front-end",
+                "zf2"
+            ],
+            "time": "2015-09-21 03:09:14"
+        },
+        {
             "name": "xelax90/xelax-twb-unmask",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xelax90/xelax-twb-unmask.git",
-                "reference": "9d9622f20f6919e0210acac831d244133c2f571f"
+                "reference": "ab18ad64b4601562f66949028a8d6894d3831c14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xelax90/xelax-twb-unmask/zipball/9d9622f20f6919e0210acac831d244133c2f571f",
-                "reference": "9d9622f20f6919e0210acac831d244133c2f571f",
+                "url": "https://api.github.com/repos/xelax90/xelax-twb-unmask/zipball/ab18ad64b4601562f66949028a8d6894d3831c14",
+                "reference": "ab18ad64b4601562f66949028a8d6894d3831c14",
                 "shasum": ""
             },
             "require": {
@@ -2608,7 +2652,7 @@
                 }
             ],
             "description": "Package created to allow usage of both: ZF2 and zf2-twb-bundle form view helpers together",
-            "time": "2015-03-27 20:49:45"
+            "time": "2015-09-21 01:56:07"
         },
         {
             "name": "xelax90/zf2-filter-htmlpurifier",
@@ -5976,6 +6020,7 @@
         "xelax90/xelax-twb-unmask": 20,
         "xelax90/password-generator-module": 20,
         "xelax90/xelax-formgen": 20,
+        "xelax90/xelax-site-config": 20,
         "azatoth/php-pgettext": 20,
         "zendframework/zend-developer-tools": 20
     },
