@@ -26,6 +26,7 @@ use Doctrine\ORM\EntityManager;
 use SkelletonApplication\Entity\User;
 use SkelletonApplication\Service\UserService;
 use SkelletonApplication\Options\SkelletonOptions;
+use SkelletonApplication\Options\SiteRegistrationOptions;
 
 /**
  * Description of FrontendUserController
@@ -97,13 +98,13 @@ class FrontendUserController extends UserController{
 		}
 		
 		
-		/* @var $options \SkelletonApplication\Options\SkelletonOptions */
-		$options = $this->getServiceLocator()->get('SkelletionApplication\Options\Application');
+		/* @var $options SiteRegistrationOptions */
+		$options = $this->getServiceLocator()->get(SiteRegistrationOptions::class);
 		$flag = $options->getRegistrationMethodFlag();
 		
 		$user->setEmailIsVerified(true);
 		$variables = array('success' => true, 'activated' => false);
-		if(!($flag & SkelletonOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM) && !($flag & SkelletonOptions::REGISTRATION_METHOD_AUTO_ENABLE)){
+		if(!($flag & SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM) && !($flag & SiteRegistrationOptions::REGISTRATION_METHOD_AUTO_ENABLE)){
 			$user->setIsActive(true);
 			$variables['activated'] = true;
 		}
@@ -115,28 +116,43 @@ class FrontendUserController extends UserController{
 	}
 	
 	protected function sendEmailVerified($user){
-		/* @var $options SkelletonOptions */
-		$options = $this->getServiceLocator()->get('SkelletionApplication\Options\Application');
+		/* @var $options SiteRegistrationOptions */
+		$options = $this->getServiceLocator()->get(SiteRegistrationOptions::class);
 		
 		$flag = $options->getRegistrationMethodFlag();
 		
-		if($flag & SkelletonOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM){
+		if($flag & SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM){
 			/* @var $transport \GoalioMailService\Mail\Service\Message */
 			$transport = $this->getServiceLocator()->get('goaliomailservice_message');
 			
-			if($options->getRegistrationEmailFlag() & SkelletonOptions::REGISTRATION_EMAIL_DOUBLE_CONFIRM_MAIL){
+			if($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_DOUBLE_CONFIRM_MAIL){
 				$email = $options->getRegistrationUserEmailDoubleConfirm();
 				$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $user->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user));
 				$transport->send($message);
 			}
 			
-			if($options->getRegistrationEmailFlag() & SkelletonOptions::REGISTRATION_EMAIL_MODERATOR){
-				$users = $this->getEntityManager()->getRepository(get_class($user))->createQueryBuilder('u')
-						->leftJoin('u.roles', 'r')
-						->andWhere('r.roleId IN (:roleIds)')
-						->setParameter('roleIds', $options->getRegistrationNotify());
+			if($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_MODERATOR){
+				
+				$roleString = true;
+				foreach($options->getRegistrationNotify() as $v){
+					if(is_int($v)){
+						$roleString = false;
+						break;
+					}
+				}
+
+				$users = $em->getRepository(get_class($user))->createQueryBuilder('u')
+						->leftJoin('u.roles', 'r');
+				if($roleString){
+					$users->andWhere('r.roleId IN (:roleIds)');
+				} else {
+					$users->andWhere('r.id IN (:roleIds)');
+				}
+				$users->setParameter('roleIds', $options->getRegistrationNotify());
+
+				$mods = $users->getQuery()->getResult();
 				$email = $options->getRegistrationModeratorEmail();
-				foreach($users as $mod){
+				foreach($mods as $mod){
 					$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $mod->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user, 'moderator' => $mod));
 					$transport->send($message);
 				}

@@ -25,6 +25,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use SkelletonApplication\Entity\User;
 use SkelletonApplication\Options\SkelletonOptions;
 use Doctrine\ORM\EntityManager;
+use SkelletonApplication\Options\SiteRegistrationOptions;
+
 /**
  * Description of UserService
  *
@@ -94,12 +96,12 @@ class UserService implements ServiceLocatorAwareInterface{
 	 * @param User $user
 	 */
 	public function activateUser($user){
-		/* @var $options SkelletonOptions */
-		$options = $this->getServiceLocator()->get('SkelletionApplication\Options\Application');
+		/* @var $options SiteRegistrationOptions */
+		$options = $this->getServiceLocator()->get(SiteRegistrationOptions::class);
 		
 		$user->setIsActive(true);
 		$this->getEntityManager()->flush($user);
-		if($options->getRegistrationEmailFlag() & SkelletonOptions::REGISTRATION_EMAIL_ACTIVATED){
+		if($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_ACTIVATED){
 			/* @var $transport \GoalioMailService\Mail\Service\Message */
 			$transport = $this->getServiceLocator()->get('goaliomailservice_message');
 			
@@ -114,12 +116,12 @@ class UserService implements ServiceLocatorAwareInterface{
 	 * @param User $user
 	 */
 	public function disableUser($user){
-		/* @var $options SkelletonOptions */
-		$options = $this->getServiceLocator()->get('SkelletionApplication\Options\Application');
+		/* @var $options SiteRegistrationOptions */
+		$options = $this->getServiceLocator()->get(SiteRegistrationOptions::class);
 		
 		$user->setIsActive(false);
 		$this->getEntityManager()->flush($user);
-		if($options->getRegistrationEmailFlag() & SkelletonOptions::REGISTRATION_EMAIL_DISABLED){
+		if($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_DISABLED){
 			/* @var $transport \GoalioMailService\Mail\Service\Message */
 			$transport = $this->getServiceLocator()->get('goaliomailservice_message');
 			

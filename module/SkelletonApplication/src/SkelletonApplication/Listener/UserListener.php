@@ -174,13 +174,13 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 		
 		$email = null;
 		$flag = $options->getRegistrationMethodFlag();
-		if($flag === SkelletonOptions::REGISTRATION_METHOD_AUTO_ENABLE){
+		if($flag === SiteRegistrationOptions::REGISTRATION_METHOD_AUTO_ENABLE){
 			$email = $options->getRegistrationUserEmailWelcome();
-		} elseif(($flag & SkelletonOptions::REGISTRATION_METHOD_AUTO_ENABLE) && ($flag & SkelletonOptions::REGISTRATION_METHOD_SELF_CONFIRM)){
+		} elseif(($flag & SiteRegistrationOptions::REGISTRATION_METHOD_AUTO_ENABLE) && ($flag & SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM)){
 			$email = $options->getRegistrationUserEmailWelcomeConfirmMail();
-		} elseif($flag & SkelletonOptions::REGISTRATION_METHOD_SELF_CONFIRM){
+		} elseif($flag & SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM){
 			$email = $options->getRegistrationUserEmailConfirmMail();
-		} elseif($flag & SkelletonOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM){
+		} elseif($flag & SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM){
 			$email = $options->getRegistrationUserEmailConfirmModerator();
 		}
 		
@@ -191,7 +191,7 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 			$transport->send($message);
 		}
 		
-		if($options->getRegistrationEmailFlag() & SkelletonOptions::REGISTRATION_EMAIL_MODERATOR){
+		if($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_MODERATOR){
 			$roleString = true;
 			foreach($options->getRegistrationNotify() as $v){
 				if(is_int($v)){

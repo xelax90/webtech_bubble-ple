@@ -28,6 +28,7 @@ use ZfcUser\Options\ModuleOptions as ZfcUserModuleOptions;
 use ZfcUserAdmin\Options\ModuleOptions;
 use SkelletonApplication\Options\SkelletonOptions;
 use SkelletonApplication\Entity\User;
+use SkelletonApplication\Options\SiteRegistrationOptions;
 
 /**
  * User admin controller
@@ -239,10 +240,10 @@ class UserController extends ListController{
 	}
 	
 	protected function sendUserActivateMail($user){
-		/* @var $options \SkelletonApplication\Options\SkelletonOptions */
-		$options = $this->getServiceLocator()->get('SkelletionApplication\Options\Application');
+		/* @var $options SiteRegistrationOptions */
+		$options = $this->getServiceLocator()->get(SiteRegistrationOptions::class);
 		
-		if($options->getRegistrationEmailFlag() & SkelletonOptions::REGISTRATION_EMAIL_ACTIVATED){
+		if($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_ACTIVATED){
 			$email = $options->getRegistrationUserEmailActivated();
 			/* @var $transport \GoalioMailService\Mail\Service\Message */
 			if($email){
@@ -258,10 +259,10 @@ class UserController extends ListController{
 	}
 	
 	protected function sendUserDisabledMail($user){
-		/* @var $options \SkelletonApplication\Options\SkelletonOptions */
-		$options = $this->getServiceLocator()->get('SkelletionApplication\Options\Application');
+		/* @var $options SiteRegistrationOptions */
+		$options = $this->getServiceLocator()->get(SiteRegistrationOptions::class);
 		
-		if($options->getRegistrationEmailFlag() & SkelletonOptions::REGISTRATION_EMAIL_DISABLED){
+		if($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_DISABLED){
 			$email = $options->getRegistrationUserEmailDisabled();
 			/* @var $transport \GoalioMailService\Mail\Service\Message */
 			if($email){
