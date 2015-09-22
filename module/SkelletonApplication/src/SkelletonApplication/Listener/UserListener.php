@@ -30,6 +30,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use SkelletonApplication\Options\SkelletonOptions;
 use ZfcUser\Entity\UserInterface;
+use SkelletonApplication\Options\SiteRegistrationOptions;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Creates user profile and adds default role after registration and creation
@@ -38,11 +40,7 @@ use ZfcUser\Entity\UserInterface;
  * @author schurix
  */
 class UserListener extends AbstractListenerAggregate implements ServiceLocatorAwareInterface{
-	/**
-	 * @var ServiceLocatorInterface
-	 */
-	protected $serviceLocator;
-	
+	use ServiceLocatorAwareTrait;
 	
 	/**
 	 * Attaches to ZfcUser and ZfcUserAdmin events
@@ -172,8 +170,8 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 		$sm = $this->getServiceLocator();
 		/* @var $em \Doctrine\ORM\EntityManager */
 		$em = $sm->get('doctrine.entitymanager.orm_default');
-		/* @var $options \SkelletonApplication\Options\SkelletonOptions */
-		$options = $sm->get('SkelletionApplication\Options\Application');
+		/* @var $options \SkelletonApplication\Options\SiteRegistrationOptions */
+		$options = $sm->get(SiteRegistrationOptions::class);
 		
 		$email = null;
 		$flag = $options->getRegistrationMethodFlag();
@@ -220,20 +218,4 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 			}
 		}
 	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getServiceLocator() {
-		return $this->serviceLocator;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
-		$this->serviceLocator = $serviceLocator;
-		return $this;
-	}
-
 }
