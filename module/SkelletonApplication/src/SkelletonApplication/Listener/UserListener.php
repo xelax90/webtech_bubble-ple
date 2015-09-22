@@ -195,12 +195,26 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 		}
 		
 		if($options->getRegistrationEmailFlag() & SkelletonOptions::REGISTRATION_EMAIL_MODERATOR){
+			$roleString = true;
+			foreach($options->getRegistrationNotify() as $v){
+				if(is_int($v)){
+					$roleString = false;
+					break;
+				}
+			}
+			
 			$users = $em->getRepository(get_class($user))->createQueryBuilder('u')
-					->leftJoin('u.roles', 'r')
-					->andWhere('r.roleId IN (:roleIds)')
-					->setParameter('roleIds', $options->getRegistrationNotify());
+					->leftJoin('u.roles', 'r');
+			if($roleString){
+				$users->andWhere('r.roleId IN (:roleIds)');
+			} else {
+				$users->andWhere('r.id IN (:roleIds)');
+			}
+			$users->setParameter('roleIds', $options->getRegistrationNotify());
+			
+			$mods = $users->getQuery()->getResult();
 			$email = $options->getRegistrationModeratorEmail();
-			foreach($users as $mod){
+			foreach($mods as $mod){
 				$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $mod->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user, 'moderator' => $mod));
 				$transport->send($message);
 			}
