@@ -4245,16 +4245,16 @@
         },
         {
             "name": "zendframework/zend-modulemanager",
-            "version": "2.5.2",
+            "version": "2.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-modulemanager.git",
-                "reference": "a3eb6e06af5686f1a24e6d22adec387bf3070581"
+                "reference": "afaf873a3b420ba017933c15eb2a93dff433a7d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-modulemanager/zipball/a3eb6e06af5686f1a24e6d22adec387bf3070581",
-                "reference": "a3eb6e06af5686f1a24e6d22adec387bf3070581",
+                "url": "https://api.github.com/repos/zendframework/zend-modulemanager/zipball/afaf873a3b420ba017933c15eb2a93dff433a7d1",
+                "reference": "afaf873a3b420ba017933c15eb2a93dff433a7d1",
                 "shasum": ""
             },
             "require": {
@@ -4300,7 +4300,7 @@
                 "modulemanager",
                 "zf2"
             ],
-            "time": "2015-09-22 15:02:29"
+            "time": "2015-09-22 17:21:13"
         },
         {
             "name": "zendframework/zend-mvc",
