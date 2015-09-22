@@ -247,9 +247,9 @@ return array(
 		'admin' => array(
 			'zfcuseradmin' => null,
 			array('label' => gettext_noop('Home'),            'route' => 'home'),
-			array('label' => gettext_noop('Config'),          'route' => 'zfcadmin/siteconfig', 'resource' => 'siteconfig', 'privilege' => 'list', 'pages' => array(
-				array('label' => gettext_noop('E-Mail'),            'route' => 'zfcadmin/siteconfig', 'action' => 'index' , 'resource' => 'siteconfig', 'privilege' => 'email/list'),
-				array('label' => gettext_noop('Registration'),      'route' => 'zfcadmin/siteconfig', 'action' => 'email' , 'resource' => 'siteconfig', 'privilege' => 'email/edit'),
+			array('label' => gettext_noop('Config'),          'route' => 'zfcadmin/siteconfig/email', 'resource' => 'siteconfig', 'privilege' => 'list', 'pages' => array(
+				array('label' => gettext_noop('E-Mail'),            'route' => 'zfcadmin/siteconfig/email', 'action' => 'index' , 'resource' => 'siteconfig', 'privilege' => 'email/list'),
+				array('label' => gettext_noop('Registration'),      'route' => 'zfcadmin/siteconfig/email', 'action' => 'edit'  , 'resource' => 'siteconfig', 'privilege' => 'email/edit'),
 			)),
 			array('label' => gettext_noop('Users'),           'route' => 'zfcadmin/user',        'resource' => 'administration', 'privilege' => 'user/list' ),
 			array('label' => gettext_noop('User Profiles'),   'route' => 'zfcadmin/userprofile', 'resource' => 'administration', 'privilege' => 'userprofile')
