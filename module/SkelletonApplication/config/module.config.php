@@ -50,6 +50,24 @@ $routerConfig = array(
 		'child_routes' => array(
 			'userprofile' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'userprofile' ) ),
 			'user'        => array( 'type' => ListRoute::class, 'priority' => 1001, 'options' => array( 'controller_options_name' => 'user'        ) ),
+			'siteconfig'      => array( 
+				'child_routes' => array(
+					'registration' => array(
+						'type' => 'segment',
+						'options' => array(
+							'route' => '/registration[/:action]',
+							'defaults' => array(
+								'controller' => Controller\RegistrationConfigController::class,
+								'action' => 'index',
+							),
+							'constraints' => array(
+								'action' => '(index|edit)',
+							),
+						),
+					),
+					
+				)
+			),
 		),
 	),
 	'zfcuser' => array(
@@ -93,6 +111,9 @@ $guardConfig = array(
 	// user admin
 	['route' => 'zfcadmin/userprofile',          'roles' => ['administrator']],
 	['route' => 'zfcadmin/user' ,                'roles' => ['administrator']],
+	
+	// site config
+	['route' => 'zfcadmin/siteconfig/registration' ,  'roles' => ['moderator']],
 );
 
 $ressources = array(
@@ -115,6 +136,9 @@ $ressourceAllowRules = array(
 
 	[['moderator'], 'debug', 'moderator'],
 	[['administrator'], 'debug', 'administrator'],
+	
+	[['moderator'], 'siteconfig', 'registration/list'],
+	[['administrator'], 'siteconfig', 'registration/edit'],
 );
 
 return array(
@@ -123,6 +147,7 @@ return array(
 			'SkelletonApplication\Controller\Index' => Controller\IndexController::class,
 			'SkelletonApplication\Controller\User' => Controller\UserController::class,
 			'SkelletonApplication\Controller\FrontendUser' => Controller\FrontendUserController::class,
+			Controller\RegistrationConfigController::class => Controller\RegistrationConfigController::class,
 		),
 	),
 	
@@ -186,7 +211,8 @@ return array(
 				$config = $sm->get('Config');
 				return new Options\SkelletonOptions(isset($config['skelleton_application']) ? $config['skelleton_application'] : array());
 			},
-			'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+			'translator' => \Zend\Mvc\Service\TranslatorServiceFactory::class,
+			Options\SiteRegistrationOptions::class => Options\Service\SiteRegistrationOptionsFactory::class,
 		),
 	),
 
@@ -248,8 +274,8 @@ return array(
 			'zfcuseradmin' => null,
 			array('label' => gettext_noop('Home'),            'route' => 'home'),
 			array('label' => gettext_noop('Config'),          'route' => 'zfcadmin/siteconfig/email', 'resource' => 'siteconfig', 'privilege' => 'list', 'pages' => array(
-				array('label' => gettext_noop('E-Mail'),            'route' => 'zfcadmin/siteconfig/email', 'action' => 'index' , 'resource' => 'siteconfig', 'privilege' => 'email/list'),
-				array('label' => gettext_noop('Registration'),      'route' => 'zfcadmin/siteconfig/email', 'action' => 'edit'  , 'resource' => 'siteconfig', 'privilege' => 'email/edit'),
+				array('label' => gettext_noop('E-Mail'),            'route' => 'zfcadmin/siteconfig/email', 'action' => 'index' , 'resource' => 'siteconfig', 'privilege' => 'registration/list'),
+				array('label' => gettext_noop('Registration'),      'route' => 'zfcadmin/siteconfig/registration', 'action' => 'index'  , 'resource' => 'siteconfig', 'privilege' => 'registration/list'),
 			)),
 			array('label' => gettext_noop('Users'),           'route' => 'zfcadmin/user',        'resource' => 'administration', 'privilege' => 'user/list' ),
 			array('label' => gettext_noop('User Profiles'),   'route' => 'zfcadmin/userprofile', 'resource' => 'administration', 'privilege' => 'userprofile')

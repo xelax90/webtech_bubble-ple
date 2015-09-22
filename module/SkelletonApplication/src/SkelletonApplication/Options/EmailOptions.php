@@ -20,14 +20,14 @@
 
 namespace SkelletonApplication\Options;
 
-use Zend\Stdlib\AbstractOptions;
+use XelaxSiteConfig\Options\AbstractSiteOptions;
 
 /**
  * Description of EmailOptions
  *
  * @author schurix
  */
-class EmailOptions extends AbstractOptions{
+class EmailOptions extends AbstractSiteOptions{
 	
 	protected $subject;
 	

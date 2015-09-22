@@ -20,14 +20,14 @@
 
 namespace SkelletonApplication\Options;
 
-use Zend\Stdlib\AbstractOptions;
+use XelaxSiteConfig\Options\AbstractSiteOptions;
 
 /**
  * SiteOptions for user registration
  *
  * @author schurix
  */
-class SiteRegistrationOptions extends AbstractOptions{
+class SiteRegistrationOptions extends AbstractSiteOptions{
 	const REGISTRATION_METHOD_AUTO_ENABLE = 0b001; // user is automatically enabled after registration
 	const REGISTRATION_METHOD_SELF_CONFIRM = 0b010; // user recieves an e-mail where he can confirm his address to activate himself
 	const REGISTRATION_METHOD_MODERATOR_CONFIRM = 0b100; // user must be activated by moderator
@@ -76,6 +76,22 @@ class SiteRegistrationOptions extends AbstractOptions{
 		
 		
 		parent::__construct($options);
+		
+		if(is_array($this->registrationEmailFlag)){
+			$flag = 0;
+			foreach($this->registrationEmailFlag as $flg){
+				$flag |= $flg;
+			}
+			$this->registrationEmailFlag = $flag;
+		}
+		
+		if(is_array($this->registrationMethodFlag)){
+			$flag = 0;
+			foreach($this->registrationMethodFlag as $flg){
+				$flag |= $flg;
+			}
+			$this->registrationMethodFlag = $flag;
+		}
 		
 		if(empty($this->registrationModeratorEmail)){
 			$this->registrationModeratorEmail = array(
@@ -141,5 +157,28 @@ class SiteRegistrationOptions extends AbstractOptions{
 		$this->registrationUserEmailConfirmModerator = new EmailOptions($this->registrationUserEmailConfirmModerator);
 		$this->registrationUserEmailActivated = new EmailOptions($this->registrationUserEmailActivated);
 		$this->registrationUserEmailDisabled = new EmailOptions($this->registrationUserEmailDisabled);
+	}
+	
+	public function toArray() {
+		$res = parent::toArray();
+		foreach ($res as $key => $value) {
+			if($value instanceof AbstractSiteOptions){
+				$res[$key] = $value->toArray();
+			}
+		}
+		
+		$flag = $res['registration_email_flag'];
+		$resFlag = array();
+		$currBit = 0;
+		while($flag){
+			if($flag & 1){
+				$resFlag[] = 1 << $currBit;
+			}
+			$flag >>= 1;
+			$currBit++;
+		}
+		$res['registration_email_flag'] = $resFlag;
+		
+		return $res;
 	}
 }
