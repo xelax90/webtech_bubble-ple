@@ -1828,16 +1828,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.8",
+            "version": "4.8.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "521720279261e5b14799cf1bb895d4b55e516f26"
+                "reference": "73fad41adb5b7bc3a494bb930d90648df1d5e74b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/521720279261e5b14799cf1bb895d4b55e516f26",
-                "reference": "521720279261e5b14799cf1bb895d4b55e516f26",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/73fad41adb5b7bc3a494bb930d90648df1d5e74b",
+                "reference": "73fad41adb5b7bc3a494bb930d90648df1d5e74b",
                 "shasum": ""
             },
             "require": {
@@ -1896,7 +1896,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-09-19 05:44:37"
+            "time": "2015-09-20 12:56:44"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2575,12 +2575,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/xelax90/xelax-site-config.git",
-                "reference": "690e4f1d4379ca6caa28b85f2d470739109dcc46"
+                "reference": "85da1bac9c46bcfdfdd8562dc30666c5bf2fed22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xelax90/xelax-site-config/zipball/690e4f1d4379ca6caa28b85f2d470739109dcc46",
-                "reference": "690e4f1d4379ca6caa28b85f2d470739109dcc46",
+                "url": "https://api.github.com/repos/xelax90/xelax-site-config/zipball/85da1bac9c46bcfdfdd8562dc30666c5bf2fed22",
+                "reference": "85da1bac9c46bcfdfdd8562dc30666c5bf2fed22",
                 "shasum": ""
             },
             "require": {
@@ -2611,7 +2611,7 @@
                 "front-end",
                 "zf2"
             ],
-            "time": "2015-09-21 03:09:14"
+            "time": "2015-09-22 15:50:52"
         },
         {
             "name": "xelax90/xelax-twb-unmask",
@@ -2619,12 +2619,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/xelax90/xelax-twb-unmask.git",
-                "reference": "ab18ad64b4601562f66949028a8d6894d3831c14"
+                "reference": "bedf4e4064cd0abac0153758724dc42b60097311"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xelax90/xelax-twb-unmask/zipball/ab18ad64b4601562f66949028a8d6894d3831c14",
-                "reference": "ab18ad64b4601562f66949028a8d6894d3831c14",
+                "url": "https://api.github.com/repos/xelax90/xelax-twb-unmask/zipball/bedf4e4064cd0abac0153758724dc42b60097311",
+                "reference": "bedf4e4064cd0abac0153758724dc42b60097311",
                 "shasum": ""
             },
             "require": {
@@ -2652,7 +2652,7 @@
                 }
             ],
             "description": "Package created to allow usage of both: ZF2 and zf2-twb-bundle form view helpers together",
-            "time": "2015-09-21 01:56:07"
+            "time": "2015-09-22 15:51:48"
         },
         {
             "name": "xelax90/zf2-filter-htmlpurifier",
@@ -4245,22 +4245,22 @@
         },
         {
             "name": "zendframework/zend-modulemanager",
-            "version": "2.5.1",
+            "version": "2.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-modulemanager.git",
-                "reference": "80592b9ba35a5f91978235c458851cc3e914ae90"
+                "reference": "a3eb6e06af5686f1a24e6d22adec387bf3070581"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-modulemanager/zipball/80592b9ba35a5f91978235c458851cc3e914ae90",
-                "reference": "80592b9ba35a5f91978235c458851cc3e914ae90",
+                "url": "https://api.github.com/repos/zendframework/zend-modulemanager/zipball/a3eb6e06af5686f1a24e6d22adec387bf3070581",
+                "reference": "a3eb6e06af5686f1a24e6d22adec387bf3070581",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.23",
+                "php": ">=5.5",
                 "zendframework/zend-eventmanager": "~2.5",
-                "zendframework/zend-stdlib": "~2.5"
+                "zendframework/zend-stdlib": ">=2.5.0,<2.7.0"
             },
             "require-dev": {
                 "fabpot/php-cs-fixer": "1.7.*",
@@ -4300,7 +4300,7 @@
                 "modulemanager",
                 "zf2"
             ],
-            "time": "2015-06-03 15:32:02"
+            "time": "2015-09-22 15:02:29"
         },
         {
             "name": "zendframework/zend-mvc",
