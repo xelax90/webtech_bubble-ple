@@ -26,7 +26,6 @@ use Zend\EventManager\Event;
 
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use SkelletonApplication\Options\SkelletonOptions;
 use ZfcUser\Entity\UserInterface;
