@@ -31,6 +31,30 @@ $xelaxConfig = array(
 			'list_title' => gettext_noop('Users'),
 			'route_base' => 'zfcadmin/user',
 			'rest_enabled' => true,
+			'buttons' => array(
+				'block' => array(
+					'title' => gettext_noop('Block'),
+					'route_builder' => function($view, $id, $alias = ""){
+						$urlHelper = $view->plugin('url');
+						$allowHelper = $view->plugin('isAllowed');
+						if(!$allowHelper('administration', 'user/block')){
+							return false;
+						}
+						return $urlHelper('zfcadmin/user/block', array('userId' => $id));
+					}
+				),
+				'unblock' => array(
+					'title' => gettext_noop('Unblock'),
+					'route_builder' => function($view, $id, $alias = ""){
+						$urlHelper = $view->plugin('url');
+						$allowHelper = $view->plugin('isAllowed');
+						if(!$allowHelper('administration', 'user/unblock')){
+							return false;
+						}
+						return $urlHelper('zfcadmin/user/unblock', array('userId' => $id));
+					}
+				),
+			),
 		),
 	),
 );
@@ -49,7 +73,33 @@ $routerConfig = array(
 	'zfcadmin' => array(
 		'child_routes' => array(
 			'userprofile' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'userprofile' ) ),
-			'user'        => array( 'type' => ListRoute::class, 'priority' => 1001, 'options' => array( 'controller_options_name' => 'user'        ) ),
+			'user'        => array( 'type' => ListRoute::class, 'priority' => 1001, 'options' => array( 'controller_options_name' => 'user'        ) ,
+				'may_terminate' => true,
+				'child_routes' => array(
+					'block'   => array( 
+						'type' => 'segment', 
+						'options' => array(
+							'route' => '/block/:userId', 
+							'controller' => Controller\UserController::class, 
+							'action' => 'block',
+							'constraints' => array(
+								'userId' => '[0-9]+',
+							),
+						), 
+					),
+					'unblock'   => array( 
+						'type' => 'segment', 
+						'options' => array(
+							'route' => '/unblock/:userId', 
+							'controller' => Controller\UserController::class, 
+							'action' => 'unblock',
+							'constraints' => array(
+								'userId' => '[0-9]+',
+							),
+						), 
+					),
+				),
+			),
 			'siteconfig'      => array( 
 				'child_routes' => array(
 					'registration' => array(
@@ -111,6 +161,8 @@ $guardConfig = array(
 	// user admin
 	['route' => 'zfcadmin/userprofile',          'roles' => ['administrator']],
 	['route' => 'zfcadmin/user' ,                'roles' => ['administrator']],
+	['route' => 'zfcadmin/user/block' ,          'roles' => ['administrator']],
+	['route' => 'zfcadmin/user/unblock' ,        'roles' => ['administrator']],
 	
 	// site config
 	['route' => 'zfcadmin/siteconfig/registration' ,  'roles' => ['moderator']],
@@ -132,6 +184,8 @@ $ressourceAllowRules = array(
 	[['moderator'], 'administration', 'login'],
 	[['moderator'], 'administration', 'user/list'],
 	[['moderator'], 'administration', 'user/create'],
+	[['moderator'], 'administration', 'user/block'],
+	[['moderator'], 'administration', 'user/unblock'],
 	[['moderator'], 'administration', 'userprofile'],
 
 	[['moderator'], 'debug', 'moderator'],
