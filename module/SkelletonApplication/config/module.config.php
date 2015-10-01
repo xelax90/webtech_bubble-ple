@@ -34,10 +34,13 @@ $xelaxConfig = array(
 			'buttons' => array(
 				'block' => array(
 					'title' => gettext_noop('Block'),
-					'route_builder' => function($view, $id, $alias = ""){
+					'route_builder' => function($view, $id, $alias = "", $item = null){
 						$urlHelper = $view->plugin('url');
 						$allowHelper = $view->plugin('isAllowed');
 						if(!$allowHelper('administration', 'user/block')){
+							return false;
+						}
+						if($item !== null && !$item->isActive()){
 							return false;
 						}
 						return $urlHelper('zfcadmin/user/block', array('userId' => $id));
@@ -45,10 +48,13 @@ $xelaxConfig = array(
 				),
 				'unblock' => array(
 					'title' => gettext_noop('Unblock'),
-					'route_builder' => function($view, $id, $alias = ""){
+					'route_builder' => function($view, $id, $alias = "", $item = null){
 						$urlHelper = $view->plugin('url');
 						$allowHelper = $view->plugin('isAllowed');
 						if(!$allowHelper('administration', 'user/unblock')){
+							return false;
+						}
+						if($item !== null && $item->isActive()){
 							return false;
 						}
 						return $urlHelper('zfcadmin/user/unblock', array('userId' => $id));
