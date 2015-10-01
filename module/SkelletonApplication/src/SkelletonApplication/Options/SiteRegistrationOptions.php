@@ -181,4 +181,114 @@ class SiteRegistrationOptions extends AbstractSiteOptions{
 		
 		return $res;
 	}
+	
+	public function getRegistrationMethodFlag() {
+		return $this->registrationMethodFlag;
+	}
+
+	public function getRegistrationEmailFlag() {
+		return $this->registrationEmailFlag;
+	}
+
+	public function getRegistrationNotify() {
+		return $this->registrationNotify;
+	}
+
+	public function getRegistrationNotificationFrom() {
+		return $this->registrationNotificationFrom;
+	}
+
+	public function getRegistrationModeratorEmail() {
+		return $this->registrationModeratorEmail;
+	}
+
+	public function getRegistrationUserEmailWelcome() {
+		return $this->registrationUserEmailWelcome;
+	}
+
+	public function getRegistrationUserEmailWelcomeConfirmMail() {
+		return $this->registrationUserEmailWelcomeConfirmMail;
+	}
+
+	public function getRegistrationUserEmailConfirmMail() {
+		return $this->registrationUserEmailConfirmMail;
+	}
+
+	public function getRegistrationUserEmailDoubleConfirm() {
+		return $this->registrationUserEmailDoubleConfirm;
+	}
+
+	public function getRegistrationUserEmailConfirmModerator() {
+		return $this->registrationUserEmailConfirmModerator;
+	}
+
+	public function getRegistrationUserEmailActivated() {
+		return $this->registrationUserEmailActivated;
+	}
+
+	public function getRegistrationUserEmailDisabled() {
+		return $this->registrationUserEmailDisabled;
+	}
+
+	public function setRegistrationMethodFlag($registrationMethodFlag) {
+		$this->registrationMethodFlag = $registrationMethodFlag;
+		return $this;
+	}
+
+	public function setRegistrationEmailFlag($registrationEmailFlag) {
+		$this->registrationEmailFlag = $registrationEmailFlag;
+		return $this;
+	}
+
+	public function setRegistrationNotify($registrationNotify) {
+		$this->registrationNotify = $registrationNotify;
+		return $this;
+	}
+
+	public function setRegistrationNotificationFrom($registrationNotificationFrom) {
+		$this->registrationNotificationFrom = $registrationNotificationFrom;
+		return $this;
+	}
+
+	public function setRegistrationModeratorEmail(EmailOptions $registrationModeratorEmail) {
+		$this->registrationModeratorEmail = $registrationModeratorEmail;
+		return $this;
+	}
+
+	public function setRegistrationUserEmailWelcome(EmailOptions $registrationUserEmailWelcome) {
+		$this->registrationUserEmailWelcome = $registrationUserEmailWelcome;
+		return $this;
+	}
+
+	public function setRegistrationUserEmailWelcomeConfirmMail(EmailOptions $registrationUserEmailWelcomeConfirmMail) {
+		$this->registrationUserEmailWelcomeConfirmMail = $registrationUserEmailWelcomeConfirmMail;
+		return $this;
+	}
+
+	public function setRegistrationUserEmailConfirmMail(EmailOptions $registrationUserEmailConfirmMail) {
+		$this->registrationUserEmailConfirmMail = $registrationUserEmailConfirmMail;
+		return $this;
+	}
+
+	public function setRegistrationUserEmailDoubleConfirm(EmailOptions $registrationUserEmailDoubleConfirm) {
+		$this->registrationUserEmailDoubleConfirm = $registrationUserEmailDoubleConfirm;
+		return $this;
+	}
+
+	public function setRegistrationUserEmailConfirmModerator(EmailOptions $registrationUserEmailConfirmModerator) {
+		$this->registrationUserEmailConfirmModerator = $registrationUserEmailConfirmModerator;
+		return $this;
+	}
+
+	public function setRegistrationUserEmailActivated(EmailOptions $registrationUserEmailActivated) {
+		$this->registrationUserEmailActivated = $registrationUserEmailActivated;
+		return $this;
+	}
+
+	public function setRegistrationUserEmailDisabled(EmailOptions $registrationUserEmailDisabled) {
+		$this->registrationUserEmailDisabled = $registrationUserEmailDisabled;
+		return $this;
+	}
+
+
 }
