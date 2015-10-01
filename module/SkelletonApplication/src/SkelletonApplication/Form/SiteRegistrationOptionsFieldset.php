@@ -105,6 +105,7 @@ class SiteRegistrationOptionsFieldset extends Fieldset implements InputFilterPro
             ),
 			'attributes' => array(
 				'multiple' => 'multiple',
+				'data-fancy' => '1',
 			),
         ));
 		
