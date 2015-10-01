@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-16 10:43+0200\n"
-"PO-Revision-Date: 2015-09-14 03:30+0200\n"
+"PO-Revision-Date: 2015-10-01 11:43+0200\n"
 "Last-Translator: xelax90 <schurix@gmx.de>\n"
 "Language-Team: ZF Contibutors <zf-devteam@zend.com>\n"
 "Language: en_US\n"
@@ -332,31 +332,31 @@ msgstr "Hello World!"
 #: bin/../module/SkelletonApplication/view/zfc-user/user/changeemail.phtml:1
 #, php-format
 msgid "Change Email for %s"
-msgstr ""
+msgstr "Change Email for %s"
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/changeemail.phtml:3
 msgid "Email address changed successfully."
-msgstr ""
+msgstr "Email address changed successfully."
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/changeemail.phtml:5
 msgid "Unable to update your email address. Please try again."
-msgstr ""
+msgstr "Unable to update your email address. Please try again."
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/changepassword.phtml:3
 msgid "Password changed successfully."
-msgstr ""
+msgstr "Password changed successfully."
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/changepassword.phtml:5
 msgid "Unable to update your password. Please try again."
-msgstr ""
+msgstr "Unable to update your password. Please try again."
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/checktoken.phtml:4
 msgid "Thank you!"
-msgstr ""
+msgstr "Thank you!"
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/checktoken.phtml:6
 msgid "Your email has been successfully verified. You can sign in now!"
-msgstr ""
+msgstr "Your email has been successfully verified. You can sign in now!"
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/checktoken.phtml:8
 msgid ""
@@ -364,39 +364,42 @@ msgid ""
 "confirmed by a moderator befor you can sign in. <br>You will be notified "
 "when your account is activated."
 msgstr ""
+"Your email has been successfully verified, but your account has to be "
+"confirmed by a moderator befor you can sign in. <br>You will be notified "
+"when your account is activated."
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/checktoken.phtml:11
 msgid "Whoops.."
-msgstr ""
+msgstr "Whoops.."
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/checktoken.phtml:12
 msgid "Email verification failed for the following reason: "
-msgstr ""
+msgstr "Email verification failed for the following reason: "
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/index.phtml:2
 msgid "Hello"
-msgstr ""
+msgstr "Hello"
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/index.phtml:3
 msgid "Sign Out"
-msgstr ""
+msgstr "Sign Out"
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/login.phtml:1
 msgid "Sign In"
-msgstr ""
+msgstr "Sign In"
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/login.phtml:52
 msgid "Not registered?"
-msgstr ""
+msgstr "Not registered?"
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/login.phtml:52
 msgid "Sign up!"
-msgstr ""
+msgstr "Sign up!"
 
 #: bin/../module/SkelletonApplication/view/zfc-user/user/register.phtml:5
 msgid "Registration is disabled"
-msgstr ""
+msgstr "Registration is disabled"
 
 #: bin/../config/autoload/goalioforgotpassword.global.php:26
 msgid "[SkelletonApplication] Your new password"
-msgstr ""
+msgstr "[SkelletonApplication] Your new password"
