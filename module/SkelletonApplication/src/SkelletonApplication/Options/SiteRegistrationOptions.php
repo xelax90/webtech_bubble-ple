@@ -44,7 +44,7 @@ class SiteRegistrationOptions extends AbstractSiteOptions{
 	protected $registrationMethodFlag = self::REGISTRATION_METHOD_MODERATOR_CONFIRM;
 	protected $registrationEmailFlag;
 	protected $registrationNotify = array('moderator', 'administrator');
-	protected $registrationNotificationFrom = 'SkelletonApplication <schurix@gmx.de>';
+	protected $registrationNotificationFrom = 'schurix@gmx.de';
 	
 	/** @var EmailOptions */
 	protected $registrationModeratorEmail;
