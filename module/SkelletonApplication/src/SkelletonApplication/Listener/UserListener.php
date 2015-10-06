@@ -32,6 +32,9 @@ use ZfcUser\Entity\UserInterface;
 use SkelletonApplication\Options\SiteRegistrationOptions;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
+use Doctrine\ORM\EntityManager;
+use DoctrineModule\Form\Element\ObjectMultiCheckbox;
+
 /**
  * Creates user profile and adds default role after registration and creation
  * Adds role select to ZfcUserAdmin form
@@ -61,8 +64,8 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 	 */
 	public function onRegister(Event $e){
 		$sm = $this->getServiceLocator();
-		/* @var $em \Doctrine\ORM\EntityManager */
-		$em = $sm->get('doctrine.entitymanager.orm_default');
+		/* @var $em EntityManager */
+		$em = $sm->get(EntityManager::class);
 		/* @var $user \SkelletonApplication\Entity\User */
 		$user = $e->getParam('user');
 		
@@ -83,8 +86,8 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 	 */
 	public function postRegister(Event $e){
 		$sm = $this->getServiceLocator();
-		/* @var $em \Doctrine\ORM\EntityManager */
-		$em = $sm->get('doctrine.entitymanager.orm_default');
+		/* @var $em EntityManager */
+		$em = $sm->get(EntityManager::class);
 		/* @var $user \SkelletonApplication\Entity\User */
 		$user = $e->getParam('user');
 		/* @var $options \SkelletonApplication\Options\SkelletonOptions */
@@ -109,8 +112,8 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 	 */
 	public function update(Event $e){
 		$sm = $this->getServiceLocator();
-		/* @var $em \Doctrine\ORM\EntityManager */
-		$em = $sm->get('doctrine.entitymanager.orm_default');
+		/* @var $em EntityManager */
+		$em = $sm->get(EntityManager::class);
 		/* @var $user \SkelletonApplication\Entity\User */
 		$user = $e->getParam('user');
 		/* @var $options \SkelletonApplication\Options\SkelletonOptions */
@@ -137,8 +140,8 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 	
 	public function addRoleSelect(Event $e){
 		$sm = $this->getServiceLocator();
-		/* @var $em \Doctrine\ORM\EntityManager */
-		$em = $sm->get('doctrine.entitymanager.orm_default');
+		/* @var $em EntityManager */
+		$em = $sm->get(EntityManager::class);
 		/* @var $form \ZfcUser\Form\Register */
 		$form = $e->getTarget();
 		
@@ -148,7 +151,7 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 		$form->add(
 			array(
 				'name' => 'roles',
-				'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
+				'type' => ObjectMultiCheckbox::class,
 				'options' => array(
 					'object_manager' => $em,
 					'target_class'   => $roleEntity,
@@ -167,8 +170,8 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 	
 	protected function sendEmailRegistered(UserInterface $user){
 		$sm = $this->getServiceLocator();
-		/* @var $em \Doctrine\ORM\EntityManager */
-		$em = $sm->get('doctrine.entitymanager.orm_default');
+		/* @var $em EntityManager */
+		$em = $sm->get(EntityManager::class);
 		/* @var $options \SkelletonApplication\Options\SiteRegistrationOptions */
 		$options = $sm->get(SiteRegistrationOptions::class);
 		
@@ -184,6 +187,7 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 			$email = $options->getRegistrationUserEmailConfirmModerator();
 		}
 		
+		
 		/* @var $transport \GoalioMailService\Mail\Service\Message */
 		$transport = $sm->get('goaliomailservice_message');
 		if($email){
@@ -191,10 +195,11 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 			$transport->send($message);
 		}
 		
+		var_dump($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_MODERATOR);
 		if($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_MODERATOR){
 			$roleString = true;
 			foreach($options->getRegistrationNotify() as $v){
-				if(is_int($v)){
+				if(is_numeric($v)){
 					$roleString = false;
 					break;
 				}
@@ -208,7 +213,7 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 				$users->andWhere('r.id IN (:roleIds)');
 			}
 			$users->setParameter('roleIds', $options->getRegistrationNotify());
-			
+			var_dump($users->getQuery()->getDQL());
 			$mods = $users->getQuery()->getResult();
 			$email = $options->getRegistrationModeratorEmail();
 			foreach($mods as $mod){

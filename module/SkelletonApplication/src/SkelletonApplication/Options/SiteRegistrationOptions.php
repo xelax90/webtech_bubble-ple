@@ -77,22 +77,6 @@ class SiteRegistrationOptions extends AbstractSiteOptions{
 		
 		parent::__construct($options);
 		
-		if(is_array($this->registrationEmailFlag)){
-			$flag = 0;
-			foreach($this->registrationEmailFlag as $flg){
-				$flag |= $flg;
-			}
-			$this->registrationEmailFlag = $flag;
-		}
-		
-		if(is_array($this->registrationMethodFlag)){
-			$flag = 0;
-			foreach($this->registrationMethodFlag as $flg){
-				$flag |= $flg;
-			}
-			$this->registrationMethodFlag = $flag;
-		}
-		
 		if(empty($this->registrationModeratorEmail)){
 			$this->registrationModeratorEmail = array(
 				'subject' => gettext_noop('[SkelletonApplication] A new user has registered'),
@@ -231,12 +215,29 @@ class SiteRegistrationOptions extends AbstractSiteOptions{
 	}
 
 	public function setRegistrationMethodFlag($registrationMethodFlag) {
-		$this->registrationMethodFlag = $registrationMethodFlag;
+		if(is_array($registrationMethodFlag)){
+			$flag = 0;
+			foreach($registrationMethodFlag as $flg){
+				$flag |= $flg;
+			}
+			$this->registrationMethodFlag = (int) $flag;
+		} else {
+			$this->registrationMethodFlag = (int) $registrationMethodFlag;
+		}
 		return $this;
 	}
 
 	public function setRegistrationEmailFlag($registrationEmailFlag) {
-		$this->registrationEmailFlag = $registrationEmailFlag;
+		if(is_array($registrationEmailFlag)){
+			$flag = 0;
+			foreach($registrationEmailFlag as $flg){
+				$flag |= $flg;
+			}
+			$this->registrationEmailFlag = (int) $flag;
+		} else {
+			$this->registrationEmailFlag = (int) $registrationEmailFlag;
+		}
+		
 		return $this;
 	}
 

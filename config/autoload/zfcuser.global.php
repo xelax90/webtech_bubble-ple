@@ -103,7 +103,7 @@ $settings = array(
      *
      * Accepted values: boolean true or false
      */
-    //'login_after_registration' => true,
+    'login_after_registration' => true,
 
     /**
      * Registration Form Captcha
@@ -203,7 +203,7 @@ $settings = array(
      * What state user should have upon registration?
      * Allowed value type: integer
      */
-    'default_user_state' => 0,
+    'default_user_state' => 1,
     
     /**
      * States which are allowing user to login

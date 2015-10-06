@@ -23,7 +23,7 @@ namespace SkelletonApplication\Options\Service;
 use SkelletonApplication\Options\SiteRegistrationOptions;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\FactoryInterface;
-use Eye4web\SiteConfig\Service\SiteConfigService;
+use XelaxSiteConfig\Options\Service\SiteConfigService;
 
 /**
  * Description of SiteRegistrationOptionsFactory
@@ -36,18 +36,7 @@ class SiteRegistrationOptionsFactory implements FactoryInterface {
     public function createService(ServiceLocatorInterface $serviceLocator) {
 		/* @var $siteConfigService SiteConfigService */
 		$siteConfigService = $serviceLocator->get(SiteConfigService::class);
-		$config = $siteConfigService->getAll();
-		
-		// get config selected by prefix
-		$prefixParts = explode('.', static::CONFIG_PREFIX);
-		$conf = $config;
-		foreach ($prefixParts as $prefix) {
-			if(isset($conf[$prefix])){
-				$conf = $conf[$prefix];
-			} else {
-				$conf = array();
-			}
-		}
-        return new SiteRegistrationOptions($conf);
+		$config = $siteConfigService->getConfig(static::CONFIG_PREFIX);
+        return new SiteRegistrationOptions($config);
     }
 }
