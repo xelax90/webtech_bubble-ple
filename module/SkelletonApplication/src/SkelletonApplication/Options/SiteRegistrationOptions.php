@@ -250,45 +250,54 @@ class SiteRegistrationOptions extends AbstractSiteOptions{
 		return $this;
 	}
 
-	public function setRegistrationModeratorEmail(EmailOptions $registrationModeratorEmail) {
-		$this->registrationModeratorEmail = $registrationModeratorEmail;
+	public function setRegistrationModeratorEmail($registrationModeratorEmail) {
+		$this->registrationModeratorEmail = $this->getEmail($registrationModeratorEmail);
 		return $this;
 	}
 
-	public function setRegistrationUserEmailWelcome(EmailOptions $registrationUserEmailWelcome) {
-		$this->registrationUserEmailWelcome = $registrationUserEmailWelcome;
+	public function setRegistrationUserEmailWelcome($registrationUserEmailWelcome) {
+		$this->registrationUserEmailWelcome = $this->getEmail($registrationUserEmailWelcome);
 		return $this;
 	}
 
-	public function setRegistrationUserEmailWelcomeConfirmMail(EmailOptions $registrationUserEmailWelcomeConfirmMail) {
-		$this->registrationUserEmailWelcomeConfirmMail = $registrationUserEmailWelcomeConfirmMail;
+	public function setRegistrationUserEmailWelcomeConfirmMail($registrationUserEmailWelcomeConfirmMail) {
+		$this->registrationUserEmailWelcomeConfirmMail = $this->getEmail($registrationUserEmailWelcomeConfirmMail);
 		return $this;
 	}
 
-	public function setRegistrationUserEmailConfirmMail(EmailOptions $registrationUserEmailConfirmMail) {
-		$this->registrationUserEmailConfirmMail = $registrationUserEmailConfirmMail;
+	public function setRegistrationUserEmailConfirmMail($registrationUserEmailConfirmMail) {
+		$this->registrationUserEmailConfirmMail = $this->getEmail($registrationUserEmailConfirmMail);
 		return $this;
 	}
 
-	public function setRegistrationUserEmailDoubleConfirm(EmailOptions $registrationUserEmailDoubleConfirm) {
-		$this->registrationUserEmailDoubleConfirm = $registrationUserEmailDoubleConfirm;
+	public function setRegistrationUserEmailDoubleConfirm($registrationUserEmailDoubleConfirm) {
+		$this->registrationUserEmailDoubleConfirm = $this->getEmail($registrationUserEmailDoubleConfirm);
 		return $this;
 	}
 
-	public function setRegistrationUserEmailConfirmModerator(EmailOptions $registrationUserEmailConfirmModerator) {
-		$this->registrationUserEmailConfirmModerator = $registrationUserEmailConfirmModerator;
+	public function setRegistrationUserEmailConfirmModerator($registrationUserEmailConfirmModerator) {
+		$this->registrationUserEmailConfirmModerator = $this->getEmail($registrationUserEmailConfirmModerator);
 		return $this;
 	}
 
-	public function setRegistrationUserEmailActivated(EmailOptions $registrationUserEmailActivated) {
-		$this->registrationUserEmailActivated = $registrationUserEmailActivated;
+	public function setRegistrationUserEmailActivated($registrationUserEmailActivated) {
+		$this->registrationUserEmailActivated = $this->getEmail($registrationUserEmailActivated);
 		return $this;
 	}
 
-	public function setRegistrationUserEmailDisabled(EmailOptions $registrationUserEmailDisabled) {
-		$this->registrationUserEmailDisabled = $registrationUserEmailDisabled;
+	public function setRegistrationUserEmailDisabled($registrationUserEmailDisabled) {
+		$this->registrationUserEmailDisabled = $this->getEmail($registrationUserEmailDisabled);
 		return $this;
 	}
 
+	private function getEmail($email){
+		if(is_array($email)){
+			$email = new EmailOptions($email);
+		}
+		if(!$email instanceof EmailOptions){
+			throw new \InvalidArgumentException(sprintf('Expected %s but found %s in %s', EmailOptions::class, gettype($email), __FUNCTION__));
+		}
+		return $email;
+	}
 
 }

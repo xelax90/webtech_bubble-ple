@@ -214,7 +214,7 @@ class SiteRegistrationOptionsFieldset extends Fieldset implements InputFilterPro
 	
 	public function getInputFilterSpecification() {
 		$filters = array(
-			'registrationMethodFlag' => array(
+			'registration_method_flag' => array(
 				'required' => true,
 			),
 			
