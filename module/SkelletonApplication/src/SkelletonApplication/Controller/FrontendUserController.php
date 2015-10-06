@@ -63,7 +63,7 @@ class FrontendUserController extends UserController{
 	 */
 	public function getSkelletonUserService(){
 		if (null === $this->skelletonUserService) {
-			$this->skelletonUserService = $this->getServiceLocator()->get('SkelletonApplication\UserService');
+			$this->skelletonUserService = $this->getServiceLocator()->get(UserService::class);
 		}
 		return $this->skelletonUserService;
 	}

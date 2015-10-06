@@ -3,7 +3,7 @@ namespace SkelletonApplication;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-
+use SkelletonApplication\Listener\UserListener;
 use Zend\View\Helper\Navigation;
 
 class Module
@@ -14,7 +14,7 @@ class Module
 		$sm = $app->getServiceManager();
 
 		// Attach UserListener for role and UserProfile handling
-		$listener = $sm->get('SkelletonApplication\UserListener');
+		$listener = $sm->get(UserListener::class);
 		$eventManager->attach($listener);
 
 		$moduleRouteListener = new ModuleRouteListener();

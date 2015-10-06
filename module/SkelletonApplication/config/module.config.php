@@ -262,8 +262,8 @@ return array(
 			\Zend\Log\LoggerAbstractServiceFactory::class,
 		),
 		'invokables' => array(
-			Listener\UserListener::class,
-			Service\UserService::class,
+			Listener\UserListener::class => Listener\UserListener::class,
+			Service\UserService::class => Service\UserService::class,
 		),
 		'factories' => array(
 			'Navigation' => \Zend\Navigation\Service\DefaultNavigationFactory::class,
