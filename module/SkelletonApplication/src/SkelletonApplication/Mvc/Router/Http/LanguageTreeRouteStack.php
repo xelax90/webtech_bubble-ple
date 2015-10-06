@@ -22,7 +22,6 @@ namespace SkelletonApplication\Mvc\Router\Http;
 
 use Zend\Mvc\Router\Http\TranslatorAwareTreeRouteStack;
 use Zend\Mvc\Router\Http\RouteMatch;
-use SkelletonApplication\Options\SkelletonOptions;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\Stdlib\RequestInterface;
 use SkelletonApplication\Options\SkelletonOptions;
