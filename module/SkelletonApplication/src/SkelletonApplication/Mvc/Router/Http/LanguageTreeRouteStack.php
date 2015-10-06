@@ -25,6 +25,7 @@ use Zend\Mvc\Router\Http\RouteMatch;
 use SkelletonApplication\Options\SkelletonOptions;
 use Zend\I18n\Translator\TranslatorInterface;
 use Zend\Stdlib\RequestInterface;
+use SkelletonApplication\Options\SkelletonOptions;
 
 /**
  * Manages multilanguage routes by adding a language key to the baseUrl
@@ -56,7 +57,7 @@ class LanguageTreeRouteStack extends TranslatorAwareTreeRouteStack {
 		}
 		
 		/* @var $skelletonOptions SkelletonOptions */
-		$skelletonOptions = $this->getRoutePluginManager()->getServiceLocator()->get('SkelletionApplication\Options\Application');
+		$skelletonOptions = $this->getRoutePluginManager()->getServiceLocator()->get(SkelletonOptions::class);
 		$languages = $skelletonOptions->getLanguages();
 		
 		$oldBase = $this->baseUrl; // save old baseUrl
@@ -115,7 +116,7 @@ class LanguageTreeRouteStack extends TranslatorAwareTreeRouteStack {
 		}
 		
 		/* @var $skelletonOptions SkelletonOptions */
-		$skelletonOptions = $this->getRoutePluginManager()->getServiceLocator()->get('SkelletionApplication\Options\Application');
+		$skelletonOptions = $this->getRoutePluginManager()->getServiceLocator()->get(SkelletonOptions::class);
 		$languages = $skelletonOptions->getLanguages();
 		$languageKeys = array_keys($languages);
 		

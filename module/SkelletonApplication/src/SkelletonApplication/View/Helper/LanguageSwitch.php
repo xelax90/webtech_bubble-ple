@@ -22,6 +22,7 @@ namespace SkelletonApplication\View\Helper;
 
 use Zend\I18n\View\Helper\AbstractTranslatorHelper;
 use Zend\I18n\Exception;
+use SkelletonApplication\Options\SkelletonOptions;
 
 /**
  * simple language switch renderer
@@ -78,7 +79,7 @@ class LanguageSwitch extends AbstractTranslatorHelper{
 		}
 		
 		/* @var $options \SkelletonApplication\Options\SkelletonOptions */
-		$options = $renderer->getHelperPluginManager()->getServiceLocator()->get('SkelletionApplication\Options\Application');
+		$options = $renderer->getHelperPluginManager()->getServiceLocator()->get(SkelletonOptions::class);
 		$locales = $options->getLanguages();
 		
 		switch($renderType){

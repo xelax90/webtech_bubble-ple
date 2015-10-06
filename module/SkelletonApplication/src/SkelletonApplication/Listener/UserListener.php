@@ -88,7 +88,7 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 		/* @var $user \SkelletonApplication\Entity\User */
 		$user = $e->getParam('user');
 		/* @var $options \SkelletonApplication\Options\SkelletonOptions */
-		$options = $sm->get('SkelletionApplication\Options\Application');
+		$options = $sm->get(SkelletonOptions::class);
 		
 		if($user->getProfile() === null){
 			$profileEntity = $options->getUserProfileEntity();
@@ -114,7 +114,7 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 		/* @var $user \SkelletonApplication\Entity\User */
 		$user = $e->getParam('user');
 		/* @var $options \SkelletonApplication\Options\SkelletonOptions */
-		$options = $sm->get('SkelletionApplication\Options\Application');
+		$options = $sm->get(SkelletonOptions::class);
 		
 		$data = $e->getParam('data');
 		

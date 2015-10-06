@@ -262,18 +262,23 @@ return array(
 			\Zend\Log\LoggerAbstractServiceFactory::class,
 		),
 		'invokables' => array(
-			'SkelletonApplication\UserListener' => Listener\UserListener::class,
-			'SkelletonApplication\UserService' => Service\UserService::class,
+			Listener\UserListener::class,
+			Service\UserService::class,
 		),
 		'factories' => array(
 			'Navigation' => \Zend\Navigation\Service\DefaultNavigationFactory::class,
-			'SkelletionApplication\Options\Application' => function (\Zend\ServiceManager\ServiceManager $sm) {
+			Options\SkelletonOptions::class => function (\Zend\ServiceManager\ServiceManager $sm) {
 				$config = $sm->get('Config');
 				return new Options\SkelletonOptions(isset($config['skelleton_application']) ? $config['skelleton_application'] : array());
 			},
 			'translator' => \Zend\Mvc\Service\TranslatorServiceFactory::class,
 			Options\SiteRegistrationOptions::class => Options\Service\SiteRegistrationOptionsFactory::class,
 		),
+		'aliases' => array(
+			'SkelletonApplication\Options\Application' => Options\SkelletonOptions::class,
+			'SkelletonApplication\UserListener' => Listener\UserListener::class,
+			'SkelletonApplication\UserService' => Service\UserService::class,
+		)
 	),
 
 	// language options

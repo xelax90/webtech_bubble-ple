@@ -27,6 +27,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use \Doctrine\Common\DataFixtures\AbstractFixture;
+use SkelletonApplication\Options\SkelletonOptions;
 
 class LoadUserRoles extends AbstractFixture implements FixtureInterface, ServiceLocatorAwareInterface
 {
@@ -48,7 +49,7 @@ class LoadUserRoles extends AbstractFixture implements FixtureInterface, Service
     public function getSkelletonOptions()
     {
         if (!$this->skelletonOptions instanceof \SkelletonApplication\Options\SkelletonOptions) {
-            $this->skelletonOptions = $this->getServiceLocator()->get('SkelletionApplication\Options\Application');
+            $this->skelletonOptions = $this->getServiceLocator()->get(SkelletonOptions::class);
         }
         return $this->skelletonOptions;
     }
