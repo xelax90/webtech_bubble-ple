@@ -91,7 +91,13 @@ class FrontendUserController extends UserController{
 		}
 		
 		// Find the token in DB
-		$user = $userService->findByToken($token);
+		$users = $userService->findByToken($token);
+		if(count($users) !== 1){
+			$model->setVariables(array('success' => false, 'message' => gettext_noop('Invalid Token!')));
+			return $model;
+		}
+		
+		$user = $users[0];
 		if ( ! $user instanceof User ) {
 			$model->setVariables(array('success' => false, 'message' => gettext_noop('Invalid Token!')));
 			return $model;
@@ -121,7 +127,10 @@ class FrontendUserController extends UserController{
 		
 		$flag = $options->getRegistrationMethodFlag();
 		
-		if($flag & SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM){
+		if(
+			// send moderator and doubleConfirm only when method is doubleConfirm
+			$flag === (SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM | SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM)
+		){
 			/* @var $transport \GoalioMailService\Mail\Service\Message */
 			$transport = $this->getServiceLocator()->get('goaliomailservice_message');
 			
@@ -135,7 +144,7 @@ class FrontendUserController extends UserController{
 				
 				$roleString = true;
 				foreach($options->getRegistrationNotify() as $v){
-					if(is_int($v)){
+					if(is_numeric($v)){
 						$roleString = false;
 						break;
 					}

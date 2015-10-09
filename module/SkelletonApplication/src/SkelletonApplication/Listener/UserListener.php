@@ -195,8 +195,11 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 			$transport->send($message);
 		}
 		
-		var_dump($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_MODERATOR);
-		if($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_MODERATOR){
+		if(
+			// Send moderator notification if method is not double confirm (on double confirm it is sent after email is verified)
+			$flag !== (SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM | SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM) &&
+			$options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_MODERATOR
+		){
 			$roleString = true;
 			foreach($options->getRegistrationNotify() as $v){
 				if(is_numeric($v)){

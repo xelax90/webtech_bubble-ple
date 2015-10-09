@@ -137,7 +137,7 @@ $routerConfig = array(
 						'action' => 'checkToken',
 					),
 					'constraints' => array(
-						'token' => '[A-F0-9]',
+						'token' => '[A-F0-9]+',
 					),
 				),
 			),
@@ -155,6 +155,7 @@ $guardConfig = array(
 	['route' => 'zfcuser/changeemail',      'roles' => ['user'] ],
 	['route' => 'zfcuser/forgotpassword',   'roles' => ['guest']],
 	['route' => 'zfcuser/resetpassword',    'roles' => ['guest']],
+	['route' => 'zfcuser/check-token',      'roles' => ['guest']],
 	
 	['route' => 'home',                     'roles' => ['guest', 'user'] ],
 
@@ -206,8 +207,17 @@ return array(
 		'invokables' => array(
 			'SkelletonApplication\Controller\Index' => Controller\IndexController::class,
 			'SkelletonApplication\Controller\User' => Controller\UserController::class,
-			'SkelletonApplication\Controller\FrontendUser' => Controller\FrontendUserController::class,
 			Controller\RegistrationConfigController::class => Controller\RegistrationConfigController::class,
+		),
+		'factories' => array(
+			'SkelletonApplication\Controller\FrontendUser' => function($controllerManager) {
+					/* @var \Zend\Mvc\Controller\ControllerManager $controllerManager*/
+					$serviceManager = $controllerManager->getServiceLocator();
+					/* @var \ZfcUser\Controller\RedirectCallback $redirectCallback */
+					$redirectCallback = $serviceManager->get('zfcuser_redirect_callback');
+					$controller = new Controller\FrontendUserController($redirectCallback);
+					return $controller;
+				},
 		),
 	),
 	
