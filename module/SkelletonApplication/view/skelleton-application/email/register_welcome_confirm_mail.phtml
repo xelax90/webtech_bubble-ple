@@ -1,5 +1,5 @@
 <?php 
-$link = $this->serverUrl($this->url('zfcuser/register/check-token', array('token' => $this->user->getToken())));
+$link = $this->serverUrl($this->url('zfcuser/check-token', array('token' => $this->user->getToken())));
 $linkFormat = '<a href="%s">%s</a>';
 echo sprintf(
 	$this->translate('Hello %s,<br><br>thanks for registering on our website. You can already use your provided credentials to sign in. Please click the link below to confirm your email address:<br><br>%s'),
