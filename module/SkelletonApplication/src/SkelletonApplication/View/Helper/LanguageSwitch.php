@@ -23,13 +23,17 @@ namespace SkelletonApplication\View\Helper;
 use Zend\I18n\View\Helper\AbstractTranslatorHelper;
 use Zend\I18n\Exception;
 use SkelletonApplication\Options\SkelletonOptions;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 /**
  * simple language switch renderer
  *
  * @author schurix
  */
-class LanguageSwitch extends AbstractTranslatorHelper{
+class LanguageSwitch extends AbstractTranslatorHelper implements ServiceLocatorAwareInterface{
+	use ServiceLocatorAwareTrait;
+	
 	const RENDER_TYPE_SELECT = 'select';
 	const RENDER_TYPE_DIV = 'div';
 	const RENDER_TYPE_NAVBAR = 'navbar';
@@ -89,6 +93,14 @@ class LanguageSwitch extends AbstractTranslatorHelper{
 			case self::RENDER_TYPE_PARTIAL: return $this->renderPartial($translator, $locales, $currentLocale, $config);
 		}
 		throw new Exception\InvalidArgumentException(sprintf('Invalid render type %s', $renderType));
+	}
+	
+	/**
+	 * @return \Zend\Mvc\Router\RouteMatch
+	 */
+	protected function getRouteMatch(){
+		$routeMatch = $this->getServiceLocator()->getServiceLocator()->get('Application')->getMvcEvent()->getRouteMatch();
+		return $routeMatch;
 	}
 	
 	protected function renderSelect($translator, $locales, $currentLocale = null, $config = array()){
@@ -157,7 +169,9 @@ class LanguageSwitch extends AbstractTranslatorHelper{
 				$optClass .= ' '.$optionActiveClass;
 			}
 			$optClass .= ' '.$optionLanguageClassPrefix.$locale;
-			$url = $urlPlugin(null, array('locale' => $locale));
+			$parameters = $this->getRouteMatch()->getParams();
+			$parameters['locale'] = $locale;
+			$url = $urlPlugin(null, $parameters);
 			$link = sprintf(static::$divOptionLinkFormat, $optionLinkClass, $url, $localeKey);
 			$options .= sprintf(static::$divOptionFormat, $optClass, $link);
 		}
@@ -212,7 +226,9 @@ class LanguageSwitch extends AbstractTranslatorHelper{
 				$optClass .= ' '.$optionActiveClass;
 			}
 			$optClass .= ' '.$optionLanguageClassPrefix.$locale;
-			$url = $urlPlugin(null, array('locale' => $locale));
+			$parameters = $this->getRouteMatch()->getParams();
+			$parameters['locale'] = $locale;
+			$url = $urlPlugin(null, $parameters);
 			$link = sprintf(static::$navbarOptionLinkFormat, $url, $optionLinkClass, $localeKey);
 			$options .= sprintf(static::$navbarOptionFormat, $optClass, $link);
 		}
