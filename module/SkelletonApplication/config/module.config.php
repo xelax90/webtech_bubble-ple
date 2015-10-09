@@ -86,10 +86,12 @@ $routerConfig = array(
 						'type' => 'segment', 
 						'options' => array(
 							'route' => '/block/:userId', 
-							'controller' => Controller\UserController::class, 
-							'action' => 'block',
 							'constraints' => array(
 								'userId' => '[0-9]+',
+							),
+							'defaults' => array(
+								'controller' => Controller\UserController::class, 
+								'action' => 'block',
 							),
 						), 
 					),
@@ -97,10 +99,12 @@ $routerConfig = array(
 						'type' => 'segment', 
 						'options' => array(
 							'route' => '/unblock/:userId', 
-							'controller' => Controller\UserController::class, 
-							'action' => 'unblock',
 							'constraints' => array(
 								'userId' => '[0-9]+',
+							),
+							'defaults' => array(
+								'controller' => Controller\UserController::class, 
+								'action' => 'unblock',
 							),
 						), 
 					),
