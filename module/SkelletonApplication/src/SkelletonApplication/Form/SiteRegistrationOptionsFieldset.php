@@ -63,10 +63,6 @@ class SiteRegistrationOptionsFieldset extends Fieldset implements InputFilterPro
 					SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM | 
 						SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM     
 						=> gettext_noop('Self confirm + Moderator confirm'),
-					SiteRegistrationOptions::REGISTRATION_METHOD_AUTO_ENABLE | 
-						SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM | 
-						SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM 
-						=> gettext_noop('All together'),
 				),
 				'column-size' => 'sm-10',
 				'label_attributes' => array(
