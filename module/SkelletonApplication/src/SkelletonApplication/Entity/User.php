@@ -198,7 +198,7 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 	 * @return boolean
 	 */
 	public function isActive(){
-		return $this->getState() & (1 << static::STATE_ACTIVE_BIT) !== 0;
+		return ($this->getState() & (1 << static::STATE_ACTIVE_BIT)) !== 0;
 	}
 	
 	/**
@@ -206,7 +206,7 @@ class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 	 * @return boolean
 	 */
 	public function isEmailVerified(){
-		return $this->getState() & (1 << static::STATE_EMAIL_BIT) !== 0;
+		return ($this->getState() & (1 << static::STATE_EMAIL_BIT)) !== 0;
 	}
 	
 	public function setIsActive($isActive){
