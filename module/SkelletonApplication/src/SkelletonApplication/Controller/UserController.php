@@ -195,15 +195,16 @@ class UserController extends ListController{
 	}
 	
 	public function blockAction(){
-        /** @var $identity \ZfcUser\Entity\UserInterface */
-        $identity = $this->zfcUserAuthentication()->getIdentity();
-        if ($identity && $identity->getId() == $item->getId()) {
-            $this->flashMessenger()->addErrorMessage('You can not block yourself');
-			return $this->_redirectToList();
-		}
         $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
 		/* @var $user \ZfcUser\Entity\UserInterface */
         $user = $this->getUserMapper()->findById($userId);
+		
+        /** @var $identity \ZfcUser\Entity\UserInterface */
+        $identity = $this->zfcUserAuthentication()->getIdentity();
+        if ($identity && $identity->getId() == $user->getId()) {
+            $this->flashMessenger()->addErrorMessage('You can not block yourself');
+			return $this->_redirectToList();
+		}
 		
 		if($user instanceof User){
 			// TODO this should be done cleaner
