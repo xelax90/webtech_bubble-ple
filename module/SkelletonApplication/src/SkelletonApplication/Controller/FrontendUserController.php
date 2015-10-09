@@ -103,6 +103,10 @@ class FrontendUserController extends UserController{
 			return $model;
 		}
 		
+		if( $user->isEmailVerified()){
+			$model->setVariables(array('success' => true, 'activated' => $user->isActive()));
+			return $model;
+		}
 		
 		/* @var $options SiteRegistrationOptions */
 		$options = $this->getServiceLocator()->get(SiteRegistrationOptions::class);
@@ -150,7 +154,7 @@ class FrontendUserController extends UserController{
 					}
 				}
 
-				$users = $em->getRepository(get_class($user))->createQueryBuilder('u')
+				$users = $this->getEntityManager()->getRepository(get_class($user))->createQueryBuilder('u')
 						->leftJoin('u.roles', 'r');
 				if($roleString){
 					$users->andWhere('r.roleId IN (:roleIds)');
