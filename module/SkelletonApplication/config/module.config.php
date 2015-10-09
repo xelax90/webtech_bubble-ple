@@ -25,7 +25,7 @@ $xelaxConfig = array(
 		),
 		'user' => array(
 			'name' => gettext_noop('User'),
-			'controller_class' => 'SkelletonApplication\Controller\User', 
+			'controller_class' => Controller\UserController::class, 
 			'base_namespace' => 'SkelletonApplication',
 			'list_columns' => array(gettext_noop('Id') => 'id', gettext_noop('Name') => 'display_name', gettext_noop('E-Mail') => 'email', gettext_noop('State') => 'state'),
 			'list_title' => gettext_noop('Users'),
@@ -71,7 +71,7 @@ $routerConfig = array(
 		'options' => array(
 			'route' => '/',
 			'defaults' => array(
-				'controller' => 'SkelletonApplication\Controller\Index',
+				'controller' => Controller\IndexController::class,
 				'action'     => 'index',
 			),
 		),
@@ -133,7 +133,7 @@ $routerConfig = array(
 				'options' => array(
 					'route' => '/activate/:token',
 					'defaults' => array(
-						'controller' => 'SkelletonApplication\Controller\FrontendUser',
+						'controller' => Controller\FrontendUserController::class,
 						'action' => 'checkToken',
 					),
 					'constraints' => array(
@@ -205,12 +205,12 @@ $ressourceAllowRules = array(
 return array(
 	'controllers' => array(
 		'invokables' => array(
-			'SkelletonApplication\Controller\Index' => Controller\IndexController::class,
-			'SkelletonApplication\Controller\User' => Controller\UserController::class,
+			Controller\IndexController::class => Controller\IndexController::class,
+			Controller\UserController::class => Controller\UserController::class,
 			Controller\RegistrationConfigController::class => Controller\RegistrationConfigController::class,
 		),
 		'factories' => array(
-			'SkelletonApplication\Controller\FrontendUser' => function($controllerManager) {
+			Controller\FrontendUserController::class => function($controllerManager) {
 					/* @var \Zend\Mvc\Controller\ControllerManager $controllerManager*/
 					$serviceManager = $controllerManager->getServiceLocator();
 					/* @var \ZfcUser\Controller\RedirectCallback $redirectCallback */
