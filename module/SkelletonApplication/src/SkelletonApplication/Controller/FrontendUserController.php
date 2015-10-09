@@ -114,7 +114,7 @@ class FrontendUserController extends UserController{
 		
 		$user->setEmailIsVerified(true);
 		$variables = array('success' => true, 'activated' => false);
-		if(!($flag & SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM) && !($flag & SiteRegistrationOptions::REGISTRATION_METHOD_AUTO_ENABLE)){
+		if(!($flag & SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM) || ($flag & SiteRegistrationOptions::REGISTRATION_METHOD_AUTO_ENABLE)){
 			$user->setIsActive(true);
 			$variables['activated'] = true;
 		}
