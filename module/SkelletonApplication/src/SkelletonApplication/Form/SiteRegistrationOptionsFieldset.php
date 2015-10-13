@@ -51,17 +51,19 @@ class SiteRegistrationOptionsFieldset extends Fieldset implements InputFilterPro
             'options' => array(
                 'label' => gettext_noop('Registration Method'),
                 'value_options' => array(
-					SiteRegistrationOptions::REGISTRATION_METHOD_AUTO_ENABLE       
+					0
+						=> gettext_noop('Registration disabled'),
+					SiteRegistrationOptions::REGISTRATION_METHOD_AUTO_ENABLE
 						=> gettext_noop('Auto enable'),
-					SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM      
+					SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM
 						=> gettext_noop('Self confirm'),
 					SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM 
 						=> gettext_noop('Moderator confirm'),
 					SiteRegistrationOptions::REGISTRATION_METHOD_AUTO_ENABLE | 
-						SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM      
+						SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM
 						=> gettext_noop('Auto enable + Self confirm'),
 					SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM | 
-						SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM     
+						SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM
 						=> gettext_noop('Self confirm + Moderator confirm'),
 				),
 				'column-size' => 'sm-10',
@@ -211,7 +213,7 @@ class SiteRegistrationOptionsFieldset extends Fieldset implements InputFilterPro
 	public function getInputFilterSpecification() {
 		$filters = array(
 			'registration_method_flag' => array(
-				'required' => true,
+				'required' => false,
 			),
 			
 		);

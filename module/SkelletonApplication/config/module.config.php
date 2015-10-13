@@ -221,7 +221,7 @@ return array(
 					$redirectCallback = $serviceManager->get('zfcuser_redirect_callback');
 					$controller = new Controller\FrontendUserController($redirectCallback);
 					return $controller;
-				},
+			},
 		),
 	),
 	
@@ -285,6 +285,7 @@ return array(
 				$config = $sm->get('Config');
 				return new Options\SkelletonOptions(isset($config['skelleton_application']) ? $config['skelleton_application'] : array());
 			},
+			'zfcuser_module_options' => Options\Service\ZfcUserOptionsFactory::class,
 			'translator' => \Zend\Mvc\Service\TranslatorServiceFactory::class,
 			Options\SiteRegistrationOptions::class => Options\Service\SiteRegistrationOptionsFactory::class,
 		),
