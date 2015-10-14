@@ -25,8 +25,8 @@ use ZfcUser\Controller\UserController;
 use Doctrine\ORM\EntityManager;
 use SkelletonApplication\Entity\User;
 use SkelletonApplication\Service\UserService;
-use SkelletonApplication\Options\SkelletonOptions;
 use SkelletonApplication\Options\SiteRegistrationOptions;
+use Zend\Http\Response;
 
 /**
  * Description of FrontendUserController
@@ -123,6 +123,24 @@ class FrontendUserController extends UserController{
 		
 		$model->setVariables($variables);
 		return $model;
+	}
+	
+	public function registerAction() {
+		$res = parent::registerAction();
+		//var_dump($res);
+		$request = $this->getRequest();
+		if($res instanceof Response && !$this->zfcUserAuthentication()->hasIdentity() && !$request->isPost()){
+	        return $this->redirect()->toRoute('zfcuser/register/registered');
+			//return $this->forward()->dispatch(get_class(), array('action' => 'registered'));
+		}
+		return $res;
+	}
+	
+	public function registeredAction(){
+		/* @var $options SiteRegistrationOptions */
+		$options = $this->getServiceLocator()->get(SiteRegistrationOptions::class);
+		
+		return new ViewModel(array('registrationMethodFlag' => $options->getRegistrationMethodFlag()));
 	}
 	
 	protected function sendEmailVerified($user){

@@ -32,6 +32,16 @@ foreach($elms as $k => $element){
 		->setLabelAttributes(array('class' => 'col-sm-3'));
 }
 
+$form->add(
+	array(
+		'name' => 'redirect',
+		'type' => 'Hidden',
+		'attributes' => array(
+			'value' => 'zfcuser/register/registered',
+		),
+	)
+);
+
 $form->add(array(
 	'name' => 'submit',
 	'type' => 'Submit',

@@ -145,6 +145,26 @@ $routerConfig = array(
 					),
 				),
 			),
+			'register' => array(
+				'may_terminate' => true,
+				'options' => array(
+					'defaults' => array(
+						'controller' => Controller\FrontendUserController::class,
+					),
+				),
+				'child_routes' => array(
+					'registered' => array(
+						'type' => 'literal',
+						'options' => array(
+							'route' => '/finished',
+							'defaults' => array(
+								'controller' => Controller\FrontendUserController::class,
+								'action' => 'registered',
+							),
+						),
+					),
+				),
+			),
 		),
 	),
 );
@@ -153,6 +173,7 @@ $guardConfig = array(
 	['route' => 'zfcuser',                  'roles' => ['guest', 'user'] ],
 	['route' => 'zfcuser/login',            'roles' => ['guest', 'user'] ],
 	['route' => 'zfcuser/register',         'roles' => ['guest'] ],
+	['route' => 'zfcuser/register/registered','roles' => ['guest'] ],
 	['route' => 'zfcuser/authenticate',     'roles' => ['guest'] ],
 	['route' => 'zfcuser/logout',           'roles' => ['guest', 'user'] ],
 	['route' => 'zfcuser/changepassword',   'roles' => ['user'] ],
@@ -325,6 +346,8 @@ return array(
 			'error/404'               => __DIR__ . '/../view/error/404.phtml',
 			'error/index'             => __DIR__ . '/../view/error/index.phtml',
 			'zfc-user/user/login'     => __DIR__ . '/../view/zfc-user/user/login.phtml',
+			'skelleton-application/frontend-user/register'  => __DIR__ . '/../view/zfc-user/user/register.phtml',
+			'skelleton-application/frontend-user/registered'  => __DIR__ . '/../view/zfc-user/user/registered.phtml',
 		),
 		'template_path_stack' => array(
 			__DIR__ . '/../view',
