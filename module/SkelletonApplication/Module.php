@@ -51,6 +51,9 @@ class Module
 		/* @var $translator \Zend\I18n\Translator\Translator */
 		$translator = $e->getApplication()->getServiceManager()->get('translator');
 		
+		// add Db Loader factory
+		$translator->getPluginManager()->setFactory(I18n\Translator\Loader\Db::class, I18n\Translator\Loader\Factory\DbFactory::class);
+		
 		$lang = $routeMatch->getParam('locale');
 		if(!$lang || !in_array($lang, $languages)){
 			return;

@@ -334,6 +334,11 @@ return array(
 				'pattern'  => '%s.mo',
 			),
 		),
+		'remote_translation' => array(
+			array(
+				'type' => I18n\Translator\Loader\Db::class
+			)
+		)
 	),
 
 	// view options
