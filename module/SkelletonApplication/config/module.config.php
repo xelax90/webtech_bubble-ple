@@ -4,6 +4,7 @@ namespace SkelletonApplication;
 use XelaxAdmin\Router\ListRoute;
 use BjyAuthorize\Provider;
 use BjyAuthorize\Guard;
+use ZfcUser;
 
 $xelaxConfig = array(
 	'list_controller' => array(
@@ -299,6 +300,7 @@ return array(
 		'invokables' => array(
 			Listener\UserListener::class => Listener\UserListener::class,
 			Service\UserService::class => Service\UserService::class,
+			ZfcUser\Authentication\Storage\Db::class => Authentication\Storage\Db::class,
 		),
 		'factories' => array(
 			'Navigation' => \Zend\Navigation\Service\DefaultNavigationFactory::class,

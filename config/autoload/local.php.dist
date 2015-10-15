@@ -25,5 +25,8 @@ return array(
 			)
 		)
 	),
+	'zfcuser' => array(
+		'session_namespace' => 'Zend_Auth_Skelleton',
+	),
 
 );
