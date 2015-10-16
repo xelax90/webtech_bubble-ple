@@ -27,6 +27,7 @@ use SkelletonApplication\Entity\User;
 use SkelletonApplication\Service\UserService;
 use SkelletonApplication\Options\SiteRegistrationOptions;
 use Zend\Http\Response;
+use SkelletonApplication\Service\UserNotificationService;
 
 /**
  * Description of FrontendUserController
@@ -41,6 +42,9 @@ class FrontendUserController extends UserController{
 	/** @var UserService */
 	protected $skelletonUserService;
 	
+	/** @var UserNotificationService */
+	protected $notificationService;
+	
 	/**
 	 * @param EntityManager $em
 	 */
@@ -53,9 +57,16 @@ class FrontendUserController extends UserController{
 	 */
 	public function getEntityManager(){
 		if (null === $this->em) {
-			$this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+			$this->em = $this->getServiceLocator()->get(EntityManager::class);
 		}
 		return $this->em;
+	}
+	
+	public function getNotificationService(){
+		if(null === $this->notificationService){
+			$this->notificationService = $this->getServiceLocator()->get(UserNotificationService::class);
+		}
+		return $this->notificationService;
 	}
 	
 	/**
@@ -119,7 +130,10 @@ class FrontendUserController extends UserController{
 			$variables['activated'] = true;
 		}
 		$this->getEntityManager()->flush();
-		$this->sendEmailVerified($user);
+		
+		// send user notifications
+		$notificationService = $this->getNotificationService();
+		$notificationService->notifyUser($user, UserNotificationService::EVENT_TOKEN);
 		
 		$model->setVariables($variables);
 		return $model;
@@ -141,53 +155,5 @@ class FrontendUserController extends UserController{
 		$options = $this->getServiceLocator()->get(SiteRegistrationOptions::class);
 		
 		return new ViewModel(array('registrationMethodFlag' => $options->getRegistrationMethodFlag()));
-	}
-	
-	protected function sendEmailVerified($user){
-		/* @var $options SiteRegistrationOptions */
-		$options = $this->getServiceLocator()->get(SiteRegistrationOptions::class);
-		
-		$flag = $options->getRegistrationMethodFlag();
-		
-		if(
-			// send moderator and doubleConfirm only when method is doubleConfirm
-			$flag === (SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM | SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM)
-		){
-			/* @var $transport \GoalioMailService\Mail\Service\Message */
-			$transport = $this->getServiceLocator()->get('goaliomailservice_message');
-			
-			if($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_DOUBLE_CONFIRM_MAIL){
-				$email = $options->getRegistrationUserEmailDoubleConfirm();
-				$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $user->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user));
-				$transport->send($message);
-			}
-			
-			if($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_MODERATOR){
-				
-				$roleString = true;
-				foreach($options->getRegistrationNotify() as $v){
-					if(is_numeric($v)){
-						$roleString = false;
-						break;
-					}
-				}
-
-				$users = $this->getEntityManager()->getRepository(get_class($user))->createQueryBuilder('u')
-						->leftJoin('u.roles', 'r');
-				if($roleString){
-					$users->andWhere('r.roleId IN (:roleIds)');
-				} else {
-					$users->andWhere('r.id IN (:roleIds)');
-				}
-				$users->setParameter('roleIds', $options->getRegistrationNotify());
-
-				$mods = $users->getQuery()->getResult();
-				$email = $options->getRegistrationModeratorEmail();
-				foreach($mods as $mod){
-					$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $mod->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user, 'moderator' => $mod));
-					$transport->send($message);
-				}
-			}
-		}
 	}
 }

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8ddb3fa1f155b19b759071432de2d04d",
-    "content-hash": "21196661c552688a48688c3457dab193",
+    "hash": "2a8ca50f3df50b9e8f158995d952c655",
+    "content-hash": "6d7d0115da1cc19075ef827e3df5c986",
     "packages": [
         {
             "name": "articus/zf2-bower-module",
@@ -687,22 +687,22 @@
         },
         {
             "name": "doctrine/doctrine-orm-module",
-            "version": "0.9.1",
+            "version": "0.9.2",
             "source": {
                 "type": "git",
-                "url": "git@github.com:doctrine/DoctrineORMModule.git",
-                "reference": "11cf6a34cd097b4d252a82d198ceed565ee3102c"
+                "url": "https://github.com/doctrine/DoctrineORMModule.git",
+                "reference": "847db36f0f7ef8d940414e433e8b241aa601a6a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineORMModule/zipball/731ec00a3b5cb9fcf0def3abc42e0ac58f8d0265",
-                "reference": "11cf6a34cd097b4d252a82d198ceed565ee3102c",
+                "url": "https://api.github.com/repos/doctrine/DoctrineORMModule/zipball/847db36f0f7ef8d940414e433e8b241aa601a6a7",
+                "reference": "847db36f0f7ef8d940414e433e8b241aa601a6a7",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": ">=2.4,<2.7",
                 "doctrine/doctrine-module": "~0.8",
-                "doctrine/orm": ">=2.4,<2.7",
+                "doctrine/orm": ">=2.5,<2.7",
                 "php": ">=5.4",
                 "symfony/console": "~2.5|~3.0",
                 "zendframework/zend-mvc": "~2.3",
@@ -761,7 +761,7 @@
                 "orm",
                 "zf2"
             ],
-            "time": "2015-06-15 21:20:41"
+            "time": "2015-10-05 23:06:08"
         },
         {
             "name": "doctrine/inflector",
@@ -1588,16 +1588,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.2.3",
+            "version": "2.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "ef1ca6835468857944d5c3b48fa503d5554cff2f"
+                "reference": "eabf68b476ac7d0f73793aada060f1c1a9bf8979"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/ef1ca6835468857944d5c3b48fa503d5554cff2f",
-                "reference": "ef1ca6835468857944d5c3b48fa503d5554cff2f",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/eabf68b476ac7d0f73793aada060f1c1a9bf8979",
+                "reference": "eabf68b476ac7d0f73793aada060f1c1a9bf8979",
                 "shasum": ""
             },
             "require": {
@@ -1646,7 +1646,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-09-14 06:51:16"
+            "time": "2015-10-06 15:47:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1828,16 +1828,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.9",
+            "version": "4.8.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "73fad41adb5b7bc3a494bb930d90648df1d5e74b"
+                "reference": "be067d6105286b74272facefc2697038f8807b77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/73fad41adb5b7bc3a494bb930d90648df1d5e74b",
-                "reference": "73fad41adb5b7bc3a494bb930d90648df1d5e74b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/be067d6105286b74272facefc2697038f8807b77",
+                "reference": "be067d6105286b74272facefc2697038f8807b77",
                 "shasum": ""
             },
             "require": {
@@ -1896,20 +1896,20 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-09-20 12:56:44"
+            "time": "2015-10-14 13:49:40"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "2.3.7",
+            "version": "2.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "5e2645ad49d196e020b85598d7c97e482725786a"
+                "reference": "ac8e7a3db35738d56ee9a76e78a4e03d97628983"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/5e2645ad49d196e020b85598d7c97e482725786a",
-                "reference": "5e2645ad49d196e020b85598d7c97e482725786a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/ac8e7a3db35738d56ee9a76e78a4e03d97628983",
+                "reference": "ac8e7a3db35738d56ee9a76e78a4e03d97628983",
                 "shasum": ""
             },
             "require": {
@@ -1952,7 +1952,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2015-08-19 09:14:08"
+            "time": "2015-10-02 06:51:40"
         },
         {
             "name": "sebastian/comparator",
@@ -2188,16 +2188,16 @@
         },
         {
             "name": "sebastian/global-state",
-            "version": "1.0.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/global-state.git",
-                "reference": "c7428acdb62ece0a45e6306f1ae85e1c05b09c01"
+                "reference": "bc37d50fea7d017d3d340f230811c9f1d7280af4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/c7428acdb62ece0a45e6306f1ae85e1c05b09c01",
-                "reference": "c7428acdb62ece0a45e6306f1ae85e1c05b09c01",
+                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/bc37d50fea7d017d3d340f230811c9f1d7280af4",
+                "reference": "bc37d50fea7d017d3d340f230811c9f1d7280af4",
                 "shasum": ""
             },
             "require": {
@@ -2235,7 +2235,7 @@
             "keywords": [
                 "global state"
             ],
-            "time": "2014-10-06 09:23:50"
+            "time": "2015-10-12 03:26:01"
         },
         {
             "name": "sebastian/recursion-context",
@@ -2327,16 +2327,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.7.4",
+            "version": "v2.7.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Console.git",
-                "reference": "f1f7376766394f409b9b33a57a5675a52f8aad93"
+                "url": "https://github.com/symfony/console.git",
+                "reference": "06cb17c013a82f94a3d840682b49425cd00a2161"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/9ff9032151186bd66ecee727d728f1319f52d1d8",
-                "reference": "f1f7376766394f409b9b33a57a5675a52f8aad93",
+                "url": "https://api.github.com/repos/symfony/console/zipball/06cb17c013a82f94a3d840682b49425cd00a2161",
+                "reference": "06cb17c013a82f94a3d840682b49425cd00a2161",
                 "shasum": ""
             },
             "require": {
@@ -2380,20 +2380,20 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2015-09-03 11:40:38"
+            "time": "2015-09-25 08:32:23"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.7.4",
+            "version": "v2.7.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Yaml.git",
-                "reference": "2dc7b06c065df96cc686c66da2705e5e18aef661"
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "31cb2ad0155c95b88ee55fe12bc7ff92232c1770"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/2dc7b06c065df96cc686c66da2705e5e18aef661",
-                "reference": "2dc7b06c065df96cc686c66da2705e5e18aef661",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/31cb2ad0155c95b88ee55fe12bc7ff92232c1770",
+                "reference": "31cb2ad0155c95b88ee55fe12bc7ff92232c1770",
                 "shasum": ""
             },
             "require": {
@@ -2429,7 +2429,68 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2015-08-24 07:13:45"
+            "time": "2015-09-14 14:14:09"
+        },
+        {
+            "name": "twig/twig",
+            "version": "v1.22.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/Twig.git",
+                "reference": "ebfc36b7e77b0c1175afe30459cf943010245540"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ebfc36b7e77b0c1175afe30459cf943010245540",
+                "reference": "ebfc36b7e77b0c1175afe30459cf943010245540",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.7"
+            },
+            "require-dev": {
+                "symfony/debug": "~2.7",
+                "symfony/phpunit-bridge": "~2.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.22-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Twig_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+                },
+                {
+                    "name": "Twig Team",
+                    "homepage": "http://twig.sensiolabs.org/contributors",
+                    "role": "Contributors"
+                }
+            ],
+            "description": "Twig, the flexible, fast, and secure template language for PHP",
+            "homepage": "http://twig.sensiolabs.org",
+            "keywords": [
+                "templating"
+            ],
+            "time": "2015-10-13 07:07:02"
         },
         {
             "name": "xelax90/password-generator-module",
@@ -2478,12 +2539,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/xelax90/xelax-admin.git",
-                "reference": "b32e953cf44bc95c3741c46a315e72efa0ebe381"
+                "reference": "344cb98c63b7cd23353d40d1596432bd11f84175"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xelax90/xelax-admin/zipball/b32e953cf44bc95c3741c46a315e72efa0ebe381",
-                "reference": "b32e953cf44bc95c3741c46a315e72efa0ebe381",
+                "url": "https://api.github.com/repos/xelax90/xelax-admin/zipball/344cb98c63b7cd23353d40d1596432bd11f84175",
+                "reference": "344cb98c63b7cd23353d40d1596432bd11f84175",
                 "shasum": ""
             },
             "require": {
@@ -2522,7 +2583,7 @@
                 "zf2",
                 "zfc-admin"
             ],
-            "time": "2015-09-20 01:50:57"
+            "time": "2015-10-01 10:05:19"
         },
         {
             "name": "xelax90/xelax-formgen",
@@ -2575,12 +2636,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/xelax90/xelax-site-config.git",
-                "reference": "85da1bac9c46bcfdfdd8562dc30666c5bf2fed22"
+                "reference": "50f8f3bdb427f44baef09f85f345d370f8a078c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xelax90/xelax-site-config/zipball/85da1bac9c46bcfdfdd8562dc30666c5bf2fed22",
-                "reference": "85da1bac9c46bcfdfdd8562dc30666c5bf2fed22",
+                "url": "https://api.github.com/repos/xelax90/xelax-site-config/zipball/50f8f3bdb427f44baef09f85f345d370f8a078c4",
+                "reference": "50f8f3bdb427f44baef09f85f345d370f8a078c4",
                 "shasum": ""
             },
             "require": {
@@ -2611,7 +2672,7 @@
                 "front-end",
                 "zf2"
             ],
-            "time": "2015-09-22 15:50:52"
+            "time": "2015-10-06 21:23:47"
         },
         {
             "name": "xelax90/xelax-twb-unmask",
@@ -2619,12 +2680,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/xelax90/xelax-twb-unmask.git",
-                "reference": "bedf4e4064cd0abac0153758724dc42b60097311"
+                "reference": "704aa31adbe71f82ce5d767f76c5152ec36846a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xelax90/xelax-twb-unmask/zipball/bedf4e4064cd0abac0153758724dc42b60097311",
-                "reference": "bedf4e4064cd0abac0153758724dc42b60097311",
+                "url": "https://api.github.com/repos/xelax90/xelax-twb-unmask/zipball/704aa31adbe71f82ce5d767f76c5152ec36846a6",
+                "reference": "704aa31adbe71f82ce5d767f76c5152ec36846a6",
                 "shasum": ""
             },
             "require": {
@@ -2652,7 +2713,7 @@
                 }
             ],
             "description": "Package created to allow usage of both: ZF2 and zf2-twb-bundle form view helpers together",
-            "time": "2015-09-22 15:51:48"
+            "time": "2015-10-06 21:24:15"
         },
         {
             "name": "xelax90/zf2-filter-htmlpurifier",
@@ -5688,6 +5749,55 @@
             "time": "2013-05-02 12:33:49"
         },
         {
+            "name": "zf-commons/zfc-twig",
+            "version": "1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZF-Commons/ZfcTwig.git",
+                "reference": "0235932354b9c25b1a492e8921d3b2bfedcdba42"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZF-Commons/ZfcTwig/zipball/0235932354b9c25b1a492e8921d3b2bfedcdba42",
+                "reference": "0235932354b9c25b1a492e8921d3b2bfedcdba42",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "twig/twig": "~1.13"
+            },
+            "require-dev": {
+                "zendframework/zend-view": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "ZfcTwig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Kyle Spraggs",
+                    "email": "theman@spiffyjr.me",
+                    "homepage": "http://www.spiffyjr.me/"
+                },
+                {
+                    "name": "Cosmin Harangus",
+                    "email": "cosmin@zendexperts.com",
+                    "homepage": "http://www.zendexperts.com/"
+                }
+            ],
+            "description": "Zend Framework 2 Module that provides a Twig rendering strategy and extensions to render actions or trigger events from your templates",
+            "homepage": "http://www.github.com/ZF-Commons/ZfcTwig/",
+            "keywords": [
+                "module",
+                "twig",
+                "zf2"
+            ],
+            "time": "2014-04-29 17:40:31"
+        },
+        {
             "name": "zf-commons/zfc-user",
             "version": "1.3.3",
             "source": {
@@ -5892,16 +6002,16 @@
         },
         {
             "name": "zendframework/zenddiagnostics",
-            "version": "v1.0.6",
+            "version": "v1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/ZendDiagnostics.git",
-                "reference": "07b6a7a313c751045dc57cd8938a05a9b4e004e8"
+                "reference": "6ffffbeec9a9d69aad394a9ceee55cf4bcdd4b2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/ZendDiagnostics/zipball/07b6a7a313c751045dc57cd8938a05a9b4e004e8",
-                "reference": "07b6a7a313c751045dc57cd8938a05a9b4e004e8",
+                "url": "https://api.github.com/repos/zendframework/ZendDiagnostics/zipball/6ffffbeec9a9d69aad394a9ceee55cf4bcdd4b2d",
+                "reference": "6ffffbeec9a9d69aad394a9ceee55cf4bcdd4b2d",
                 "shasum": ""
             },
             "require": {
@@ -5950,7 +6060,7 @@
                 "php",
                 "test"
             ],
-            "time": "2015-07-09 14:39:58"
+            "time": "2015-10-01 15:37:41"
         },
         {
             "name": "zendframework/zftool",

@@ -39,16 +39,16 @@ class LoadUserRoles extends AbstractFixture implements FixtureInterface, Service
 	
 	/**
 	 *
-	 * @var \SkelletonApplication\Options\SkelletonOptions
+	 * @var SkelletonOptions
 	 */
 	protected $skelletonOptions;
 	
     /**
-     * @return \SkelletonApplication\Options\SkelletonOptions
+     * @return SkelletonOptions
      */
     public function getSkelletonOptions()
     {
-        if (!$this->skelletonOptions instanceof \SkelletonApplication\Options\SkelletonOptions) {
+        if (!$this->skelletonOptions instanceof SkelletonOptions) {
             $this->skelletonOptions = $this->getServiceLocator()->get(SkelletonOptions::class);
         }
         return $this->skelletonOptions;

@@ -13,6 +13,7 @@ $config = array(
 		'BjyAuthorize',
 		'ZfcAdmin',
 		'ZfcUserAdmin',
+		'ZfcTwig',
 		'GoalioMailService',
 		'GoalioForgotPassword',
 		'GoalioForgotPasswordDoctrineORM',

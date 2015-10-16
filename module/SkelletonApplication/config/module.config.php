@@ -290,7 +290,11 @@ return array(
 		)
 	),
 	
-	
+	'zfctwig' => array(
+		'loder_chain' => array(
+			Twig\DbLoader::class,
+		),
+	),
 	
 	'service_manager' => array(
 		'abstract_factories' => array(
@@ -300,7 +304,7 @@ return array(
 		'invokables' => array(
 			Listener\UserListener::class => Listener\UserListener::class,
 			Service\UserService::class => Service\UserService::class,
-			ZfcUser\Authentication\Storage\Db::class => Authentication\Storage\Db::class,
+			Service\UserNotificationService::class => Service\UserNotificationService::class,
 		),
 		'factories' => array(
 			'Navigation' => \Zend\Navigation\Service\DefaultNavigationFactory::class,
@@ -311,6 +315,7 @@ return array(
 			'zfcuser_module_options' => Options\Service\ZfcUserOptionsFactory::class,
 			'translator' => \Zend\Mvc\Service\TranslatorServiceFactory::class,
 			Options\SiteRegistrationOptions::class => Options\Service\SiteRegistrationOptionsFactory::class,
+			Twig\DbLoader::class => Twig\DbLoaderFactory::class,
 		),
 		'aliases' => array(
 			'SkelletonApplication\Options\Application' => Options\SkelletonOptions::class,

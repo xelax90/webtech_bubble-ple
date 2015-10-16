@@ -31,6 +31,7 @@ use SkelletonApplication\Options\SkelletonOptions;
 use ZfcUser\Entity\UserInterface;
 use SkelletonApplication\Options\SiteRegistrationOptions;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use SkelletonApplication\Service\UserNotificationService;
 
 use Doctrine\ORM\EntityManager;
 use DoctrineModule\Form\Element\ObjectMultiCheckbox;
@@ -103,7 +104,9 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 			$em->flush();
 		}
 		
-		$this->sendEmailRegistered($user);
+		// send user notifications
+		$notificationService = $sm->get(UserNotificationService::class);
+		$notificationService->notifyUser($user, UserNotificationService::EVENT_REGISTER);
 	}
 	
 	/**
@@ -166,63 +169,5 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 				),
 			)
 		);
-	}
-	
-	protected function sendEmailRegistered(UserInterface $user){
-		$sm = $this->getServiceLocator();
-		/* @var $em EntityManager */
-		$em = $sm->get(EntityManager::class);
-		/* @var $options \SkelletonApplication\Options\SiteRegistrationOptions */
-		$options = $sm->get(SiteRegistrationOptions::class);
-		
-		$email = null;
-		$flag = $options->getRegistrationMethodFlag();
-		if($flag === SiteRegistrationOptions::REGISTRATION_METHOD_AUTO_ENABLE){
-			$email = $options->getRegistrationUserEmailWelcome();
-		} elseif(($flag & SiteRegistrationOptions::REGISTRATION_METHOD_AUTO_ENABLE) && ($flag & SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM)){
-			$email = $options->getRegistrationUserEmailWelcomeConfirmMail();
-		} elseif($flag & SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM){
-			$email = $options->getRegistrationUserEmailConfirmMail();
-		} elseif($flag & SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM){
-			$email = $options->getRegistrationUserEmailConfirmModerator();
-		}
-		
-		
-		/* @var $transport \GoalioMailService\Mail\Service\Message */
-		$transport = $sm->get('goaliomailservice_message');
-		if($email){
-			$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $user->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user));
-			$transport->send($message);
-		}
-		
-		if(
-			// Send moderator notification if method is not double confirm (on double confirm it is sent after email is verified)
-			$flag !== (SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM | SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM) &&
-			$options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_MODERATOR
-		){
-			$roleString = true;
-			foreach($options->getRegistrationNotify() as $v){
-				if(is_numeric($v)){
-					$roleString = false;
-					break;
-				}
-			}
-			
-			$users = $em->getRepository(get_class($user))->createQueryBuilder('u')
-					->leftJoin('u.roles', 'r');
-			if($roleString){
-				$users->andWhere('r.roleId IN (:roleIds)');
-			} else {
-				$users->andWhere('r.id IN (:roleIds)');
-			}
-			$users->setParameter('roleIds', $options->getRegistrationNotify());
-			var_dump($users->getQuery()->getDQL());
-			$mods = $users->getQuery()->getResult();
-			$email = $options->getRegistrationModeratorEmail();
-			foreach($mods as $mod){
-				$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $mod->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user, 'moderator' => $mod));
-				$transport->send($message);
-			}
-		}
 	}
 }

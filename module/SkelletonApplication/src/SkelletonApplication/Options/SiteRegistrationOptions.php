@@ -300,5 +300,37 @@ class SiteRegistrationOptions extends AbstractSiteOptions{
 		}
 		return $email;
 	}
-
+	
+	protected static function getTemplateKey($flag, $infix){
+		$suffix = '';
+		switch($flag){
+			case static::REGISTRATION_EMAIL_WELCOME:
+				$suffix = 'welcome';
+			case static::REGISTRATION_EMAIL_WELCOME_CONFIRM_MAIL:
+				$suffix = 'welcome_confirm';
+			case static::REGISTRATION_EMAIL_CONFIRM_MAIL:
+				$suffix = 'confirm';
+			case static::REGISTRATION_EMAIL_CONFIRM_MODERATOR:
+				$suffix = 'confirm_moderator';
+			case static::REGISTRATION_EMAIL_DOUBLE_CONFIRM_MAIL:
+				$suffix = 'double_confirm';
+			case static::REGISTRATION_EMAIL_MODERATOR:
+				$suffix = 'moderator';
+			case static::REGISTRATION_EMAIL_ACTIVATED:
+				$suffix = 'activated';
+			case static::REGISTRATION_EMAIL_DISABLED:
+				$suffix = 'disabled';
+			default:
+				return null;
+		}
+		return 'skelleton.'.$infix.'.registration.'.$suffix;
+	}
+	
+	public static function getEmailTemplateKey($flag){
+		return static::getTemplateKey($flag, 'email');
+	}
+	
+	public static function getSubjectTemplateKey($flag){
+		return static::getTemplateKey($flag, 'subject');
+	}
 }
