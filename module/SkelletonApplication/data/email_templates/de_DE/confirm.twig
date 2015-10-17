@@ -1,0 +1,4 @@
+{% set link = serverUrl(url('zfcuser/check-token', { 'token' : user.getToken } )) %}
+Hallo {{ user.getDisplayName }},<br><br> 
+danke für die Registrierung auf unserer Webseite. Bitte klicke auf den unten stehenden Link, um deinen Account zu aktivieren:<br><br>
+<a href="{{ link }}">{{ link }}</a>

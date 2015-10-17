@@ -301,7 +301,7 @@ class SiteRegistrationOptions extends AbstractSiteOptions{
 		return $email;
 	}
 	
-	protected static function getTemplateKey($flag, $infix){
+	protected static function getTemplateSuffix($flag){
 		$suffix = '';
 		switch($flag){
 			case static::REGISTRATION_EMAIL_WELCOME:
@@ -322,6 +322,14 @@ class SiteRegistrationOptions extends AbstractSiteOptions{
 				$suffix = 'disabled';
 			default:
 				return null;
+		}
+		return $suffix;
+	}
+	
+	protected static function getTemplateKey($flag, $infix){
+		$suffix = static::getTemplateSuffix($flag);
+		if(!$suffix){
+			return null;
 		}
 		return 'skelleton.'.$infix.'.registration.'.$suffix;
 	}

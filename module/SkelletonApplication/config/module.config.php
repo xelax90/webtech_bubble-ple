@@ -291,7 +291,7 @@ return array(
 	),
 	
 	'zfctwig' => array(
-		'loder_chain' => array(
+		'loader_chain' => array(
 			Twig\DbLoader::class,
 		),
 	),

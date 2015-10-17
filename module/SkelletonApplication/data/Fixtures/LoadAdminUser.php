@@ -57,6 +57,7 @@ class LoadAdminUser extends AbstractFixture implements FixtureInterface, Service
 	
     public function load(ObjectManager $manager)
     {
+		/* @var $userService \ZfcUser\Service\User */
 		$userService = $this->getServiceLocator()->get('zfcuser_user_service');
 		
 		$data = array(
@@ -66,10 +67,18 @@ class LoadAdminUser extends AbstractFixture implements FixtureInterface, Service
 			'password' => 'schurix',
 			'passwordVerify' => 'schurix'
 		);
+		
+		
+		$found = $userService->getUserMapper()->findByEmail($data['email']);
+		if($found){
+			$this->addReference('admin-user', $found);
+			return;
+		}
+		
 		/* @var $userObject User */
 		$userObject = $userService->register($data);
 		if(!$userObject){
-			throw new Exception(sprintf('Registration of user %s failed', $item->name));
+			throw new \Exception(sprintf('Registration of user %s failed', $item->name));
 		}
 		$userObject->setUsername($data['username']);
 		$userObject->setEmail($data['email']);

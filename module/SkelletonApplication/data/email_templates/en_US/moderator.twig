@@ -1,0 +1,4 @@
+{% set link = serverUrl(url('zfcadmin/user')) %}
+Hello {{ moderator.getDisplayName }},<br><br> 
+the user {{ user.getDisplayName }} has registered on our website. You can view the registration using the link below:<br><br>
+<a href="{{ link }}">{{ link }}</a>

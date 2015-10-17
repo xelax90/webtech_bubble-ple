@@ -1,0 +1,4 @@
+{% set link = serverUrl(url('zfcuser/login')) %}
+Hello {{ user.getDisplayName }},<br><br> 
+your account has been activated by a moderator. You can now sign in using the link below:<br><br>
+<a href="{{ link }}">{{ link }}</a>

@@ -23,13 +23,13 @@ namespace SkelletonApplication\Twig;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Doctrine\ORM\EntityManager;
 
-
+use Zend\ServiceManager\FactoryInterface;
 /**
  * Description of DbLoaderFactory
  *
  * @author schurix
  */
-class DbLoaderFactory {
+class DbLoaderFactory implements FactoryInterface{
 	
     /**
      * Create service
@@ -40,7 +40,7 @@ class DbLoaderFactory {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
 		$em = $serviceLocator->get(EntityManager::class);
-		$translator =$serviceLocator->get('translator');
+		$translator = $serviceLocator->get('translator');
 
         $loader = new DbLoader();
 		$loader->setObjectManager($em);

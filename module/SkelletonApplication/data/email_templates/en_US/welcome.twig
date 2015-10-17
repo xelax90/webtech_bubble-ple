@@ -1,0 +1,4 @@
+{% set link = serverUrl(url('zfcuser/login')) %}
+Hello {{ user.getDisplayName }},<br><br> 
+thanks for registering on our website. You can now sign in using the link below:<br><br>
+<a href="{{ link }}">{{ link }}</a>

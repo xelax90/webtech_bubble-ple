@@ -25,6 +25,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use SkelletonApplication\Entity\Translation;
 
 /**
  * Description of LoadEmailTemplates
@@ -35,6 +36,45 @@ class LoadEmailTemplates extends AbstractFixture implements FixtureInterface, Se
 	use ServiceLocatorAwareTrait;
 	
 	public function load(ObjectManager $manager) {
-		// TODO
+		$templateDir = dirname(__DIR__).'/email_templates';
+		$languages = scandir($templateDir);
+		foreach($languages as $language){
+			if($language{0} === '.'){
+				continue;
+			}
+			$languageDir = $templateDir.DIRECTORY_SEPARATOR.$language;
+			if(!is_dir($languageDir) || !is_readable($languageDir)){
+				continue;
+			}
+			
+			$templates = scandir($languageDir);
+			
+			foreach($templates as $template){
+				if($template{0} === '.'){
+					continue;
+				}
+				
+				$templateFile = $languageDir.DIRECTORY_SEPARATOR.$template;
+				if(!is_readable($templateFile) || !is_file($templateFile) || pathinfo($templateFile, PATHINFO_EXTENSION) !== 'twig'){
+					echo 'ignoring template '.$templateFile;
+					continue;
+				}
+				
+				$translationKey = 'skelleton.email.registration.'.basename($templateFile, '.'.pathinfo($templateFile, PATHINFO_EXTENSION));
+				
+				$found = $manager->getRepository(Translation::class)->findOneBy(array('locale' => $language, 'textDomain' => 'default', 'translationKey' => $translationKey));
+				if($found){
+					$translation = $found;
+				} else {
+					$translation = new Translation();
+					$translation
+						->setLocale($language)
+						->setTranslationKey($translationKey);
+					$manager->persist($translation);
+				}
+				$translation->setTranslation(file_get_contents($templateFile));
+			}
+		}
+		$manager->flush();
 	}
 }
