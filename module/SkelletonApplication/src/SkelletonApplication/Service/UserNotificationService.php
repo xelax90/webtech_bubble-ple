@@ -44,6 +44,8 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 	protected $registrationOptions;
 	/** @var EntityManager */
 	protected $entityManager;
+	/** @var \Zend\Mvc\I18n\Translator */
+	protected $translator;
 	
 	public function notifyUser($user, $event){
 		switch($event){
@@ -138,13 +140,14 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 		if(!$templateKey){
 			return null;
 		}
+		$translator = $this->getTranslator();
 		$options = $this->getRegistrationOptions();
 		$transport = $this->getTransport();
 		$message = $transport->createHtmlMessage(
 				$options->getRegistrationNotificationFrom(), 
 				$user->getEmail(), 
-				SiteRegistrationOptions::getSubjectTemplateKey($flag), 
-				SiteRegistrationOptions::getEmailTemplateKey($flag), 
+				$translator->translate(SiteRegistrationOptions::getSubjectTemplateKey($flag)),
+				$translator->translate(SiteRegistrationOptions::getEmailTemplateKey($flag)),
 				$parameters
 		);
 		return $message;
@@ -181,5 +184,16 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 		}
 		return $this->registrationOptions;
 	}
+	
+	/**
+	 * @return \Zend\Mvc\I18n\Translator
+	 */
+	public function getTranslator(){
+		if(null === $this->translator){
+			$this->translator = $this->getServiceLocator()->get('translator');
+		}
+		return $this->translator;
+	}
+	
 	
 }
