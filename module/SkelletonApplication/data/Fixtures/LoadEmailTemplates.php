@@ -26,6 +26,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use SkelletonApplication\Entity\Translation;
+use SkelletonApplication\Options\SiteRegistrationOptions;
 
 /**
  * Description of LoadEmailTemplates
@@ -34,6 +35,46 @@ use SkelletonApplication\Entity\Translation;
  */
 class LoadEmailTemplates extends AbstractFixture implements FixtureInterface, ServiceLocatorAwareInterface{
 	use ServiceLocatorAwareTrait;
+	
+	const EMAIL_MSB = 8;
+	
+	protected function getEmailSubject($key, $language){
+		$subjects = array(
+			SiteRegistrationOptions::getSubjectTemplateKey(SiteRegistrationOptions::REGISTRATION_EMAIL_ACTIVATED) => array(
+				'de_DE' => '[SkelletonApplication] Dein Account wurde bestätigt',
+				'en_US' => '[SkelletonApplication] Your Account has been verified'
+			),
+			SiteRegistrationOptions::getSubjectTemplateKey(SiteRegistrationOptions::REGISTRATION_EMAIL_CONFIRM_MAIL) => array(
+				'de_DE' => '[SkelletonApplication] Willkommen. Bitte bestätige deine E-Mail Adresse',
+				'en_US' => '[SkelletonApplication] Welcome. Please confirm your E-Mail'
+			),
+			SiteRegistrationOptions::getSubjectTemplateKey(SiteRegistrationOptions::REGISTRATION_EMAIL_CONFIRM_MODERATOR) => array(
+				'de_DE' => '[SkelletonApplication] Willkommen',
+				'en_US' => '[SkelletonApplication] Welcome'
+			),
+			SiteRegistrationOptions::getSubjectTemplateKey(SiteRegistrationOptions::REGISTRATION_EMAIL_DISABLED) => array(
+				'de_DE' => '[SkelletonApplication] Dein Account wurde gesperrt',
+				'en_US' => '[SkelletonApplication] Your Account has been disabled'
+			),
+			SiteRegistrationOptions::getSubjectTemplateKey(SiteRegistrationOptions::REGISTRATION_EMAIL_DOUBLE_CONFIRM_MAIL) => array(
+				'de_DE' => '[SkelletonApplication] Willkommen',
+				'en_US' => '[SkelletonApplication] Welcome'
+			),
+			SiteRegistrationOptions::getSubjectTemplateKey(SiteRegistrationOptions::REGISTRATION_EMAIL_MODERATOR) => array(
+				'de_DE' => '[SkelletonApplication] Ein neuer Benutzer hat sich registriert',
+				'en_US' => '[SkelletonApplication] A new user has registered'
+			),
+			SiteRegistrationOptions::getSubjectTemplateKey(SiteRegistrationOptions::REGISTRATION_EMAIL_WELCOME) => array(
+				'de_DE' => '[SkelletonApplication] Willkommen',
+				'en_US' => '[SkelletonApplication] Welcome'
+			),
+			SiteRegistrationOptions::getSubjectTemplateKey(SiteRegistrationOptions::REGISTRATION_EMAIL_WELCOME_CONFIRM_MAIL) => array(
+				'de_DE' => '[SkelletonApplication] Willkommen. Bitte bestätige deine E-Mail Adresse',
+				'en_US' => '[SkelletonApplication] Welcome. Please confirm your E-Mail'
+			),
+		);
+		return $subjects[$key][$language];
+	}
 	
 	public function load(ObjectManager $manager) {
 		$templateDir = dirname(__DIR__).'/email_templates';
@@ -56,11 +97,11 @@ class LoadEmailTemplates extends AbstractFixture implements FixtureInterface, Se
 				
 				$templateFile = $languageDir.DIRECTORY_SEPARATOR.$template;
 				if(!is_readable($templateFile) || !is_file($templateFile) || pathinfo($templateFile, PATHINFO_EXTENSION) !== 'twig'){
-					echo 'ignoring template '.$templateFile;
+					echo 'ignoring template '.$templateFile.PHP_EOL;
 					continue;
 				}
 				
-				$translationKey = 'skelleton.email.registration.'.basename($templateFile, '.'.pathinfo($templateFile, PATHINFO_EXTENSION));
+				$translationKey = 'skelleton.email.registration.'.basename($templateFile, '.'.pathinfo($templateFile, PATHINFO_EXTENSION)).'.template';
 				
 				$found = $manager->getRepository(Translation::class)->findOneBy(array('locale' => $language, 'textDomain' => 'default', 'translationKey' => $translationKey));
 				if($found){
@@ -73,8 +114,37 @@ class LoadEmailTemplates extends AbstractFixture implements FixtureInterface, Se
 					$manager->persist($translation);
 				}
 				$translation->setTranslation(file_get_contents($templateFile));
+				
 			}
 		}
+		
+		for($i = 0; $i < static::EMAIL_MSB; $i++){
+			foreach($languages as $language){
+				if($language{0} === '.'){
+					continue;
+				}
+				$languageDir = $templateDir.DIRECTORY_SEPARATOR.$language;
+				if(!is_dir($languageDir) || !is_readable($languageDir)){
+					continue;
+				}
+				
+				$subjectKey = SiteRegistrationOptions::getSubjectTemplateKey(1<<$i);
+				
+				$found = $manager->getRepository(Translation::class)->findOneBy(array('locale' => $language, 'textDomain' => 'default', 'translationKey' => $subjectKey));
+				if($found){
+					$translation = $found;
+				} else {
+					$translation = new Translation();
+					$translation
+						->setLocale($language)
+						->setTranslationKey($subjectKey);
+					$manager->persist($translation);
+				}
+				$translation->setTranslation($this->getEmailSubject($subjectKey, $language));
+			}
+		}
+		
+				
 		$manager->flush();
 	}
 }

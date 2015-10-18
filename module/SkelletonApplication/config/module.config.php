@@ -126,7 +126,19 @@ $routerConfig = array(
 							),
 						),
 					),
-					
+					'emails' => array(
+						'type' => 'segment',
+						'options' => array(
+							'route' => '/emails[/:action]',
+							'defaults' => array(
+								'controller' => Controller\EmailTemplateController::class,
+								'action' => 'index',
+							),
+							'constraints' => array(
+								'action' => '(index|edit)',
+							),
+						),
+					),
 				)
 			),
 		),
@@ -199,6 +211,7 @@ $guardConfig = array(
 	
 	// site config
 	['route' => 'zfcadmin/siteconfig/registration' ,  'roles' => ['moderator']],
+	['route' => 'zfcadmin/siteconfig/emails' ,  'roles' => ['moderator']],
 );
 
 $ressources = array(
@@ -226,6 +239,8 @@ $ressourceAllowRules = array(
 	
 	[['moderator'], 'siteconfig', 'registration/list'],
 	[['administrator'], 'siteconfig', 'registration/edit'],
+	[['moderator'], 'siteconfig', 'emails/list'],
+	[['administrator'], 'siteconfig', 'emails/edit'],
 );
 
 return array(
@@ -234,6 +249,7 @@ return array(
 			Controller\IndexController::class => Controller\IndexController::class,
 			Controller\UserController::class => Controller\UserController::class,
 			Controller\RegistrationConfigController::class => Controller\RegistrationConfigController::class,
+			Controller\EmailTemplateController::class => Controller\EmailTemplateController::class,
 		),
 		'factories' => array(
 			Controller\FrontendUserController::class => function($controllerManager) {
@@ -391,6 +407,7 @@ return array(
 			array('label' => gettext_noop('Config'),          'route' => 'zfcadmin/siteconfig/email', 'resource' => 'siteconfig', 'privilege' => 'list', 'pages' => array(
 				array('label' => gettext_noop('E-Mail'),            'route' => 'zfcadmin/siteconfig/email', 'action' => 'index' , 'resource' => 'siteconfig', 'privilege' => 'registration/list'),
 				array('label' => gettext_noop('Registration'),      'route' => 'zfcadmin/siteconfig/registration', 'action' => 'index'  , 'resource' => 'siteconfig', 'privilege' => 'registration/list'),
+				array('label' => gettext_noop('E-Mail Templates'),  'route' => 'zfcadmin/siteconfig/emails', 'action' => 'index'  , 'resource' => 'siteconfig', 'privilege' => 'emails/list'),
 			)),
 			array('label' => gettext_noop('Users'),           'route' => 'zfcadmin/user',        'resource' => 'administration', 'privilege' => 'user/list' ),
 			array('label' => gettext_noop('User Profiles'),   'route' => 'zfcadmin/userprofile', 'resource' => 'administration', 'privilege' => 'userprofile')

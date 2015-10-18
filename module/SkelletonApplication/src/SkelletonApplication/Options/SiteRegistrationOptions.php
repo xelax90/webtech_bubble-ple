@@ -306,39 +306,96 @@ class SiteRegistrationOptions extends AbstractSiteOptions{
 		switch($flag){
 			case static::REGISTRATION_EMAIL_WELCOME:
 				$suffix = 'welcome';
+				break;
 			case static::REGISTRATION_EMAIL_WELCOME_CONFIRM_MAIL:
 				$suffix = 'welcome_confirm';
+				break;
 			case static::REGISTRATION_EMAIL_CONFIRM_MAIL:
 				$suffix = 'confirm';
+				break;
 			case static::REGISTRATION_EMAIL_CONFIRM_MODERATOR:
 				$suffix = 'confirm_moderator';
+				break;
 			case static::REGISTRATION_EMAIL_DOUBLE_CONFIRM_MAIL:
 				$suffix = 'double_confirm';
+				break;
 			case static::REGISTRATION_EMAIL_MODERATOR:
 				$suffix = 'moderator';
+				break;
 			case static::REGISTRATION_EMAIL_ACTIVATED:
 				$suffix = 'activated';
+				break;
 			case static::REGISTRATION_EMAIL_DISABLED:
 				$suffix = 'disabled';
+				break;
 			default:
 				return null;
+				
 		}
 		return $suffix;
 	}
 	
-	protected static function getTemplateKey($flag, $infix){
+	protected static function getTemplateKey($flag, $type){
+		return static::getEmailKey($flag).'.'.$type;
+	}
+	
+	public static function getEmailKey($flag){
 		$suffix = static::getTemplateSuffix($flag);
 		if(!$suffix){
 			return null;
 		}
-		return 'skelleton.'.$infix.'.registration.'.$suffix;
+		return 'skelleton.registration.email.'.$suffix;
 	}
 	
 	public static function getEmailTemplateKey($flag){
-		return static::getTemplateKey($flag, 'email');
+		return static::getTemplateKey($flag, 'template');
 	}
 	
 	public static function getSubjectTemplateKey($flag){
 		return static::getTemplateKey($flag, 'subject');
+	}
+	
+	/**
+	 * Computes which emails are relevant in the current registration method/email configuration
+	 * @return int
+	 */
+	public function getRelevantEmailFlag(){
+		$methodFlag = $this->getRegistrationMethodFlag();
+		$emailFlag = $this->getRegistrationEmailFlag();
+		
+		$relevantEmailFlag = 0;
+		$relevantEmailFlag |= static::REGISTRATION_EMAIL_MODERATOR;
+		$relevantEmailFlag |= static::REGISTRATION_EMAIL_ACTIVATED;
+		$relevantEmailFlag |= static::REGISTRATION_EMAIL_DISABLED;
+		
+		switch($methodFlag){
+			case static::REGISTRATION_METHOD_AUTO_ENABLE:
+				$relevantEmailFlag |= static::REGISTRATION_EMAIL_WELCOME;
+				break;
+			case static::REGISTRATION_METHOD_SELF_CONFIRM:
+				$relevantEmailFlag |= static::REGISTRATION_EMAIL_CONFIRM_MAIL;
+				break;
+			case static::REGISTRATION_METHOD_MODERATOR_CONFIRM:
+				$relevantEmailFlag |= static::REGISTRATION_EMAIL_CONFIRM_MODERATOR;
+				break;
+			case static::REGISTRATION_METHOD_AUTO_ENABLE | static::REGISTRATION_METHOD_SELF_CONFIRM:
+				$relevantEmailFlag |= static::REGISTRATION_EMAIL_WELCOME_CONFIRM_MAIL;
+				break;
+			case static::REGISTRATION_METHOD_SELF_CONFIRM | static::REGISTRATION_METHOD_MODERATOR_CONFIRM:
+				$relevantEmailFlag |= static::REGISTRATION_EMAIL_CONFIRM_MAIL;
+				$relevantEmailFlag |= static::REGISTRATION_EMAIL_DOUBLE_CONFIRM_MAIL;
+				break;
+			case static::REGISTRATION_METHOD_AUTO_ENABLE | static::REGISTRATION_METHOD_SELF_CONFIRM:
+				$relevantEmailFlag |= static::REGISTRATION_EMAIL_WELCOME_CONFIRM_MAIL;
+				break;
+		}
+		
+		for($i = 0; (1 << $i) <= $relevantEmailFlag; $i++){
+			if(!($emailFlag & (1 << $i))){
+				$relevantEmailFlag &= ~(1 << $i);
+			}
+		}
+		
+		return $relevantEmailFlag;
 	}
 }

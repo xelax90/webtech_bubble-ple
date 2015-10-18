@@ -21,9 +21,6 @@ namespace SkelletonApplication\Form;
 
 use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilterProviderInterface;
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use DoctrineModule\Persistence\ProvidesObjectManager;
 
 /**
  * SiteEmailOptionsFieldset Fieldset
@@ -58,13 +55,14 @@ class SiteEmailOptionsFieldset extends Fieldset implements InputFilterProviderIn
 		
 		$this->add(array(
 			'name' => 'template',
-			'type' => 'Text',
+			'type' => 'Textarea',
 			'options' => array(
 				'label' => gettext_noop('Template'),
 				'column-size' => 'sm-10',
 				'label_attributes' => array(
 					'class' => 'col-sm-2',
 				),
+				'value_use_pre' => true,
 			),
 			'attributes' => array(
 				'id' => "",
@@ -78,16 +76,12 @@ class SiteEmailOptionsFieldset extends Fieldset implements InputFilterProviderIn
 				'required' => true,
 				'filters' => array(
 					array('name' => 'StringTrim'),
-					array('name' => 'StripTags'),
-					array('name' => 'XelaxHTMLPurifier\Filter\HTMLPurifier'),
 				),
 			),
 			'template' => array(
 				'required' => true,
 				'filters' => array(
 					array('name' => 'StringTrim'),
-					array('name' => 'StripTags'),
-					array('name' => 'XelaxHTMLPurifier\Filter\HTMLPurifier'),
 				),
 			),
 		);

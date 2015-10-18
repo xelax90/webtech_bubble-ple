@@ -33,7 +33,7 @@ use SkelletonApplication\Form\SiteRegistrationOptionsForm;
  */
 class RegistrationConfigController extends SiteConfigController{
 	public function getConfig() {
-		return $this->getServiceLocator()->get(SiteRegistrationOptions::class);
+		$registration = $this->getServiceLocator()->get(SiteRegistrationOptions::class);
 	}
 
 	public function getConfigPrefix() {
