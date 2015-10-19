@@ -23,7 +23,7 @@ namespace SkelletonApplication\Service;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Doctrine\ORM\EntityManager;
-use GoalioMailService\Mail\Service\Message;
+use GoalioMailService\Mail\Service\Message as GoalioMessage;
 use SkelletonApplication\Options\SiteRegistrationOptions;
 use Zend\Mail\Message;
 
@@ -38,7 +38,7 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 	const EVENT_REGISTER = 'register.post';
 	const EVENT_TOKEN = 'check-token.post';
 	
-	/** @var Message */
+	/** @var GoalioMessage */
 	protected $transport;
 	/** @var SiteRegistrationOptions */
 	protected $registrationOptions;
@@ -141,20 +141,21 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 			return null;
 		}
 		$translator = $this->getTranslator();
+		// TODO use-based language
 		$options = $this->getRegistrationOptions();
 		$transport = $this->getTransport();
 		$message = $transport->createHtmlMessage(
 				$options->getRegistrationNotificationFrom(), 
 				$user->getEmail(), 
 				$translator->translate(SiteRegistrationOptions::getSubjectTemplateKey($flag)),
-				$translator->translate(SiteRegistrationOptions::getEmailTemplateKey($flag)),
+				SiteRegistrationOptions::getEmailTemplateKey($flag),
 				$parameters
 		);
 		return $message;
 	}
 	
 	/**
-	 * @return Message
+	 * @return GoalioMessage
 	 */
 	public function getTransport(){
 		if(null === $this->transport){
