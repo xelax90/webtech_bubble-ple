@@ -37,6 +37,8 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 	
 	const EVENT_REGISTER = 'register.post';
 	const EVENT_TOKEN = 'check-token.post';
+	const EVENT_ACTIVATED = 'activate.post';
+	const EVENT_DISABLED = 'disable.post';
 	
 	/** @var GoalioMessage */
 	protected $transport;
@@ -53,6 +55,10 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 				return $this->notifyUserRegister($user);
 			case static::EVENT_TOKEN:
 				return $this->notifyUserToken($user);
+			case static::EVENT_ACTIVATED:
+				return $this->notifyUserActivated($user);
+			case static::EVENT_DISABLED:
+				return $this->notifyUserDisabled($user);
 		}
 	}
 	
@@ -71,7 +77,7 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 			$message = $this->getMessage(SiteRegistrationOptions::REGISTRATION_EMAIL_CONFIRM_MODERATOR, $user);
 		}
 		
-		$this->sendMessage($message);
+		$result = $this->sendMessage($message);
 		
 		
 		if(
@@ -81,6 +87,7 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 		){
 			$this->notifyModerators($user);
 		}
+		return $result;
 	}
 	
 	protected function notifyUserToken($user){
@@ -90,11 +97,23 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 			$options->getRegistrationMethodFlag() === (SiteRegistrationOptions::REGISTRATION_METHOD_SELF_CONFIRM | SiteRegistrationOptions::REGISTRATION_METHOD_MODERATOR_CONFIRM)
 		){
 			$message = $this->getMessage(SiteRegistrationOptions::REGISTRATION_EMAIL_DOUBLE_CONFIRM_MAIL, $user);
-			$this->sendMessage($message);
+			$result = $this->sendMessage($message);
 			if($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_MODERATOR){
 				$this->notifyModerators($user);
 			}
+			return $result;
 		}
+		return true;
+	}
+	
+	protected function notifyUserActivated($user){
+		$message = $this->getMessage(SiteRegistrationOptions::REGISTRATION_EMAIL_ACTIVATED, $user);
+		return $this->sendMessage($message);
+	}
+	
+	protected function notifyUserDisabled($user){
+		$message = $this->getMessage(SiteRegistrationOptions::REGISTRATION_EMAIL_DISABLED, $user);
+		return $this->sendMessage($message);
 	}
 	
 	protected function notifyModerators($user){
@@ -124,9 +143,13 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 	}
 	
 	protected function sendMessage($message){
-		if($message instanceof Message){
-			$this->getTransport()->send($message);
-		}
+		try{
+			if($message instanceof Message){
+				$this->getTransport()->send($message);
+				return true;
+			}
+		} catch (Exception $ex) {}
+		return false;
 	}
 	
 	public function getMessage($flag, $user, $parameters = null){

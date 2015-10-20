@@ -29,6 +29,7 @@ use ZfcUserAdmin\Options\ModuleOptions;
 use SkelletonApplication\Options\SkelletonOptions;
 use SkelletonApplication\Entity\User;
 use SkelletonApplication\Options\SiteRegistrationOptions;
+use SkelletonApplication\Service\UserNotificationService;
 
 /**
  * User admin controller
@@ -45,6 +46,8 @@ class UserController extends ListController{
 	protected $zfcUserOptions;
 	/** @var \ZfcUserAdmin\Service\User */
 	protected $adminUserService;
+	/** @var UserNotificationService */
+	protected $notificationService;
 
 	protected function getAll() {
         $userMapper = $this->getUserMapper();
@@ -214,7 +217,7 @@ class UserController extends ListController{
 		}
 		$this->getUserMapper()->update($user);
 		$this->flashMessenger()->addSuccessMessage(sprintf('User %s successfully blocked', $user->getDisplayName()));
-		if($this->sendUserDisabledMail($user)){
+		if($this->getNotificationService()->notifyUser($user, UserNotificationService::EVENT_DISABLED)){
 			$this->flashMessenger()->addSuccessMessage(sprintf('Notification successfully sent', $user->getDisplayName()));
 		}
 		return $this->_redirectToList();
@@ -233,49 +236,11 @@ class UserController extends ListController{
 		$this->getUserMapper()->update($user);
 		
 		$this->flashMessenger()->addSuccessMessage(sprintf('User %s successfully activated', $user->getDisplayName()));
-		if($this->sendUserActivateMail($user)){
+		if($this->getNotificationService()->notifyUser($user, UserNotificationService::EVENT_ACTIVATED)){
 			$this->flashMessenger()->addSuccessMessage(sprintf('Notification successfully sent', $user->getDisplayName()));
 		}
 		
 		return $this->_redirectToList();
-	}
-	
-	protected function sendUserActivateMail($user){
-		/* @var $options SiteRegistrationOptions */
-		$options = $this->getServiceLocator()->get(SiteRegistrationOptions::class);
-		
-		if($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_ACTIVATED){
-			$email = $options->getRegistrationUserEmailActivated();
-			/* @var $transport \GoalioMailService\Mail\Service\Message */
-			if($email){
-				try{
-					$transport = $this->getServiceLocator()->get('goaliomailservice_message');
-					$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $user->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user));
-					$transport->send($message);
-					return true;
-				} catch (Exception $ex) {}
-			}
-		}
-		return false;
-	}
-	
-	protected function sendUserDisabledMail($user){
-		/* @var $options SiteRegistrationOptions */
-		$options = $this->getServiceLocator()->get(SiteRegistrationOptions::class);
-		
-		if($options->getRegistrationEmailFlag() & SiteRegistrationOptions::REGISTRATION_EMAIL_DISABLED){
-			$email = $options->getRegistrationUserEmailDisabled();
-			/* @var $transport \GoalioMailService\Mail\Service\Message */
-			if($email){
-				try{
-					$transport = $this->getServiceLocator()->get('goaliomailservice_message');
-					$message = $transport->createHtmlMessage($options->getRegistrationNotificationFrom(), $user->getEmail(), $email->getSubject(), $email->getTemplate(), array('user' => $user));
-					$transport->send($message);
-					return true;
-				} catch (Exception $ex) {}
-			}
-		}
-		return false;
 	}
 	
 	public function setZfcUserAdminOptions(ModuleOptions $options){
@@ -327,5 +292,15 @@ class UserController extends ListController{
 			$this->setZfcUserOptions($this->getServiceLocator()->get('zfcuser_module_options'));
 		}
 		return $this->zfcUserOptions;
+	}
+	
+	/**
+	 * @return UserNotificationService
+	 */
+	public function getNotificationService(){
+		if(null === $this->notificationService){
+			$this->notificationService = $this->getServiceLocator()->get(UserNotificationService::class);
+		}
+		return $this->notificationService;
 	}
 }
