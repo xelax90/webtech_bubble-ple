@@ -25,6 +25,7 @@ $config = array(
 		'XelaxTwbUnmask',
 		'XelaxHTMLPurifier',
 		'XelaxPasswordGeneratorModule',
+		'XelaxTreeEditor',
 		'SkelletonApplication',
     ),
 	

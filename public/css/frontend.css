@@ -9488,4 +9488,70 @@ body {
 .form-horizontal .form-value-only {
   padding-top: 7px;
 }
+.sortableList ul,
+#sortableListsBase {
+  padding: 10px 0;
+}
+.sortableList ul li,
+#sortableListsBase li {
+  list-style: none;
+  border: 1px solid black;
+  border-left-width: 50px;
+  padding: 5px;
+  margin: 5px 0;
+}
+.sortableList ul li > div,
+#sortableListsBase li > div {
+  position: relative;
+}
+.sortableList ul li > div:before,
+#sortableListsBase li > div:before,
+.sortableList ul li > div:after,
+#sortableListsBase li > div:after {
+  content: " ";
+  display: table;
+}
+.sortableList ul li > div:after,
+#sortableListsBase li > div:after {
+  clear: both;
+}
+.sortableList ul li > div:before,
+#sortableListsBase li > div:before,
+.sortableList ul li > div:after,
+#sortableListsBase li > div:after {
+  content: " ";
+  display: table;
+}
+.sortableList ul li > div:after,
+#sortableListsBase li > div:after {
+  clear: both;
+}
+.sortableList ul li > div .sortableListsOpener,
+#sortableListsBase li > div .sortableListsOpener {
+  background-image: none !important;
+  position: absolute;
+  top: 5px;
+  left: -40px;
+  color: white;
+  font-size: 1.5em;
+  width: 20px;
+  text-align: center;
+}
+.sortableList ul li > div .sortableListsOpener:before,
+#sortableListsBase li > div .sortableListsOpener:before {
+  content: "\f067";
+}
+.sortableList ul li > div .cell,
+#sortableListsBase li > div .cell {
+  float: left;
+  padding: 10px 20px;
+}
+.sortableList ul li > div .cell-ctrls,
+#sortableListsBase li > div .cell-ctrls {
+  float: right;
+}
+.sortableList ul li.sortableListsOpen > div .sortableListsOpener:before,
+#sortableListsBase li.sortableListsOpen > div .sortableListsOpener:before {
+  content: "\f068";
+}
 /*# sourceMappingURL=frontend.css.map */

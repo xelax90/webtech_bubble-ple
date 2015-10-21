@@ -63,6 +63,15 @@ $xelaxConfig = array(
 				),
 			),
 		),
+		'role' => array(
+			'name' => 'Role', 
+			'controller_class' => \XelaxTreeEditor\Controller\TreeEditorController::class, 
+			'base_namespace' => 'SkelletonApplication',
+			'list_columns' => array(gettext_noop('Id') => 'id', gettext_noop('RoleId') => 'roleId'),
+			'list_title' => gettext_noop('Roles'),
+			'route_base' => 'zfcadmin/roles',
+			'rest_enabled' => true,
+		),
 	),
 );
 
@@ -80,6 +89,7 @@ $routerConfig = array(
 	'zfcadmin' => array(
 		'child_routes' => array(
 			'userprofile' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'userprofile' ) ),
+			'roles' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'role' ) ),
 			'user'        => array( 'type' => ListRoute::class, 'priority' => 1001, 'options' => array( 'controller_options_name' => 'user'        ) ,
 				'may_terminate' => true,
 				'child_routes' => array(
@@ -208,6 +218,7 @@ $guardConfig = array(
 	['route' => 'zfcadmin/user' ,                'roles' => ['administrator']],
 	['route' => 'zfcadmin/user/block' ,          'roles' => ['administrator']],
 	['route' => 'zfcadmin/user/unblock' ,        'roles' => ['administrator']],
+	['route' => 'zfcadmin/roles',                'roles' => ['administrator']],
 	
 	// site config
 	['route' => 'zfcadmin/siteconfig/registration' ,  'roles' => ['moderator']],

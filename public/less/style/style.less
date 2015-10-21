@@ -5,3 +5,47 @@ body {
 .form-horizontal .form-value-only{
 	padding-top: 7px;
 }
+
+.sortableList ul, 
+#sortableListsBase{
+	padding: 10px 0;
+	li {
+		list-style: none;
+		border: 1px solid black;
+		border-left-width: 50px;
+		padding: 5px;
+		margin: 5px 0;
+		
+		& > div {
+			.clearfix();
+			position: relative;
+			
+			.sortableListsOpener{
+				&:before { content: @fa-var-plus; }
+				background-image: none !important;
+				position: absolute;
+				top: 5px;
+				left: -40px;
+				color: white;
+				font-size: 1.5em;
+				width: 20px;
+				text-align: center;
+			}
+			
+			.cell{
+				float: left;
+				padding: 10px 20px;
+			}
+
+			.cell-ctrls{
+				float: right;
+			}
+		}
+		
+		&.sortableListsOpen > div{
+			.sortableListsOpener{
+				&:before { content: @fa-var-minus; }
+			}
+		}
+	}
+}

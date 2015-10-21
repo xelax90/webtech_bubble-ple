@@ -13,7 +13,7 @@ use Zend\Json\Json;
  * @ORM\Entity
  * @ORM\Table(name="role")
  */
-class Role implements HierarchicalRoleInterface, JsonSerializable
+class Role implements HierarchicalRoleInterface, JsonSerializable, \XelaxTreeEditor\Tree\TreeInterface
 {
     /**
      * @var int

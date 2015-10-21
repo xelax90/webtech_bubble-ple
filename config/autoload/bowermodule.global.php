@@ -21,6 +21,7 @@ return array(
 					'bootstrap',
 					'bootstrap-switch',
 					'select2',
+					'jquery-sortable-lists',
 				)
 			),
 			'frontend' => array(

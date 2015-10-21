@@ -44,6 +44,7 @@
 		"xelax90/password-generator-module" : "dev-master",
 		"xelax90/xelax-formgen" : "dev-master",
 		"xelax90/xelax-site-config" : "dev-master",
+		"xelax90/xelax-tree-editor" : "dev-master",
 		
 		"azatoth/php-pgettext" : "dev-master"
 	},
