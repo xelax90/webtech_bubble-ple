@@ -1,8 +1,0 @@
-<?php 
-$link = $this->serverUrl($this->url('zfcuser/login', array('token' => $this->user->getToken())));
-$linkFormat = '<a href="%s">%s</a>';
-echo sprintf(
-	$this->translate('Hello %s,<br><br>your account has been activated by a moderator. You can now sign in using the link below:<br><br>%s'),
-	$this->user->getDisplayName(),
-	sprintf($linkFormat, $link, $link)
-);

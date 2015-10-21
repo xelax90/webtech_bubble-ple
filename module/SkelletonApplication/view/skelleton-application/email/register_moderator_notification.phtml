@@ -1,9 +1,0 @@
-<?php 
-$link = $this->serverUrl($this->url('zfcadmin/user'));
-$linkFormat = '<a href="%s">%s</a>';
-echo sprintf(
-	$this->translate('Hello %s,<br><br>the user %s has registered on our website. You can view the registration using the link below:<br><br>%s'),
-	$this->moderator->getDisplayName(),
-	$this->user->getDisplayName(),
-	sprintf($linkFormat, $link, $link)
-);
