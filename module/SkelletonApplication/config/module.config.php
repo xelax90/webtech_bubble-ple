@@ -65,7 +65,7 @@ $xelaxConfig = array(
 		),
 		'role' => array(
 			'name' => 'Role', 
-			'controller_class' => \XelaxTreeEditor\Controller\TreeEditorController::class, 
+			'controller_class' => Controller\RoleController::class, 
 			'base_namespace' => 'SkelletonApplication',
 			'list_columns' => array(gettext_noop('Id') => 'id', gettext_noop('RoleId') => 'roleId'),
 			'list_title' => gettext_noop('Roles'),
@@ -261,6 +261,7 @@ return array(
 			Controller\UserController::class => Controller\UserController::class,
 			Controller\RegistrationConfigController::class => Controller\RegistrationConfigController::class,
 			Controller\EmailTemplateController::class => Controller\EmailTemplateController::class,
+			Controller\RoleController::class => Controller\RoleController::class,
 		),
 		'factories' => array(
 			Controller\FrontendUserController::class => function($controllerManager) {
