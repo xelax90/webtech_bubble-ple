@@ -70,7 +70,7 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 		/* @var $user \SkelletonApplication\Entity\User */
 		$user = $e->getParam('user');
 		
-		$config = $sm->get('config');
+		$config = $sm->get('Config');
 		$criteria = array('roleId' => $config['zfcuser']['new_user_default_role']);
 		
 		/* @var $defaultUserRole \SkelletonApplication\Entity\Role */
@@ -148,7 +148,7 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 		/* @var $form \ZfcUser\Form\Register */
 		$form = $e->getTarget();
 		
-		$config = $sm->get('config');
+		$config = $sm->get('Config');
 		$roleEntity = $config['zfcuser']['role_entity_class'];
 		
 		$form->add(

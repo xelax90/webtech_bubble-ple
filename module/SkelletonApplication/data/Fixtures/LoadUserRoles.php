@@ -65,7 +65,7 @@ class LoadUserRoles extends AbstractFixture implements FixtureInterface, Service
     }
 	
 	protected function saveRoles(ObjectManager $manager, $roles, $parent = null){
-		$config = $this->getServiceLocator()->get('config');
+		$config = $this->getServiceLocator()->get('Config');
 		$roleEntity = $config['zfcuser']['role_entity_class'];
 		$repo = $manager->getRepository($roleEntity);
 		foreach($roles as $roleName => $children){

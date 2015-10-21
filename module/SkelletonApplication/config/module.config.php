@@ -329,7 +329,6 @@ return array(
 				return new Options\SkelletonOptions(isset($config['skelleton_application']) ? $config['skelleton_application'] : array());
 			},
 			'zfcuser_module_options' => Options\Service\ZfcUserOptionsFactory::class,
-			'translator' => \Zend\Mvc\Service\TranslatorServiceFactory::class,
 			Options\SiteRegistrationOptions::class => Options\Service\SiteRegistrationOptionsFactory::class,
 			Twig\DbLoader::class => Twig\DbLoaderFactory::class,
 		),
@@ -337,6 +336,7 @@ return array(
 			'SkelletonApplication\Options\Application' => Options\SkelletonOptions::class,
 			'SkelletonApplication\UserListener' => Listener\UserListener::class,
 			'SkelletonApplication\UserService' => Service\UserService::class,
+			'translator' => 'MvcTranslator'
 		)
 	),
 

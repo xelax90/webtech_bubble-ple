@@ -71,7 +71,7 @@ class UserService implements ServiceLocatorAwareInterface{
 	 */
 	public function getEntityManager(){
 		if (null === $this->em) {
-			$this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+			$this->em = $this->getServiceLocator()->get(EntityManager::class);
 		}
 		return $this->em;
 	}

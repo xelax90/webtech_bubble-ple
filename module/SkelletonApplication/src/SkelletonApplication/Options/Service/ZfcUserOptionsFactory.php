@@ -35,7 +35,7 @@ use Exception;
 class ZfcUserOptionsFactory implements FactoryInterface{
 	
 	public function createService(ServiceLocatorInterface $serviceLocator) {
-		$config = $serviceLocator->get('Configuration');
+		$config = $serviceLocator->get('Config');
 		$siteConfig = array();
 		$methodFlag = 0;
 		try{

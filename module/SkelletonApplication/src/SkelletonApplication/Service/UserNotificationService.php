@@ -214,7 +214,7 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 	 */
 	public function getTranslator(){
 		if(null === $this->translator){
-			$this->translator = $this->getServiceLocator()->get('translator');
+			$this->translator = $this->getServiceLocator()->get('MvcTranslator');
 		}
 		return $this->translator;
 	}

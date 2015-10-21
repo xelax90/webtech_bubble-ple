@@ -5,6 +5,7 @@ use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use SkelletonApplication\Listener\UserListener;
 use Zend\View\Helper\Navigation;
+use BjyAuthorize\Service\Authorize;
 
 class Module
 {
@@ -19,12 +20,12 @@ class Module
 
 		$moduleRouteListener = new ModuleRouteListener();
 		$moduleRouteListener->attach($eventManager);
-		$eventManager->attach(MvcEvent::EVENT_ROUTE, array($this, 'initTranslator'));
+		$eventManager->attach(MvcEvent::EVENT_ROUTE, array($this, 'initTranslator'), 1000);
 		
 		// Enable BjyAuthorize when not in console mode
 		if(!\Zend\Console\Console::isConsole()) {
 			// Add ACL information to the Navigation view helper
-			$authorize = $sm->get('BjyAuthorizeServiceAuthorize');
+			$authorize = $sm->get(Authorize::class);
 			$acl = $authorize->getAcl();
 			$role = $authorize->getIdentity();
 			Navigation::setDefaultAcl($acl);
@@ -33,7 +34,7 @@ class Module
 		
 		if($e->getRouter() instanceof \Zend\Mvc\Router\Http\TranslatorAwareTreeRouteStack){
 			/* @var $translator \Zend\I18n\Translator\Translator */
-			$translator = $e->getApplication()->getServiceManager()->get('translator');
+			$translator = $e->getApplication()->getServiceManager()->get('MvcTranslator');
 			$e->getRouter()->setTranslator($translator);
 		}
 	}
@@ -49,7 +50,7 @@ class Module
 			return;
 		}
 		/* @var $translator \Zend\I18n\Translator\Translator */
-		$translator = $e->getApplication()->getServiceManager()->get('translator');
+		$translator = $e->getApplication()->getServiceManager()->get('MvcTranslator');
 		
 		// add Db Loader factory
 		$translator->getPluginManager()->setFactory(I18n\Translator\Loader\Db::class, I18n\Translator\Loader\Factory\DbFactory::class);

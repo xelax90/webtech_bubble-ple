@@ -40,7 +40,7 @@ class DbLoaderFactory implements FactoryInterface{
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
 		$em = $serviceLocator->get(EntityManager::class);
-		$translator = $serviceLocator->get('translator');
+		$translator = $serviceLocator->get('MvcTranslator');
 
         $loader = new DbLoader();
 		$loader->setObjectManager($em);

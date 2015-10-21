@@ -68,7 +68,7 @@ class EmailTemplateController extends AbstractActionController{
 	 */
 	public function getTranslator(){
 		if(null === $this->translator){
-			$this->translator = $this->getServiceLocator()->get('translator');
+			$this->translator = $this->getServiceLocator()->get('MvcTranslator');
 		}
 		return $this->translator;
 	}

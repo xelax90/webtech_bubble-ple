@@ -107,7 +107,7 @@ class SiteRegistrationOptionsFieldset extends Fieldset implements InputFilterPro
 			),
         ));
 		
-		$config = $sm->get('config');
+		$config = $sm->get('Config');
 		$roleEntity = $config['zfcuser']['role_entity_class'];
 		
 		$this->add(array(
