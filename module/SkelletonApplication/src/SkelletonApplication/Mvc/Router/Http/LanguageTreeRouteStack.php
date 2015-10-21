@@ -133,8 +133,20 @@ class LanguageTreeRouteStack extends TranslatorAwareTreeRouteStack {
 			if(is_callable(array($translator, 'setLocale'))){
 				$translator->setLocale($locale);
 			}
-		} elseif(!empty($translator) && is_callable(array($translator, 'getLocale'))){
-			$locale = $translator->getLocale();
+		} else {
+			// try to get user language
+			$authService = $this->getRoutePluginManager()->getServiceLocator()->get('zfcuser_auth_service');
+			if($authService->hasIdentity()){
+				$user = $authService->getIdentity();
+				if($user->getLocale() && in_array($user->getLocale(), $languages)){
+					$locale = $user->getLocale();
+				}
+			}
+
+			if(empty($locale) && !empty($translator) && is_callable(array($translator, 'getLocale'))){
+				// use getLocale if possible
+				$locale = $translator->getLocale();
+			}
 		}
 		
 		$res = parent::match($request, $pathOffset, $options);
