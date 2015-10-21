@@ -159,12 +159,20 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 		if($parameters === null){
 			$parameters = array('user' => $user);
 		}
+		
 		$templateKey = SiteRegistrationOptions::getEmailTemplateKey($flag);
 		if(!$templateKey){
 			return null;
 		}
 		$translator = $this->getTranslator();
-		// TODO use-based language
+		
+		// set locale to user-defined language
+		$translatorLocale = $translator->getLocale();
+		if($user->getLocale()){
+			$translator->setLocale($user->getLocale());
+		}
+		
+		// TODO user-based language
 		$options = $this->getRegistrationOptions();
 		$transport = $this->getTransport();
 		$message = $transport->createHtmlMessage(
@@ -174,6 +182,9 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 				SiteRegistrationOptions::getEmailTemplateKey($flag),
 				$parameters
 		);
+		
+		// restore locale
+		$translator->setLocale($translatorLocale);
 		return $message;
 	}
 	

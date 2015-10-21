@@ -20,7 +20,8 @@ class Module
 
 		$moduleRouteListener = new ModuleRouteListener();
 		$moduleRouteListener->attach($eventManager);
-		$eventManager->attach(MvcEvent::EVENT_ROUTE, array($this, 'initTranslator'), 1000);
+		$eventManager->attach(MvcEvent::EVENT_ROUTE, array($this, 'initTranslator'));
+		$eventManager->attach(MvcEvent::EVENT_ROUTE, array($this, 'setUserLanguage'));
 		
 		// Enable BjyAuthorize when not in console mode
 		if(!\Zend\Console\Console::isConsole()) {
@@ -45,15 +46,16 @@ class Module
 			'en' => 'en_US'
 		);
 		
-		$routeMatch = $e->getRouteMatch();
-		if(!$routeMatch){
-			return;
-		}
 		/* @var $translator \Zend\I18n\Translator\Translator */
 		$translator = $e->getApplication()->getServiceManager()->get('MvcTranslator');
 		
 		// add Db Loader factory
 		$translator->getPluginManager()->setFactory(I18n\Translator\Loader\Db::class, I18n\Translator\Loader\Factory\DbFactory::class);
+		
+		$routeMatch = $e->getRouteMatch();
+		if(!$routeMatch){
+			return;
+		}
 		
 		$lang = $routeMatch->getParam('locale');
 		if(!$lang || !in_array($lang, $languages)){
@@ -62,6 +64,23 @@ class Module
 		$translator->setLocale($lang);
 	}
 
+	public function setUserLanguage(MvcEvent $e){
+		/* @var $translator \Zend\I18n\Translator\Translator */
+		$translator = $e->getApplication()->getServiceManager()->get('MvcTranslator');
+		/* @var $authService \Zend\Authentication\AuthenticationService */
+		$authService = $e->getApplication()->getServiceManager()->get('zfcuser_auth_service');
+		
+		if($authService->hasIdentity()){
+			$user = $authService->getIdentity();
+			if(is_callable(array($user, 'setLocale'))){
+				/* @var $em \Doctrine\ORM\EntityManager */
+				$em = $e->getApplication()->getServiceManager()->get(\Doctrine\ORM\EntityManager::class);
+				$user->setLocale($translator->getLocale());
+				$em->flush();
+			}
+		}
+	}
+	
 	public function getConfig(){
 		return include __DIR__ . '/config/module.config.php';
 	}
