@@ -25,6 +25,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use SkelletonApplication\Options\SiteRegistrationOptions;
 use SkelletonApplication\Entity\User;
 use SkelletonApplication\Options\ZfcUserModuleOptions as ModuleOptions;
+use Exception;
 
 /**
  * Description of ZfcUserOptionsFactory
@@ -35,11 +36,15 @@ class ZfcUserOptionsFactory implements FactoryInterface{
 	
 	public function createService(ServiceLocatorInterface $serviceLocator) {
 		$config = $serviceLocator->get('Configuration');
-		/* @var $siteOptions SiteRegistrationOptions */
-		$siteOptions = $serviceLocator->get(SiteRegistrationOptions::class);
-		
 		$siteConfig = array();
-		if($siteOptions->getRegistrationMethodFlag() & SiteRegistrationOptions::REGISTRATION_METHOD_AUTO_ENABLE){
+		$methodFlag = 0;
+		try{
+			/* @var $siteOptions SiteRegistrationOptions */
+			$siteOptions = $serviceLocator->get(SiteRegistrationOptions::class);
+			$methodFlag = $siteOptions->getRegistrationMethodFlag();
+		} catch (Exception $ex) {}
+		
+		if($methodFlag & SiteRegistrationOptions::REGISTRATION_METHOD_AUTO_ENABLE){
 			$siteConfig['default_user_state'] = 1 << User::STATE_ACTIVE_BIT;
 			$siteConfig['login_after_registration'] = true;
 		} else {
@@ -47,7 +52,7 @@ class ZfcUserOptionsFactory implements FactoryInterface{
 			$siteConfig['login_after_registration'] = false;
 		}
 		
-		if($siteOptions->getRegistrationMethodFlag() == 0){
+		if($methodFlag == 0){
 			$siteConfig['enable_registration'] = false;
 		} else {
 			$siteConfig['enable_registration'] = true;
