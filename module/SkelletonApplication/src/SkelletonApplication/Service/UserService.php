@@ -21,9 +21,8 @@
 namespace SkelletonApplication\Service;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use SkelletonApplication\Entity\User;
-use SkelletonApplication\Options\SkelletonOptions;
 use Doctrine\ORM\EntityManager;
 use SkelletonApplication\Options\SiteRegistrationOptions;
 
@@ -33,31 +32,10 @@ use SkelletonApplication\Options\SiteRegistrationOptions;
  * @author schurix
  */
 class UserService implements ServiceLocatorAwareInterface{
-	
-	/**
-	 * @var ServiceLocatorInterface
-	 */
-	protected $serviceLocator;
-	
+	use ServiceLocatorAwareTrait;
 	
 	/** @var EntityManager */
 	protected $em;
-	
-	/**
-	 * @return ServiceLocatorInterface
-	 */
-	public function getServiceLocator() {
-		return $this->serviceLocator;
-	}
-
-	/**
-	 * @param ServiceLocatorInterface $serviceLocator
-	 * @return UserService
-	 */
-	public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
-		$this->serviceLocator = $serviceLocator;
-		return $this;
-	}
 	
 	/**
 	 * @param EntityManager $em

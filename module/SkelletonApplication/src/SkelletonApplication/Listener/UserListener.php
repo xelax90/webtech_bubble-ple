@@ -124,7 +124,7 @@ class UserListener extends AbstractListenerAggregate implements ServiceLocatorAw
 		$em = $sm->get(EntityManager::class);
 		/* @var $user \SkelletonApplication\Entity\User */
 		$user = $e->getParam('user');
-		/* @var $options \SkelletonApplication\Options\SkelletonOptions */
+		/* @var $options SkelletonOptions */
 		$options = $sm->get(SkelletonOptions::class);
 		
 		$data = $e->getParam('data');

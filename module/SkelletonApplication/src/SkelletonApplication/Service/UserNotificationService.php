@@ -172,7 +172,6 @@ class UserNotificationService implements ServiceLocatorAwareInterface{
 			$translator->setLocale($user->getLocale());
 		}
 		
-		// TODO user-based language
 		$options = $this->getRegistrationOptions();
 		$transport = $this->getTransport();
 		$message = $transport->createHtmlMessage(

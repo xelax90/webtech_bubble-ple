@@ -5,21 +5,11 @@ if (!$this->enableRegistration) {
     echo $this->translate("Registration is disabled");
     return;
 }
+/* @var $form \Zend\Form\Form */
 $form = $this->registerForm;
 $form->prepare();
 $form->setAttribute('action', $this->url('zfcuser/register'));
 $form->setAttribute('method', 'post');
-
-/* @var $form \Zend\Form\Form */
-if($this->redirect){
-	$form->add(array(
-		'name' => 'redirect',
-		'type' => 'Hidden',
-		'attributes' => array(
-			'value' => $this->redirect
-		)
-	));
-}
 
 $submitLabel = $form->get('submit')->getLabel();
 $form->remove('submit');

@@ -4,7 +4,6 @@ namespace SkelletonApplication;
 use XelaxAdmin\Router\ListRoute;
 use BjyAuthorize\Provider;
 use BjyAuthorize\Guard;
-use ZfcUser;
 
 $xelaxConfig = array(
 	'list_controller' => array(
@@ -89,7 +88,7 @@ $routerConfig = array(
 	'zfcadmin' => array(
 		'child_routes' => array(
 			'userprofile' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'userprofile' ) ),
-			'roles' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'role' ) ),
+			'roles'       => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'role' ) ),
 			'user'        => array( 'type' => ListRoute::class, 'priority' => 1001, 'options' => array( 'controller_options_name' => 'user'        ) ,
 				'may_terminate' => true,
 				'child_routes' => array(

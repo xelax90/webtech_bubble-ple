@@ -6,6 +6,7 @@ use BjyAuthorize\Acl\HierarchicalRoleInterface;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 use Zend\Json\Json;
+use XelaxTreeEditor\Tree\TreeInterface;
 
 /**
  * A hirarcical role
@@ -13,7 +14,7 @@ use Zend\Json\Json;
  * @ORM\Entity
  * @ORM\Table(name="role")
  */
-class Role implements HierarchicalRoleInterface, JsonSerializable, \XelaxTreeEditor\Tree\TreeInterface
+class Role implements HierarchicalRoleInterface, JsonSerializable, TreeInterface
 {
     /**
      * @var int
