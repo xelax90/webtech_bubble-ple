@@ -15,7 +15,7 @@
 		{
 			"name": "xelax",
 			"email": "schurix@gmx.de",
-			"homepage" : "https://github.com/xelax90"
+			"homepage": "https://github.com/xelax90"
 		}
 	],
 	"license": "GPL-2.0",
@@ -27,15 +27,15 @@
 		"test",
 		"tests"
 	],
-	"dependencies" : {
-		"jquery" : "1.*",
-		"bootstrap" : "3.*",
-		"bootstrap-switch" : "*",
-		"html5shiv" : "*",
-		"respond" : "*",
-		"fontawesome" : "*",
-		"select2" : "4.*",
-		"bootstrap-languages" : "https://github.com/xelax90/bootstrap-languages.git",
-		"jquery-sortable-lists" : "*"
+	"dependencies": {
+		"jquery": "1.*",
+		"bootstrap": "3.*",
+		"bootstrap-switch": "*",
+		"html5shiv": "*",
+		"respond": "*",
+		"fontawesome": "*",
+		"select2": "4.*",
+		"bootstrap-languages": "https://github.com/xelax90/bootstrap-languages.git",
+		"jquery-sortable-lists": "*"
 	}
 }
