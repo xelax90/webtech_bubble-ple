@@ -1,16 +1,16 @@
 <?php
 namespace SkelletonApplication;
 
-use XelaxAdmin\Router\ListRoute;
 use BjyAuthorize\Provider;
 use BjyAuthorize\Guard;
+use XelaxAdmin\Controller\ListController;
 
 $xelaxConfig = array(
 	'list_controller' => array(
 		'userprofile' => array(
 			'name' => 'UserProfile', 
-			'controller_class' => 'XelaxAdmin\Controller\ListController', 
-			'base_namespace' => 'SkelletonApplication',
+			'controller_class' => ListController::class, 
+			'base_namespace' => __NAMESPACE__,
 			'list_columns' => array(gettext_noop('Id') => 'userId', gettext_noop('Name') => 'displayName'),
 			'list_title' => gettext_noop('User Profiles'),
 			'create_route' => array(
@@ -26,7 +26,7 @@ $xelaxConfig = array(
 		'user' => array(
 			'name' => gettext_noop('User'),
 			'controller_class' => Controller\UserController::class, 
-			'base_namespace' => 'SkelletonApplication',
+			'base_namespace' => __NAMESPACE__,
 			'list_columns' => array(gettext_noop('Id') => 'id', gettext_noop('Name') => 'display_name', gettext_noop('E-Mail') => 'email', gettext_noop('State') => 'state'),
 			'list_title' => gettext_noop('Users'),
 			'route_base' => 'zfcadmin/user',
@@ -65,128 +65,11 @@ $xelaxConfig = array(
 		'role' => array(
 			'name' => 'Role', 
 			'controller_class' => Controller\RoleController::class, 
-			'base_namespace' => 'SkelletonApplication',
+			'base_namespace' => __NAMESPACE__,
 			'list_columns' => array(gettext_noop('Id') => 'id', gettext_noop('RoleId') => 'roleId'),
 			'list_title' => gettext_noop('Roles'),
 			'route_base' => 'zfcadmin/roles',
 			'rest_enabled' => true,
-		),
-	),
-);
-
-$routerConfig = array(
-	'home' => array(
-		'type' => 'Segment',
-		'options' => array(
-			'route' => '/',
-			'defaults' => array(
-				'controller' => Controller\IndexController::class,
-				'action'     => 'index',
-			),
-		),
-	),
-	'zfcadmin' => array(
-		'child_routes' => array(
-			'userprofile' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'userprofile' ) ),
-			'roles'       => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'role' ) ),
-			'user'        => array( 'type' => ListRoute::class, 'priority' => 1001, 'options' => array( 'controller_options_name' => 'user'        ) ,
-				'may_terminate' => true,
-				'child_routes' => array(
-					'block'   => array( 
-						'type' => 'segment', 
-						'options' => array(
-							'route' => '/block/:userId', 
-							'constraints' => array(
-								'userId' => '[0-9]+',
-							),
-							'defaults' => array(
-								'controller' => Controller\UserController::class, 
-								'action' => 'block',
-							),
-						), 
-					),
-					'unblock'   => array( 
-						'type' => 'segment', 
-						'options' => array(
-							'route' => '/unblock/:userId', 
-							'constraints' => array(
-								'userId' => '[0-9]+',
-							),
-							'defaults' => array(
-								'controller' => Controller\UserController::class, 
-								'action' => 'unblock',
-							),
-						), 
-					),
-				),
-			),
-			'siteconfig'      => array( 
-				'child_routes' => array(
-					'registration' => array(
-						'type' => 'segment',
-						'options' => array(
-							'route' => '/registration[/:action]',
-							'defaults' => array(
-								'controller' => Controller\RegistrationConfigController::class,
-								'action' => 'index',
-							),
-							'constraints' => array(
-								'action' => '(index|edit)',
-							),
-						),
-					),
-					'emails' => array(
-						'type' => 'segment',
-						'options' => array(
-							'route' => '/emails[/:action]',
-							'defaults' => array(
-								'controller' => Controller\EmailTemplateController::class,
-								'action' => 'index',
-							),
-							'constraints' => array(
-								'action' => '(index|edit)',
-							),
-						),
-					),
-				)
-			),
-		),
-	),
-	'zfcuser' => array(
-		'child_routes' => array(
-			'check-token' => array(
-				'type' => 'segment',
-				'options' => array(
-					'route' => '/activate/:token',
-					'defaults' => array(
-						'controller' => Controller\FrontendUserController::class,
-						'action' => 'checkToken',
-					),
-					'constraints' => array(
-						'token' => '[A-F0-9]+',
-					),
-				),
-			),
-			'register' => array(
-				'may_terminate' => true,
-				'options' => array(
-					'defaults' => array(
-						'controller' => Controller\FrontendUserController::class,
-					),
-				),
-				'child_routes' => array(
-					'registered' => array(
-						'type' => 'literal',
-						'options' => array(
-							'route' => '/finished',
-							'defaults' => array(
-								'controller' => Controller\FrontendUserController::class,
-								'action' => 'registered',
-							),
-						),
-					),
-				),
-			),
 		),
 	),
 );
@@ -274,11 +157,11 @@ return array(
 		),
 	),
 	
-    'xelax' => $xelaxConfig,
+	'xelax' => $xelaxConfig,
 	
 	'router' => array(
-		'router_class' => 'SkelletonApplication\Mvc\Router\Http\LanguageTreeRouteStack',
-		'routes' => $routerConfig,
+		'router_class' => Mvc\Router\Http\LanguageTreeRouteStack::class,
+		'routes' => include 'router.config.php',
 	),
 	
 	'bjyauthorize' => array(
@@ -323,33 +206,7 @@ return array(
 		),
 	),
 	
-	'service_manager' => array(
-		'abstract_factories' => array(
-			\Zend\Cache\Service\StorageCacheAbstractServiceFactory::class,
-			\Zend\Log\LoggerAbstractServiceFactory::class,
-		),
-		'invokables' => array(
-			Listener\UserListener::class => Listener\UserListener::class,
-			Service\UserService::class => Service\UserService::class,
-			Service\UserNotificationService::class => Service\UserNotificationService::class,
-		),
-		'factories' => array(
-			'Navigation' => \Zend\Navigation\Service\DefaultNavigationFactory::class,
-			Options\SkelletonOptions::class => function (\Zend\ServiceManager\ServiceManager $sm) {
-				$config = $sm->get('Config');
-				return new Options\SkelletonOptions(isset($config['skelleton_application']) ? $config['skelleton_application'] : array());
-			},
-			'zfcuser_module_options' => Options\Service\ZfcUserOptionsFactory::class,
-			Options\SiteRegistrationOptions::class => Options\Service\SiteRegistrationOptionsFactory::class,
-			Twig\DbLoader::class => Twig\DbLoaderFactory::class,
-		),
-		'aliases' => array(
-			'SkelletonApplication\Options\Application' => Options\SkelletonOptions::class,
-			'SkelletonApplication\UserListener' => Listener\UserListener::class,
-			'SkelletonApplication\UserService' => Service\UserService::class,
-			'translator' => 'MvcTranslator'
-		)
-	),
+    'service_manager' => include 'service.config.php',
 
 	// language options
 	'translator' => array(
@@ -395,7 +252,7 @@ return array(
 
 	'view_helpers' => array(
 		'invokables' => array(
-			'languageSwitch'          => 'SkelletonApplication\View\Helper\LanguageSwitch',
+			'languageSwitch'          => View\Helper\LanguageSwitch::class,
 		),
 	),
 	
@@ -403,25 +260,25 @@ return array(
 	'navigation' => array(
 		// default navigation
 		'default' => array(
-			array('label' => gettext_noop('Home'),            'route' => 'home'),
-			array('label' => gettext_noop('Admin'),           'route' => 'zfcadmin',               'resource' => 'administration', 'privilege' => 'login'),
-			array('label' => gettext_noop('Login'),           'route' => 'zfcuser/login',          'resource' => 'user', 'privilege' => 'login'),
-			array('label' => gettext_noop('Register'),        'route' => 'zfcuser/register',       'resource' => 'user', 'privilege' => 'register'),
-			array('label' => gettext_noop('Profile'),         'route' => 'zfcuser',                'resource' => 'user', 'privilege' => 'profile'),
-			array('label' => gettext_noop('Change Password'), 'route' => 'zfcuser/changepassword', 'resource' => 'user', 'privilege' => 'changepassword'),
-			array('label' => gettext_noop('Logout'),          'route' => 'zfcuser/logout',         'resource' => 'user', 'privilege' => 'logout'),
+			'home'            => array('label' => gettext_noop('Home'),            'route' => 'home'),
+			'admin'           => array('label' => gettext_noop('Admin'),           'route' => 'zfcadmin',               'resource' => 'administration', 'privilege' => 'login'),
+			'login'           => array('label' => gettext_noop('Login'),           'route' => 'zfcuser/login',          'resource' => 'user',           'privilege' => 'login'),
+			'register'        => array('label' => gettext_noop('Register'),        'route' => 'zfcuser/register',       'resource' => 'user',           'privilege' => 'register'),
+			'profile'         => array('label' => gettext_noop('Profile'),         'route' => 'zfcuser',                'resource' => 'user',           'privilege' => 'profile'),
+			'change-password' => array('label' => gettext_noop('Change Password'), 'route' => 'zfcuser/changepassword', 'resource' => 'user',           'privilege' => 'changepassword'),
+			'logout'          => array('label' => gettext_noop('Logout'),          'route' => 'zfcuser/logout',         'resource' => 'user',           'privilege' => 'logout'),
 		),
 		// admin navigation
 		'admin' => array(
-			'zfcuseradmin' => null,
-			array('label' => gettext_noop('Home'),            'route' => 'home'),
-			array('label' => gettext_noop('Config'),          'route' => 'zfcadmin/siteconfig/email', 'resource' => 'siteconfig', 'privilege' => 'list', 'pages' => array(
-				array('label' => gettext_noop('E-Mail'),            'route' => 'zfcadmin/siteconfig/email', 'action' => 'index' , 'resource' => 'siteconfig', 'privilege' => 'registration/list'),
-				array('label' => gettext_noop('Registration'),      'route' => 'zfcadmin/siteconfig/registration', 'action' => 'index'  , 'resource' => 'siteconfig', 'privilege' => 'registration/list'),
-				array('label' => gettext_noop('E-Mail Templates'),  'route' => 'zfcadmin/siteconfig/emails', 'action' => 'index'  , 'resource' => 'siteconfig', 'privilege' => 'emails/list'),
+			'zfcuseradmin'  => null,
+			'home'          => array('label' => gettext_noop('Home'),            'route' => 'home'),
+			'config'        => array('label' => gettext_noop('Config'),          'route' => 'zfcadmin/siteconfig/email', 'resource' => 'siteconfig',     'privilege' => 'list', 'pages' => array(
+				'email'           => array('label' => gettext_noop('E-Mail'),            'route' => 'zfcadmin/siteconfig/email',        'action' => 'index', 'resource' => 'siteconfig', 'privilege' => 'registration/list'),
+				'registration'    => array('label' => gettext_noop('Registration'),      'route' => 'zfcadmin/siteconfig/registration', 'action' => 'index', 'resource' => 'siteconfig', 'privilege' => 'registration/list'),
+				'email-templates' => array('label' => gettext_noop('E-Mail Templates'),  'route' => 'zfcadmin/siteconfig/emails',       'action' => 'index', 'resource' => 'siteconfig', 'privilege' => 'emails/list'),
 			)),
-			array('label' => gettext_noop('Users'),           'route' => 'zfcadmin/user',        'resource' => 'administration', 'privilege' => 'user/list' ),
-			array('label' => gettext_noop('User Profiles'),   'route' => 'zfcadmin/userprofile', 'resource' => 'administration', 'privilege' => 'userprofile')
+			'users'         => array('label' => gettext_noop('Users'),           'route' => 'zfcadmin/user',             'resource' => 'administration', 'privilege' => 'user/list' ),
+			'user-profiles' => array('label' => gettext_noop('User Profiles'),   'route' => 'zfcadmin/userprofile',      'resource' => 'administration', 'privilege' => 'userprofile')
 		),
 	),
 
@@ -451,7 +308,7 @@ return array(
 
 		// Fixtures to create admin user and default roles
 		'fixture' => array(
-			'SkelletonApplication_fixture' => __DIR__ . '/../data/Fixtures',
+			__NAMESPACE__ . '_fixture' => __DIR__ . '/../data/Fixtures',
 		)
 	),
 );

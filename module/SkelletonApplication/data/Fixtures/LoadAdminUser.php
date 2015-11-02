@@ -23,43 +23,37 @@ namespace SkelletonApplication\Fixtures;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use SkelletonApplication\Entity\User;
-use Zend\Crypt\Password\Bcrypt;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 
-class LoadAdminUser extends AbstractFixture implements FixtureInterface, ServiceLocatorAwareInterface, DependentFixtureInterface
-{
-	/**
-	 *
-	 * @var ServiceLocatorInterface
-	 */
-	protected $sl;
-	
-	/**
-	 *
-	 * @var \ZfcUser\Options\ModuleOptions
-	 */
+/**
+ * Registers administrator user
+ */
+class LoadAdminUser extends AbstractFixture implements FixtureInterface, ServiceLocatorAwareInterface, DependentFixtureInterface {
+	use ServiceLocatorAwareTrait;
+
+	/** @var \ZfcUser\Options\ModuleOptions */
 	protected $zfcUserOptions;
-	
-    /**
-     * @return \ZfcUser\Options\ModuleOptions
-     */
-    public function getZfcUserOptions()
-    {
-        if (!$this->zfcUserOptions instanceof ZfcUserModuleOptions) {
-            $this->zfcUserOptions = $this->getServiceLocator()->get('zfcuser_module_options');
-        }
-        return $this->zfcUserOptions;
-    }
-	
-	
-    public function load(ObjectManager $manager)
-    {
+
+	/**
+	 * @return \ZfcUser\Options\ModuleOptions
+	 */
+	public function getZfcUserOptions()
+	{
+		if (!$this->zfcUserOptions instanceof ZfcUserModuleOptions) {
+			$this->zfcUserOptions = $this->getServiceLocator()->get('zfcuser_module_options');
+		}
+		return $this->zfcUserOptions;
+	}
+
+
+	public function load(ObjectManager $manager)
+	{
 		/* @var $userService \ZfcUser\Service\User */
 		$userService = $this->getServiceLocator()->get('zfcuser_user_service');
-		
+
 		$data = array(
 			'username' => 'xelax90',
 			'display_name' => 'Xelax 90',
@@ -67,14 +61,14 @@ class LoadAdminUser extends AbstractFixture implements FixtureInterface, Service
 			'password' => 'schurix',
 			'passwordVerify' => 'schurix'
 		);
-		
-		
+
+
 		$found = $userService->getUserMapper()->findByEmail($data['email']);
 		if($found){
 			$this->addReference('admin-user', $found);
 			return;
 		}
-		
+
 		/* @var $userObject User */
 		$userObject = $userService->register($data);
 		if(!$userObject){
@@ -84,29 +78,13 @@ class LoadAdminUser extends AbstractFixture implements FixtureInterface, Service
 		$userObject->setEmail($data['email']);
 		$userObject->setState(1);
 		$userObject->addRoles(array($this->getReference('admin-role')));
-        $manager->flush();
-		
-		$this->addReference('admin-user', $userObject);
-    }
+		$manager->flush();
 
-	/**
-	 * Returns ServiceLocator
-	 * @return ServiceLocatorInterface
-	 */
-	public function getServiceLocator() {
-		return $this->sl;
-	}
-	
-	/**
-	 * Sets ServiceLocator
-	 * @param ServiceLocatorInterface $serviceLocator
-	 */
-	public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
-		$this->sl = $serviceLocator;
+		$this->addReference('admin-user', $userObject);
 	}
 
 	public function getDependencies() {
-		return array('SkelletonApplication\Fixtures\LoadUserRoles');
+		return array(LoadUserRoles::class, LoadEmailTemplates::class);
 	}
 
 }

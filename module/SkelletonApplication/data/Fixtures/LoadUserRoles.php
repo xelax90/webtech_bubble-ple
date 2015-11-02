@@ -22,48 +22,41 @@ namespace SkelletonApplication\Fixtures;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use SkelletonApplication\Entity\Role;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use \Doctrine\Common\DataFixtures\AbstractFixture;
 use SkelletonApplication\Options\SkelletonOptions;
 
-class LoadUserRoles extends AbstractFixture implements FixtureInterface, ServiceLocatorAwareInterface
-{
-	/**
-	 *
-	 * @var ServiceLocatorInterface
-	 */
-	protected $sl;
-	
-	/**
-	 *
-	 * @var SkelletonOptions
-	 */
+/**
+ * Loads user roles defined in SkelletonOptions
+ */
+class LoadUserRoles extends AbstractFixture implements FixtureInterface, ServiceLocatorAwareInterface {
+	use ServiceLocatorAwareTrait;
+
+	/** @var SkelletonOptions */
 	protected $skelletonOptions;
-	
-    /**
-     * @return SkelletonOptions
-     */
-    public function getSkelletonOptions()
-    {
-        if (!$this->skelletonOptions instanceof SkelletonOptions) {
-            $this->skelletonOptions = $this->getServiceLocator()->get(SkelletonOptions::class);
-        }
-        return $this->skelletonOptions;
-    }
-	
-	
-    public function load(ObjectManager $manager)
-    {
+
+	/**
+	 * @return SkelletonOptions
+	 */
+	public function getSkelletonOptions()
+	{
+		if (!$this->skelletonOptions instanceof SkelletonOptions) {
+			$this->skelletonOptions = $this->getServiceLocator()->get(SkelletonOptions::class);
+		}
+		return $this->skelletonOptions;
+	}
+
+
+	public function load(ObjectManager $manager)
+	{
 		$skelletonOptions = $this->getSkelletonOptions();
 		$roles = $skelletonOptions->getRoles();
-		
+
 		$this->saveRoles($manager, $roles);
-        $manager->flush();
-    }
-	
+		$manager->flush();
+	}
+
 	protected function saveRoles(ObjectManager $manager, $roles, $parent = null){
 		$config = $this->getServiceLocator()->get('Config');
 		$roleEntity = $config['zfcuser']['role_entity_class'];
@@ -76,34 +69,17 @@ class LoadUserRoles extends AbstractFixture implements FixtureInterface, Service
 				}
 				continue;
 			}
-			
+
 			$role = new $roleEntity();
 			$role->setRoleId($roleName);
 			$role->setParent($parent);
 			$manager->persist($role);
 			$this->addReference('role/'.$roleName, $role);
 			$this->saveRoles($manager, $children, $role);
-			
+
 			if(empty($children) && strpos(strtolower($roleName), 'admin') !== false){
 				$this->addReference('admin-role', $role);
 			}
 		}
 	}
-	
-	/**
-	 * Returns ServiceLocator
-	 * @return ServiceLocatorInterface
-	 */
-	public function getServiceLocator() {
-		return $this->sl;
-	}
-	
-	/**
-	 * Sets ServiceLocator
-	 * @param ServiceLocatorInterface $serviceLocator
-	 */
-	public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
-		$this->sl = $serviceLocator;
-	}
-
 }

@@ -29,7 +29,7 @@ use SkelletonApplication\Entity\Translation;
 use SkelletonApplication\Options\SiteRegistrationOptions;
 
 /**
- * Description of LoadEmailTemplates
+ * Loads user notification e-mail templates
  *
  * @author schurix
  */
