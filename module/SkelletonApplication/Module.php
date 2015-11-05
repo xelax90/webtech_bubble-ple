@@ -33,9 +33,11 @@ class Module
 			Navigation::setDefaultRole($role);		
 		}
 		
+		/* @var $translator \Zend\I18n\Translator\Translator */
+		$translator = $sm->get('MvcTranslator');
+		// add Db Loader factory
+		$translator->getPluginManager()->setFactory(I18n\Translator\Loader\Db::class, I18n\Translator\Loader\Factory\DbFactory::class);
 		if($e->getRouter() instanceof \Zend\Mvc\Router\Http\TranslatorAwareTreeRouteStack){
-			/* @var $translator \Zend\I18n\Translator\Translator */
-			$translator = $e->getApplication()->getServiceManager()->get('MvcTranslator');
 			$e->getRouter()->setTranslator($translator);
 		}
 	}
@@ -48,9 +50,6 @@ class Module
 		
 		/* @var $translator \Zend\I18n\Translator\Translator */
 		$translator = $e->getApplication()->getServiceManager()->get('MvcTranslator');
-		
-		// add Db Loader factory
-		$translator->getPluginManager()->setFactory(I18n\Translator\Loader\Db::class, I18n\Translator\Loader\Factory\DbFactory::class);
 		
 		$routeMatch = $e->getRouteMatch();
 		if(!$routeMatch){

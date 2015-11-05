@@ -101,7 +101,7 @@ class LoadEmailTemplates extends AbstractFixture implements FixtureInterface, Se
 					continue;
 				}
 				
-				$translationKey = 'skelleton.email.registration.'.basename($templateFile, '.'.pathinfo($templateFile, PATHINFO_EXTENSION)).'.template';
+				$translationKey = 'skelleton.registration.email.'.basename($templateFile, '.'.pathinfo($templateFile, PATHINFO_EXTENSION)).'.template';
 				
 				$found = $manager->getRepository(Translation::class)->findOneBy(array('locale' => $language, 'textDomain' => 'default', 'translationKey' => $translationKey));
 				if($found){

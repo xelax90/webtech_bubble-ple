@@ -15,6 +15,7 @@ use DateTime;
  * @ORM\Entity(repositoryClass="SkelletonApplication\Model\UserRepository")
  * @ORM\Table(name="user")
  * @ORM\HasLifecycleCallbacks
+ * @ORM\InheritanceType("SINGLE_TABLE")
  */
 class User extends ZfcUserEntity implements JsonSerializable, ProviderInterface
 {

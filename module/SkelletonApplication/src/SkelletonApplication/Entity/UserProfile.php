@@ -31,6 +31,7 @@ use JsonSerializable;
  * 
  * @ORM\Entity
  * @ORM\Table(name="userprofile")
+ * @ORM\InheritanceType("SINGLE_TABLE")
  */
 class UserProfile implements JsonSerializable{
 	/**

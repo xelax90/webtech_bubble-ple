@@ -3,7 +3,7 @@ namespace SkelletonApplication;
 
 use XelaxAdmin\Router\ListRoute;
 
-array(
+return array(
 	'home' => array(
 		'type' => 'Segment',
 		'options' => array(
