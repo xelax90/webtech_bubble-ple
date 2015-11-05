@@ -75,7 +75,7 @@ $xelaxConfig = array(
 );
 
 $guardConfig = array(
-	['route' => 'zfcuser',                  'roles' => ['guest', 'user'] ],
+	'zfcuser' => ['route' => 'zfcuser',                  'roles' => ['guest', 'user'] ],
 	['route' => 'zfcuser/login',            'roles' => ['guest', 'user'] ],
 	['route' => 'zfcuser/register',         'roles' => ['guest'] ],
 	['route' => 'zfcuser/register/registered','roles' => ['guest'] ],
