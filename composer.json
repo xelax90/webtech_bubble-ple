@@ -20,33 +20,19 @@
 	],
 	"require": {
 		"php": ">=5.5",
-		"zendframework/zendframework": "2.5.*",
-		"articus/zf2-bower-module": "dev-master",
-		"doctrine/doctrine-module": "*",
-		"doctrine/doctrine-orm-module": "*",
-		"zf-commons/zfc-user": "*",
-		"zf-commons/zfc-user-doctrine-orm": "dev-master",
-		"bjyoungblood/bjy-authorize": "*",
-		"doctrine/data-fixtures": "dev-master",
-		"hounddog/doctrine-data-fixture-module": "dev-master",
-
-		"goalio/goalio-forgotpassword": "*",
-		"goalio/goalio-forgotpassword-doctrine-orm": "*",
-		"zf-commons/zfc-admin": "*",
-		"danielss89/zfc-user-admin": "dev-master",
-		"eye4web/zf2-site-config": "dev-master",
-		"zf-commons/zfc-twig": "~1.2",
-
-		"xelax90/xelax-admin": "dev-master",
-		"neilime/zf2-twb-bundle": "dev-master",
-		"xelax90/xelax-twb-unmask": "dev-master",
-		"xelax90/zf2-filter-htmlpurifier": "*",
-		"xelax90/password-generator-module": "dev-master",
-		"xelax90/xelax-formgen": "dev-master",
-		"xelax90/xelax-site-config": "dev-master",
-		"xelax90/xelax-tree-editor": "dev-master",
-
-		"azatoth/php-pgettext": "dev-master"
+		"xelax90/skeleton-module" : "dev-master",
+		
+		"doctrine/data-fixtures": "@dev",
+		"hounddog/doctrine-data-fixture-module": "@dev",
+		"danielss89/zfc-user-admin": "@dev",
+		
+		"xelax90/xelax-admin": "@dev",
+		"neilime/zf2-twb-bundle": "@dev",
+		"xelax90/xelax-twb-unmask": "@dev",
+		"xelax90/xelax-formgen": "@dev",
+		"xelax90/xelax-site-config": "@dev",
+		"xelax90/password-generator-module": "@dev",
+		"xelax90/xelax-tree-editor": "@dev"
 	},
 	"require-dev": {
 		"zendframework/zend-developer-tools": "dev-master",

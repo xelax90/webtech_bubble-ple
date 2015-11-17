@@ -4,12 +4,12 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "508c2780fe6ee126895a4b8d8db420e3",
-    "content-hash": "790c8efc9334657a50fdaaaeb7a8fe9a",
+    "hash": "26b592ef8838b1a6481ca4148633c1cc",
+    "content-hash": "664b6f3fe205f22d1f872f9a52dfa6a3",
     "packages": [
         {
             "name": "articus/zf2-bower-module",
-            "version": "dev-master",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Articus/zf2-bower-module.git",
@@ -52,7 +52,7 @@
         },
         {
             "name": "azatoth/php-pgettext",
-            "version": "dev-master",
+            "version": "v1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/azatoth/php-pgettext.git",
@@ -765,16 +765,16 @@
         },
         {
             "name": "doctrine/inflector",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "0bcb2e79d8571787f18b7eb036ed3d004908e604"
+                "reference": "90b2128806bfde671b6952ab8bea493942c1fdae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/0bcb2e79d8571787f18b7eb036ed3d004908e604",
-                "reference": "0bcb2e79d8571787f18b7eb036ed3d004908e604",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/90b2128806bfde671b6952ab8bea493942c1fdae",
+                "reference": "90b2128806bfde671b6952ab8bea493942c1fdae",
                 "shasum": ""
             },
             "require": {
@@ -786,7 +786,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -828,7 +828,7 @@
                 "singularize",
                 "string"
             ],
-            "time": "2014-12-20 21:24:13"
+            "time": "2015-11-06 14:35:42"
         },
         {
             "name": "doctrine/instantiator",
@@ -1017,7 +1017,7 @@
         },
         {
             "name": "eye4web/zf2-site-config",
-            "version": "dev-master",
+            "version": "0.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Eye4web/zf2-site-config.git",
@@ -2429,16 +2429,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.23.0",
+            "version": "v1.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "5868cd822fd6cf626d5f805439575f9c323cee2a"
+                "reference": "d9b6333ae8dd2c8e3fd256e127548def0bc614c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/5868cd822fd6cf626d5f805439575f9c323cee2a",
-                "reference": "5868cd822fd6cf626d5f805439575f9c323cee2a",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/d9b6333ae8dd2c8e3fd256e127548def0bc614c6",
+                "reference": "d9b6333ae8dd2c8e3fd256e127548def0bc614c6",
                 "shasum": ""
             },
             "require": {
@@ -2486,7 +2486,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-10-29 23:29:01"
+            "time": "2015-11-05 12:49:06"
         },
         {
             "name": "xelax90/password-generator-module",
@@ -2494,25 +2494,23 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/xelax90/password-generator-module.git",
-                "reference": "c8452b97c32aae45d50490e13ad880d79b4dd1ff"
+                "reference": "a50c311d4819bf928ec74d173cb9e6a5b9ed748f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xelax90/password-generator-module/zipball/c8452b97c32aae45d50490e13ad880d79b4dd1ff",
-                "reference": "c8452b97c32aae45d50490e13ad880d79b4dd1ff",
+                "url": "https://api.github.com/repos/xelax90/password-generator-module/zipball/a50c311d4819bf928ec74d173cb9e6a5b9ed748f",
+                "reference": "a50c311d4819bf928ec74d173cb9e6a5b9ed748f",
                 "shasum": ""
             },
             "require": {
-                "hackzilla/password-generator": "*"
+                "hackzilla/password-generator": "*",
+                "php": ">=5.5"
             },
             "type": "library",
             "autoload": {
                 "psr-0": {
-                    "XelaxPasswordGeneratorModule": "src"
-                },
-                "classmap": [
-                    "Module.php"
-                ]
+                    "XelaxPasswordGeneratorModule\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -2527,7 +2525,77 @@
                 }
             ],
             "description": "ZF2 integration for hackzilla/password-generator",
-            "time": "2015-05-16 19:04:53"
+            "time": "2015-11-10 18:34:57"
+        },
+        {
+            "name": "xelax90/skeleton-module",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xelax90/skeleton-module.git",
+                "reference": "100eb612eac002b69113246a901abb32598d3a16"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/xelax90/skeleton-module/zipball/100eb612eac002b69113246a901abb32598d3a16",
+                "reference": "100eb612eac002b69113246a901abb32598d3a16",
+                "shasum": ""
+            },
+            "require": {
+                "articus/zf2-bower-module": "*",
+                "azatoth/php-pgettext": "*",
+                "bjyoungblood/bjy-authorize": "*",
+                "danielss89/zfc-user-admin": "dev-master",
+                "doctrine/data-fixtures": "dev-master",
+                "doctrine/doctrine-module": "*",
+                "doctrine/doctrine-orm-module": "*",
+                "eye4web/zf2-site-config": "*",
+                "goalio/goalio-forgotpassword": "*",
+                "goalio/goalio-forgotpassword-doctrine-orm": "*",
+                "hounddog/doctrine-data-fixture-module": "dev-master",
+                "neilime/zf2-twb-bundle": "dev-master",
+                "php": ">=5.5",
+                "xelax90/password-generator-module": "*",
+                "xelax90/xelax-admin": "dev-master",
+                "xelax90/xelax-formgen": "dev-master",
+                "xelax90/xelax-site-config": "dev-master",
+                "xelax90/xelax-tree-editor": "dev-master",
+                "xelax90/xelax-twb-unmask": "dev-master",
+                "xelax90/zf2-filter-htmlpurifier": "*",
+                "zendframework/zendframework": "~2.5",
+                "zf-commons/zfc-admin": "*",
+                "zf-commons/zfc-twig": "~1.2",
+                "zf-commons/zfc-user": "*",
+                "zf-commons/zfc-user-doctrine-orm": "*"
+            },
+            "type": "module",
+            "autoload": {
+                "psr-0": {
+                    "SkelletonApplication\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "xelax",
+                    "email": "schurix@gmx.de",
+                    "homepage": "https://github.com/xelax90"
+                }
+            ],
+            "description": "Small extension to xelax-admin to allow tree editing and viewing",
+            "homepage": "https://github.com/xelax90/xelax-tree-editor",
+            "keywords": [
+                "Skelleton",
+                "bjyauthorize",
+                "bower",
+                "doctrine",
+                "zend",
+                "zfcuser"
+            ],
+            "time": "2015-11-10 18:40:25"
         },
         {
             "name": "xelax90/xelax-admin",
@@ -5917,7 +5985,7 @@
         },
         {
             "name": "zf-commons/zfc-user-doctrine-orm",
-            "version": "dev-master",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZF-Commons/ZfcUserDoctrineORM.git",
@@ -6161,20 +6229,17 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "articus/zf2-bower-module": 20,
-        "zf-commons/zfc-user-doctrine-orm": 20,
+        "xelax90/skeleton-module": 20,
         "doctrine/data-fixtures": 20,
         "hounddog/doctrine-data-fixture-module": 20,
         "danielss89/zfc-user-admin": 20,
-        "eye4web/zf2-site-config": 20,
         "xelax90/xelax-admin": 20,
         "neilime/zf2-twb-bundle": 20,
         "xelax90/xelax-twb-unmask": 20,
-        "xelax90/password-generator-module": 20,
         "xelax90/xelax-formgen": 20,
         "xelax90/xelax-site-config": 20,
+        "xelax90/password-generator-module": 20,
         "xelax90/xelax-tree-editor": 20,
-        "azatoth/php-pgettext": 20,
         "zendframework/zend-developer-tools": 20
     },
     "prefer-stable": false,
