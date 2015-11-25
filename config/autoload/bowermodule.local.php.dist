@@ -1,0 +1,12 @@
+<?php
+return array(
+	'bower' => array(
+	'pack_folder' => array(
+		'web' => '/js', // path to minified javascript files relative to document root
+	),
+	'debug_folder' => array(
+		'web' => '/js/dev', // path to development javascript files relative to document root
+	),
+	'debug_mode' => true,
+	),
+);
