@@ -25,10 +25,9 @@ return array(
 			)
 		)
 	),
-	'zfcuser' => array(
+	'session_config' => array(
 		// Adjust this parameter if you have multiple applications on the same 
 		// VirtualHost to avoid conflicting sessions
-		'session_namespace' => 'Zend_Auth_Skelleton',
+		'name' => 'PHPSESSID'
 	),
-
 );
