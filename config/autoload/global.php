@@ -11,6 +11,9 @@
  * file.
  */
 
+use Zend\Session\Validator\RemoteAddr;
+use Zend\Session\Validator\HttpUserAgent;
+
 return array(
 	'doctrine' => array(
 		'connection' => array(
@@ -21,6 +24,12 @@ return array(
 					'driverOptions' => array(1002=>'SET NAMES utf8'),
 				)
 			)
+		)
+	),
+	'session_manager' => array(
+		'validators' => array(
+			RemoteAddr::class,
+			HttpUserAgent::class,
 		)
 	),
 );
