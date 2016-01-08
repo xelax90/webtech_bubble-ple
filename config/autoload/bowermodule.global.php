@@ -30,6 +30,7 @@ return array(
 					'jquery',
 					'bootstrap',
 					'select2',
+					'vis',
 				)
 			),
 			'ieLT9' => array(

@@ -36,6 +36,7 @@
 		"fontawesome": "*",
 		"select2": "4.*",
 		"bootstrap-languages": "https://github.com/xelax90/bootstrap-languages.git",
-		"jquery-sortable-lists": "*"
+		"jquery-sortable-lists": "*",
+		"vis" : "*"
 	}
 }
