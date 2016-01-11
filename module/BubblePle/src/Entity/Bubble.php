@@ -24,18 +24,23 @@ use Zend\Json\Json;
 use JsonSerializable;
 
 /**
- * Node Entity
+ * Bubble Entity
  *
  * @ORM\Entity
- * @ORM\Table(name="node")
+ * @ORM\Table(name="bubble")
  */
-class Node implements JsonSerializable{
+class Bubble implements JsonSerializable{
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer");
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
+	
+	/**
+	 * @ORM\Column(type="string")
+	 */
+	protected $title;
 	
 	/**
 	 * @return int
@@ -46,13 +51,22 @@ class Node implements JsonSerializable{
 	
 	/**
 	 * @param int $id
-	 * @return Node
+	 * @return Bubble
 	 */
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
-	}	
+	}
 	
+	function getTitle() {
+		return $this->title;
+	}
+
+	function setTitle($title) {
+		$this->title = $title;
+		return $this;
+	}
+
 	/**
 	 * Returns json String
 	 * @return string
@@ -68,7 +82,8 @@ class Node implements JsonSerializable{
 	 */
 	public function jsonSerialize() {
 		return array(
-			'id' => $this->getId()
+			'id' => $this->getId(),
+			'title' => $this->getTitle(),
 		);
 	}
 
