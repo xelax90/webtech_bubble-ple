@@ -119,8 +119,5 @@ return array(
 			)
 		),
 
-		'fixture' => array(
-			__NAMESPACE__ . '_fixture' => __DIR__ . '/../data/Fixtures',
-		)
 	),
 );
