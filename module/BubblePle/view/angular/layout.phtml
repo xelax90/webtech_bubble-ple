@@ -43,6 +43,9 @@
 		  </md-toolbar>
 
 		  <div ng-view></div>
+		  <script type="text/javascript">
+			  var applicationBasePath = '<?php echo $this->basePath('/') ?>';
+		  </script>
 		<?php echo $this->inlineScript()
 			->appendFile($this->basePath('/js/angular/app.js'))
 			->appendFile($this->basePath('/js/angular/nodes/nodes.js'))
