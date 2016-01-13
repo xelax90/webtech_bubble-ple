@@ -27,9 +27,14 @@ return array(
 			'frontend' => array(
 				'token' => 'main',
 				'modules' => array(
-					'jquery',
-					'bootstrap',
-					'select2',
+					'angular',
+					'angular-route',
+					'angular-loader',
+					'angular-mocks',
+					'angular-messages',
+					'angular-animate',
+					'angular-aria',
+					'angular-material',
 					'vis',
 				)
 			),
