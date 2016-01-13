@@ -22,6 +22,28 @@ namespace BubblePle;
 
 use BjyAuthorize\Provider;
 use BjyAuthorize\Guard;
+use XelaxAdmin\Controller\ListController;
+use XelaxAdmin\Router\ListRoute;
+
+$xelaxConfig = array(
+	/*
+	 * Configure your list controllers. Routes are generated automatically, and
+	 * access permissions can be configured.
+	 */
+	'list_controller' => array(
+		'bubbles' => array(
+			'name' => 'Bubble', // this will be the route url and is used to generate texts
+			// You can subclass the ListController for better control
+			'controller_class' => ListController::class, 
+			// Base namespace of Menu entity and form
+			'base_namespace' => 'BubblePle', 
+			// columns to show in list view
+			'list_columns' => array('Id' => 'id', 'Title' => 'title'),
+			// route_base defaults to the config key ('menus' in this case). 
+			'route_base' => 'zfcadmin/bubbles', // only available at top-level options
+		),
+	),
+);
 
 $routerConfig = array(
 	'home' => array(
@@ -41,10 +63,17 @@ $routerConfig = array(
 			),
 		),
 	),
+	
+	'zfcadmin' => array(
+		'child_routes' => array(
+			'bubbles' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'bubbles', )),
+		)
+	),
 );
 
 $guardConfig = array(
 	'test' => ['route' => 'test',  'roles' => ['guest', 'user'] ],
+	['route' => 'zfcadmin/bubbles',  'roles' => ['moderator'] ],
 );
 
 $ressources = array(
@@ -52,6 +81,7 @@ $ressources = array(
 );
 
 $ressourceAllowRules = array(
+	[['moderator'], 'administration', 'bubbles/list'],
 	
 );
 
@@ -62,6 +92,7 @@ return array(
 		),
 	),
 	
+    'xelax' => $xelaxConfig,
 	'router' => array(
 		'routes' => $routerConfig,
 	),
@@ -110,10 +141,15 @@ return array(
 			__DIR__ . '/../view',
 		),
 		'template_map' => array(
-			'angular/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+			'angular/layout'           => __DIR__ . '/../view/angular/layout.phtml',
 		),
 	),
 	
+	'navigation' => array(
+		'admin' => array(
+			array('label' => gettext_noop('Bubbles'),           'route' => 'zfcadmin/bubbles',             'resource' => 'administration', 'privilege' => 'bubbles/list' ),
+		)
+	),
 	// doctrine config
 	'doctrine' => array(
 		'driver' => array(

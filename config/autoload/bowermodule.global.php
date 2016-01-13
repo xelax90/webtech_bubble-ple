@@ -27,6 +27,14 @@ return array(
 			'frontend' => array(
 				'token' => 'main',
 				'modules' => array(
+					'jquery',
+					'bootstrap',
+					'select2',
+				),
+			),
+			'angular' => array(
+				'token' => 'angular',
+				'modules' => array(
 					'angular',
 					'angular-route',
 					'angular-loader',
