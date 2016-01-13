@@ -24,13 +24,20 @@ use BjyAuthorize\Provider;
 use BjyAuthorize\Guard;
 
 $routerConfig = array(
+	'home' => array(
+		'options' => array(
+			'defaults' => array(
+				'controller' => Controller\IndexController::class,
+			)
+		),
+	),
 	'test' => array(
 		'type' => 'Literal',
 		'options' => array(
 			'route' => '/test',
 			'defaults' => array(
 				'controller' => Controller\IndexController::class,
-				'action'     => 'blub',
+				'action'     => 'index',
 			),
 		),
 	),
@@ -103,7 +110,7 @@ return array(
 			__DIR__ . '/../view',
 		),
 		'template_map' => array(
-			'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+			'angular/layout'           => __DIR__ . '/../view/layout/layout.phtml',
 		),
 	),
 	
