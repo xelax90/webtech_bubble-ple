@@ -29,7 +29,7 @@ use JsonSerializable;
  * @ORM\Entity
  * @ORM\Table(name="bubble")
  * @ORM\InheritanceType("SINGLE_TABLE")
- * @DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
  */
 class Bubble implements JsonSerializable{
 	/**
