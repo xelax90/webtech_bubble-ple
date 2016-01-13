@@ -9,7 +9,7 @@ angular.module('nodes', [
     ])
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/courseroom',{
-            templateUrl: 'nodes/nodes.html',
+            templateUrl: 'js/angular/nodes/nodes.html',
             controller: 'NodesCtrl'
         });
     }])

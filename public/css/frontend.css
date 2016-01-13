@@ -4399,19 +4399,20 @@ body {
 #sortableListsBase li.sortableListsOpen > div .sortableListsOpener:before {
   content: "\f068";
 }
+body {
+  padding-top: 0;
+}
 .sidebar {
   max-width: 100%;
 }
 #mynetwork {
   position: fixed !important;
   position: absolute;
+  margin-top: 100px;
   float: left;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-}
-body {
-  padding-top: 0;
 }
 /*# sourceMappingURL=frontend.css.map */
