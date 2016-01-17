@@ -10,7 +10,7 @@ angular.module('courses', [
 ])
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/courses',{
-            templateUrl: 'js/angular/courses/courses.html',
+            templateUrl: (applicationBasePath ? applicationBasePath : '') + 'js/angular/courses/courses.html',
             controller: 'CourseCtrl'
         });
 }])

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cac81ebfcb6edbac232029884e69dffa",
+    "hash": "26b592ef8838b1a6481ca4148633c1cc",
     "content-hash": "664b6f3fe205f22d1f872f9a52dfa6a3",
     "packages": [
         {
@@ -2684,12 +2684,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/xelax90/skeleton-module.git",
-                "reference": "5097353f12f5687f7f639fd5b6e3ff0a272a29e6"
+                "reference": "43abbe3dee92e6cc31eafdb17aea4335356e459a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xelax90/skeleton-module/zipball/5097353f12f5687f7f639fd5b6e3ff0a272a29e6",
-                "reference": "5097353f12f5687f7f639fd5b6e3ff0a272a29e6",
+                "url": "https://api.github.com/repos/xelax90/skeleton-module/zipball/43abbe3dee92e6cc31eafdb17aea4335356e459a",
+                "reference": "43abbe3dee92e6cc31eafdb17aea4335356e459a",
                 "shasum": ""
             },
             "require": {
@@ -2746,7 +2746,7 @@
                 "zend",
                 "zfcuser"
             ],
-            "time": "2015-11-25 18:44:59"
+            "time": "2016-01-13 06:58:04"
         },
         {
             "name": "xelax90/xelax-admin",

@@ -20,10 +20,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     Author     : schurix
 */
 
-@import "../../../bower_components/bootstrap/less/bootstrap.less";
-@import "../../../bower_components/bootstrap/less/theme.less";
+.clearfix() {
+	&:before,
+	&:after {
+		content: " ";
+		display: table;
+	}
+	&:after {
+		clear: both;
+	}
+}
+
+@import "angular-material.css";
 @import "../../../bower_components/fontawesome/less/font-awesome.less";
 @import (less) "../../../bower_components/bootstrap-languages/languages.css";
+@import (less) "../../../bower_components/vis/dist/vis.css";
 
 .lang-xs, .lang-lg, .lang-sm{
 	background-image: url('../img/languages.png');
@@ -32,3 +43,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 @import "../style/variables.less";
 @import "../style/mixins.less";
 @import "../style/style.less";
+@import "../style/frontend.less";

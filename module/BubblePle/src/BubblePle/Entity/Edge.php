@@ -24,14 +24,12 @@ use Zend\Json\Json;
 use JsonSerializable;
 
 /**
- * Bubble Entity
+ * Edge Entity
  *
  * @ORM\Entity
- * @ORM\Table(name="bubble")
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\Table(name="edge")
  */
-class Bubble implements JsonSerializable{
+class Edge implements JsonSerializable{
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer");
@@ -40,15 +38,16 @@ class Bubble implements JsonSerializable{
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\ManyToOne(targetEntity="Bubble")
+	 * @ORM\JoinColumn(name="to_id", referencedColumnName="id")
 	 */
-	protected $title;
+	protected $to;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="SkelletonApplication\Entity\User")
-	 * @ORM\JoinColumn(name="owner_id", referencedColumnName="user_id")
+	 * @ORM\ManyToOne(targetEntity="Bubble")
+	 * @ORM\JoinColumn(name="from_id", referencedColumnName="id")
 	 */
-	protected $owner;
+	protected $from;
 	
 	/**
 	 * @return int
@@ -59,28 +58,34 @@ class Bubble implements JsonSerializable{
 	
 	/**
 	 * @param int $id
-	 * @return Bubble
+	 * @return Edge
 	 */
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
 	}
 	
-	function getTitle() {
-		return $this->title;
+	/**
+	 * @return Bubble
+	 */
+	public function getTo() {
+		return $this->to;
+	}
+	
+	/**
+	 * @return Bubble
+	 */
+	public function getFrom() {
+		return $this->from;
 	}
 
-	function setTitle($title) {
-		$this->title = $title;
+	public function setTo($to) {
+		$this->to = $to;
 		return $this;
 	}
 
-	public function getOwner() {
-		return $this->owner;
-	}
-
-	public function setOwner($owner) {
-		$this->owner = $owner;
+	public function setFrom($from) {
+		$this->from = $from;
 		return $this;
 	}
 
@@ -100,7 +105,8 @@ class Bubble implements JsonSerializable{
 	public function jsonSerialize() {
 		return array(
 			'id' => $this->getId(),
-			'title' => $this->getTitle(),
+			'from' => $this->getFrom()->getId(),
+			'to' => $this->getTo()->getId(),
 		);
 	}
 

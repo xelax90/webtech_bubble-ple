@@ -1,5 +1,4 @@
 <?php
-
 /* 
  * Copyright (C) 2016 schurix
  *
@@ -18,17 +17,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-namespace BubblePle\Controller;
+namespace BubblePle\Entity;
 
-use Zend\View\Model\ViewModel;
-use Zend\Mvc\Controller\AbstractActionController;
+use Doctrine\ORM\Mapping as ORM;
 
-class IndexController extends AbstractActionController{
-	
-	public function indexAction(){
-		$model = new ViewModel();
-		$this->layout('angular/layout');
-		return $model;
-	}
-	
+/**
+ * Attachment Entity
+ *
+ * @ORM\Entity
+ */
+class Attachment extends Bubble{
+
 }
