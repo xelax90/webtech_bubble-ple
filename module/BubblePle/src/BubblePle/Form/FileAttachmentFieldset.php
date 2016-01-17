@@ -1,19 +1,14 @@
 <?php
 namespace BubblePle\Form;
 
-use Zend\Form\Fieldset;
-use Zend\InputFilter\InputFilterProviderInterface;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use DoctrineModule\Persistence\ObjectManagerAwareInterface;
-use DoctrineModule\Persistence\ProvidesObjectManager;
 
 use BubblePle\Entity\FileAttachment;
 
 /**
  * FileAttachment Fieldset
  */
-class FileAttachmentFieldset extends AttachmentFieldset implements InputFilterProviderInterface, ObjectManagerAwareInterface{
-	use ProvidesObjectManager;
+class FileAttachmentFieldset extends AttachmentFieldset{
 
 	public function __construct($name = "", $options = array()){
 		if($name == ""){
@@ -53,7 +48,7 @@ class FileAttachmentFieldset extends AttachmentFieldset implements InputFilterPr
 					array(
 						'name' => 'Zend\Filter\File\RenameUpload',
 						'options' => array(
-							'target' => 'public/files/fileattachment',
+							'target' => 'public/files/fileattachment/',
 							'randomize' => true,
 							'use_upload_extension' => true,
 							'use_upload_name' => true
