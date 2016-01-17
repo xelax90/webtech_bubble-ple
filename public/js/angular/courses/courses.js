@@ -32,8 +32,6 @@ angular.module('courses', [
 
             var nodes = new vis.DataSet(items);
 
-            console.log(items);
-
 
             $scope.inpshow = false;
             $scope.switchInput = function(){
@@ -132,9 +130,18 @@ angular.module('courses', [
             })
 
             $scope.deleteCourses = function(){
-                console.log(network.getSelectedNodes());
+                var del = network.getSelectedNodes();
                 network.deleteSelected();
-                console.log(nodes);
+                var text = '';
+                for(var i= 0; i < del.length; i++){
+                    text += items[del[i] - 1].label + ', ';
+                }
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent('Deleted ' + text)
+                        .position('bottom')
+                        .hideDelay(3000)
+                );
             };
         }
 
