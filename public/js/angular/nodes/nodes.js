@@ -13,7 +13,7 @@ angular.module('nodes', [
             controller: 'NodesCtrl'
         });
     }])
-    .controller('NodesCtrl',['$location', '$scope', function($location, $scope){
+    .controller('NodesCtrl',['$location', '$scope', '$mdDialog', function($location, $scope, $mdDialog){
 
         var a = $location.search();
         //$scope.courseName = nodes[a.courseId -1].label;
@@ -47,7 +47,41 @@ angular.module('nodes', [
         // initialize your network!
         var network = new vis.Network(container, data, options);
         
+        // for Opening the <form> to add text to node          
         $scope.openTextBox = function(){
-            $scope.showTextBox = true;
+            if(network.getSelectedNodes().length > 0){           
+                var parentEl = angular.element(document.body);
+                $mdDialog.show({
+                  parent: parentEl,
+                  template:
+                    '<md-dialog>' +
+                    '   <md-dialog-content>'+
+                    '       <md-input-container>' +
+                    '           <textarea ng-model="node.text" >' +
+                    '           </textarea>' +
+                    '       </md-input-container>'+
+                    '   </md-dialog-content>' +
+                    '   <md-dialog-actions>' +
+                    '       <md-button ng-click="addTextToNodes()" class="md-primary">' +
+                    '           Save' +
+                    '       </md-button>' +
+                    '   </md-dialog-actions>' +
+                    '</md-dialog>',
+
+                  clickOutsideToClose: true,
+                  // for saving the added text to the node
+                  controller: function($scope, $mdDialog){
+                    $scope.addTextToNodes = function(){
+                        var selectedNodes = network.getSelectedNodes();
+                        for(var i = 0; i < selectedNodes.length; i++){
+                            nodes.update({id: selectedNodes[0], title: $scope.node.text});
+                        }
+                        $mdDialog.hide();
+                    }
+                  }
+                });  
+           } 
+            
         };
+        
     }]);
