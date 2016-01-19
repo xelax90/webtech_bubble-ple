@@ -106,7 +106,7 @@ $routerConfig = array(
 			'bubblePLE' => array(
 				'type' => 'Literal',
 				'options' => array(
-					'route' => '/test',
+					'route' => '/bubblePLE',
 				),
 				'may_terminate' => false,
 				'child_routes' => array(
