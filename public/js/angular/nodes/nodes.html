@@ -16,13 +16,19 @@
             <md-icon class="fa fa-link fa-2x"></md-icon>
         </md-button>
 
+        
+        <!-- Hidden element to upload file -->
+        <div>
+            <input type="file" id="i_file" name="file" ng-file-select="onFileSelect($files)" style="display: none;" multiple />
+        </div>
 
-        <md-button aria-label="file" flex>
+
+        <md-button aria-label="file" ng-click="clickUpload()" flex>
             <md-icon class="fa fa-file-o fa-2x"></md-icon>
         </md-button>
 
 
-        <md-button aria-label="media" flex>
+        <md-button aria-label="media"  ng-click="clickUpload()" flex>
             <md-icon class="fa fa-film fa-2x"></md-icon>
         </md-button>
 
@@ -42,7 +48,10 @@
         </md-button>
     </div>
 
+
+
     <div class="md-padding">
+
         <h1>Welcome to {{courseName}} PLE</h1>
         <div id="bubbles" flex layout-fill></div>
     </div>
