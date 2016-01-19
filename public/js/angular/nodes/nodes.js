@@ -46,4 +46,8 @@ angular.module('nodes', [
 
         // initialize your network!
         var network = new vis.Network(container, data, options);
+        
+        $scope.openTextBox = function(){
+            $scope.showTextBox = true;
+        };
     }]);
