@@ -28,8 +28,8 @@ return array(
 	),
 	'session_manager' => array(
 		'validators' => array(
-			RemoteAddr::class,
-			HttpUserAgent::class,
+			//RemoteAddr::class,
+			//HttpUserAgent::class,
 		)
 	),
 );
