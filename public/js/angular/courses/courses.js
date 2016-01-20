@@ -16,7 +16,7 @@ angular.module('courses', [
 }])
     .controller('CourseCtrl',['$location', '$scope', '$http', '$mdToast', function($location, $scope, $http, $mdToast){
 
-        $http.get('/admin/test/bubbles/rest').then(function(response) {
+        $http.get('/admin/bubblePLE/bubbles/rest').then(function(response) {
             console.log(response.data);
         }, function(errResponse) {
             var items = errResponse.data;
