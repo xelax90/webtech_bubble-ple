@@ -41,6 +41,7 @@ $xelaxConfig = array(
 			'list_columns' => array('Id' => 'id', 'Title' => 'title'),
 			// route_base defaults to the config key ('menus' in this case). 
 			'route_base' => 'zfcadmin/bubblePLE/bubbles', // only available at top-level options
+			'rest_enabled' => true,
 		),
 		'attachments' => array(
 			'name' => 'Attachment', // this will be the route url and is used to generate texts
@@ -52,6 +53,7 @@ $xelaxConfig = array(
 			'list_columns' => array('Id' => 'id', 'Title' => 'title'),
 			// route_base defaults to the config key ('menus' in this case). 
 			'route_base' => 'zfcadmin/bubblePLE/attachments', // only available at top-level options
+			'rest_enabled' => true,
 		),
 		'fileAttachments' => array(
 			'name' => 'FileAttachment', // this will be the route url and is used to generate texts
@@ -63,6 +65,7 @@ $xelaxConfig = array(
 			'list_columns' => array('Id' => 'id', 'Title' => 'title', 'File' => 'filename'),
 			// route_base defaults to the config key ('menus' in this case). 
 			'route_base' => 'zfcadmin/bubblePLE/fileAttachments', // only available at top-level options
+			'rest_enabled' => true,
 		),
 		'edges' => array(
 			'name' => 'Edge', // this will be the route url and is used to generate texts
@@ -74,6 +77,7 @@ $xelaxConfig = array(
 			'list_columns' => array('Id' => 'id', 'From' => 'fromTitle', 'To' => 'toTitle'),
 			// route_base defaults to the config key ('menus' in this case). 
 			'route_base' => 'zfcadmin/bubblePLE/edges', // only available at top-level options
+			'rest_enabled' => true,
 		),
 	),
 );
@@ -102,7 +106,7 @@ $routerConfig = array(
 			'bubblePLE' => array(
 				'type' => 'Literal',
 				'options' => array(
-					'route' => '/test',
+					'route' => '/bubblePLE',
 				),
 				'may_terminate' => false,
 				'child_routes' => array(
