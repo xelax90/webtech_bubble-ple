@@ -14,17 +14,17 @@ angular.module('nodes', [
             controller: 'NodesCtrl'
         });
     }])
-  .directive('uploadfile', function () {
-    return {
-      restrict: 'A',
-      link: function(scope, element) {
+    .directive('uploadfile', function () {
+        return {
+          restrict: 'A',
+          link: function(scope, element) {
 
-        element.bind('click', function(e) {
-            angular.element(e.target).siblings('#i_file').trigger('click');
-        });
-      }
-    };
-})
+            element.bind('click', function(e) {
+                angular.element(e.target).siblings('#i_file').trigger('click');
+            });
+          }
+        };
+    })
 
     .controller('NodesCtrl',['$location', '$scope','$timeout', '$upload', function($location, $scope, $timeout, $upload){
 
@@ -45,7 +45,7 @@ angular.module('nodes', [
         ]);
 
         var a = $location.search();
-        $scope.courseName = nodes[a.courseId -1].label;
+        //$scope.courseName = nodes[a.courseId -1].label;
 
         // create a network
         var container = document.getElementById('bubbles');
@@ -76,7 +76,7 @@ angular.module('nodes', [
         for (var i = 0; i < $files.length; i++) {
              var $file = $files[i];
              $upload.upload({
-                 url: 'php/upload.php',
+                 url: (applicationBasePath ? applicationBasePath : '') + 'php/upload.php',
                  file: $file,
                  progress: function(e){}
              }).then(function(response) {
