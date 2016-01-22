@@ -28,9 +28,6 @@ angular.module('nodes', [
 
     .controller('NodesCtrl',['$location', '$scope','$timeout', '$upload', function($location, $scope, $timeout, $upload){
 
-        var a = $location.search();
-        //$scope.courseName = nodes[a.courseId -1].label;
-
         var nodes = new vis.DataSet([
             {id: 1, label: 'Node 1'},
             {id: 2, label: 'Node 2'},
@@ -46,6 +43,9 @@ angular.module('nodes', [
             {from: 2, to: 4},
             {from: 2, to: 5}
         ]);
+
+        var a = $location.search();
+        $scope.courseName = nodes[a.courseId -1].label;
 
         // create a network
         var container = document.getElementById('bubbles');

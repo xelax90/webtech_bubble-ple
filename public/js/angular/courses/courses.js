@@ -17,14 +17,14 @@ angular.module('courses', [
     .controller('CourseCtrl',['$location', '$scope', '$http', '$mdToast', function($location, $scope, $http, $mdToast){
 
         $http.get('/admin/bubblePLE/bubbles/rest').then(function(response) {
-            console.log(response.data);
-        }, function(errResponse) {
-            var items = errResponse.data;
+            var items = response.data;
             var i;
             for (i = 0; i < items.length; i++){
                 items[i].label = items[i].title;
             }
             visualize(items);
+        }, function(errResponse) {
+            console.log('Error fetching data!');
         });
 
 
