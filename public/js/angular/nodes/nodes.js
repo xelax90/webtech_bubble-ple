@@ -6,7 +6,7 @@
 angular.module('nodes', [
         'ngRoute',
         'ngMaterial',
-        'angularFileUpload'
+        'ngFileUpload'
     ])
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/courseroom',{
@@ -14,20 +14,7 @@ angular.module('nodes', [
             controller: 'NodesCtrl'
         });
     }])
-  .directive('uploadfile', function () {
-    return {
-      restrict: 'A',
-      link: function(scope, element) {
-
-        element.bind('click', function(e) {
-            angular.element(e.target).siblings('#i_file').trigger('click');
-        });
-      }
-    };
-})
-
-    .controller('NodesCtrl',['$location', '$scope','$timeout', '$upload', function($location, $scope, $timeout, $upload){
-
+    .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', function($location, $scope, $timeout, Upload, $mdToast){
         var nodes = new vis.DataSet([
             {id: 1, label: 'Node 1'},
             {id: 2, label: 'Node 2'},
@@ -45,7 +32,7 @@ angular.module('nodes', [
         ]);
 
         var a = $location.search();
-        $scope.courseName = nodes[a.courseId -1].label;
+        //$scope.courseName = nodes[a.courseId -1].label;
 
         // create a network
         var container = document.getElementById('bubbles');
@@ -65,51 +52,62 @@ angular.module('nodes', [
             document.getElementById('i_file').click();
         };
 
-        //upload File
-         $scope.uploadResult = [];
 
-         $scope.onFileSelect = function($files) {
-        //$files: an array of files selected, each file has name, size, and type.
+         $scope.onFileSelect = function(file) {
 
-        console.log("in file select");
+          if(!file) return;
 
-        for (var i = 0; i < $files.length; i++) {
-             var $file = $files[i];
-             $upload.upload({
-                 url: 'php/upload.php',
-                 file: $file,
-                 progress: function(e){}
-             }).then(function(response) {
-                 // file is uploaded successfully
-                 $timeout(function() {
-                 $scope.uploadResult.push(response.data);
-                 console.log($scope.uploadResult);
-                console.log("file uploaded : " + $file.name);
-                addNode($file.name);
-                 });
+          console.log("in file select");
 
-             }); 
+          console.log(file.name);
+
+          file.upload = Upload.upload({
+            url: 'http://bubbleple.localhost/de/admin/bubblePLE/fileAttachments/rest',
+            data: {fileattachment: {filename: file, title: file.name}},
+          });
+
+          file.upload.then(function (response) {
+            $timeout(function () {
+              file.result = response.data;
+              console.log(response);
+              $mdToast.show(
+                      $mdToast.simple()
+                          .textContent('File uploaded successfully')
+                          .position('bottom')
+                          .hideDelay(3000)
+               );
+              addNode(file.name);
+            });
+          }, function (response) {
+            if (response.status > 0)
+              $scope.errorMsg = response.status + ': ' + response.data;
+            console.log("in response");
+            console.log(response);
+            $mdToast.show(
+                      $mdToast.simple()
+                          .textContent('Error Uploading file')
+                          .position('bottom')
+                          .hideDelay(3000)
+                  );
+          }, function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+          });
         }
-      }
 
 
-      function addNode(name){
-                var newId = nodes.length + 1;
-                nodes.update({id: newId, label: name, title: 'Uploaded file'});
+        function addNode(name){
+                  var newId = nodes.length + 1;
+                  nodes.update({id: newId, label: name, title: 'Uploaded file'});
 
-                var selectedNode = network.getSelectedNodes();
-                console.log("nodes lenght : " + selectedNode.length);
-                if(selectedNode.length > 0){
-                    for(var i= 0; i < selectedNode.length; i++){
-                        console.log(selectedNode[i]);
-                        edges.update({from: newId, to: selectedNode[i]});
-                    }
-                }
-                // $mdToast.show(
-                //     $mdToast.simple()
-                //         .textContent('File uploaded : ' + name)
-                //         .position('bottom')
-                //         .hideDelay(3000)
-                // );
-     };
+                  var selectedNode = network.getSelectedNodes();
+                  console.log("nodes lenght : " + selectedNode.length);
+                  if(selectedNode.length > 0){
+                      for(var i= 0; i < selectedNode.length; i++){
+                          console.log(selectedNode[i]);
+                          edges.update({from: newId, to: selectedNode[i]});
+                      }
+                  }
+       };
+  
     }]);
