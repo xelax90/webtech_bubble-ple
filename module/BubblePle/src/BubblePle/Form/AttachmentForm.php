@@ -35,10 +35,10 @@ class AttachmentForm extends Form implements ObjectManagerAwareInterface{
 			),
 		));
 		
-		$this->add(array(
+		/*$this->add(array(
 			'name' => 'attachment_csrf',
 			'type' => Csrf::class,
-		));
+		));*/
 
 		$this->add(array(
 			'name' => 'submit',

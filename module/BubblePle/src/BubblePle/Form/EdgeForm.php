@@ -35,10 +35,10 @@ class EdgeForm extends Form implements ObjectManagerAwareInterface{
 			),
 		));
 		
-		$this->add(array(
+		/*$this->add(array(
 			'name' => 'edge_csrf',
 			'type' => Csrf::class,
-		));
+		));*/
 
 		$this->add(array(
 			'name' => 'submit',
