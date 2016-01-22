@@ -6,7 +6,7 @@
 angular.module('nodes', [
         'ngRoute',
         'ngMaterial',
-        'angularFileUpload'
+        'ngFileUpload'
     ])
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/courseroom',{
@@ -14,6 +14,7 @@ angular.module('nodes', [
             controller: 'NodesCtrl'
         });
     }])
+<<<<<<< HEAD
     .directive('uploadfile', function () {
         return {
           restrict: 'A',
@@ -28,6 +29,9 @@ angular.module('nodes', [
 
     .controller('NodesCtrl',['$location', '$scope','$timeout', '$upload', function($location, $scope, $timeout, $upload){
 
+=======
+    .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', function($location, $scope, $timeout, Upload, $mdToast){
+>>>>>>> a8e15582b0f3e62be2989e53257759c1509c4bf7
         var nodes = new vis.DataSet([
             {id: 1, label: 'Node 1'},
             {id: 2, label: 'Node 2'},
@@ -65,6 +69,7 @@ angular.module('nodes', [
             document.getElementById('i_file').click();
         };
 
+<<<<<<< HEAD
         //upload File
          $scope.uploadResult = [];
 
@@ -89,27 +94,64 @@ angular.module('nodes', [
                  });
 
              }); 
+=======
+
+         $scope.onFileSelect = function(file) {
+
+          if(!file) return;
+
+          console.log("in file select");
+
+          console.log(file.name);
+
+          file.upload = Upload.upload({
+            url: 'http://bubbleple.localhost/de/admin/bubblePLE/fileAttachments/rest',
+            data: {fileattachment: {filename: file, title: file.name}},
+          });
+
+          file.upload.then(function (response) {
+            $timeout(function () {
+              file.result = response.data;
+              console.log(response);
+              $mdToast.show(
+                      $mdToast.simple()
+                          .textContent('File uploaded successfully')
+                          .position('bottom')
+                          .hideDelay(3000)
+               );
+              addNode(file.name);
+            });
+          }, function (response) {
+            if (response.status > 0)
+              $scope.errorMsg = response.status + ': ' + response.data;
+            console.log("in response");
+            console.log(response);
+            $mdToast.show(
+                      $mdToast.simple()
+                          .textContent('Error Uploading file')
+                          .position('bottom')
+                          .hideDelay(3000)
+                  );
+          }, function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+          });
+>>>>>>> a8e15582b0f3e62be2989e53257759c1509c4bf7
         }
-      }
 
 
-      function addNode(name){
-                var newId = nodes.length + 1;
-                nodes.update({id: newId, label: name, title: 'Uploaded file'});
+        function addNode(name){
+                  var newId = nodes.length + 1;
+                  nodes.update({id: newId, label: name, title: 'Uploaded file'});
 
-                var selectedNode = network.getSelectedNodes();
-                console.log("nodes lenght : " + selectedNode.length);
-                if(selectedNode.length > 0){
-                    for(var i= 0; i < selectedNode.length; i++){
-                        console.log(selectedNode[i]);
-                        edges.update({from: newId, to: selectedNode[i]});
-                    }
-                }
-                // $mdToast.show(
-                //     $mdToast.simple()
-                //         .textContent('File uploaded : ' + name)
-                //         .position('bottom')
-                //         .hideDelay(3000)
-                // );
-     };
+                  var selectedNode = network.getSelectedNodes();
+                  console.log("nodes lenght : " + selectedNode.length);
+                  if(selectedNode.length > 0){
+                      for(var i= 0; i < selectedNode.length; i++){
+                          console.log(selectedNode[i]);
+                          edges.update({from: newId, to: selectedNode[i]});
+                      }
+                  }
+       };
+  
     }]);
