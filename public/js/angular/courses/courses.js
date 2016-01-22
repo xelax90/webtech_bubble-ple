@@ -41,6 +41,8 @@ angular.module('courses', [
             };
 
             $scope.addCourse = function(){
+                var data = {bubble: { title: $scope.courseName}};
+                $http.post('/admin/bubblePLE/bubbles/rest', data);
                 nodes.update({id: nodes.length+1, label: $scope.courseName, title: 'Press for '+$scope.courseName + ' PLE'});
                 $scope.switchInput();
                 $mdToast.show(
