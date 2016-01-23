@@ -15,6 +15,7 @@ angular.module('nodes', [
         });
     }])
 <<<<<<< HEAD
+<<<<<<< HEAD
     .directive('uploadfile', function () {
         return {
           restrict: 'A',
@@ -32,6 +33,11 @@ angular.module('nodes', [
 =======
     .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', function($location, $scope, $timeout, Upload, $mdToast){
 >>>>>>> a8e15582b0f3e62be2989e53257759c1509c4bf7
+=======
+
+    .controller('NodesCtrl', ['$location', '$scope', '$timeout', '$mdDialog' ,'Upload', '$mdToast', function($location, $scope, $timeout, $mdDialog, Upload, $mdToast){
+
+>>>>>>> ad3ef93f66407b1c1de9f2fad24709a8d7e1ab51
         var nodes = new vis.DataSet([
             {id: 1, label: 'Node 1'},
             {id: 2, label: 'Node 2'},
@@ -63,6 +69,44 @@ angular.module('nodes', [
 
         // initialize your network!
         var network = new vis.Network(container, data, options);
+        
+        // for Opening the <form> to add text to node          
+        $scope.openTextBox = function(){
+            if(network.getSelectedNodes().length > 0){           
+                var parentEl = angular.element(document.body);
+                $mdDialog.show({
+                  parent: parentEl,
+                  template:
+                    '<md-dialog>' +
+                    '   <md-dialog-content>'+
+                    '       <md-input-container>' +
+                    '           <textarea ng-model="node.text" >' +
+                    '           </textarea>' +
+                    '       </md-input-container>'+
+                    '   </md-dialog-content>' +
+                    '   <md-dialog-actions>' +
+                    '       <md-button ng-click="addTextToNodes()" class="md-primary">' +
+                    '           Save' +
+                    '       </md-button>' +
+                    '   </md-dialog-actions>' +
+                    '</md-dialog>',
+
+                  clickOutsideToClose: true,
+                  // for saving the added text to the node
+                  controller: function($scope, $mdDialog){
+                    $scope.addTextToNodes = function(){
+                        var selectedNodes = network.getSelectedNodes();
+                        for(var i = 0; i < selectedNodes.length; i++){
+                            nodes.update({id: selectedNodes[0], title: $scope.node.text});
+                        }
+                        $mdDialog.hide();
+                    }
+                  }
+                });  
+           } 
+            
+        };
+        
 
         //trigger onFileSelect method on clickUpload button clicked
         $scope.clickUpload = function(){
