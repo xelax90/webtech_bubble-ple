@@ -14,8 +14,7 @@ angular.module('nodes', [
             controller: 'NodesCtrl'
         });
     }])
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     .directive('uploadfile', function () {
         return {
           restrict: 'A',
@@ -28,16 +27,9 @@ angular.module('nodes', [
         };
     })
 
-    .controller('NodesCtrl',['$location', '$scope','$timeout', '$upload', function($location, $scope, $timeout, $upload){
 
-=======
     .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', function($location, $scope, $timeout, Upload, $mdToast){
->>>>>>> a8e15582b0f3e62be2989e53257759c1509c4bf7
-=======
 
-    .controller('NodesCtrl', ['$location', '$scope', '$timeout', '$mdDialog' ,'Upload', '$mdToast', function($location, $scope, $timeout, $mdDialog, Upload, $mdToast){
-
->>>>>>> ad3ef93f66407b1c1de9f2fad24709a8d7e1ab51
         var nodes = new vis.DataSet([
             {id: 1, label: 'Node 1'},
             {id: 2, label: 'Node 2'},
@@ -113,32 +105,6 @@ angular.module('nodes', [
             document.getElementById('i_file').click();
         };
 
-<<<<<<< HEAD
-        //upload File
-         $scope.uploadResult = [];
-
-         $scope.onFileSelect = function($files) {
-        //$files: an array of files selected, each file has name, size, and type.
-
-        console.log("in file select");
-
-        for (var i = 0; i < $files.length; i++) {
-             var $file = $files[i];
-             $upload.upload({
-                 url: (applicationBasePath ? applicationBasePath : '') + 'php/upload.php',
-                 file: $file,
-                 progress: function(e){}
-             }).then(function(response) {
-                 // file is uploaded successfully
-                 $timeout(function() {
-                 $scope.uploadResult.push(response.data);
-                 console.log($scope.uploadResult);
-                console.log("file uploaded : " + $file.name);
-                addNode($file.name);
-                 });
-
-             }); 
-=======
 
          $scope.onFileSelect = function(file) {
 
@@ -180,7 +146,6 @@ angular.module('nodes', [
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
           });
->>>>>>> a8e15582b0f3e62be2989e53257759c1509c4bf7
         }
 
 
