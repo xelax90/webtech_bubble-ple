@@ -72,12 +72,12 @@ angular.module('nodes', [
                     '        <label>Bubble Name</label>'+
                     '        <input type="text" ng-model="bubbleName">'+
                     '    </md-input-container>'+
-                    '    <md-list>'+
-                    '      <md-list-item ng-repeat="item in items">'+
-                    '       <p>Number {{item.label}}</p>' +
-                    '      </md-list-item>' +
-                    '    </md-list>'+
-                    '    <select ng-model="model" ng-options="item.label in items"></select>'+
+                    // '    <md-list>'+
+                    // '      <md-list-item ng-repeat="item in items">'+
+                    // '       <p>Number {{item.label}}</p>' +
+                    // '      </md-list-item>' +
+                    // '    </md-list>'+
+                    // '    <select ng-model="model" ng-options="item.label in items"></select>'+
                     '  </md-dialog-content>' +
                     '  <md-dialog-actions>' +
                     '    <md-button ng-click="addingNewNode()" class="md-primary">' +
@@ -128,15 +128,24 @@ angular.module('nodes', [
             var selectedNodeId = parseInt(network.getSelectedNodes());
             console.log("Deleting Node: " + selectedNodeId);
 
-            var del = network.getSelectedNodes();
-            network.deleteSelected();
+            if(selectedNodeId){
+              var del = network.getSelectedNodes();
+              network.deleteSelected();
 
-            $mdToast.show(
-                $mdToast.simple()
-                    .textContent('Deleted Node: ' + selectedNodeId)
-                    .position('bottom')
-                    .hideDelay(3000)
-            );
+              $mdToast.show(
+                  $mdToast.simple()
+                      .textContent('Deleted Node: ' + selectedNodeId)
+                      .position('bottom')
+                      .hideDelay(3000)
+              ); 
+            } else {
+              $mdToast.show(
+                  $mdToast.simple()
+                      .textContent('Please select a Node!')
+                      .position('bottom')
+                      .hideDelay(3000)
+              );
+            }
         };
         
         // for Opening the <form> to add text to node          
