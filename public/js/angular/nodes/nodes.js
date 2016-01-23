@@ -28,7 +28,7 @@ angular.module('nodes', [
     })
 
 
-    .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', function($location, $scope, $timeout, Upload, $mdToast){
+    .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', function($location, $scope, $timeout, Upload, $mdToast, $mdDialog){
 
         var nodes = new vis.DataSet([
             {id: 1, label: 'Node 1'},
@@ -61,6 +61,83 @@ angular.module('nodes', [
 
         // initialize your network!
         var network = new vis.Network(container, data, options);
+
+        $scope.addNewNode = function (){
+            $mdDialog.show({
+                template:
+                    '<md-dialog aria-label="List dialog">' +
+                    '  <md-dialog-content>'+
+                    '    <br>'+
+                    '    <md-input-container>'+
+                    '        <label>Bubble Name</label>'+
+                    '        <input type="text" ng-model="bubbleName">'+
+                    '    </md-input-container>'+
+                    '    <md-list>'+
+                    '      <md-list-item ng-repeat="item in items">'+
+                    '       <p>Number {{item.label}}</p>' +
+                    '      </md-list-item>' +
+                    '    </md-list>'+
+                    '    <select ng-model="model" ng-options="item.label in items"></select>'+
+                    '  </md-dialog-content>' +
+                    '  <md-dialog-actions>' +
+                    '    <md-button ng-click="addingNewNode()" class="md-primary">' +
+                    '      Add Node' +
+                    '    </md-button>' +
+                    '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                    '      Close Dialog' +
+                    '    </md-button>' +
+                    '  </md-dialog-actions>' +
+                    '</md-dialog>',
+                locals: {
+                    items: (nodes._data)
+                },
+                controller: DialogController
+            });
+
+            function DialogController($scope, $mdDialog, items) {
+                console.log(items);
+
+                $scope.bubbleName = "";
+                $scope.items = items;
+                $scope.addingNewNode = function() {
+
+                    var selectedNodeId = parseInt(network.getSelectedNodes());
+                    console.log("Adding New Node to Node: " + selectedNodeId);
+
+                    var nodeId = new Date().getUTCMilliseconds();            
+                    nodes.update({id: nodeId, label: $scope.bubbleName});
+                    edges.update({from: nodeId, to: selectedNodeId});
+
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .textContent('Added NodeName')
+                            .position('bottom')
+                            .hideDelay(3000)
+                    );
+                    
+                    $scope.bubbleName = "";
+                    $mdDialog.hide();
+                }
+                $scope.closeDialog = function() {
+                    $mdDialog.hide();
+                }
+            }
+        };
+
+        $scope.deleteSelectedNode = function (){
+            var selectedNodeId = parseInt(network.getSelectedNodes());
+            console.log("Deleting Node: " + selectedNodeId);
+
+            var del = network.getSelectedNodes();
+            network.deleteSelected();
+
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent('Deleted Node: ' + selectedNodeId)
+                    .position('bottom')
+                    .hideDelay(3000)
+            );
+        };
         
         // for Opening the <form> to add text to node          
         $scope.openTextBox = function(){

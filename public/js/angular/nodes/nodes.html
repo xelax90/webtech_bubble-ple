@@ -8,7 +8,7 @@
 <md-content layout-gt-xs="row" layout-xs="column" flex>
 
     <div layout-gt-xs="column" layout-xs="row" class="sidebar md-whiteframe-z2" layout-wrap>
-        <md-button aria-label="plus" flex>
+        <md-button aria-label="plus" ng-click="addNewNode($event)" flex>
             <md-icon class="fa fa-plus fa-2x"></md-icon>
         </md-button>
 
@@ -42,7 +42,7 @@
         </md-button>
 
 
-        <md-button aria-label="delete" flex>
+        <md-button aria-label="delete" ng-click="deleteSelectedNode()" flex>
             <md-icon class="fa fa-trash fa-2x"></md-icon>
         </md-button>
     </div>
