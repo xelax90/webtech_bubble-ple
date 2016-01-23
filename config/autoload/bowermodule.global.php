@@ -43,6 +43,7 @@ return array(
 					'angular-animate',
 					'angular-aria',
 					'angular-material',
+					'ng-file-upload',
 					'vis',
 				)
 			),

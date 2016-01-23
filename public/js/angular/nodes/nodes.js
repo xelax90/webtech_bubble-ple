@@ -5,7 +5,8 @@
 
 angular.module('nodes', [
         'ngRoute',
-        'ngMaterial'
+        'ngMaterial',
+        'ngFileUpload'
     ])
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/courseroom',{
@@ -13,10 +14,8 @@ angular.module('nodes', [
             controller: 'NodesCtrl'
         });
     }])
-    .controller('NodesCtrl',['$location', '$scope', '$mdDialog', function($location, $scope, $mdDialog){
 
-        var a = $location.search();
-        //$scope.courseName = nodes[a.courseId -1].label;
+    .controller('NodesCtrl', ['$location', '$scope', '$timeout', '$mdDialog' ,'Upload', '$mdToast', function($location, $scope, $timeout, $mdDialog, Upload, $mdToast){
 
         var nodes = new vis.DataSet([
             {id: 1, label: 'Node 1'},
@@ -33,6 +32,9 @@ angular.module('nodes', [
             {from: 2, to: 4},
             {from: 2, to: 5}
         ]);
+
+        var a = $location.search();
+        //$scope.courseName = nodes[a.courseId -1].label;
 
         // create a network
         var container = document.getElementById('bubbles');
@@ -84,4 +86,68 @@ angular.module('nodes', [
             
         };
         
+
+        //trigger onFileSelect method on clickUpload button clicked
+        $scope.clickUpload = function(){
+            document.getElementById('i_file').click();
+        };
+
+
+         $scope.onFileSelect = function(file) {
+
+          if(!file) return;
+
+          console.log("in file select");
+
+          console.log(file.name);
+
+          file.upload = Upload.upload({
+            url: 'http://bubbleple.localhost/de/admin/bubblePLE/fileAttachments/rest',
+            data: {fileattachment: {filename: file, title: file.name}},
+          });
+
+          file.upload.then(function (response) {
+            $timeout(function () {
+              file.result = response.data;
+              console.log(response);
+              $mdToast.show(
+                      $mdToast.simple()
+                          .textContent('File uploaded successfully')
+                          .position('bottom')
+                          .hideDelay(3000)
+               );
+              addNode(file.name);
+            });
+          }, function (response) {
+            if (response.status > 0)
+              $scope.errorMsg = response.status + ': ' + response.data;
+            console.log("in response");
+            console.log(response);
+            $mdToast.show(
+                      $mdToast.simple()
+                          .textContent('Error Uploading file')
+                          .position('bottom')
+                          .hideDelay(3000)
+                  );
+          }, function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+          });
+        }
+
+
+        function addNode(name){
+                  var newId = nodes.length + 1;
+                  nodes.update({id: newId, label: name, title: 'Uploaded file'});
+
+                  var selectedNode = network.getSelectedNodes();
+                  console.log("nodes lenght : " + selectedNode.length);
+                  if(selectedNode.length > 0){
+                      for(var i= 0; i < selectedNode.length; i++){
+                          console.log(selectedNode[i]);
+                          edges.update({from: newId, to: selectedNode[i]});
+                      }
+                  }
+       };
+  
     }]);

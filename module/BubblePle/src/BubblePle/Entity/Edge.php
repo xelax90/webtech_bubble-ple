@@ -88,6 +88,20 @@ class Edge implements JsonSerializable{
 		$this->from = $from;
 		return $this;
 	}
+	
+	public function getFromTitle(){
+		if($this->getFrom()){
+			return $this->getFrom()->getTitle();
+		}
+		return '';
+	}
+	
+	public function getToTitle(){
+		if($this->getTo()){
+			return $this->getTo()->getTitle();
+		}
+		return '';
+	}
 
 	/**
 	 * Returns json String
