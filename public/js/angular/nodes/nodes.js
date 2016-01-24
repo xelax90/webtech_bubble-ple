@@ -30,6 +30,8 @@ angular.module('nodes', [
 
     .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', function($location, $scope, $timeout, Upload, $mdToast, $mdDialog){
 
+        $scope.showProgressBar = false;
+
         var nodes = new vis.DataSet([
             {id: 1, label: 'Node 1'},
             {id: 2, label: 'Node 2'},
@@ -200,10 +202,18 @@ angular.module('nodes', [
 
           console.log(file.name);
 
+          $scope.showProgressBar = true;
+
           file.upload = Upload.upload({
             url: 'http://bubbleple.localhost/de/admin/bubblePLE/fileAttachments/rest',
             data: {fileattachment: {filename: file, title: file.name}},
           });
+
+
+          file.upload.progress(function(evt){
+              console.log('percent: ' +parseInt(100.0 * evt.loaded / evt.total));
+          });
+
 
           file.upload.then(function (response) {
             $timeout(function () {
@@ -216,6 +226,7 @@ angular.module('nodes', [
                           .hideDelay(3000)
                );
               addNode(file.name);
+              $scope.showProgressBar = false;
             });
           }, function (response) {
             if (response.status > 0)
@@ -228,9 +239,12 @@ angular.module('nodes', [
                           .position('bottom')
                           .hideDelay(3000)
                   );
+            $scope.showProgressBar = false;
           }, function (evt) {
             // Math.min is to fix IE which reports 200% sometimes
             file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            console.log(file.progress);
+            $scope.progressBarValue = file.progress;
           });
         }
 
