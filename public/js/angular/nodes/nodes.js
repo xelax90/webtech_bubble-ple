@@ -137,7 +137,7 @@ angular.module('nodes', [
 
                     $mdToast.show(
                         $mdToast.simple()
-                            .textContent('Added NodeName')
+                            .textContent('Bubble Added: ' +  $scope.bubbleName)
                             .position('bottom')
                             .hideDelay(3000)
                     );
