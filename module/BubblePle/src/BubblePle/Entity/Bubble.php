@@ -99,6 +99,7 @@ class Bubble implements JsonSerializable{
 	 */
 	public function jsonSerialize() {
 		return array(
+			'bubbleType' => get_class($this),
 			'id' => $this->getId(),
 			'title' => $this->getTitle(),
 		);
