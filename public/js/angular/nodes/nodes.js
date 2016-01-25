@@ -185,7 +185,7 @@ angular.module('nodes', [
                     '<md-dialog>' +
                     '   <md-dialog-content>'+
                     '       <md-input-container>' +
-                    '           <textarea ng-model="node.text" >' +
+                    '           <textarea ng-model="node.text" placeholder="add text">' +
                     '           </textarea>' +
                     '       </md-input-container>'+
                     '   </md-dialog-content>' +
@@ -202,7 +202,45 @@ angular.module('nodes', [
                     $scope.addTextToNodes = function(){
                         var selectedNodes = network.getSelectedNodes();
                         for(var i = 0; i < selectedNodes.length; i++){
-                            nodes.update({id: selectedNodes[0], title: $scope.node.text});
+                            nodes.update({id: selectedNodes[i], title: $scope.node.text});
+                        }
+                        $mdDialog.hide();
+                    }
+                  }
+                });
+           }
+
+        };
+        
+        
+        // for Opening the <form> to change label of the node
+        $scope.openNodeChangeBox = function(){
+            if(network.getSelectedNodes().length > 0){
+                var parentEl = angular.element(document.body);
+                $mdDialog.show({
+                  parent: parentEl,
+                  template:
+                    '<md-dialog>' +
+                    '   <md-dialog-content>'+
+                    '       <md-input-container>' +
+                    '           <textarea ng-model="node.text" placeholder="change label">' +
+                    '           </textarea>' +
+                    '       </md-input-container>'+
+                    '   </md-dialog-content>' +
+                    '   <md-dialog-actions>' +
+                    '       <md-button ng-click="changeNodeLabel()" class="md-primary">' +
+                    '           Save' +
+                    '       </md-button>' +
+                    '   </md-dialog-actions>' +
+                    '</md-dialog>',
+
+                  clickOutsideToClose: true,
+                  // for saving the added text to the node
+                  controller: function($scope, $mdDialog){
+                    $scope.changeNodeLabel = function(){
+                        var selectedNodes = network.getSelectedNodes();
+                        for(var i = 0; i < selectedNodes.length; i++){
+                            nodes.update({id: selectedNodes[i], label: $scope.node.text});
                         }
                         $mdDialog.hide();
                     }
