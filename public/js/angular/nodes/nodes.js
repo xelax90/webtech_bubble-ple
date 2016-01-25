@@ -151,6 +151,29 @@ angular.module('nodes', [
             }
         };
 
+        $scope.addNewEdge = function (){
+            var selectedNodes = network.getSelectedNodes();
+            console.log("Adding Edge: " + selectedNodes[0] + ", " + selectedNodes[1]);
+
+            if(selectedNodes.length < 2){
+              $mdToast.show(
+                  $mdToast.simple()
+                      .textContent('Please select atleast 2 Bubbles!')
+                      .position('bottom')
+                      .hideDelay(3000)
+              );
+              return false;
+            }
+
+            edges.update({from: selectedNodes[0], to: selectedNodes[1]});
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent('Bubbles ' + selectedNodes + ' are now Connected!')
+                    .position('bottom')
+                    .hideDelay(3000)
+            );
+        };
+
         $scope.deleteSelectedNode = function (){
             var selectedNodeId = parseInt(network.getSelectedNodes());
             console.log("Deleting Node: " + selectedNodeId);
