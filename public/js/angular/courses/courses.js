@@ -42,15 +42,19 @@ angular.module('courses', [
 
             $scope.addCourse = function(){
                 var data = {bubble: { title: $scope.courseName}};
-                $http.post('/admin/bubblePLE/bubbles/rest', data);
-                nodes.update({id: nodes.length+1, label: $scope.courseName, title: 'Press for '+$scope.courseName + ' PLE'});
+                $http.post('/admin/bubblePLE/bubbles/rest', data).then(function(response){
+                    console.log(response);
+                    nodes.update({id: response.data.item.id, label: response.data.item.title, title: 'Press for '+ response.data.item.title + ' PLE'});
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .textContent('Added ' + response.data.item.title + ' Course')
+                            .position('bottom')
+                            .hideDelay(3000)
+                    );
+                }, function(errResponse){
+
+                });
                 $scope.switchInput();
-                $mdToast.show(
-                    $mdToast.simple()
-                        .textContent('Added ' + $scope.courseName + ' Course')
-                        .position('bottom')
-                        .hideDelay(3000)
-                );
                 $scope.courseName = null;
             };
 
@@ -133,17 +137,21 @@ angular.module('courses', [
 
             $scope.deleteCourses = function(){
                 var del = network.getSelectedNodes();
-                network.deleteSelected();
-                var text = '';
-                for(var i= 0; i < del.length; i++){
-                    text += items[del[i] - 1].label + ', ';
-                }
-                $mdToast.show(
+                $http.delete('/admin/bubblePLE/bubbles/rest/'+ del[0]).then(function(response){
+                    network.deleteSelected();
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .textContent('Node deleted!')
+                            .position('bottom')
+                            .hideDelay(3000)
+                    );
+                }, function(errResponse){
                     $mdToast.simple()
-                        .textContent('Deleted ' + text)
+                        .textContent('Some error happened!')
                         .position('bottom')
                         .hideDelay(3000)
-                );
+                });
+
             };
         }
 
