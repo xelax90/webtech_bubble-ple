@@ -37,6 +37,10 @@
             <md-icon class="fa fa-font fa-2x"></md-icon>
         </md-button>
 
+        <md-button aria-label="note" ng-click="openTextBox()" flex>
+            <md-icon class="material-icons">note_add</md-icon>
+        </md-button>
+
         <md-button aria-label="share" flex>
             <md-icon class="fa fa-share-alt fa-2x"></md-icon>
         </md-button>
@@ -60,7 +64,7 @@
         <h1>Welcome to {{courseName}} PLE</h1>
         <div id="bubbles" flex layout-fill></div>
         <div layout="row" layout-sm="column" layout-align="space-around">
-            <md-progress-linear md-mode="determinate" value="{{progressBarValue}}" ng-show="showProgressBar" ></md-progress-circular>
+            <md-progress-linear md-mode="determinate" value="{{progressBarValue}}" ng-show="showProgressBar"></md-progress-linear>
          </div>
     </div>
 

@@ -31,6 +31,32 @@ angular.module('nodes', [
     .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', function($location, $scope, $timeout, Upload, $mdToast, $mdDialog){
 
         $scope.showProgressBar = false;
+        var options = {
+            autoResize: true,
+            height: '100%',
+            width: '100%',
+            locale: 'en',
+            clickToUse: false,
+            interaction:{
+                dragNodes:true,
+                dragView: true,
+                hideEdgesOnDrag: false,
+                hideNodesOnDrag: false,
+                hover: true,
+                hoverConnectedEdges: true,
+                keyboard: {
+                    enabled: true,
+                    speed: {x: 10, y: 10, zoom: 0.02},
+                    bindToWindow: true
+                },
+                multiselect: true,
+                navigationButtons: false,
+                selectable: true,
+                selectConnectedEdges: true,
+                tooltipDelay: 300,
+                zoomView: true
+            }
+        };
 
         var nodes = new vis.DataSet([
             {id: 1, label: 'Node 1'},
@@ -59,7 +85,6 @@ angular.module('nodes', [
             nodes: nodes,
             edges: edges
         };
-        var options = {};
 
         // initialize your network!
         var network = new vis.Network(container, data, options);
@@ -106,7 +131,7 @@ angular.module('nodes', [
                     var selectedNodeId = parseInt(network.getSelectedNodes());
                     console.log("Adding New Node to Node: " + selectedNodeId);
 
-                    var nodeId = new Date().getUTCMilliseconds();            
+                    var nodeId = new Date().getUTCMilliseconds();
                     nodes.update({id: nodeId, label: $scope.bubbleName});
                     edges.update({from: nodeId, to: selectedNodeId});
 
@@ -116,7 +141,7 @@ angular.module('nodes', [
                             .position('bottom')
                             .hideDelay(3000)
                     );
-                    
+
                     $scope.bubbleName = "";
                     $mdDialog.hide();
                 }
@@ -139,7 +164,7 @@ angular.module('nodes', [
                       .textContent('Deleted Node: ' + selectedNodeId)
                       .position('bottom')
                       .hideDelay(3000)
-              ); 
+              );
             } else {
               $mdToast.show(
                   $mdToast.simple()
@@ -149,10 +174,10 @@ angular.module('nodes', [
               );
             }
         };
-        
-        // for Opening the <form> to add text to node          
+
+        // for Opening the <form> to add text to node
         $scope.openTextBox = function(){
-            if(network.getSelectedNodes().length > 0){           
+            if(network.getSelectedNodes().length > 0){
                 var parentEl = angular.element(document.body);
                 $mdDialog.show({
                   parent: parentEl,
@@ -182,11 +207,11 @@ angular.module('nodes', [
                         $mdDialog.hide();
                     }
                   }
-                });  
-           } 
-            
+                });
+           }
+
         };
-        
+
 
         //trigger onFileSelect method on clickUpload button clicked
         $scope.clickUpload = function(){
@@ -262,5 +287,5 @@ angular.module('nodes', [
                       }
                   }
        };
-  
+
     }]);
