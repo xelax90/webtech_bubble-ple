@@ -378,11 +378,6 @@ angular.module('nodes', [
 
         /*If user single click on the bubble then this method will be called*/
         function doOnClick(properties) {
-          var nodeId = properties.nodes[0];
-            var node = nodes.get(nodeId);
-
-            network.selectNodes([5], true);
-            network.focus(5);
         }
 
         /*If user double click on the bubble then this method will be called*/
