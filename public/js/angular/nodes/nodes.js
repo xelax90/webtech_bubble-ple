@@ -89,6 +89,7 @@ angular.module('nodes', [
         // initialize your network!
         var network = new vis.Network(container, data, options);
 
+
         $scope.addNewNode = function (){
             $mdDialog.show({
                 template:
@@ -348,5 +349,14 @@ angular.module('nodes', [
                       }
                   }
        };
+
+       network.on( 'click', function(properties) {
+            //alert('clicked node ' + properties.nodes);
+            console.log(properties);
+            fileDownloadDialog();
+        });
+
+       function fileDownloadDialog(){
+       }
 
     }]);
