@@ -28,7 +28,7 @@ angular.module('nodes', [
     })
 
 
-    .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', function($location, $scope, $timeout, Upload, $mdToast, $mdDialog){
+    .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', function($location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http){
 
         $scope.showProgressBar = false;
         var options = {
@@ -313,7 +313,11 @@ angular.module('nodes', [
                           .position('bottom')
                           .hideDelay(3000)
                );
-              addNode(file.name);
+              console.log(response.data.item.filename);
+
+              var filename = String(response.data.item.filename);
+              var res = filename.split("/files/fileattachment/");
+              addNode(res[1]);
               $scope.showProgressBar = false;
             });
           }, function (response) {
@@ -351,13 +355,77 @@ angular.module('nodes', [
                   }
        };
 
-       network.on( 'click', function(properties) {
-            //alert('clicked node ' + properties.nodes);
-            console.log(properties);
-            fileDownloadDialog();
-        });
+       /* added single and double click event to bubbles */
+        network.on('click', onClick);
+        network.on('doubleClick', onDoubleClick);
 
-       function fileDownloadDialog(){
-       }
+        var doubleClickTime = 0;
+        var threshold = 200;
+
+        /*When user click on bubble then this method will be called to check whether user click once or twice*/
+        function onClick(properties) {
+            var t0 = new Date();
+            if (t0 - doubleClickTime > threshold) {
+                setTimeout(function () {
+                    if (t0 - doubleClickTime > threshold) {
+                        doOnClick(properties);
+                    }
+                },threshold);
+            }
+        }
+
+        /*If user single click on the bubble then this method will be called*/
+        function doOnClick(properties) {}
+
+        /*If user double click on the bubble then this method will be called*/
+        function onDoubleClick(properties) {
+            doubleClickTime = new Date();
+            console.log(properties);
+
+            var nodeId = properties.nodes[0];
+            var node = nodes.get(nodeId);
+            var filename = node.label;
+
+            //downloadFile(filename);
+            fileExist(filename);
+        }
+
+        /*Serve file to download*/
+        function downloadFile(filename){
+
+          var fileattachmentPath = "/files/fileattachment/";
+          var completePath = fileattachmentPath + filename;
+
+            console.log("file exists ...");
+            var hiddenElement = document.createElement('a');
+            hiddenElement.href = completePath;
+            hiddenElement.target = '_blank';
+            hiddenElement.download = filename;
+            hiddenElement.click();
+        }
+
+        /*Check if file exist then download. It is to make sure that the click bubble is a file not a text*/
+        function fileExist(filename){
+
+          var fileattachmentPath = "/files/fileattachment/";
+          var completePath = fileattachmentPath + filename;
+
+          //head is use just to check whether file exist or not instead of get which is used to get the content
+          $http.head(completePath)
+                     .success(function(data, status){
+                        if(status == 200 ){
+                          console.log("file found");
+                          downloadFile(filename);
+                        }else{
+                            return false;
+                        }
+                     })
+                     .error(function(data,status){
+                      console.log("error");
+                        if(status==200){}
+                        else{}
+                          return false;
+                     });
+        }
 
     }]);
