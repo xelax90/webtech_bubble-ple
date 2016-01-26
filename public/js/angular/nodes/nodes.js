@@ -15,20 +15,22 @@ angular.module('nodes', [
         });
     }])
 
-    .directive('uploadfile', function () {
-        return {
-          restrict: 'A',
-          link: function(scope, element) {
+    .directive('scrollToItem', function() {                                                      
+    return {                                                                                 
+        restrict: 'A',                                                                       
+        scope: {                                                                             
+            scrollTo: "@"                                                                    
+        },                                                                                   
+        link: function(scope, $elm,attr) {                                                   
 
-            element.bind('click', function(e) {
-                angular.element(e.target).siblings('#i_file').trigger('click');
-            });
-          }
-        };
-    })
+            $elm.on('click', function() {                                                    
+                $('html,body').animate({scrollTop: $(scope.scrollTo).offset().top }, "slow");
+            });                                                                              
+        }                                                                                    
+    }}) 
 
 
-    .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', function($location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http){
+    .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', function($location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll){
 
         $scope.showProgressBar = false;
         var options = {
@@ -375,7 +377,13 @@ angular.module('nodes', [
         }
 
         /*If user single click on the bubble then this method will be called*/
-        function doOnClick(properties) {}
+        function doOnClick(properties) {
+          var nodeId = properties.nodes[0];
+            var node = nodes.get(nodeId);
+
+            network.selectNodes([5], true);
+            network.focus(5);
+        }
 
         /*If user double click on the bubble then this method will be called*/
         function onDoubleClick(properties) {
@@ -427,5 +435,74 @@ angular.module('nodes', [
                           return false;
                      });
         }
+
+        /* Search node in network */
+        $scope.searchNode = function (){
+            $mdDialog.show({
+                template:
+                    '<md-dialog aria-label="List dialog">' +
+                    '  <md-dialog-content>'+
+                    '    <br>'+
+                    '    <md-input-container>'+
+                    '        <label>Enter title to search</label>'+
+                    '        <input type="text" ng-model="searchTitle">'+
+                    '    </md-input-container>'+
+                    '  </md-dialog-content>' +
+                    '  <md-dialog-actions>' +
+                    '    <md-button ng-click="search()" class="md-primary">' +
+                    '      Search' +
+                    '    </md-button>' +
+                    '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                    '      Cancel' +
+                    '    </md-button>' +
+                    '  </md-dialog-actions>' +
+                    '</md-dialog>',
+                locals: {
+                    items: (nodes._data)
+                },
+                controller: searchController
+            });
+
+            /*Controller to look into nodes to search for node*/
+            function searchController($scope, $mdDialog, items) {
+                console.log(items);
+                console.log(items[1].label);
+                $scope.searchTitle = "";
+                $scope.items = items;
+                console.log(nodes);
+
+                /* This method will be called when user clicked on search button */
+                $scope.search = function() {
+                    
+                    if($scope.searchTitle == "") return;
+
+                    var i = 1;
+                    var isFound = false;
+                    for(i = 1; i <= nodes.length; i++){
+                      if($scope.items[i].label == $scope.searchTitle){
+                        console.log("hurray found");
+                        network.selectNodes([$scope.items[i].id], true);
+                        network.focus($scope.items[i].id);
+                        isFound = true;
+                      }
+                    }
+
+                    if(!isFound){
+                      $mdToast.show(
+                        $mdToast.simple()
+                            .textContent("Sorry. Unable to find the searched bubble")
+                            .position('bottom')
+                            .hideDelay(3000)
+                    );
+                    }
+
+                    $mdDialog.hide();
+                };
+
+                $scope.closeDialog = function() {
+                    $mdDialog.hide();
+                };
+            }
+        };
 
     }]);
