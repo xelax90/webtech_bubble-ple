@@ -50,7 +50,7 @@ angular.module('nodes', [
                     bindToWindow: true
                 },
                 multiselect: true,
-                navigationButtons: false,
+                navigationButtons: true,
                 selectable: true,
                 selectConnectedEdges: true,
                 tooltipDelay: 300,
@@ -74,8 +74,9 @@ angular.module('nodes', [
             {from: 2, to: 5}
         ]);
 
-        var a = $location.search();
-        //$scope.courseName = nodes[a.courseId -1].label;
+        //var a = $location.search();
+        //console.log(a);
+        //$scope.courseName = nodes[a.courseId].label;
 
         // create a network
         var container = document.getElementById('bubbles');
@@ -159,7 +160,7 @@ angular.module('nodes', [
             if(selectedNodes.length < 2){
               $mdToast.show(
                   $mdToast.simple()
-                      .textContent('Please select atleast 2 Bubbles!')
+                      .textContent('Please select at least 2 Bubbles!')
                       .position('bottom')
                       .hideDelay(3000)
               );
