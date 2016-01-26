@@ -50,7 +50,7 @@ angular.module('nodes', [
                     bindToWindow: true
                 },
                 multiselect: true,
-                navigationButtons: false,
+                navigationButtons: true,
                 selectable: true,
                 selectConnectedEdges: true,
                 tooltipDelay: 300,
