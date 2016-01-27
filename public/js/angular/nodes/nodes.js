@@ -60,6 +60,51 @@ angular.module('nodes', [
             }
         };
 
+         var baseColor = {
+          border: '#2B7CE9',
+          background: '#97C2FC',
+          highlight: {
+            border: '#2B7CE9',
+            background: '#D2E5FF'
+          },
+          hover: {
+            border: '#2B7CE9',
+            background: '#D2E5FF'
+          }
+        };
+
+
+        var importantColor = {
+          border: '#BCDB3A',
+          background: '#D2F931',
+          highlight: {
+            border: '#D7E13C',
+            background: '#F0FD32'
+          },
+          hover: {
+            border: '#D7E13C',
+            background: '#F0FD32'
+          }
+        };
+
+        var v_importantColor = {
+          border: '#D21E1E',
+          background: '#F90000',
+          highlight: {
+            border: '#E43C3C',
+            background: '#FF3232'
+          },
+          hover: {
+            border: '#E43C3C',
+            background: '#FF3232'
+          }
+        };
+
+
+        options.nodes = {
+          color : baseColor
+        };
+
         var nodes = new vis.DataSet([
             {id: 1, label: 'Node 1'},
             {id: 2, label: 'Node 2'},
@@ -499,6 +544,79 @@ angular.module('nodes', [
                     );
                     }
 
+                    $mdDialog.hide();
+                };
+
+                $scope.closeDialog = function() {
+                    $mdDialog.hide();
+                };
+            }
+        };
+
+
+                /* Change Color of network */
+        $scope.changeColor = function (){
+
+            if (network.getSelectedNodes().length == 0){
+              $mdToast.show(
+                      $mdToast.simple()
+                          .textContent('Please select a node first')
+                          .position('bottom')
+                          .hideDelay(3000)
+               );
+              return;
+            } 
+
+            $mdDialog.show({
+                template:
+                    '<md-dialog aria-label="List dialog">' +
+                    '  <md-dialog-content>'+
+                    '    <br>'+
+                    '      <h2>Select Priority</h2>'+
+                    '         <md-radio-group ng-model="priority">'+
+                    '            <md-radio-button value="Very_Important" class="md-primary"> Very Important </md-radio-button>'+
+                    '            <md-radio-button value="Important"> Important </md-radio-button>'+
+                    '            <md-radio-button value="Normal"> Normal </md-radio-button>'+
+                    '          </md-radio-group>'+
+                    '  </md-dialog-content>' +
+                    '  <md-dialog-actions>' +
+                    '    <md-button ng-click="change()" class="md-primary">' +
+                    '      Ok' +
+                    '    </md-button>' +
+                    '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                    '      Cancel' +
+                    '    </md-button>' +
+                    '  </md-dialog-actions>' +
+                    '</md-dialog>',
+                locals: {
+                    items: (nodes._data)
+                },
+                controller: changeColorController
+            });
+
+            /*Controller to look into nodes to search for node*/
+            function changeColorController($scope, $mdDialog, items) {
+                $scope.searchTitle = "";
+                $scope.items = items;
+                
+                console.log(nodes);
+
+                /* This method will be called when user clicked on search button */
+                $scope.change = function() {
+
+                  var selectedNode = network.getSelectedNodes();
+                  console.log("nodes lenght : " + selectedNode.length);
+                  if(selectedNode.length > 0){
+                      for(var i= 0; i < selectedNode.length; i++){
+                          console.log($scope.priority);
+                          if($scope.priority == "Very_Important")
+                            nodes.update({id : selectedNode[i], color : v_importantColor});
+                          else if($scope.priority == "Important")
+                            nodes.update({id : selectedNode[i], color : importantColor});
+                          else
+                            nodes.update({id : selectedNode[i], color : baseColor});
+                      }
+                  }
                     $mdDialog.hide();
                 };
 
