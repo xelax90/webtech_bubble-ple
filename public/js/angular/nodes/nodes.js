@@ -21,13 +21,13 @@ angular.module('nodes', [
         scope: {                                                                             
             scrollTo: "@"                                                                    
         },                                                                                   
-        link: function(scope, $elm,attr) {                                                   
+        link: function(scope, $elm,attr) {
 
-            $elm.on('click', function() {                                                    
+            $elm.on('click', function() {
                 $('html,body').animate({scrollTop: $(scope.scrollTo).offset().top }, "slow");
-            });                                                                              
-        }                                                                                    
-    }}) 
+            });
+        }
+    }})
 
 
     .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', function($location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll){
@@ -179,26 +179,58 @@ angular.module('nodes', [
         };
 
         $scope.deleteSelectedNode = function (){
-            var selectedNodeId = parseInt(network.getSelectedNodes());
+            var selectedNodeId = network.getSelectedNodes();
+            var selectedEdgeId = network.getSelectedEdges();
+
             console.log("Deleting Node: " + selectedNodeId);
+            console.log("Deleting Node: " + selectedEdgeId);
 
-            if(selectedNodeId){
-              var del = network.getSelectedNodes();
-              network.deleteSelected();
-
-              $mdToast.show(
-                  $mdToast.simple()
-                      .textContent('Deleted Node: ' + selectedNodeId)
-                      .position('bottom')
-                      .hideDelay(3000)
-              );
+            var toastMessage = '';
+            if(selectedEdgeId){
+                network.deleteSelected();
+                toastMessage += 'Deleted ' + selectedEdgeId.length + ' Edge(s) and ';
+            } if(selectedNodeId){
+                network.deleteSelected();
+                toastMessage += 'Bubble(s) ' + selectedNodeId;
+            } if( selectedNodeId.length>0 || selectedEdgeId.length>0 ){
+                console.log(":"+selectedNodeId + ":" + selectedEdgeId+":");
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent(toastMessage)
+                        .position('bottom')
+                        .hideDelay(3000)
+                );
             } else {
-              $mdToast.show(
-                  $mdToast.simple()
-                      .textContent('Please select a Node!')
-                      .position('bottom')
-                      .hideDelay(3000)
-              );
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent('Please select a Bubble or an Edge!')
+                        .position('bottom')
+                        .hideDelay(3000)
+                );
+            }
+        };
+
+        $scope.deleteSelectedEdge = function (){
+            var selectedEdgeId = network.getSelectedEdges();
+            console.log("Deleting Node: " + selectedEdgeId);
+            console.log(selectedEdgeId);
+
+            if(selectedEdgeId){
+                network.deleteSelected();
+
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent('Deleted Node: ' + selectedEdgeId)
+                        .position('bottom')
+                        .hideDelay(3000)
+                );
+            } else {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent('Please select an Edge!')
+                        .position('bottom')
+                        .hideDelay(3000)
+                );
             }
         };
 
@@ -238,8 +270,8 @@ angular.module('nodes', [
            }
 
         };
-        
-        
+
+
         // for Opening the <form> to change label of the node
         $scope.openNodeChangeBox = function(){
             if(network.getSelectedNodes().length > 0){
@@ -468,7 +500,7 @@ angular.module('nodes', [
 
                 /* This method will be called when user clicked on search button */
                 $scope.search = function() {
-                    
+
                     if($scope.searchTitle == "") return;
 
                     var i = 1;
