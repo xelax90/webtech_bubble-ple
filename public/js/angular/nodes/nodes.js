@@ -178,7 +178,7 @@ angular.module('nodes', [
             );
         };
 
-        $scope.deleteSelectedNode = function (){
+        $scope.deleteSelectedNodeEdge = function (){
             var selectedNodeId = network.getSelectedNodes();
             var selectedEdgeId = network.getSelectedEdges();
 
