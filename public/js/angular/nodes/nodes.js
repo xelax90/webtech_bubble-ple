@@ -210,30 +210,6 @@ angular.module('nodes', [
             }
         };
 
-        $scope.deleteSelectedEdge = function (){
-            var selectedEdgeId = network.getSelectedEdges();
-            console.log("Deleting Node: " + selectedEdgeId);
-            console.log(selectedEdgeId);
-
-            if(selectedEdgeId){
-                network.deleteSelected();
-
-                $mdToast.show(
-                    $mdToast.simple()
-                        .textContent('Deleted Node: ' + selectedEdgeId)
-                        .position('bottom')
-                        .hideDelay(3000)
-                );
-            } else {
-                $mdToast.show(
-                    $mdToast.simple()
-                        .textContent('Please select an Edge!')
-                        .position('bottom')
-                        .hideDelay(3000)
-                );
-            }
-        };
-
         // for Opening the <form> to add text to node
         $scope.openTextBox = function(){
             if(network.getSelectedNodes().length > 0){
