@@ -22,10 +22,35 @@ namespace BubblePle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Attachment Bubble. Groups all types of attachments.
+ * Link Attachment
  *
  * @ORM\Entity
  */
-class Attachment extends Bubble{
+class LinkAttachment extends Attachment{
+	
+	/**
+	 * @ORM\Column(type="text")
+	 */
+	protected $url;
+	
+	public function getUrl() {
+		return $this->url;
+	}
 
+	public function setUrl($url) {
+		$this->url = $url;
+		return $this;
+	}
+
+	/**
+	 * Returns data to show in json
+	 * @return array
+	 */
+	public function jsonSerialize() {
+		$data = parent::jsonSerialize();
+		return array_merge($data, array(
+			'url' => $this->getUrl(),
+		));
+	}
+	
 }

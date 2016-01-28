@@ -22,10 +22,10 @@ namespace BubblePle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Attachment Bubble. Groups all types of attachments.
+ * Course Bubble
  *
  * @ORM\Entity
  */
-class Attachment extends Bubble{
-
+class VideoAttachment extends MediaAttachment{
+	
 }
