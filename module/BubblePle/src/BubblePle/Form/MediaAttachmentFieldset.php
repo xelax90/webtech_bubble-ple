@@ -23,6 +23,15 @@ class MediaAttachmentFieldset extends FileAttachmentFieldset {
 
 	public function getInputFilterSpecification() {
 		$filters = array(
+			'filename' => array(
+				'filters' => array(
+					array(
+						'options' => array(
+							'target' => 'public/files/mediaattachment/',
+						),
+					),
+				),
+			),
 		);
 		$filters = array_merge(parent::getInputFilterSpecification(), $filters);
 		return $filters;
