@@ -72,7 +72,7 @@ angular.module('courses', [
 
     // provide the data in the vis format
             var data = {
-                nodes: nodes,
+                nodes: nodes
                 //edges: edges
             };
 
@@ -133,7 +133,7 @@ angular.module('courses', [
                         $location.path('/courseroom').search({courseId: node.nodes[0]});
                     });
                 }
-            })
+            });
 
             $scope.deleteCourses = function(){
                 var del = network.getSelectedNodes();
@@ -149,7 +149,7 @@ angular.module('courses', [
                     $mdToast.simple()
                         .textContent('Some error happened!')
                         .position('bottom')
-                        .hideDelay(3000)
+                        .hideDelay(3000);
                 });
 
             };
