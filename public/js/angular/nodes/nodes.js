@@ -16,18 +16,19 @@ angular.module('nodes', [
     }])
 
     .directive('scrollToItem', function() {                                                      
-    return {                                                                                 
-        restrict: 'A',                                                                       
-        scope: {                                                                             
-            scrollTo: "@"                                                                    
-        },                                                                                   
-        link: function(scope, $elm,attr) {
+        return {                                                                                 
+            restrict: 'A',                                                                       
+            scope: {                                                                             
+                scrollTo: "@"                                                                    
+            },                                                                                   
+            link: function(scope, $elm, attr) {
 
-            $elm.on('click', function() {
-                $('html,body').animate({scrollTop: $(scope.scrollTo).offset().top }, "slow");
-            });
-        }
-    }})
+                $elm.on('click', function() {
+                    $('html,body').animate({scrollTop: $(scope.scrollTo).offset().top }, "slow");
+                });
+            }
+        };
+    })
 
 
     .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', function($location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll){
@@ -57,9 +58,59 @@ angular.module('nodes', [
                 selectConnectedEdges: true,
                 tooltipDelay: 300,
                 zoomView: true
-            }
-        };
+                    },
+            manipulation:
+                {
+                    enabled: false,
+                    addNode: function(data, callback){
+                        $mdDialog.show({
+                            template:
+                                '<md-dialog aria-label="List dialog">' +
+                                '  <md-dialog-content>'+
+                                '    <br>'+
+                                '    <md-input-container>'+
+                                '        <label>Bubble Name</label>'+
+                                '        <input type="text" ng-model="bubbleName">'+
+                                '    </md-input-container>'+
+                                '  </md-dialog-content>' +
+                                '  <md-dialog-actions>' +
+                                '    <md-button ng-click="addingNewNode()" class="md-primary">' +
+                                '      Add Node' +
+                                '    </md-button>' +
+                                '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                                '      Close Dialog' +
+                                '    </md-button>' +
+                                '  </md-dialog-actions>' +
+                                '</md-dialog>',
+                            controller: DialogController
+                        });
 
+                        function DialogController($scope, $mdDialog) {
+                            $scope.addingNewNode = function() {
+                                data.label = $scope.bubbleName;
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .textContent('Bubble Added: ' +  $scope.bubbleName)
+                                        .position('bottom')
+                                        .hideDelay(3000)
+                                );
+
+                                $scope.bubbleName = "";
+                                $mdDialog.hide();
+                                callback(data);
+                            };
+                            $scope.closeDialog = function() {
+                                network.disableEditMode();
+                                $mdDialog.hide();
+                                
+                            };
+
+                        }
+
+                    }
+                }
+        };
+        
          var baseColor = {
           border: '#2B7CE9',
           background: '#97C2FC',
@@ -138,90 +189,18 @@ angular.module('nodes', [
         var network = new vis.Network(container, data, options);
 
 
-        $scope.addNewNode = function (){
-            $mdDialog.show({
-                template:
-                    '<md-dialog aria-label="List dialog">' +
-                    '  <md-dialog-content>'+
-                    '    <br>'+
-                    '    <md-input-container>'+
-                    '        <label>Bubble Name</label>'+
-                    '        <input type="text" ng-model="bubbleName">'+
-                    '    </md-input-container>'+
-                    // '    <md-list>'+
-                    // '      <md-list-item ng-repeat="item in items">'+
-                    // '       <p>Number {{item.label}}</p>' +
-                    // '      </md-list-item>' +
-                    // '    </md-list>'+
-                    // '    <select ng-model="model" ng-options="item.label in items"></select>'+
-                    '  </md-dialog-content>' +
-                    '  <md-dialog-actions>' +
-                    '    <md-button ng-click="addingNewNode()" class="md-primary">' +
-                    '      Add Node' +
-                    '    </md-button>' +
-                    '    <md-button ng-click="closeDialog()" class="md-primary">' +
-                    '      Close Dialog' +
-                    '    </md-button>' +
-                    '  </md-dialog-actions>' +
-                    '</md-dialog>',
-                locals: {
-                    items: (nodes._data)
-                },
-                controller: DialogController
-            });
-
-            function DialogController($scope, $mdDialog, items) {
-                console.log(items);
-
-                $scope.bubbleName = "";
-                $scope.items = items;
-                $scope.addingNewNode = function() {
-
-                    var selectedNodeId = parseInt(network.getSelectedNodes());
-                    console.log("Adding New Node to Node: " + selectedNodeId);
-
-                    var nodeId = new Date().getUTCMilliseconds();
-                    nodes.update({id: nodeId, label: $scope.bubbleName});
-                    edges.update({from: nodeId, to: selectedNodeId});
-
-                    $mdToast.show(
-                        $mdToast.simple()
-                            .textContent('Bubble Added: ' +  $scope.bubbleName)
-                            .position('bottom')
-                            .hideDelay(3000)
-                    );
-
-                    $scope.bubbleName = "";
-                    $mdDialog.hide();
-                }
-                $scope.closeDialog = function() {
-                    $mdDialog.hide();
-                }
-            }
+        $scope.addNewBubble = function (){
+              network.addNodeMode();
         };
 
         $scope.addNewEdge = function (){
-            var selectedNodes = network.getSelectedNodes();
-            console.log("Adding Edge: " + selectedNodes[0] + ", " + selectedNodes[1]);
-
-            if(selectedNodes.length < 2){
-              $mdToast.show(
-                  $mdToast.simple()
-                      .textContent('Please select at least 2 Bubbles!')
-                      .position('bottom')
-                      .hideDelay(3000)
-              );
-              return false;
-            }
-
-            edges.update({from: selectedNodes[0], to: selectedNodes[1]});
-            $mdToast.show(
-                $mdToast.simple()
-                    .textContent('Bubbles ' + selectedNodes + ' are now Connected!')
-                    .position('bottom')
-                    .hideDelay(3000)
-            );
+            network.addEdgeMode();
         };
+        
+        $scope.addLinkBubble = function (){
+            network.addNodeMode();
+        };
+        
 
         $scope.deleteSelectedNodeEdge = function (){
             var selectedNodeId = network.getSelectedNodes();
