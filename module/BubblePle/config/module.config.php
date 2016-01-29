@@ -22,7 +22,6 @@ namespace BubblePle;
 
 use BjyAuthorize\Provider;
 use BjyAuthorize\Guard;
-use XelaxAdmin\Controller\ListController;
 use XelaxAdmin\Router\ListRoute;
 
 $xelaxConfig = array(
@@ -30,56 +29,7 @@ $xelaxConfig = array(
 	 * Configure your list controllers. Routes are generated automatically, and
 	 * access permissions can be configured.
 	 */
-	'list_controller' => array(
-		'bubbles' => array(
-			'name' => 'Bubble', // this will be the route url and is used to generate texts
-			// You can subclass the ListController for better control
-			'controller_class' => ListController::class, 
-			// Base namespace of Menu entity and form
-			'base_namespace' => 'BubblePle', 
-			// columns to show in list view
-			'list_columns' => array('Id' => 'id', 'Title' => 'title'),
-			// route_base defaults to the config key ('menus' in this case). 
-			'route_base' => 'zfcadmin/bubblePLE/bubbles', // only available at top-level options
-			'rest_enabled' => true,
-		),
-		'attachments' => array(
-			'name' => 'Attachment', // this will be the route url and is used to generate texts
-			// You can subclass the ListController for better control
-			'controller_class' => ListController::class, 
-			// Base namespace of Menu entity and form
-			'base_namespace' => 'BubblePle', 
-			// columns to show in list view
-			'list_columns' => array('Id' => 'id', 'Title' => 'title'),
-			// route_base defaults to the config key ('menus' in this case). 
-			'route_base' => 'zfcadmin/bubblePLE/attachments', // only available at top-level options
-			'rest_enabled' => true,
-		),
-		'fileAttachments' => array(
-			'name' => 'FileAttachment', // this will be the route url and is used to generate texts
-			// You can subclass the ListController for better control
-			'controller_class' => ListController::class, 
-			// Base namespace of Menu entity and form
-			'base_namespace' => 'BubblePle', 
-			// columns to show in list view
-			'list_columns' => array('Id' => 'id', 'Title' => 'title', 'File' => 'filename'),
-			// route_base defaults to the config key ('menus' in this case). 
-			'route_base' => 'zfcadmin/bubblePLE/fileAttachments', // only available at top-level options
-			'rest_enabled' => true,
-		),
-		'edges' => array(
-			'name' => 'Edge', // this will be the route url and is used to generate texts
-			// You can subclass the ListController for better control
-			'controller_class' => ListController::class, 
-			// Base namespace of Menu entity and form
-			'base_namespace' => 'BubblePle', 
-			// columns to show in list view
-			'list_columns' => array('Id' => 'id', 'From' => 'fromTitle', 'To' => 'toTitle'),
-			// route_base defaults to the config key ('menus' in this case). 
-			'route_base' => 'zfcadmin/bubblePLE/edges', // only available at top-level options
-			'rest_enabled' => true,
-		),
-	),
+	'list_controller' => include __DIR__ .'/xelax.config.php',
 );
 
 $routerConfig = array(
@@ -110,10 +60,16 @@ $routerConfig = array(
 				),
 				'may_terminate' => false,
 				'child_routes' => array(
-					'bubbles'         => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'bubbles', )),
-					'attachments'     => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'attachments', )),
-					'fileAttachments' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'fileAttachments', )),
-					'edges'           => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'edges', )),
+					'edges'            => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'edges', )),
+					'bubbles'          => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'bubbles', )),
+					'semesters'        => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'semesters', )),
+					'courses'          => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'courses', )),
+					'attachments'      => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'attachments', )),
+					'fileAttachments'  => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'fileAttachments', )),
+					'mediaAttachments' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'mediaAttachments', )),
+					'imageAttachments' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'imageAttachments', )),
+					'videoAttachments' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'videoAttachments', )),
+					'linkAttachments'  => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'linkAttachments', )),
 				)
 			),
 		)
@@ -122,10 +78,16 @@ $routerConfig = array(
 
 $guardConfig = array(
 	'test' => ['route' => 'test', 'roles' => ['guest', 'user'] ],
-	['route' => 'zfcadmin/bubblePLE/bubbles',         'roles' => ['moderator'] ],
-	['route' => 'zfcadmin/bubblePLE/attachments',     'roles' => ['moderator'] ],
-	['route' => 'zfcadmin/bubblePLE/fileAttachments', 'roles' => ['moderator'] ],
-	['route' => 'zfcadmin/bubblePLE/edges',           'roles' => ['moderator'] ],
+	['route' => 'zfcadmin/bubblePLE/edges',            'roles' => ['moderator'] ],
+	['route' => 'zfcadmin/bubblePLE/bubbles',          'roles' => ['moderator'] ],
+	['route' => 'zfcadmin/bubblePLE/semesters',        'roles' => ['moderator'] ],
+	['route' => 'zfcadmin/bubblePLE/courses',          'roles' => ['moderator'] ],
+	['route' => 'zfcadmin/bubblePLE/attachments',      'roles' => ['moderator'] ],
+	['route' => 'zfcadmin/bubblePLE/fileAttachments',  'roles' => ['moderator'] ],
+	['route' => 'zfcadmin/bubblePLE/mediaAttachments', 'roles' => ['moderator'] ],
+	['route' => 'zfcadmin/bubblePLE/imageAttachments', 'roles' => ['moderator'] ],
+	['route' => 'zfcadmin/bubblePLE/videoAttachments', 'roles' => ['moderator'] ],
+	['route' => 'zfcadmin/bubblePLE/linkAttachments',  'roles' => ['moderator'] ],
 );
 
 $ressources = array(
@@ -133,11 +95,16 @@ $ressources = array(
 );
 
 $ressourceAllowRules = array(
+	[['moderator'], 'bubblePLE', 'edges/list'],
 	[['moderator'], 'bubblePLE', 'bubbles/list'],
+	[['moderator'], 'bubblePLE', 'semesters/list'],
+	[['moderator'], 'bubblePLE', 'courses/list'],
 	[['moderator'], 'bubblePLE', 'attachments/list'],
 	[['moderator'], 'bubblePLE', 'fileAttachments/list'],
-	[['moderator'], 'bubblePLE', 'edges/list'],
-	
+	[['moderator'], 'bubblePLE', 'mediaAttachments/list'],
+	[['moderator'], 'bubblePLE', 'imageAttachments/list'],
+	[['moderator'], 'bubblePLE', 'videoAttachments/list'],
+	[['moderator'], 'bubblePLE', 'linkAttachments/list'],
 );
 
 return array(
@@ -203,10 +170,16 @@ return array(
 	'navigation' => array(
 		'admin' => array(
 			array('label' => gettext_noop('BubblePLE'),       'route' => 'zfcadmin/bubbles',             'resource' => 'bubblePLE', 'privilege' => 'bubbles/list', 'pages' => array(
-				array('label' => gettext_noop('Edges'),           'route' => 'zfcadmin/bubblePLE/edges'           , 'resource' => 'bubblePLE', 'privilege' => 'edges/list'),
-				array('label' => gettext_noop('Bubbles'),         'route' => 'zfcadmin/bubblePLE/bubbles'         , 'resource' => 'bubblePLE', 'privilege' => 'bubbles/list'),
-				array('label' => gettext_noop('Attachments'),     'route' => 'zfcadmin/bubblePLE/attachments'     , 'resource' => 'bubblePLE', 'privilege' => 'attachments/list'),
-				array('label' => gettext_noop('FileAttachments'), 'route' => 'zfcadmin/bubblePLE/fileAttachments' , 'resource' => 'bubblePLE', 'privilege' => 'fileAttachments/list'),
+				array('label' => gettext_noop('Edges'),            'route' => 'zfcadmin/bubblePLE/edges'            , 'resource' => 'bubblePLE', 'privilege' => 'edges/list'),
+				array('label' => gettext_noop('Bubbles'),          'route' => 'zfcadmin/bubblePLE/bubbles'          , 'resource' => 'bubblePLE', 'privilege' => 'bubbles/list'),
+				array('label' => gettext_noop('Semesters'),        'route' => 'zfcadmin/bubblePLE/semesters'        , 'resource' => 'bubblePLE', 'privilege' => 'semesters/list'),
+				array('label' => gettext_noop('Courses'),          'route' => 'zfcadmin/bubblePLE/courses'          , 'resource' => 'bubblePLE', 'privilege' => 'courses/list'),
+				array('label' => gettext_noop('Attachments'),      'route' => 'zfcadmin/bubblePLE/attachments'      , 'resource' => 'bubblePLE', 'privilege' => 'attachments/list'),
+				array('label' => gettext_noop('FileAttachments'),  'route' => 'zfcadmin/bubblePLE/fileAttachments'  , 'resource' => 'bubblePLE', 'privilege' => 'fileAttachments/list'),
+				array('label' => gettext_noop('MediaAttachments'), 'route' => 'zfcadmin/bubblePLE/mediaAttachments' , 'resource' => 'bubblePLE', 'privilege' => 'mediaAttachments/list'),
+				array('label' => gettext_noop('ImageAttachments'), 'route' => 'zfcadmin/bubblePLE/imageAttachments' , 'resource' => 'bubblePLE', 'privilege' => 'imageAttachments/list'),
+				array('label' => gettext_noop('VideoAttachments'), 'route' => 'zfcadmin/bubblePLE/videoAttachments' , 'resource' => 'bubblePLE', 'privilege' => 'videoAttachments/list'),
+				array('label' => gettext_noop('LinkAttachments'),  'route' => 'zfcadmin/bubblePLE/linkAttachments'  , 'resource' => 'bubblePLE', 'privilege' => 'linkAttachments/list'),
 			)),
 		)
 	),
