@@ -34,6 +34,7 @@ angular.module('nodes', [
     .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', function($location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll){
 
         $scope.showProgressBar = false;
+        var bubbleType = 'Bubble';
         var options = {
             autoResize: true,
             height: '100%',
@@ -64,24 +65,7 @@ angular.module('nodes', [
                     enabled: false,
                     addNode: function(data, callback){
                         $mdDialog.show({
-                            template:
-                                '<md-dialog aria-label="List dialog">' +
-                                '  <md-dialog-content>'+
-                                '    <br>'+
-                                '    <md-input-container>'+
-                                '        <label>Bubble Name</label>'+
-                                '        <input type="text" ng-model="bubbleName">'+
-                                '    </md-input-container>'+
-                                '  </md-dialog-content>' +
-                                '  <md-dialog-actions>' +
-                                '    <md-button ng-click="addingNewNode()" class="md-primary">' +
-                                '      Add Node' +
-                                '    </md-button>' +
-                                '    <md-button ng-click="closeDialog()" class="md-primary">' +
-                                '      Close Dialog' +
-                                '    </md-button>' +
-                                '  </md-dialog-actions>' +
-                                '</md-dialog>',
+                            template: getTemplate(bubbleType),                                
                             controller: DialogController
                         });
 
@@ -110,6 +94,54 @@ angular.module('nodes', [
                     }
                 }
         };
+        
+        function getTemplate(type){
+            var template = "";
+            if(type === 'Bubble'){
+                template =  '<md-dialog aria-label="List dialog">' +
+                            '  <md-dialog-content>'+
+                            '    <br>'+
+                            '    <md-input-container>'+
+                            '        <label>Bubble Name</label>'+
+                            '        <input type="text" ng-model="bubbleName">'+
+                            '    </md-input-container>'+
+                            '  </md-dialog-content>' +
+                            '  <md-dialog-actions>' +
+                            '    <md-button ng-click="addingNewNode()" class="md-primary">' +
+                            '      Add Bubble' +
+                            '    </md-button>' +
+                            '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                            '      Cancel' +
+                            '    </md-button>' +
+                            '  </md-dialog-actions>' +
+                            '</md-dialog>';
+            
+            } else if(type === 'LinkAttachment') {
+                template =  '<md-dialog aria-label="List dialog">' +
+                            '  <md-dialog-content>'+
+                            '    <br>'+
+                            '    <md-input-container>'+
+                            '        <label>Title</label>'+
+                            '        <input type="text" ng-model="bubbleName">'+
+                            '    </md-input-container>'+
+                            '    <md-input-container>'+
+                            '        <label>URL</label>'+
+                            '        <input type="text" ng-model="url">'+
+                            '    </md-input-container>'+
+                            '  </md-dialog-content>' +
+                            '  <md-dialog-actions>' +
+                            '    <md-button ng-click="addingNewNode()" class="md-primary">' +
+                            '      Add Link' +
+                            '    </md-button>' +
+                            '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                            '      Cancel' +
+                            '    </md-button>' +
+                            '  </md-dialog-actions>' +
+                            '</md-dialog>';
+            } 
+            
+            return template;
+        }
         
          var baseColor = {
           border: '#2B7CE9',
@@ -190,7 +222,8 @@ angular.module('nodes', [
 
 
         $scope.addNewBubble = function (){
-              network.addNodeMode();
+            bubbleType = 'Bubble';    
+            network.addNodeMode();
         };
 
         $scope.addNewEdge = function (){
@@ -198,6 +231,12 @@ angular.module('nodes', [
         };
         
         $scope.addLinkBubble = function (){
+            bubbleType = 'LinkAttachment';
+            network.addNodeMode();
+        };
+        
+        $scope.addDocumentBubble = function (){
+            bubbleType = 'FileAttachment';
             network.addNodeMode();
         };
         
