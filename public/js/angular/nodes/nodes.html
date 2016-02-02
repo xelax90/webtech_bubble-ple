@@ -8,17 +8,24 @@
 <md-content layout-gt-xs="row" layout-xs="column" flex>
 
     <div layout-gt-xs="column" layout-xs="row" class="sidebar md-whiteframe-z2" layout-wrap>
-        <md-button aria-label="plus" ng-click="addNewNode($event)" flex>
+        <md-button aria-label="plus" ng-click="addNewBubble($event)" flex>
             <md-icon class="fa fa-plus fa-2x"></md-icon>
             <md-tooltip md-direction="right">
-                Add a Bubble
+                Add Bubble
             </md-tooltip>
         </md-button>
 
         <md-button aria-label="link" ng-click="addNewEdge()" flex>
+            <md-icon class="fa fa-arrows-h fa-2x"></md-icon>
+            <md-tooltip md-direction="right">
+                Add Edge
+            </md-tooltip>
+        </md-button>
+        
+        <md-button aria-label="link" ng-click="addLinkBubble()" flex>
             <md-icon class="fa fa-link fa-2x"></md-icon>
             <md-tooltip md-direction="right">
-                Link Bubbles
+                Add Link Bubble
             </md-tooltip>
         </md-button>
 
@@ -93,6 +100,7 @@
 
     <div class="md-padding">
         <h1>Welcome to {{courseName}} PLE</h1>
+        <br />
         <div id="bubbles" flex layout-fill></div>
         <div layout="row" layout-sm="column" layout-align="space-around">
             <md-progress-linear md-mode="determinate" value="{{progressBarValue}}" ng-show="showProgressBar"></md-progress-linear>
