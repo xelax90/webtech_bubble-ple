@@ -26,7 +26,7 @@ use JsonSerializable;
 /**
  * Bubble Entity
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BubblePle\Model\BubbleRepository")
  * @ORM\Table(name="bubble")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
@@ -49,6 +49,16 @@ class Bubble implements JsonSerializable{
 	 * @ORM\JoinColumn(name="owner_id", referencedColumnName="user_id")
 	 */
 	protected $owner;
+	
+	/**
+	 * @ORM\OneToMany(targetEntity="Edge", mappedBy="from")
+	 */
+	protected $children;
+	
+	/**
+	 * @ORM\OneToMany(targetEntity="Edge", mappedBy="to")
+	 */
+	protected $parents;
 	
 	/**
 	 * @return int
@@ -83,6 +93,24 @@ class Bubble implements JsonSerializable{
 		$this->owner = $owner;
 		return $this;
 	}
+	
+	public function getChildren() {
+		return $this->children;
+	}
+
+	public function getParents() {
+		return $this->parents;
+	}
+
+	public function setChildren($children) {
+		$this->children = $children;
+		return $this;
+	}
+
+	public function setParents($parents) {
+		$this->parents = $parents;
+		return $this;
+	}
 
 	/**
 	 * Returns json String
@@ -104,5 +132,13 @@ class Bubble implements JsonSerializable{
 			'title' => $this->getTitle(),
 		);
 	}
-
+	
+	/**
+	 * Returns a unique string for each entity. Allows to use array_intersect 
+	 * for arrays of Bubbles
+	 * @return string
+	 */
+	public function __toString() {
+		return (string) $this->getId();
+	}
 }

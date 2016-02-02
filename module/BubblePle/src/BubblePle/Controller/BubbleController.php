@@ -21,6 +21,9 @@
 namespace BubblePle\Controller;
 
 use XelaxAdmin\Controller\ListController;
+use BubblePle\Entity\Bubble;
+use BubblePle\Entity\Edge;
+use Zend\View\Model\JsonModel;
 
 /**
  * Controller that handles bubbles
@@ -55,6 +58,19 @@ class BubbleController extends ListController{
 		$items = $em->getRepository($entityClass)->findBy($params);
 		
 		return $items;
+	}
+	
+	protected function getItem($id = null, $option = null) {
+		if(!$this->zfcUserAuthentication()->hasIdentity()){
+			return null;
+		}
+		$item = parent::getItem($id, $option);
+		
+		if($id !== null && $option === null && !$this->canView($item)){
+			return null;
+		}
+		
+		return $item;
 	}
 	
 	protected function _preCreate($item) {
@@ -99,6 +115,24 @@ class BubbleController extends ListController{
 		return false;
 	}
 	
+	protected function canView($item){
+		/* @var $item \BubblePle\Entity\Bubble */
+		$isAdmin = call_user_func($this->plugin('isAllowed'), 'bubble', 'view');
+		if($isAdmin){
+			return true;
+		}
+		
+		if(!$this->zfcUserAuthentication()->hasIdentity()){
+			return false;
+		}
+		
+		if($this->zfcUserAuthentication()->getIdentity() === $item->getOwner()){
+			return true;
+		}
+		
+		return false;
+	}
+	
 	protected function _editItem($item, $form, $data = null) {
 		if(!$this->canEdit($item)){
 			$this->flashMessenger()->addErrorMessage($this->getTranslator()->translate('Not authorized'));
@@ -115,4 +149,40 @@ class BubbleController extends ListController{
 		return parent::_delteItem($item);
 	}
 	
+	public function filterAction(){
+		return new JsonModel($this->filter());
+	}
+	
+	protected function filter(){
+		if(!$this->zfcUserAuthentication()->hasIdentity()){
+			return array('success' => false, 'error' => 'Not authenticated');
+		}
+		
+		$em = $this->getEntityManager();
+		$bRepo = $em->getRepository(Bubble::class);
+		/* @var $repo \BubblePle\Model\BubbleRepository */
+		$eRepo = $em->getRepository(Edge::class);
+		/* @var $eRepo \BubblePle\Model\EdgeRepository */
+		
+		$parent = (int) $this->getEvent()->getRouteMatch()->getParam('parent');
+		$parentBubble = $bRepo->find($parent);
+		if(!$this->canView($parentBubble)){
+			$parentBubble = null;
+		}
+		
+		if(!$parentBubble){
+			return array('success' => false, 'error' => 'Not allowed');
+		}
+		
+		$children = $bRepo->getChildrenOf($parentBubble, array('owner' => $this->zfcUserAuthentication()->getIdentity()));
+		$edges = $eRepo->getConnectingEdges($children);
+		
+		$result = array(
+			'success' => true,
+			'bubbles' => $children,
+			'edges' => $edges,
+		);
+		
+		return $result;
+	}
 }

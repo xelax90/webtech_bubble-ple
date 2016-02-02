@@ -26,7 +26,7 @@ use JsonSerializable;
 /**
  * Edge Entity
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BubblePle\Model\EdgeRepository")
  * @ORM\Table(name="edge")
  */
 class Edge implements JsonSerializable{
@@ -38,13 +38,13 @@ class Edge implements JsonSerializable{
 	protected $id;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Bubble")
+	 * @ORM\ManyToOne(targetEntity="Bubble", inversedBy="parents")
 	 * @ORM\JoinColumn(name="to_id", referencedColumnName="id")
 	 */
 	protected $to;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Bubble")
+	 * @ORM\ManyToOne(targetEntity="Bubble", inversedBy="children")
 	 * @ORM\JoinColumn(name="from_id", referencedColumnName="id")
 	 */
 	protected $from;
