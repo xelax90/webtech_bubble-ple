@@ -111,6 +111,7 @@ return array(
 	'controllers' => array(
 		'invokables' => array(
 			Controller\IndexController::class => Controller\IndexController::class,
+			Controller\BubbleController::class => Controller\BubbleController::class,
 		),
 	),
 	

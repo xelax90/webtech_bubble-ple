@@ -37,7 +37,7 @@ $xelaxConfig = array(
 	),
 	'bubbles' => array(
 		'name' => 'Bubble', 
-		'controller_class' => ListController::class, 
+		'controller_class' => Controller\BubbleController::class, 
 		'base_namespace' => __NAMESPACE__, 
 		'list_columns' => array('Id' => 'id', 'Title' => 'title'),
 		'route_base' => 'zfcadmin/bubblePLE/bubbles',
@@ -45,7 +45,7 @@ $xelaxConfig = array(
 	),
 	'semesters' => array(
 		'name' => 'Semester', 
-		'controller_class' => ListController::class, 
+		'controller_class' => Controller\BubbleController::class, 
 		'base_namespace' => __NAMESPACE__, 
 		'list_columns' => array('Id' => 'id', 'Title' => 'title', 'Year' => 'year', 'Winter?' => 'isWinter'),
 		'route_base' => 'zfcadmin/bubblePLE/semesters',
@@ -53,7 +53,7 @@ $xelaxConfig = array(
 	),
 	'courses' => array(
 		'name' => 'Course', 
-		'controller_class' => ListController::class, 
+		'controller_class' => Controller\BubbleController::class, 
 		'base_namespace' => __NAMESPACE__, 
 		'list_columns' => array('Id' => 'id', 'Title' => 'title', 'Courseroom' => 'courseroom'),
 		'route_base' => 'zfcadmin/bubblePLE/courses',
@@ -61,7 +61,7 @@ $xelaxConfig = array(
 	),
 	'attachments' => array(
 		'name' => 'Attachment', 
-		'controller_class' => ListController::class, 
+		'controller_class' => Controller\BubbleController::class, 
 		'base_namespace' => __NAMESPACE__, 
 		'list_columns' => array('Id' => 'id', 'Title' => 'title'),
 		'route_base' => 'zfcadmin/bubblePLE/attachments', 
@@ -69,7 +69,7 @@ $xelaxConfig = array(
 	),
 	'fileAttachments' => array(
 		'name' => 'FileAttachment', 
-		'controller_class' => ListController::class, 
+		'controller_class' => Controller\BubbleController::class, 
 		'base_namespace' => __NAMESPACE__, 
 		'list_columns' => array('Id' => 'id', 'Title' => 'title', 'File' => 'filename'),
 		'route_base' => 'zfcadmin/bubblePLE/fileAttachments', 
@@ -77,7 +77,7 @@ $xelaxConfig = array(
 	),
 	'mediaAttachments' => array(
 		'name' => 'MediaAttachment', 
-		'controller_class' => ListController::class, 
+		'controller_class' => Controller\BubbleController::class, 
 		'base_namespace' => __NAMESPACE__, 
 		'list_columns' => array('Id' => 'id', 'Title' => 'title', 'File' => 'filename'),
 		'route_base' => 'zfcadmin/bubblePLE/mediaAttachments',
@@ -85,7 +85,7 @@ $xelaxConfig = array(
 	),
 	'imageAttachments' => array(
 		'name' => 'ImageAttachment', 
-		'controller_class' => ListController::class, 
+		'controller_class' => Controller\BubbleController::class, 
 		'base_namespace' => __NAMESPACE__, 
 		'list_columns' => array('Id' => 'id', 'Title' => 'title', 'File' => 'filename'),
 		'route_base' => 'zfcadmin/bubblePLE/imageAttachments',
@@ -93,7 +93,7 @@ $xelaxConfig = array(
 	),
 	'videoAttachments' => array(
 		'name' => 'VideoAttachment', 
-		'controller_class' => ListController::class, 
+		'controller_class' => Controller\BubbleController::class, 
 		'base_namespace' => __NAMESPACE__, 
 		'list_columns' => array('Id' => 'id', 'Title' => 'title', 'File' => 'filename'),
 		'route_base' => 'zfcadmin/bubblePLE/videoAttachments',
@@ -101,7 +101,7 @@ $xelaxConfig = array(
 	),
 	'linkAttachments' => array(
 		'name' => 'LinkAttachment', 
-		'controller_class' => ListController::class, 
+		'controller_class' => Controller\BubbleController::class, 
 		'base_namespace' => __NAMESPACE__, 
 		'list_columns' => array('Id' => 'id', 'Title' => 'title', 'URL' => 'url'),
 		'route_base' => 'zfcadmin/bubblePLE/linkAttachments',
