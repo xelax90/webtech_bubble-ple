@@ -80,6 +80,9 @@ class BubbleController extends ListController{
 	}
 	
 	protected function canEdit($item){
+		if(!$item){
+			return true;
+		}
 		/* @var $item \BubblePle\Entity\Bubble */
 		$isAdmin = call_user_func($this->plugin('isAllowed'), 'bubble', 'edit');
 		if($isAdmin){
@@ -98,6 +101,9 @@ class BubbleController extends ListController{
 	}
 	
 	protected function canDelete($item){
+		if(!$item){
+			return true;
+		}
 		/* @var $item \BubblePle\Entity\Bubble */
 		$isAdmin = call_user_func($this->plugin('isAllowed'), 'bubble', 'delete');
 		if($isAdmin){
@@ -116,6 +122,9 @@ class BubbleController extends ListController{
 	}
 	
 	protected function canView($item){
+		if(!$item){
+			return true;
+		}
 		/* @var $item \BubblePle\Entity\Bubble */
 		$isAdmin = call_user_func($this->plugin('isAllowed'), 'bubble', 'view');
 		if($isAdmin){
