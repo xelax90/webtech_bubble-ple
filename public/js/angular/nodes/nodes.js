@@ -377,7 +377,7 @@ angular.module('nodes', [
           $scope.showProgressBar = true;
 
           file.upload = Upload.upload({
-            url: 'http://bubbleple.localhost/de/admin/bubblePLE/fileAttachments/rest',
+            url: '/admin/bubblePLE/fileAttachments/rest',
             data: {fileattachment: {filename: file, title: file.name}},
           });
 
