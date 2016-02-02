@@ -388,9 +388,9 @@ angular.module('nodes', [
                );
               console.log(response.data.item.filename);
 
-              var filename = String(response.data.item.filename);
-              var res = filename.split("/files/fileattachment/");
-              addNode(res[1]);
+              var filePath = String(response.data.item.filename);
+              var res = filePath.split("/files/fileattachment/");
+              addFileNode(res[1], filePath);
               $scope.showProgressBar = false;
             });
           }, function (response) {
@@ -414,9 +414,41 @@ angular.module('nodes', [
         }
 
 
+         function getFileExtension(filename){
+          return filename.substr(filename.lastIndexOf('.')+1);
+        }
+
         function addNode(name){
                   var newId = nodes.length + 1;
                   nodes.update({id: newId, label: name, title: 'Uploaded file'});
+
+                  var selectedNode = network.getSelectedNodes();
+                  console.log("nodes lenght : " + selectedNode.length);
+                  if(selectedNode.length > 0){
+                      for(var i= 0; i < selectedNode.length; i++){
+                          console.log(selectedNode[i]);
+                          edges.update({from: newId, to: selectedNode[i]});
+                      }
+                  }
+       };
+
+       function addFileNode(name, path){
+                  var iconCode ;
+                  var newId = nodes.length + 1;
+                  console.log("adding file node : " + name);
+                  
+                  if(getFileExtension(path) == 'pdf'){iconCode = '\uf1c1';}
+                  else if(getFileExtension(path) == 'doc'){iconCode = '\uf1c2';}
+                  else if(getFileExtension(path) == 'excel'){iconCode = '\uf1c3';}
+                  else if(getFileExtension(path) == 'ppt'){iconCode = '\uf1c4';}
+                  else if(getFileExtension(path) == 'txt'){iconCode = '\uf15c';}
+                  else if(getFileExtension(path) == 'rar'){iconCode = '\uf1c6';}
+                  else if(getFileExtension(path) == 'mp3'){iconCode = '\uf1c7';}
+                  else if(getFileExtension(path) == 'mp4'){iconCode = '\uf1c8';}
+                  else if(getFileExtension(path) == 'cpp'){iconCode = '\uf1c9';}
+                  else{iconCode = '\uf15b';}
+
+                  nodes.update({id: newId, label: name, title : 'Uploaded File', shape: 'icon', icon: {face: 'FontAwesome', code: iconCode, size: 50, color: '#f0a30a'}});
 
                   var selectedNode = network.getSelectedNodes();
                   console.log("nodes lenght : " + selectedNode.length);
