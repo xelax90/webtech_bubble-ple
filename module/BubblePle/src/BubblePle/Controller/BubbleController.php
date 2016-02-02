@@ -21,6 +21,9 @@
 namespace BubblePle\Controller;
 
 use XelaxAdmin\Controller\ListController;
+use BubblePle\Entity\Bubble;
+use BubblePle\Entity\Edge;
+use Zend\View\Model\JsonModel;
 
 /**
  * Controller that handles bubbles
@@ -57,6 +60,19 @@ class BubbleController extends ListController{
 		return $items;
 	}
 	
+	protected function getItem($id = null, $option = null) {
+		if(!$this->zfcUserAuthentication()->hasIdentity()){
+			return null;
+		}
+		$item = parent::getItem($id, $option);
+		
+		if($id !== null && $option === null && !$this->canView($item)){
+			return null;
+		}
+		
+		return $item;
+	}
+	
 	protected function _preCreate($item) {
 		parent::_preCreate($item);
 		$user = $this->zfcUserAuthentication()->getIdentity();
@@ -64,6 +80,9 @@ class BubbleController extends ListController{
 	}
 	
 	protected function canEdit($item){
+		if(!$item){
+			return true;
+		}
 		/* @var $item \BubblePle\Entity\Bubble */
 		$isAdmin = call_user_func($this->plugin('isAllowed'), 'bubble', 'edit');
 		if($isAdmin){
@@ -82,8 +101,32 @@ class BubbleController extends ListController{
 	}
 	
 	protected function canDelete($item){
+		if(!$item){
+			return true;
+		}
 		/* @var $item \BubblePle\Entity\Bubble */
 		$isAdmin = call_user_func($this->plugin('isAllowed'), 'bubble', 'delete');
+		if($isAdmin){
+			return true;
+		}
+		
+		if(!$this->zfcUserAuthentication()->hasIdentity()){
+			return false;
+		}
+		
+		if($this->zfcUserAuthentication()->getIdentity() === $item->getOwner()){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	protected function canView($item){
+		if(!$item){
+			return true;
+		}
+		/* @var $item \BubblePle\Entity\Bubble */
+		$isAdmin = call_user_func($this->plugin('isAllowed'), 'bubble', 'view');
 		if($isAdmin){
 			return true;
 		}
@@ -115,4 +158,40 @@ class BubbleController extends ListController{
 		return parent::_delteItem($item);
 	}
 	
+	public function filterAction(){
+		return new JsonModel($this->filter());
+	}
+	
+	protected function filter(){
+		if(!$this->zfcUserAuthentication()->hasIdentity()){
+			return array('success' => false, 'error' => 'Not authenticated');
+		}
+		
+		$em = $this->getEntityManager();
+		$bRepo = $em->getRepository(Bubble::class);
+		/* @var $repo \BubblePle\Model\BubbleRepository */
+		$eRepo = $em->getRepository(Edge::class);
+		/* @var $eRepo \BubblePle\Model\EdgeRepository */
+		
+		$parent = (int) $this->getEvent()->getRouteMatch()->getParam('parent');
+		$parentBubble = $bRepo->find($parent);
+		if(!$this->canView($parentBubble)){
+			$parentBubble = null;
+		}
+		
+		if(!$parentBubble){
+			return array('success' => false, 'error' => 'Not allowed');
+		}
+		
+		$children = $bRepo->getChildrenOf($parentBubble, array('owner' => $this->zfcUserAuthentication()->getIdentity()));
+		$edges = $eRepo->getConnectingEdges($children);
+		
+		$result = array(
+			'success' => true,
+			'bubbles' => $children,
+			'edges' => $edges,
+		);
+		
+		return $result;
+	}
 }

@@ -36,7 +36,8 @@ class EdgeFieldset extends Fieldset implements InputFilterProviderInterface, Obj
 				'object_manager' => $this->getObjectManager(),
 				'target_class' => Bubble::class,
 				'label_generator' => function($item) {
-					return $item->getTitle();
+					$o = $item->getOwner();
+					return $item->getTitle() . ' ('.($o ? $o->getDisplayName() : '').')';
 				},
 				'display_empty_item' => true,
 				'empty_item_label' => gettext_noop('-- Bubble From --'),
@@ -58,7 +59,8 @@ class EdgeFieldset extends Fieldset implements InputFilterProviderInterface, Obj
 				'object_manager' => $this->getObjectManager(),
 				'target_class' => Bubble::class,
 				'label_generator' => function($item) {
-					return $item->getTitle();
+					$o = $item->getOwner();
+					return '('.$item->getId().')'.$item->getTitle() . ' ('.($o ? $o->getDisplayName() : '').')';
 				},
 				'display_empty_item' => true,
 				'empty_item_label' => gettext_noop('-- Bubble to --'),

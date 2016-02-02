@@ -45,8 +45,8 @@ $routerConfig = array(
 		'options' => array(
 			'route' => '/test',
 			'defaults' => array(
-				'controller' => Controller\IndexController::class,
-				'action'     => 'index',
+				'controller' => Controller\BubbleController::class,
+				'action'     => 'child',
 			),
 		),
 	),
@@ -70,6 +70,19 @@ $routerConfig = array(
 					'imageAttachments' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'imageAttachments', )),
 					'videoAttachments' => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'videoAttachments', )),
 					'linkAttachments'  => array( 'type' => ListRoute::class, 'options' => array( 'controller_options_name' => 'linkAttachments', )),
+					'filter' => array(
+						'type' => 'Segment',
+						'options' => array(
+							'route' => '/filter[/parent/:parent]',
+							'constraints' => array(
+								'parent' => '[0-9]+',
+							),
+							'defaults' => array(
+								'controller' => Controller\BubbleController::class,
+								'action' => 'filter',
+							),
+						)
+					)
 				)
 			),
 		)
@@ -78,6 +91,7 @@ $routerConfig = array(
 
 $guardConfig = array(
 	'test' => ['route' => 'test', 'roles' => ['guest', 'user'] ],
+	['route' => 'zfcadmin/bubblePLE/filter',           'roles' => ['moderator'] ],
 	['route' => 'zfcadmin/bubblePLE/edges',            'roles' => ['moderator'] ],
 	['route' => 'zfcadmin/bubblePLE/bubbles',          'roles' => ['moderator'] ],
 	['route' => 'zfcadmin/bubblePLE/semesters',        'roles' => ['moderator'] ],

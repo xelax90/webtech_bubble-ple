@@ -1,5 +1,6 @@
 <?php
-/* 
+
+/*
  * Copyright (C) 2016 schurix
  *
  * This program is free software; you can redistribute it and/or
@@ -17,40 +18,23 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-namespace BubblePle\Entity;
+namespace BubblePle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\EntityRepository;
 
 /**
- * Link Attachment
+ * Description of EdgeRepository
  *
- * @ORM\Entity(repositoryClass="BubblePle\Model\BubbleRepository")
+ * @author schurix
  */
-class LinkAttachment extends Attachment{
+class EdgeRepository extends EntityRepository{
 	
-	/**
-	 * @ORM\Column(type="text")
-	 */
-	protected $url;
-	
-	public function getUrl() {
-		return $this->url;
-	}
-
-	public function setUrl($url) {
-		$this->url = $url;
-		return $this;
-	}
-
-	/**
-	 * Returns data to show in json
-	 * @return array
-	 */
-	public function jsonSerialize() {
-		$data = parent::jsonSerialize();
-		return array_merge($data, array(
-			'url' => $this->getUrl(),
-		));
+	public function getConnectingEdges($bubbles){
+		$ids = array();
+		foreach($bubbles as $bubble){
+			$ids[] = $bubble->getId();
+		}
+		return $this->findBy(array('from' => $ids, 'to' => $ids));
 	}
 	
 }

@@ -24,7 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Image Attachment
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BubblePle\Model\BubbleRepository")
  */
 class ImageAttachment extends MediaAttachment{
 	

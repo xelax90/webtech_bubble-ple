@@ -24,7 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Semester Bubble
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BubblePle\Model\BubbleRepository")
  */
 class Semester extends Bubble{
 	

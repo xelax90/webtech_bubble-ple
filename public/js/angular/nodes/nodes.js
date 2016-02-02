@@ -14,24 +14,11 @@ angular.module('nodes', [
             controller: 'NodesCtrl'
         });
     }])
+    .controller('NodesCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll){
 
-    .directive('scrollToItem', function() {                                                      
-        return {                                                                                 
-            restrict: 'A',                                                                       
-            scope: {                                                                             
-                scrollTo: "@"                                                                    
-            },                                                                                   
-            link: function(scope, $elm, attr) {
-
-                $elm.on('click', function() {
-                    $('html,body').animate({scrollTop: $(scope.scrollTo).offset().top }, "slow");
-                });
-            }
+        $scope.toggleList = function(){
+          $mdSidenav('left').toggle();
         };
-    })
-
-
-    .controller('NodesCtrl', ['$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', function($location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll){
 
         $scope.showProgressBar = false;
         var bubbleType = 'Bubble';
@@ -49,7 +36,7 @@ angular.module('nodes', [
                 hover: true,
                 hoverConnectedEdges: true,
                 keyboard: {
-                    enabled: true,
+                    enabled: false,
                     speed: {x: 10, y: 10, zoom: 0.02},
                     bindToWindow: true
                 },
@@ -220,13 +207,19 @@ angular.module('nodes', [
         // initialize your network!
         var network = new vis.Network(container, data, options);
 
-
         $scope.addNewBubble = function (){
             bubbleType = 'Bubble';    
             network.addNodeMode();
         };
 
         $scope.addNewEdge = function (){
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent("Manipulation Mode enabled, drag a node from any Bubble!")
+                    .position('bottom')
+                    .hideDelay(3000)
+            );
+
             network.addEdgeMode();
         };
         
@@ -283,7 +276,8 @@ angular.module('nodes', [
                     '<md-dialog>' +
                     '   <md-dialog-content>'+
                     '       <md-input-container>' +
-                    '           <textarea ng-model="node.text" placeholder="add text">' +
+                    '           <label>Add Note</label>'+ //Additional Line
+                    '           <textarea ng-model="node.text" placeholder="Add Note">' +
                     '           </textarea>' +
                     '       </md-input-container>'+
                     '   </md-dialog-content>' +
@@ -366,7 +360,7 @@ angular.module('nodes', [
           $scope.showProgressBar = true;
 
           file.upload = Upload.upload({
-            url: 'http://bubbleple.localhost/de/admin/bubblePLE/fileAttachments/rest',
+            url: '/admin/bubblePLE/fileAttachments/rest',
             data: {fileattachment: {filename: file, title: file.name}},
           });
 

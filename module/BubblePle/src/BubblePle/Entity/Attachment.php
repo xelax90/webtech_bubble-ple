@@ -24,7 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Attachment Bubble. Groups all types of attachments.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BubblePle\Model\BubbleRepository")
  */
 class Attachment extends Bubble{
 

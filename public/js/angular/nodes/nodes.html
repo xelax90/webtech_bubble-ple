@@ -1,113 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body ng-controller="NodesCtrl">
+<div ng-controller="NodesCtrl" layout="row" >
 
-<md-content layout-gt-xs="row" layout-xs="column" flex>
+    <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
+      md-component-id="left"
+      ng-click="ul.toggleList()" aria-label="Show Toolbar"
+      md-is-locked-open="$mdMedia('gt-sm')">
 
-    <div layout-gt-xs="column" layout-xs="row" class="sidebar md-whiteframe-z2" layout-wrap>
-        <md-button aria-label="plus" ng-click="addNewBubble($event)" flex>
-            <md-icon class="fa fa-plus fa-2x"></md-icon>
-            <md-tooltip md-direction="right">
-                Add Bubble
-            </md-tooltip>
-        </md-button>
+        <md-toolbar class="md-toolbar-tools md-whiteframe-z2">
+          <h3>{{courseName}} PLE</h3>
+        </md-toolbar>
 
-        <md-button aria-label="link" ng-click="addNewEdge()" flex>
-            <md-icon class="fa fa-arrows-h fa-2x"></md-icon>
-            <md-tooltip md-direction="right">
-                Add Edge
-            </md-tooltip>
-        </md-button>
-        
-        <md-button aria-label="link" ng-click="addLinkBubble()" flex>
-            <md-icon class="fa fa-link fa-2x"></md-icon>
-            <md-tooltip md-direction="right">
-                Add Link Bubble
-            </md-tooltip>
-        </md-button>
+        <md-list >
+            <md-list-item>
+                <md-button aria-label="plus" ng-click="addNewBubble($event)" flex>
+                    <md-icon class="fa fa-plus fa-2x"></md-icon>
+                    <md-tooltip md-direction="right">
+                        Add Bubble
+                    </md-tooltip>
+                </md-button>
+            </md-list-item>
+            <md-list-item>
+                <md-button aria-label="link" ng-click="addNewEdge()" flex>
+                    <md-icon class="fa fa-arrows-h fa-2x"></md-icon>
+                    <md-tooltip md-direction="right">
+                        Add Edge
+                    </md-tooltip>
+                </md-button>
+            </md-list-item>
+            <md-list-item>
+                <md-button aria-label="link" ng-click="addLinkBubble()" flex>
+                    <md-icon class="fa fa-link fa-2x"></md-icon>
+                    <md-tooltip md-direction="right">
+                        Add Link Bubble
+                    </md-tooltip>
+                </md-button>
+            </md-list-item>
+            <md-list-item>
+                <!-- Hidden element to upload file -->
+                <div>
+                    <input type="file" id="i_file" name="fileattachment[]" ngf-select="onFileSelect($file)" style="display: none;"/>
+                </div>
+                <md-button aria-label="file" ng-click="clickUpload()" flex>
+                    <md-icon class="fa fa-file-o fa-2x"></md-icon>
+                    <md-tooltip md-direction="right">
+                        Upload Document
+                    </md-tooltip>
+                </md-button>
+            </md-list-item>
+            <md-list-item>
+                <md-button aria-label="media"  ng-click="clickUpload()" flex>
+                    <md-icon class="fa fa-film fa-2x"></md-icon>
+                    <md-tooltip md-direction="right">
+                        Upload Media
+                    </md-tooltip>
+                </md-button>
+            </md-list-item>
+            <md-list-item>
+                <md-button aria-label="edit" ng-click="openNodeChangeBox()" flex>
+                    <md-icon class="fa fa-font fa-2x"></md-icon>
+                    <md-tooltip md-direction="right">
+                        Edit Bubble
+                    </md-tooltip>
+                </md-button>
+            </md-list-item>
+            <md-list-item>
+                <md-button aria-label="note" ng-click="openTextBox()" flex>
+                    <md-icon class="material-icons">note_add</md-icon>
+                    <md-tooltip md-direction="right">
+                        Add note to Bubble
+                    </md-tooltip>
+                </md-button>
+            </md-list-item>
+            <md-list-item>
+                <md-button aria-label="share" flex>
+                    <md-icon class="fa fa-share-alt fa-2x"></md-icon>
+                    <md-tooltip md-direction="right">
+                        Share Bubble and sub-bubbles
+                    </md-tooltip>
+                </md-button>
+            </md-list-item>
+            <md-list-item>
+                <md-button aria-label="delete" ng-click="deleteSelectedNodeEdge()" flex>
+                    <md-icon class="fa fa-trash fa-2x"></md-icon>
+                    <md-tooltip md-direction="right">
+                        Delete Bubble
+                    </md-tooltip>
+                </md-button>
+            </md-list-item>
+            <md-list-item>
+                <md-button aria-label="search" ng-click="searchNode()" flex>
+                    <md-icon class="fa fa-search fa-2x"></md-icon>
+                    <md-tooltip md-direction="right">
+                        Search in bubbles
+                    </md-tooltip>
+                </md-button>
+            </md-list-item>
+            <md-list-item>
+                <md-button aria-label="Priority" ng-click="changeColor()" flex>
+                    <md-icon class="fa fa-bolt fa-2x"></md-icon>
+                    <md-tooltip md-direction="right">
+                        Mark Priority
+                    </md-tooltip>
+                </md-button>
+            </md-list-item>
+        </md-list>
 
-        
-        <!-- Hidden element to upload file -->
-        <div>
-            <input type="file" id="i_file" name="fileattachment[]" ngf-select="onFileSelect($file)" style="display: none;"/>
-        </div>
+    </md-sidenav>
 
+    <div flex layout="column" class="md-whiteframe-z2">
 
-        <md-button aria-label="file" ng-click="clickUpload()" flex>
-            <md-icon class="fa fa-file-o fa-2x"></md-icon>
-            <md-tooltip md-direction="right">
-                Upload Document
-            </md-tooltip>
-        </md-button>
+        <!-- <md-toolbar> -->
+            <md-button id="main" class="menu" ng-click="toggleList()" hide-gt-sm aria-label="Show Toolbar">
+                <md-icon class="material-icons">menu</md-icon>
+            </md-button>
+        <!-- </md-toolbar> -->
 
-
-        <md-button aria-label="media"  ng-click="clickUpload()" flex>
-            <md-icon class="fa fa-film fa-2x"></md-icon>
-            <md-tooltip md-direction="right">
-                Upload Media
-            </md-tooltip>
-        </md-button>
-
-
-        <md-button aria-label="edit" ng-click="openNodeChangeBox()" flex>
-            <md-icon class="fa fa-font fa-2x"></md-icon>
-            <md-tooltip md-direction="right">
-                Edit Bubble
-            </md-tooltip>
-        </md-button>
-
-        <md-button aria-label="note" ng-click="openTextBox()" flex>
-            <md-icon class="material-icons">note_add</md-icon>
-            <md-tooltip md-direction="right">
-                Add note to Bubble
-            </md-tooltip>
-        </md-button>
-
-        <md-button aria-label="share" flex>
-            <md-icon class="fa fa-share-alt fa-2x"></md-icon>
-            <md-tooltip md-direction="right">
-                Share Bubble and sub-bubbles
-            </md-tooltip>
-        </md-button>
-
-
-        <md-button aria-label="delete" ng-click="deleteSelectedNodeEdge()" flex>
-            <md-icon class="fa fa-trash fa-2x"></md-icon>
-            <md-tooltip md-direction="right">
-                Delete Bubble
-            </md-tooltip>
-        </md-button>
-
-
-        <md-button aria-label="search" ng-click="searchNode()" flex>
-            <md-icon class="fa fa-search fa-2x"></md-icon>
-            <md-tooltip md-direction="right">
-                Search in bubbles
-            </md-tooltip>
-        </md-button>
-
-        <md-button aria-label="Priority" ng-click="changeColor()" flex>
-            <md-icon class="fa fa-bolt fa-2x"></md-icon>
-            <md-tooltip md-direction="right">
-                Mark Priority
-            </md-tooltip>
-        </md-button>
-
+        <md-content layout-xs="column" flex>
+                <div id="bubbles" flex layout-fill></div>
+                <div layout="row" layout-sm="column" layout-align="space-around">
+                    <md-progress-linear md-mode="determinate" value="{{progressBarValue}}" ng-show="showProgressBar"></md-progress-linear>
+                 </div>
+        </md-content>
     </div>
 
-    <div class="md-padding">
-        <h1>Welcome to {{courseName}} PLE</h1>
-        <br />
-        <div id="bubbles" flex layout-fill></div>
-        <div layout="row" layout-sm="column" layout-align="space-around">
-            <md-progress-linear md-mode="determinate" value="{{progressBarValue}}" ng-show="showProgressBar"></md-progress-linear>
-         </div>
-    </div>
-
-</md-content>
-
-</body>
-</html>
+</div>
