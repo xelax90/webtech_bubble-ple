@@ -3,18 +3,7 @@
  */
 'use strict';
 
-angular.module('nodes', [
-        'ngRoute',
-        'ngMaterial',
-        'ngFileUpload'
-    ])
-    .config(['$routeProvider', function($routeProvider) {
-        $routeProvider.when('/courseroom',{
-            templateUrl: (applicationBasePath ? applicationBasePath : '') + 'js/angular/nodes/nodes.html',
-            controller: 'NodesCtrl'
-        });
-    }])
-    .controller('NodesCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll){
+app.controller('NodesCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll){
 
         $scope.toggleList = function(){
           $mdSidenav('left').toggle();
@@ -22,6 +11,7 @@ angular.module('nodes', [
 
         $scope.showProgressBar = false;
         var bubbleType = 'Bubble';
+        
         var options = {
             autoResize: true,
             locale: 'en',
@@ -80,93 +70,9 @@ angular.module('nodes', [
                 }
         };
         
-        function getTemplate(type){
-            var template = "";
-            if(type === 'Bubble'){
-                template =  '<md-dialog aria-label="List dialog">' +
-                            '  <md-dialog-content>'+
-                            '    <br>'+
-                            '    <md-input-container>'+
-                            '        <label>Bubble Name</label>'+
-                            '        <input type="text" ng-model="bubbleName">'+
-                            '    </md-input-container>'+
-                            '  </md-dialog-content>' +
-                            '  <md-dialog-actions>' +
-                            '    <md-button ng-click="addingNewNode()" class="md-primary">' +
-                            '      Add Bubble' +
-                            '    </md-button>' +
-                            '    <md-button ng-click="closeDialog()" class="md-primary">' +
-                            '      Cancel' +
-                            '    </md-button>' +
-                            '  </md-dialog-actions>' +
-                            '</md-dialog>';
-            
-            } else if(type === 'LinkAttachment') {
-                template =  '<md-dialog aria-label="List dialog">' +
-                            '  <md-dialog-content>'+
-                            '    <br>'+
-                            '    <md-input-container>'+
-                            '        <label>Title</label>'+
-                            '        <input type="text" ng-model="bubbleName">'+
-                            '    </md-input-container>'+
-                            '    <md-input-container>'+
-                            '        <label>URL</label>'+
-                            '        <input type="text" ng-model="url">'+
-                            '    </md-input-container>'+
-                            '  </md-dialog-content>' +
-                            '  <md-dialog-actions>' +
-                            '    <md-button ng-click="addingNewNode()" class="md-primary">' +
-                            '      Add Link' +
-                            '    </md-button>' +
-                            '    <md-button ng-click="closeDialog()" class="md-primary">' +
-                            '      Cancel' +
-                            '    </md-button>' +
-                            '  </md-dialog-actions>' +
-                            '</md-dialog>';
-            } 
-            
-            return template;
-        }
+       
         
-         var baseColor = {
-          border: '#2B7CE9',
-          background: '#97C2FC',
-          highlight: {
-            border: '#2B7CE9',
-            background: '#D2E5FF'
-          },
-          hover: {
-            border: '#2B7CE9',
-            background: '#D2E5FF'
-          }
-        };
-
-
-        var importantColor = {
-          border: '#BCDB3A',
-          background: '#D2F931',
-          highlight: {
-            border: '#D7E13C',
-            background: '#F0FD32'
-          },
-          hover: {
-            border: '#D7E13C',
-            background: '#F0FD32'
-          }
-        };
-
-        var v_importantColor = {
-          border: '#D21E1E',
-          background: '#F90000',
-          highlight: {
-            border: '#E43C3C',
-            background: '#FF3232'
-          },
-          hover: {
-            border: '#E43C3C',
-            background: '#FF3232'
-          }
-        };
+  
 
 
         options.nodes = {
@@ -555,49 +461,8 @@ angular.module('nodes', [
                 locals: {
                     items: (nodes._data)
                 },
-                controller: searchController
+                controller: searchCtrl
             });
-
-            /*Controller to look into nodes to search for node*/
-            function searchController($scope, $mdDialog, items) {
-                console.log(items);
-                console.log(items[1].label);
-                $scope.searchTitle = "";
-                $scope.items = items;
-                console.log(nodes);
-
-                /* This method will be called when user clicked on search button */
-                $scope.search = function() {
-
-                    if($scope.searchTitle == "") return;
-
-                    var i = 1;
-                    var isFound = false;
-                    for(i = 1; i <= nodes.length; i++){
-                      if($scope.items[i].label == $scope.searchTitle){
-                        console.log("hurray found");
-                        network.selectNodes([$scope.items[i].id], true);
-                        network.focus($scope.items[i].id);
-                        isFound = true;
-                      }
-                    }
-
-                    if(!isFound){
-                      $mdToast.show(
-                        $mdToast.simple()
-                            .textContent("Sorry. Unable to find the searched bubble")
-                            .position('bottom')
-                            .hideDelay(3000)
-                    );
-                    }
-
-                    $mdDialog.hide();
-                };
-
-                $scope.closeDialog = function() {
-                    $mdDialog.hide();
-                };
-            }
         };
 
 
