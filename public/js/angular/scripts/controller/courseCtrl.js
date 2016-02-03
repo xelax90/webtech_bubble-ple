@@ -1,7 +1,6 @@
-/**
- * Created by albisema on 10/01/16.
- */
-
+ /**
+   * Created by Waqar Ahmed on 04/02/16.
+   */
 'use strict';
 
 app.controller('courseCtrl',['$location', '$scope', '$http', '$mdToast', function($location, $scope, $http, $mdToast){

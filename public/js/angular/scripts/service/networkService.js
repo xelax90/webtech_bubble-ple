@@ -1,4 +1,7 @@
-    app.service('networkService', function(){
+/**
+* Created by Waqar Ahmed on 04/02/16.
+*/
+app.service('networkService', function(){
      var options = {
         autoResize: true,
         locale: 'en',
@@ -28,31 +31,8 @@
             addNode: function(data, callback){
                 $mdDialog.show({
                     template: getTemplate(bubbleType),                                
-                    controller: DialogController
+                    controller: dialogController
                 });
-
-                function DialogController($scope, $mdDialog) {
-                    $scope.addingNewNode = function() {
-                        data.label = $scope.bubbleName;
-                        $mdToast.show(
-                            $mdToast.simple()
-                            .textContent('Bubble Added: ' +  $scope.bubbleName)
-                            .position('bottom')
-                            .hideDelay(3000)
-                            );
-
-                        $scope.bubbleName = "";
-                        $mdDialog.hide();
-                        callback(data);
-                    };
-                    $scope.closeDialog = function() {
-                        network.disableEditMode();
-                        $mdDialog.hide();
-
-                    };
-
-                }
-
             }
         }
     };

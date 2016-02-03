@@ -1,3 +1,6 @@
+ /**
+   * Created by Waqar Ahmed on 04/02/16.
+   */
 function showToast($mdToast, message){
   $mdToast.show(
     $mdToast.simple()

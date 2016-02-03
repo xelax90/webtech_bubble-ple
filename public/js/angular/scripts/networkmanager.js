@@ -1,3 +1,6 @@
+ /**
+   * Created by Waqar Ahmed on 04/02/16.
+   */
 function deleteNodeorEdge(networkService){
 	var selectedNodeId = networkService.getNetwork().getSelectedNodes();
             var selectedEdgeId = networkService.getNetwork().getSelectedEdges();
