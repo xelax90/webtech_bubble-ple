@@ -41,8 +41,6 @@ angular.module('nodes', [
         var bubbleType = 'Bubble';
         var options = {
             autoResize: true,
-            height: '100%',
-            width: '100%',
             locale: 'en',
             clickToUse: false,
             interaction:{

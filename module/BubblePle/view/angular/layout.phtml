@@ -41,8 +41,9 @@
 		      </md-button>
 		    </div>
 		  </md-toolbar>
-
-		  <div ng-view></div>
+          <md-content layout="column" flex layout-fill>
+		    <div ng-view layout-fill></div>
+		  </md-content>
 		  <script type="text/javascript">
 			  var applicationBasePath = '<?php echo $this->basePath('/') ?>';
 		  </script>

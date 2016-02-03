@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body ng-controller="CourseCtrl" class="courses">
+<div ng-controller="CourseCtrl" class="courses" layout="column" layout-fill>
 
-    <md-content layout-fill layout="column">
-        <div class="lock-size" layout="row" layout-align="end" flex layout-fill>
+    <md-content flex layout-fill layout="column">
+        <div class="course-buttons" layout="row">
             <div ng-show="inpshow" layout="row">
                 <md-input-container>
                     <label>Course Name</label>
@@ -35,5 +30,4 @@
         </div>
     </md-content>
 
-</body>
-</html>
+</div>
