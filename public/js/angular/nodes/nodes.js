@@ -431,19 +431,24 @@ angular.module('nodes', [
                   var newId = nodes.length + 1;
                   console.log("adding file node : " + name);
                   
-                  if(getFileExtension(path) == 'pdf'){iconCode = '\uf1c1';}
-                  else if(getFileExtension(path) == 'doc'){iconCode = '\uf1c2';}
-                  else if(getFileExtension(path) == 'excel'){iconCode = '\uf1c3';}
-                  else if(getFileExtension(path) == 'ppt'){iconCode = '\uf1c4';}
-                  else if(getFileExtension(path) == 'txt'){iconCode = '\uf15c';}
-                  else if(getFileExtension(path) == 'rar'){iconCode = '\uf1c6';}
-                  else if(getFileExtension(path) == 'mp3'){iconCode = '\uf1c7';}
-                  else if(getFileExtension(path) == 'mp4'){iconCode = '\uf1c8';}
-                  else if(getFileExtension(path) == 'cpp'){iconCode = '\uf1c9';}
-                  else{iconCode = '\uf15b';}
+                  if(getFileExtension(path) == 'jpeg' || getFileExtension(path) == 'jpg' || getFileExtension(path) == 'png'){
+                    nodes.update({id : newId, label : name, title : 'Uploaded File', shape : 'circularImage', image : path});
+                  }
+                  else{
 
-                  nodes.update({id: newId, label: name, title : 'Uploaded File', shape: 'icon', icon: {face: 'FontAwesome', code: iconCode, size: 50, color: '#f0a30a'}});
+                    if(getFileExtension(path) == 'pdf'){iconCode = '\uf1c1';}
+                    else if(getFileExtension(path) == 'doc'){iconCode = '\uf1c2';}
+                    else if(getFileExtension(path) == 'excel'){iconCode = '\uf1c3';}
+                    else if(getFileExtension(path) == 'ppt'){iconCode = '\uf1c4';}
+                    else if(getFileExtension(path) == 'txt'){iconCode = '\uf15c';}
+                    else if(getFileExtension(path) == 'rar'){iconCode = '\uf1c6';}
+                    else if(getFileExtension(path) == 'mp3'){iconCode = '\uf1c7';}
+                    else if(getFileExtension(path) == 'mp4'){iconCode = '\uf1c8';}
+                    else if(getFileExtension(path) == 'cpp'){iconCode = '\uf1c9';}
+                    else{iconCode = '\uf15b';}
 
+                    nodes.update({id: newId, label: name, title : 'Uploaded File', shape: 'icon', icon: {face: 'FontAwesome', code: iconCode, size: 50, color: '#f0a30a'}});
+                  }
                   var selectedNode = network.getSelectedNodes();
                   console.log("nodes lenght : " + selectedNode.length);
                   if(selectedNode.length > 0){
