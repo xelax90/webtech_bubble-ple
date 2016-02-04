@@ -2,59 +2,65 @@
 <!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
-	<head>
-		<meta charset="utf-8">
-		<?php echo $this->headTitle($this->translate('Bubble PLE'))->setSeparator(' - ')->setAutoEscape(false) ?>
+<!--[if gt IE 8]><!--> 
+<html lang="en" class="no-js"> <!--<![endif]-->
+    
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle($this->translate('Bubble PLE'))->setSeparator(' - ')->setAutoEscape(false) ?>
 
-		<?php echo $this->headMeta()
-			->appendName('viewport', 'width=device-width, initial-scale=1.0')
-			->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
-		?>
+        <?php echo $this->headMeta()
+                ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+                ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
 
-		<!-- Styles -->
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath('/img/favicon.ico')))
-						->prependStylesheet($this->basePath('/css/angular.css')) ?>
+        <!-- Styles -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath('/img/favicon.ico')))
+                                        ->prependStylesheet($this->basePath('/css/angular.css')) ?>
 
-		<!-- Scripts -->
-		<?php $this->bower('angular', \BowerModule\View\Helper\Bower::CONTAINER_HEAD); ?>
-		<?php $this->bower('ieLT9', \BowerModule\View\Helper\Bower::CONTAINER_HEAD); ?>
-		<?php echo $this->headScript(); ?> 
+        <!-- Scripts -->
+        <?php $this->bower('angular', \BowerModule\View\Helper\Bower::CONTAINER_HEAD); ?>
+        <?php $this->bower('ieLT9', \BowerModule\View\Helper\Bower::CONTAINER_HEAD); ?>
+        <?php echo $this->headScript(); ?> 
 
-	</head>
-	<body>
-		  <md-toolbar>
-		    <div class="md-toolbar-tools md-whiteframe-z2">
-		      <h2>
-		        <span>Bubble PLE</span>
-		      </h2>
-		      <span flex></span>
-		      <md-button class="md-icon-button" aria-label="Home" href="#/courses">
-		        <md-icon class="material-design">home</md-icon>
-		      </md-button>
-		      <md-button class="md-icon-button" aria-label="Settings" href="#/settings">
-		        <md-icon class="material-design">settings</md-icon>
-		      </md-button>
-		      <md-button class="md-icon-button" aria-label="Help" href="#/help">
-		        <md-icon class="material-design">help</md-icon>
-		      </md-button>
-		    </div>
-		  </md-toolbar>
-          <md-content layout="column" flex layout-fill>
-		    <div ng-view layout-fill></div>
-		  </md-content>
-		  <script type="text/javascript">
-			  var applicationBasePath = '<?php echo $this->basePath('/') ?>';
-		  </script>
-		<?php echo $this->inlineScript()
-			->appendFile($this->basePath('/js/angular/app.js'))
-			->appendFile($this->basePath('/js/angular/nodes/nodes.js'))
-			->appendFile($this->basePath('/js/angular/courses/courses.js'))
+    </head>
+    
+    <body ng-app="myApp" layout="column">
+<!--        <md-toolbar>
+          <div class="md-toolbar-tools md-whiteframe-z2">
+            <h2>
+              <span>Bubble PLE</span>
+            </h2>
+            <span flex></span>
+            <md-button class="md-icon-button" aria-label="Home" href="#/courses">
+              <md-icon class="material-design">home</md-icon>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="Settings" href="#/settings">
+              <md-icon class="material-design">settings</md-icon>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="Help" href="#/help">
+              <md-icon class="material-design">help</md-icon>
+            </md-button>
+          </div>
+        </md-toolbar>-->
+        <md-content layout="column" flex layout-fill>
+            <div ng-view layout-fill></div>
+        </md-content>
+    
+        <script type="text/javascript">
+            var applicationBasePath = '<?php echo $this->basePath('/') ?>';
+        </script>
+        
+        <?php echo $this->inlineScript()
+                ->appendFile($this->basePath('/js/angular/app.js'))
+                ->appendFile($this->basePath('/js/angular/nodes/nodes.js'))
+                ->appendFile($this->basePath('/js/angular/courses/courses.js'))
 #			->appendFile($this->basePath('/js/dev/angular-file-upload.js'))
-			->appendFile($this->basePath('/js/angular/components/version/version.js'))
-			->appendFile($this->basePath('/js/angular/components/version/version-directive.js'))
-			->appendFile($this->basePath('/js/angular/components/version/interpolate-filter.js'))
-		; ?>
-	</body>
+                ->appendFile($this->basePath('/js/angular/components/version/version.js'))
+                ->appendFile($this->basePath('/js/angular/components/version/version-directive.js'))
+                ->appendFile($this->basePath('/js/angular/components/version/interpolate-filter.js'))
+        ; ?>
+    </body>
+    
 </html>

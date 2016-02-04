@@ -1,4 +1,4 @@
-<div ng-controller="NodesCtrl" layout="row">
+<div ng-controller="NodesCtrl" flex layout="row" class="whole-container" >
 
     <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
       md-component-id="left"
@@ -6,16 +6,23 @@
       md-is-locked-open="$mdMedia('gt-sm')">
 
         <md-toolbar class="md-toolbar-tools md-whiteframe-z2">
-          <h3>{{courseName}} PLE</h3>
+            <h3><img src="/img/network/logo.png" alt="logo" class="logo" style="height:48px;">
+                <label class="logo-label" style="display: inline-block;">
+                    Bubble PLE
+                </label>
+            </h3>
         </md-toolbar>
 
-        <md-list >
+        <md-list class="sidebar-menu" >
             <md-list-item>
                 <md-button aria-label="plus" ng-click="addNewBubble($event)" flex>
                     <md-icon class="fa fa-plus fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
                         Add Bubble
                     </md-tooltip>
+                    <label class="icon-label">
+                        Add Bubble
+                    </label>
                 </md-button>
             </md-list-item>
             <md-list-item>
@@ -24,6 +31,10 @@
                     <md-tooltip md-direction="right">
                         Add Edge
                     </md-tooltip>
+                    <label class="icon-label">
+                        Add Edge
+                    </label>
+                    
                 </md-button>
             </md-list-item>
             <md-list-item>
@@ -32,6 +43,9 @@
                     <md-tooltip md-direction="right">
                         Add Link Bubble
                     </md-tooltip>
+                    <label class="icon-label">
+                        Add Link Bubble
+                    </label>
                 </md-button>
             </md-list-item>
             <md-list-item>
@@ -44,6 +58,8 @@
                     <md-tooltip md-direction="right">
                         Upload Document
                     </md-tooltip>
+                    <label class="icon-label">Upload Document</label>
+                    
                 </md-button>
             </md-list-item>
             <md-list-item>
@@ -52,22 +68,27 @@
                     <md-tooltip md-direction="right">
                         Upload Media
                     </md-tooltip>
+                    <label class="icon-label">Upload Media</label>
+                    
                 </md-button>
             </md-list-item>
             <md-list-item>
                 <md-button aria-label="edit" ng-click="openNodeChangeBox()" flex>
-                    <md-icon class="fa fa-font fa-2x"></md-icon>
+                    <md-icon class="fa fa-pencil fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
                         Edit Bubble
                     </md-tooltip>
+                    <label class="icon-label">Edit Bubble</label>
+                    
                 </md-button>
             </md-list-item>
             <md-list-item>
                 <md-button aria-label="note" ng-click="openTextBox()" flex>
-                    <md-icon class="material-icons">note_add</md-icon>
+                    <md-icon class="fa fa-font fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
                         Add note to Bubble
                     </md-tooltip>
+                    <label class="icon-label">Add note to Bubble</label>
                 </md-button>
             </md-list-item>
             <md-list-item>
@@ -76,6 +97,8 @@
                     <md-tooltip md-direction="right">
                         Share Bubble and sub-bubbles
                     </md-tooltip>
+                    <label class="icon-label">Share Bubble</label>
+                    
                 </md-button>
             </md-list-item>
             <md-list-item>
@@ -84,6 +107,8 @@
                     <md-tooltip md-direction="right">
                         Delete Bubble
                     </md-tooltip>
+                    <label class="icon-label">Delete Bubble</label>
+                    
                 </md-button>
             </md-list-item>
             <md-list-item>
@@ -92,6 +117,8 @@
                     <md-tooltip md-direction="right">
                         Search in bubbles
                     </md-tooltip>
+                    <label class="icon-label">Search in bubbles</label>
+                    
                 </md-button>
             </md-list-item>
             <md-list-item>
@@ -100,26 +127,49 @@
                     <md-tooltip md-direction="right">
                         Mark Priority
                     </md-tooltip>
+                    <label class="icon-label">Mark Priority</label>
+                    
+                </md-button>
+            </md-list-item>
+            <md-list-item>
+                <md-button aria-label="Priority" ng-click="collapse_sidebar();" flex>
+                    <md-icon class="fa fa-minus fa-2x"></md-icon>
+                    <label class="icon-label">collapse</lable>
+                    
                 </md-button>
             </md-list-item>
         </md-list>
 
     </md-sidenav>
 
-    <div flex layout="column" class="md-whiteframe-z2">
-
-        <!-- <md-toolbar> -->
+    <md-content layout="column" flex id='content'>
+        <md-toolbar layout="row" class = "md-whiteframe-z2 breadcrumb-bar"> 
             <md-button id="main" class="menu" ng-click="toggleList()" hide-gt-sm aria-label="Show Toolbar">
                 <md-icon class="material-icons">menu</md-icon>
             </md-button>
-        <!-- </md-toolbar> -->
+            <div class="custom-breadcrumb-bar">abcd/lljkasd/mner asdfn/mbmnasde/mnbmna</div>
+            <div class="search-box">
+                <md-icon class="fa fa-search"></md-icon>
+                <md-autocomplete ng-disabled="NodesCtrl.isDisabled"
+                    md-no-cache="NodesCtrl.noCache"
+                    md-selected-item="NodesCtrl.selectedItem"
+                    md-search-text-change="NodesCtrl.searchTextChange(NodesCtrl.searchText)"
+                    md-search-text="NodesCtrl.searchText"
+                    md-selected-item-change="NodesCtrl.selectedItemChange(item)"
+                    md-items="item in NodesCtrl.querySearch(ctrl.searchText)"
+                    md-item-text="item.display"
+                    md-min-length="0"
+                    placeholder="search bubble">
 
-        <md-content layout="column" flex>
-                <div id="bubbles" flex layout-fill></div>
-                <div layout="row" layout-sm="column" layout-align="space-around">
-                    <md-progress-linear md-mode="determinate" value="{{progressBarValue}}" ng-show="showProgressBar"></md-progress-linear>
-                 </div>
-        </md-content>
-    </div>
+                </md-autocomplete>
+            </div>
+        </md-toolbar>
+        
+        <div id="bubbles" flex layout-fill></div>
+        <div layout="row" layout-sm="column" layout-align="space-around">
+            <md-progress-linear md-mode="determinate" value="{{progressBarValue}}" ng-show="showProgressBar"></md-progress-linear>
+        </div>
+        
+    </md-content>
 
 </div>

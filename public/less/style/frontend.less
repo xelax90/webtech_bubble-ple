@@ -5,7 +5,7 @@ body{
 		position: absolute;
 		top: 0;
 		left: 0;
-		padding-top: 64px;
+		/*padding-top: 64px;*/
 	}
 }
 
@@ -35,4 +35,66 @@ body{
 md-dialog{
   padding: 20px;
   text-align: center;
+}
+
+md-toolbar.breadcrumb-bar {
+    background: #f6f6f6 !important;
+}
+
+.whole-container {
+    height: 100%;
+}
+
+.search-box {
+    right: 22px;
+    position: fixed;
+    width: 350px;
+    top: 12px;
+    
+    > md-autocomplete {
+        display: inline-block;
+        width: 90%;
+    }
+    
+    > md-icon.fa-search {
+        display: inline-block;
+        font-size: 25px;
+        color: rgba(0,0,0,0.54);
+        vertical-align: top;
+        margin: 8px 0px 0px;
+    }
+}
+
+.fa-2x {
+    background: rgb(92,107,192);;
+    padding: 16px;
+    border-radius: 30px;
+    margin-right: 11px;
+    color: #ffffff;
+}
+
+.sidebar-menu {
+    .md-button {
+        text-align: left;
+        min-width: 0;
+    }
+    
+   
+
+}
+
+.breadcrumb-bar {
+    position: fixed;
+}
+
+.custom-breadcrumb-bar {
+    margin: 20px 20px;
+    color: black;
+}
+
+.logo-label {
+    vertical-align: top;
+    padding: 0 0 0 10px;
+    margin: 10px;
+    font-size: 25px;
 }
