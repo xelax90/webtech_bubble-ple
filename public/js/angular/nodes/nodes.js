@@ -9,7 +9,7 @@ angular.module('nodes', [
         'ngFileUpload'
     ])
     .config(['$routeProvider', function($routeProvider) {
-        $routeProvider.when('/courseroom',{
+        $routeProvider.when('/',{
             templateUrl: (applicationBasePath ? applicationBasePath : '') + 'js/angular/nodes/nodes.html',
             controller: 'NodesCtrl'
         });
