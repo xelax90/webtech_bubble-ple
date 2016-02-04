@@ -8,7 +8,7 @@ angular.module('myApp', [
     'nodes'
 ]).
 config(['$routeProvider', '$mdThemingProvider', function($routeProvider, $mdThemingProvider) {
-    $routeProvider.otherwise({redirectTo: '/courses'});
+    $routeProvider.otherwise({redirectTo: '/'});
     $mdThemingProvider.theme('default')
         .primaryPalette('indigo', {
             'default': '400', // by default use shade 400 from the pink palette for primary intentions
