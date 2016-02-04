@@ -9,7 +9,7 @@ var app = angular.module(
         'ngFileUpload'
 ])
 .config(['$routeProvider', '$mdThemingProvider', function($routeProvider, $mdThemingProvider) {
-    $routeProvider.otherwise({redirectTo: '/courses'});
+    $routeProvider.otherwise({redirectTo: '/'});
     $routeProvider.when('/',{
             templateUrl: (applicationBasePath ? applicationBasePath : '') + 'js/angular/nodes/nodes.html',
             controller: 'nodeCtrl'
