@@ -45,7 +45,7 @@ $xelaxConfig = array(
 	),
 	'semesters' => array(
 		'name' => 'Semester', 
-		'controller_class' => Controller\BubbleController::class, 
+		'controller_class' => Controller\SemesterController::class, 
 		'base_namespace' => __NAMESPACE__, 
 		'list_columns' => array('Id' => 'id', 'Title' => 'title', 'Year' => 'year', 'Winter?' => 'isWinter'),
 		'route_base' => 'zfcadmin/bubblePLE/semesters',

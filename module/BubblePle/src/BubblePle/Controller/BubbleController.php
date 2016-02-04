@@ -39,6 +39,14 @@ class BubbleController extends ListController{
 	 * @return \Traversable
 	 */
 	protected function getAll(){
+		return $this->getAllOrdered();
+	}
+	
+	/**
+	 * Returns list of all items to show in list view. Overwrite to add custom filters
+	 * @return \Traversable
+	 */
+	protected function getAllOrdered($order = array()){
 		if(!$this->zfcUserAuthentication()->hasIdentity()){
 			return array();
 		}
@@ -57,7 +65,7 @@ class BubbleController extends ListController{
 			$params[$this->getOptions()->getParentAttributeName()] = $parentId;
 		}
 		
-		$items = $em->getRepository($entityClass)->findBy($params);
+		$items = $em->getRepository($entityClass)->findBy($params, $order);
 		
 		return $items;
 	}
@@ -211,6 +219,13 @@ class BubbleController extends ListController{
 			'url' => $url,
 		));
 		return $viewModel;
+	}
+	
+	public function syncAction(){
+		$syncService = $this->getServiceLocator()->get(\BubblePle\Service\L2PSync::class);
+		/* @var $syncService \BubblePle\Service\L2PSync */
+		$syncResult = $syncService->sync();
+		return new JsonModel($syncResult);
 	}
 	
 	protected function getUrlForBubble($bubbleType, $id = 0){
