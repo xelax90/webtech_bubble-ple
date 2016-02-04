@@ -12,9 +12,11 @@
           $scope.showProgressBar = false;
           var bubbleType = 'Bubble';
     
+          networkService.setmdDialog($mdDialog);
 
           $scope.addNewBubble = function (){
-              bubbleType = 'Bubble';    
+              bubbleType = 'Bubble';
+              networkService.setBubbleType(bubbleType);    
               networkService.getNetwork().addNodeMode();
           };
 
@@ -25,11 +27,13 @@
           
           $scope.addLinkBubble = function (){
               bubbleType = 'LinkAttachment';
+              networkService.setBubbleType(bubbleType); 
               networkService.getNetwork().addNodeMode();
           };
           
           $scope.addDocumentBubble = function (){
               bubbleType = 'FileAttachment';
+              networkService.setBubbleType(bubbleType); 
               networkService.getNetwork().addNodeMode();
           };
           

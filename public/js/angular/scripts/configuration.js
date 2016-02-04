@@ -40,3 +40,49 @@
       background: '#FF3232'
     }
   };
+
+
+
+var options = {
+        autoResize: true,
+        locale: 'en',
+        clickToUse: false,
+        interaction:{
+            dragNodes:true,
+            dragView: true,
+            hideEdgesOnDrag: false,
+            hideNodesOnDrag: false,
+            hover: true,
+            hoverConnectedEdges: true,
+            keyboard: {
+                enabled: false,
+                speed: {x: 10, y: 10, zoom: 0.02},
+                bindToWindow: true
+            },
+            multiselect: true,
+            navigationButtons: true,
+            selectable: true,
+            selectConnectedEdges: true,
+            tooltipDelay: 300,
+            zoomView: true
+        },
+        manipulation:
+        {
+            enabled: false,
+            addNode: function(data, callback){
+                dialog.show({
+                    template: getTemplate(bubbleType),
+                    locals: {
+                      items: (data),
+                      callBack : (callback)
+                  },                                
+                    controller: dialogController
+                });
+            }
+        }
+    };
+
+
+function getNetworkOptions(){
+  return options;
+}
