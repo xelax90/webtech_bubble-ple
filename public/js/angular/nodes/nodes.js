@@ -58,7 +58,6 @@ angular.module('nodes', [
                             $scope.addingNewNode = function() {
                                 var req = {course: { title: $scope.bubbleName}};
                                 $http.post('/admin/bubblePLE/courses/rest', req).then(function(response){
-                                    console.log(data);
                                     data.id = response.data.item.id;
                                     data.label = response.data.item.title;
                                     data.title = response.data.item.title;
@@ -90,6 +89,31 @@ angular.module('nodes', [
                             };
                         }
 
+                    },
+
+                    addEdge: function(edgeData,callback) {
+                        edgeData.arrows = 'to';
+                        var req = {edge: {from: edgeData.from, to: edgeData.to}};
+                        $http.post('/admin/bubblePLE/edges/rest', req).then(function(response){
+                            console.log(response);
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .textContent('Bubbles connected.')
+                                    .position('bottom')
+                                    .hideDelay(3000)
+                            );
+                            callback(data);
+
+                        }, function(errResponse){
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .textContent('Error connectiong Bubbles!')
+                                    .position('bottom')
+                                    .hideDelay(3000)
+                            );
+                        });
+                        callback(edgeData);
+
                     }
                 }
         };
@@ -113,11 +137,10 @@ angular.module('nodes', [
                 var bubbles = new Array();
                 var items = response.data.bubbles;
                 var edges = response.data.edges;
+                console.log(items);
                 for (var i = 0; i < items.length; i++){
                     if ((items[i].bubbleType.search("Semester") != -1) || (items[i].bubbleType.search("Course")) != -1) {
-                        bubbles.push({id: items[i].id});
-                        bubbles[i].label = items[i].title;
-                        bubbles[i].title = items[i].title;
+                        bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title});
                     }
                 }
                 for (var i = 0; i < edges.length; i++){
@@ -323,7 +346,7 @@ angular.module('nodes', [
         $scope.addNewEdge = function (){
             $mdToast.show(
                 $mdToast.simple()
-                    .textContent("Manipulation Mode enabled, drag a node from any Bubble!")
+                    .textContent("Drag a node from any Bubble!")
                     .position('bottom')
                     .hideDelay(3000)
             );
