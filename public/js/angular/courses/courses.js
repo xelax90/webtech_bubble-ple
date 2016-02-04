@@ -42,7 +42,7 @@ angular.module('courses', [
 
             $scope.addCourse = function(){
                 var data = {bubble: { title: $scope.courseName}};
-                $http.post('/admin/bubblePLE/bubbles/rest', data).then(function(response){
+                $http.post('/admin/bubblePLE/courses/rest', data).then(function(response){
                     console.log(response);
                     nodes.update({id: response.data.item.id, label: response.data.item.title, title: 'Press for '+ response.data.item.title + ' PLE'});
                     $mdToast.show(
