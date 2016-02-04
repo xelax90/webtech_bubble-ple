@@ -23,6 +23,7 @@
 		"xelax90/skeleton-module" : "dev-master",
 		"xelax90/l2p-client" : "dev-master",
 		"xelax90/l2p-client-module" : "dev-master",
+		"xelax90/l2p-client-module-doctrine-orm" : "dev-master",
 		
 		"doctrine/data-fixtures": "@dev",
 		"hounddog/doctrine-data-fixture-module": "@dev",
