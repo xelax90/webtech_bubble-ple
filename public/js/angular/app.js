@@ -10,11 +10,7 @@ var app = angular.module(
 ])
 .config(['$routeProvider', '$mdThemingProvider', function($routeProvider, $mdThemingProvider) {
     $routeProvider.otherwise({redirectTo: '/courses'});
-    $routeProvider.when('/courses',{
-            templateUrl: (applicationBasePath ? applicationBasePath : '') + 'js/angular/courses/courses.html',
-            controller: 'courseCtrl'
-        });
-    $routeProvider.when('/courseroom',{
+    $routeProvider.when('/',{
             templateUrl: (applicationBasePath ? applicationBasePath : '') + 'js/angular/nodes/nodes.html',
             controller: 'nodeCtrl'
         });
