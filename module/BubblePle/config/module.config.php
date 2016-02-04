@@ -98,7 +98,17 @@ $routerConfig = array(
 								'action' => 'renderForm',
 							),
 						)
-					)
+					),
+					'sync' => array(
+						'type' => 'Literal',
+						'options' => array(
+							'route' => '/sync',
+							'defaults' => array(
+								'controller' => Controller\BubbleController::class,
+								'action' => 'sync',
+							),
+						)
+					),
 				)
 			),
 		)
@@ -107,6 +117,7 @@ $routerConfig = array(
 
 $guardConfig = array(
 	'test' => ['route' => 'test', 'roles' => ['guest', 'user'] ],
+	['route' => 'zfcadmin/bubblePLE/sync',             'roles' => ['moderator'] ],
 	['route' => 'zfcadmin/bubblePLE/filter',           'roles' => ['moderator'] ],
 	['route' => 'zfcadmin/bubblePLE/form',             'roles' => ['moderator'] ],
 	['route' => 'zfcadmin/bubblePLE/edges',            'roles' => ['moderator'] ],
@@ -143,6 +154,7 @@ return array(
 		'invokables' => array(
 			Controller\IndexController::class => Controller\IndexController::class,
 			Controller\BubbleController::class => Controller\BubbleController::class,
+			Controller\SemesterController::class => Controller\SemesterController::class,
 		),
 	),
 	
@@ -186,6 +198,7 @@ return array(
 		'factories' => array(
 		),
 		'invokables' => array(
+		   Service\L2PSync::class => Service\L2PSync::class,
 		),
 	),
 				
