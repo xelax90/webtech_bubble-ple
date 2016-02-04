@@ -112,7 +112,84 @@ angular.module('nodes', [
                 var nodes = new vis.DataSet(bubbles);
 
                 var edges = new vis.DataSet(edges);
-                visualize(nodes, edges);
+
+                // create a network
+                var container = document.getElementById('bubbles');
+
+                // provide the data in the vis format
+                var data = {
+                    nodes: nodes,
+                    edges: edges
+                };
+
+                // initialize your network!
+                var network = new vis.Network(container, data, options);
+                network.on('doubleClick', function(node){
+                    if (node.nodes[0]){
+                        if (isCourse(node.nodes[0], items)){
+                            getAttachments(node.nodes[0]);
+                        }
+                    }
+                });
+                visualize(nodes, edges, network);
+            }, function(errResponse) {
+                console.log('Error fetching data!');
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent('Error fetching courses')
+                        .position('bottom')
+                        .hideDelay(3000)
+                );
+            });
+        }
+
+        function isCourse(id, items){
+            for (var i = 0; i < items.length; i++){
+                if (items[i].id == id){
+                    if (items[i].bubbleType.search("Course") != -1) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function getAttachments(courseId){
+            $http.get('/admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
+                var bubbles = new Array();
+                var items = response.data.bubbles;
+                var edges = response.data.edges;
+                for (var i = 0; i < items.length; i++){
+                    bubbles.push({id: items[i].id});
+                    bubbles[i].label = items[i].title;
+                    bubbles[i].title = items[i].title;
+                }
+                for (var i = 0; i < edges.length; i++){
+                    edges[i].arrows = 'to';
+                }
+                var nodes = new vis.DataSet(bubbles);
+
+                var edges = new vis.DataSet(edges);
+
+                // create a network
+                var container = document.getElementById('bubbles');
+
+                // provide the data in the vis format
+                var data = {
+                    nodes: nodes,
+                    edges: edges
+                };
+
+                // initialize your network!
+                var network = new vis.Network(container, data, options);
+                //network.on('doubleClick', function(node){
+                //    if (node.nodes[0]){
+                //        if (isCourse(node.nodes[0], items)){
+                //            getAttachments(node.nodes[0]);
+                //        }
+                //    }
+                //});
+                visualize(nodes, edges, network);
             }, function(errResponse) {
                 console.log('Error fetching data!');
                 $mdToast.show(
@@ -218,23 +295,11 @@ angular.module('nodes', [
           color : baseColor
         };
 
-    function visualize(nodes, edges){
+    function visualize(nodes, edges, network){
 
         //var a = $location.search();
         //console.log(a);
         //$scope.courseName = nodes[a.courseId].label;
-
-        // create a network
-        var container = document.getElementById('bubbles');
-
-        // provide the data in the vis format
-        var data = {
-            nodes: nodes,
-            edges: edges
-        };
-
-        // initialize your network!
-        var network = new vis.Network(container, data, options);
 
         $scope.addNewBubble = function (){
             bubbleType = 'Bubble';    
