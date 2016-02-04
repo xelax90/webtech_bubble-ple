@@ -93,8 +93,8 @@ angular.module('nodes', [
             );
         });
 
+        //filter courses of one semester
         function getCourses(semesterId){
-            //filter courses of one semester
             $http.get('/admin/bubblePLE/filter/parent/'+semesterId).then(function(response) {
                 var bubbles = new Array();
                 var items = response.data.bubbles;
@@ -106,8 +106,13 @@ angular.module('nodes', [
                         bubbles[i].title = items[i].title;
                     }
                 }
-                console.log(bubbles);
-                visualize(bubbles, edges);
+                for (var i = 0; i < edges.length; i++){
+                    edges[i].arrows = 'to';
+                }
+                var nodes = new vis.DataSet(bubbles);
+
+                var edges = new vis.DataSet(edges);
+                visualize(nodes, edges);
             }, function(errResponse) {
                 console.log('Error fetching data!');
                 $mdToast.show(
@@ -118,6 +123,7 @@ angular.module('nodes', [
                 );
             });
         }
+
         
         function getTemplate(type){
             var template = "";
@@ -212,11 +218,7 @@ angular.module('nodes', [
           color : baseColor
         };
 
-    function visualize(bubbles, edges){
-        var nodes = new vis.DataSet(bubbles);
-
-        // create an array with edges
-        var edges = new vis.DataSet(edges);
+    function visualize(nodes, edges){
 
         //var a = $location.search();
         //console.log(a);
