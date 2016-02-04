@@ -46,7 +46,9 @@ $routerConfig = array(
 			'route' => '/test',
 			'defaults' => array(
 				'controller' => Controller\BubbleController::class,
-				'action'     => 'child',
+				'action'     => 'renderForm',
+				'bubbleType' => 'BubblePle\Entity\FileAttachment',
+				'bubbleId' => 10,
 			),
 		),
 	),
@@ -82,6 +84,20 @@ $routerConfig = array(
 								'action' => 'filter',
 							),
 						)
+					),
+					'form' => array(
+						'type' => 'Segment',
+						'options' => array(
+							'route' => '/form/:bubbleType[/:bubbleId]',
+							'constraints' => array(
+								'bubbleId' => '[0-9]*',
+								'bubbleType' => "[A-Za-z0-9%]*",
+							),
+							'defaults' => array(
+								'controller' => Controller\BubbleController::class,
+								'action' => 'renderForm',
+							),
+						)
 					)
 				)
 			),
@@ -92,6 +108,7 @@ $routerConfig = array(
 $guardConfig = array(
 	'test' => ['route' => 'test', 'roles' => ['guest', 'user'] ],
 	['route' => 'zfcadmin/bubblePLE/filter',           'roles' => ['moderator'] ],
+	['route' => 'zfcadmin/bubblePLE/form',             'roles' => ['moderator'] ],
 	['route' => 'zfcadmin/bubblePLE/edges',            'roles' => ['moderator'] ],
 	['route' => 'zfcadmin/bubblePLE/bubbles',          'roles' => ['moderator'] ],
 	['route' => 'zfcadmin/bubblePLE/semesters',        'roles' => ['moderator'] ],

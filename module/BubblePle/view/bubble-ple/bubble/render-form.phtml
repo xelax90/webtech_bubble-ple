@@ -1,0 +1,23 @@
+<?php
+
+$form = $this->form;
+/* @var $form Zend\Form\Form */
+if(!$form):
+	echo 'Error';
+else :
+	if(!empty($this->url)){
+		$form->setAttribute('action', $this->url);
+	}
+	echo $this->form()->openTag($form);
+	$fieldsets = $form->getFieldsets();
+	foreach($fieldsets as $fieldset){
+		/* @var $fieldset Zend\Form\Fieldset */
+		$elements = $fieldset->getElements();
+		foreach($elements as $elm){
+			echo '<md-input-container>';
+			echo $this->formRow($elm);
+			echo '</md-input-container>';
+		}
+	}
+	echo $this->form()->closeTag();
+endif;

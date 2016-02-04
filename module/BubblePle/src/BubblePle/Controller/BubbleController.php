@@ -24,6 +24,8 @@ use XelaxAdmin\Controller\ListController;
 use BubblePle\Entity\Bubble;
 use BubblePle\Entity\Edge;
 use Zend\View\Model\JsonModel;
+use Zend\View\Model\ViewModel;
+use Exception;
 
 /**
  * Controller that handles bubbles
@@ -193,5 +195,55 @@ class BubbleController extends ListController{
 		);
 		
 		return $result;
+	}
+	
+	public function renderFormAction(){
+		$bubbleType = $this->getEvent()->getRouteMatch()->getParam('bubbleType');
+		$bubbleId = (int) $this->getEvent()->getRouteMatch()->getParam('bubbleId');
+		
+		$form = $this->getFormForBubble($bubbleType);
+		$url = $this->getUrlForBubble($bubbleType, $bubbleId);
+		
+		$viewModel = new ViewModel();
+		$viewModel->setTerminal(true);
+		$viewModel->setVariables(array(
+			'form' => $form,
+			'url' => $url,
+		));
+		return $viewModel;
+	}
+	
+	protected function getUrlForBubble($bubbleType, $id = 0){
+		$bubbleParts = explode('\\', $bubbleType);
+		$routeName = lcfirst($bubbleParts[count($bubbleParts) - 1]).'s';
+		$url = '';
+		try{
+			$parameters = array(
+				'action' => 'rest',
+			);
+			$url = $this->url()->fromRoute('zfcadmin/bubblePLE/'.$routeName, $parameters);
+			if(!empty($id)){
+				$url .= '/'.$id;
+			}
+		} catch (Exception $ex) {
+		}
+		return $url;
+	}
+	
+	protected function getFormForBubble($bubbleType){
+		if(empty($bubbleType)){
+			return null;
+		}
+		if(!class_exists($bubbleType)){
+			return null;
+		}
+		
+		$nameParts = explode('\\', $bubbleType.'Form');
+		$nameParts[1] = 'Form';
+		$formClass = implode('\\', $nameParts);
+		if(!class_exists($formClass)){
+			return null;
+		}
+		return $this->getServiceLocator()->get('FormElementManager')->get($formClass);
 	}
 }
