@@ -3,7 +3,18 @@
  */
 'use strict';
 
-app.controller('NodesCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll){
+angular.module('nodes', [
+        'ngRoute',
+        'ngMaterial',
+        'ngFileUpload'
+    ])
+    .config(['$routeProvider', function($routeProvider) {
+        $routeProvider.when('/',{
+            templateUrl: (applicationBasePath ? applicationBasePath : '') + 'js/angular/nodes/nodes.html',
+            controller: 'NodesCtrl'
+        });
+    }])
+    .controller('NodesCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll){
 
         $scope.toggleList = function(){
           $mdSidenav('left').toggle();
@@ -11,7 +22,6 @@ app.controller('NodesCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'U
 
         $scope.showProgressBar = false;
         var bubbleType = 'Bubble';
-        
         var options = {
             autoResize: true,
             locale: 'en',
@@ -46,70 +56,287 @@ app.controller('NodesCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'U
 
                         function DialogController($scope, $mdDialog) {
                             $scope.addingNewNode = function() {
-                                data.label = $scope.bubbleName;
-                                $mdToast.show(
-                                    $mdToast.simple()
-                                        .textContent('Bubble Added: ' +  $scope.bubbleName)
-                                        .position('bottom')
-                                        .hideDelay(3000)
-                                );
+                                var req = {course: { title: $scope.bubbleName}};
+                                $http.post('/admin/bubblePLE/courses/rest', req).then(function(response){
+                                    data.id = response.data.item.id;
+                                    data.label = response.data.item.title;
+                                    data.title = response.data.item.title;
+                                    $mdToast.show(
+                                        $mdToast.simple()
+                                            .textContent('Bubble Added: ' +  data.title)
+                                            .position('bottom')
+                                            .hideDelay(3000)
+                                    );
+                                    callback(data);
+
+                                }, function(errResponse){
+                                    $mdToast.show(
+                                        $mdToast.simple()
+                                            .textContent('Error adding Bubble!')
+                                            .position('bottom')
+                                            .hideDelay(3000)
+                                    );
+                                });
 
                                 $scope.bubbleName = "";
                                 $mdDialog.hide();
-                                callback(data);
+
                             };
                             $scope.closeDialog = function() {
                                 network.disableEditMode();
                                 $mdDialog.hide();
                                 
                             };
-
                         }
+
+                    },
+
+                    addEdge: function(edgeData,callback) {
+                        edgeData.arrows = 'to';
+                        var req = {edge: {from: edgeData.from, to: edgeData.to}};
+                        $http.post('/admin/bubblePLE/edges/rest', req).then(function(response){
+                            console.log(response);
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .textContent('Bubbles connected.')
+                                    .position('bottom')
+                                    .hideDelay(3000)
+                            );
+                            callback(data);
+
+                        }, function(errResponse){
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .textContent('Error connectiong Bubbles!')
+                                    .position('bottom')
+                                    .hideDelay(3000)
+                            );
+                        });
+                        callback(edgeData);
 
                     }
                 }
         };
+
+        $http.get('/admin/bubblePLE/semesters/rest').then(function(response) {
+            var semId = response.data[0].id;
+            getCourses(semId);
+        }, function(errResponse) {
+            console.log('Error fetching data!');
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent('Error fetching semester')
+                    .position('bottom')
+                    .hideDelay(3000)
+            );
+        });
+
+        //filter courses of one semester
+        function getCourses(semesterId){
+            $http.get('/admin/bubblePLE/filter/parent/'+semesterId).then(function(response) {
+                var bubbles = new Array();
+                var items = response.data.bubbles;
+                var edges = response.data.edges;
+                console.log(items);
+                for (var i = 0; i < items.length; i++){
+                    if ((items[i].bubbleType.search("Semester") != -1) || (items[i].bubbleType.search("Course")) != -1) {
+                        bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title});
+                    }
+                }
+                for (var i = 0; i < edges.length; i++){
+                    edges[i].arrows = 'to';
+                }
+                var nodes = new vis.DataSet(bubbles);
+
+                var edges = new vis.DataSet(edges);
+
+                // create a network
+                var container = document.getElementById('bubbles');
+
+                // provide the data in the vis format
+                var data = {
+                    nodes: nodes,
+                    edges: edges
+                };
+
+                // initialize your network!
+                var network = new vis.Network(container, data, options);
+                network.on('doubleClick', function(node){
+                    if (node.nodes[0]){
+                        if (isCourse(node.nodes[0], items)){
+                            getAttachments(node.nodes[0]);
+                        }
+                    }
+                });
+                visualize(nodes, edges, network);
+            }, function(errResponse) {
+                console.log('Error fetching data!');
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent('Error fetching courses')
+                        .position('bottom')
+                        .hideDelay(3000)
+                );
+            });
+        }
+
+        function isCourse(id, items){
+            for (var i = 0; i < items.length; i++){
+                if (items[i].id == id){
+                    if (items[i].bubbleType.search("Course") != -1) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function getAttachments(courseId){
+            $http.get('/admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
+                var bubbles = new Array();
+                var items = response.data.bubbles;
+                var edges = response.data.edges;
+                for (var i = 0; i < items.length; i++){
+                    bubbles.push({id: items[i].id});
+                    bubbles[i].label = items[i].title;
+                    bubbles[i].title = items[i].title;
+                }
+                for (var i = 0; i < edges.length; i++){
+                    edges[i].arrows = 'to';
+                }
+                var nodes = new vis.DataSet(bubbles);
+
+                var edges = new vis.DataSet(edges);
+
+                // create a network
+                var container = document.getElementById('bubbles');
+
+                // provide the data in the vis format
+                var data = {
+                    nodes: nodes,
+                    edges: edges
+                };
+
+                // initialize your network!
+                var network = new vis.Network(container, data, options);
+                //network.on('doubleClick', function(node){
+                //    if (node.nodes[0]){
+                //        if (isCourse(node.nodes[0], items)){
+                //            getAttachments(node.nodes[0]);
+                //        }
+                //    }
+                //});
+                visualize(nodes, edges, network);
+            }, function(errResponse) {
+                console.log('Error fetching data!');
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent('Error fetching courses')
+                        .position('bottom')
+                        .hideDelay(3000)
+                );
+            });
+        }
+
         
-       
+        function getTemplate(type){
+            var template = "";
+            if(type === 'Bubble'){
+                template =  '<md-dialog aria-label="List dialog">' +
+                            '  <md-dialog-content>'+
+                            '    <br>'+
+                            '    <md-input-container>'+
+                            '        <label>Bubble Name</label>'+
+                            '        <input type="text" ng-model="bubbleName">'+
+                            '    </md-input-container>'+
+                            '  </md-dialog-content>' +
+                            '  <md-dialog-actions>' +
+                            '    <md-button ng-click="addingNewNode()" class="md-primary">' +
+                            '      Add Bubble' +
+                            '    </md-button>' +
+                            '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                            '      Cancel' +
+                            '    </md-button>' +
+                            '  </md-dialog-actions>' +
+                            '</md-dialog>';
+            
+            } else if(type === 'LinkAttachment') {
+                template =  '<md-dialog aria-label="List dialog">' +
+                            '  <md-dialog-content>'+
+                            '    <br>'+
+                            '    <md-input-container>'+
+                            '        <label>Title</label>'+
+                            '        <input type="text" ng-model="bubbleName">'+
+                            '    </md-input-container>'+
+                            '    <md-input-container>'+
+                            '        <label>URL</label>'+
+                            '        <input type="text" ng-model="url">'+
+                            '    </md-input-container>'+
+                            '  </md-dialog-content>' +
+                            '  <md-dialog-actions>' +
+                            '    <md-button ng-click="addingNewNode()" class="md-primary">' +
+                            '      Add Link' +
+                            '    </md-button>' +
+                            '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                            '      Cancel' +
+                            '    </md-button>' +
+                            '  </md-dialog-actions>' +
+                            '</md-dialog>';
+            } 
+            
+            return template;
+        }
         
-  
+         var baseColor = {
+          border: '#2B7CE9',
+          background: '#97C2FC',
+          highlight: {
+            border: '#2B7CE9',
+            background: '#D2E5FF'
+          },
+          hover: {
+            border: '#2B7CE9',
+            background: '#D2E5FF'
+          }
+        };
+
+
+        var importantColor = {
+          border: '#BCDB3A',
+          background: '#D2F931',
+          highlight: {
+            border: '#D7E13C',
+            background: '#F0FD32'
+          },
+          hover: {
+            border: '#D7E13C',
+            background: '#F0FD32'
+          }
+        };
+
+        var v_importantColor = {
+          border: '#D21E1E',
+          background: '#F90000',
+          highlight: {
+            border: '#E43C3C',
+            background: '#FF3232'
+          },
+          hover: {
+            border: '#E43C3C',
+            background: '#FF3232'
+          }
+        };
 
 
         options.nodes = {
           color : baseColor
         };
 
-        var nodes = new vis.DataSet([
-            {id: 1, label: 'Node 1'},
-            {id: 2, label: 'Node 2'},
-            {id: 3, label: 'Node 3'},
-            {id: 4, label: 'Node 4'},
-            {id: 5, label: 'Node 5'}
-        ]);
-
-        // create an array with edges
-        var edges = new vis.DataSet([
-            {from: 1, to: 3},
-            {from: 1, to: 2},
-            {from: 2, to: 4},
-            {from: 2, to: 5}
-        ]);
+    function visualize(nodes, edges, network){
 
         //var a = $location.search();
         //console.log(a);
         //$scope.courseName = nodes[a.courseId].label;
-
-        // create a network
-        var container = document.getElementById('bubbles');
-
-        // provide the data in the vis format
-        var data = {
-            nodes: nodes,
-            edges: edges
-        };
-
-        // initialize your network!
-        var network = new vis.Network(container, data, options);
 
         $scope.addNewBubble = function (){
             bubbleType = 'Bubble';    
@@ -119,7 +346,7 @@ app.controller('NodesCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'U
         $scope.addNewEdge = function (){
             $mdToast.show(
                 $mdToast.simple()
-                    .textContent("Manipulation Mode enabled, drag a node from any Bubble!")
+                    .textContent("Drag a node from any Bubble!")
                     .position('bottom')
                     .hideDelay(3000)
             );
@@ -461,8 +688,49 @@ app.controller('NodesCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'U
                 locals: {
                     items: (nodes._data)
                 },
-                controller: searchCtrl
+                controller: searchController
             });
+
+            /*Controller to look into nodes to search for node*/
+            function searchController($scope, $mdDialog, items) {
+                console.log(items);
+                console.log(items[1].label);
+                $scope.searchTitle = "";
+                $scope.items = items;
+                console.log(nodes);
+
+                /* This method will be called when user clicked on search button */
+                $scope.search = function() {
+
+                    if($scope.searchTitle == "") return;
+
+                    var i = 1;
+                    var isFound = false;
+                    for(i = 1; i <= nodes.length; i++){
+                      if($scope.items[i].label == $scope.searchTitle){
+                        console.log("hurray found");
+                        network.selectNodes([$scope.items[i].id], true);
+                        network.focus($scope.items[i].id);
+                        isFound = true;
+                      }
+                    }
+
+                    if(!isFound){
+                      $mdToast.show(
+                        $mdToast.simple()
+                            .textContent("Sorry. Unable to find the searched bubble")
+                            .position('bottom')
+                            .hideDelay(3000)
+                    );
+                    }
+
+                    $mdDialog.hide();
+                };
+
+                $scope.closeDialog = function() {
+                    $mdDialog.hide();
+                };
+            }
         };
 
 
@@ -537,5 +805,6 @@ app.controller('NodesCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'U
                 };
             }
         };
+        }
 
     }]);
