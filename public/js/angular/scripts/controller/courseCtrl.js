@@ -1,10 +1,9 @@
-/**
- * Created by albisema on 10/01/16.
- */
-
+ /**
+   * Created by Waqar Ahmed on 04/02/16.
+   */
 'use strict';
 
-app.controller('CourseCtrl',['$location', '$scope', '$http', '$mdToast', function($location, $scope, $http, $mdToast){
+app.controller('courseCtrl',['$location', '$scope', '$http', '$mdToast', function($location, $scope, $http, $mdToast){
 
         $http.get('/admin/bubblePLE/bubbles/rest').then(function(response) {
             var items = response.data;
