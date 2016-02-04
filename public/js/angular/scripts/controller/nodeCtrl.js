@@ -39,7 +39,7 @@
           
 
           $scope.deleteSelectedNodeEdge = function (){
-              deleteNodeorEdge(networkService);
+              deleteNodeorEdge(networkService, $mdToast);
           };
 
           // for Opening the <form> to add text to node (UI hint : Edit Bubble)
@@ -143,7 +143,7 @@
           /* Search node in network */
           $scope.searchNode = function (){
               $mdDialog.show({
-                  template: getSearchDialogTemplate(),    //template is in uitilites file
+                  template: getSearchDialogTemplate(),    //template is in dialogtemplate file
                   locals: {
                       items: (networkService.getNodes()._data)
                   },
@@ -161,7 +161,7 @@
               } 
 
               $mdDialog.show({
-                  template: getColorChangeDialogTemplate(),   //template is in uitilites file
+                  template: getColorChangeDialogTemplate(),   //template is in dialogtemplate file
                   locals: {
                       items: (networkService.getNodes()._data)
                   },

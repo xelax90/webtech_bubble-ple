@@ -1,7 +1,7 @@
  /**
    * Created by Waqar Ahmed on 04/02/16.
    */
-function deleteNodeorEdge(networkService){
+function deleteNodeorEdge(networkService, $mdToast){
 	var selectedNodeId = networkService.getNetwork().getSelectedNodes();
             var selectedEdgeId = networkService.getNetwork().getSelectedEdges();
 

@@ -3,28 +3,27 @@
    */
    /*Controller to look into nodes to search for node*/
    function searchController($scope, $mdDialog, items, $mdToast, networkService) {
-    console.log(items);
-    console.log(items[1].label);
     $scope.searchTitle = "";
     $scope.items = items;
 
-    console.log(networkService.getNetwork());
+    console.log(items);
 
     /* This method will be called when user clicked on search button */
     $scope.search = function() {
 
-        if($scope.searchTitle == "") return;
+        if($scope.searchTitle === "") return;
+
+        console.log('searching for ' + $scope.searchTitle);
 
         var i = 1;
         var isFound = false;
-        for(var item in items){
-          if($scope.items[i].label == $scope.searchTitle){
+        for(var k in items){
+          if(items[k].label == $scope.searchTitle){
             console.log("hurray found");
-            networkService.getNetwork().selectNodes([$scope.items[i].id], true);
-            networkService.getNetwork().focus($scope.items[i].id);
+            networkService.getNetwork().selectNodes([items[k].id], true);
+            networkService.getNetwork().focus(items[k].id);
             isFound = true;
         }
-        i++;
     }
 
     if(!isFound){
