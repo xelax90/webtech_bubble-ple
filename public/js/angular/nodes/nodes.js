@@ -83,7 +83,7 @@ angular.module('nodes', [
 
                             };
                             $scope.closeDialog = function() {
-                                network.disableEditMode();
+                                //network.disableEditMode();
                                 $mdDialog.hide();
                                 
                             };
@@ -95,14 +95,13 @@ angular.module('nodes', [
                         edgeData.arrows = 'to';
                         var req = {edge: {from: edgeData.from, to: edgeData.to}};
                         $http.post('/admin/bubblePLE/edges/rest', req).then(function(response){
-                            console.log(response);
                             $mdToast.show(
                                 $mdToast.simple()
                                     .textContent('Bubbles connected.')
                                     .position('bottom')
                                     .hideDelay(3000)
                             );
-                            callback(data);
+                            callback(edgeData);
 
                         }, function(errResponse){
                             $mdToast.show(
@@ -112,7 +111,10 @@ angular.module('nodes', [
                                     .hideDelay(3000)
                             );
                         });
-                        callback(edgeData);
+                        $scope.closeDialog = function() {
+                            $mdDialog.hide();
+
+                        };
 
                     }
                 }
@@ -346,7 +348,7 @@ angular.module('nodes', [
         $scope.addNewEdge = function (){
             $mdToast.show(
                 $mdToast.simple()
-                    .textContent("Drag a node from any Bubble!")
+                    .textContent("Drag a node from parent to child!")
                     .position('bottom')
                     .hideDelay(3000)
             );
