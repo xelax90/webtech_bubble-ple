@@ -121,11 +121,7 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
             console.log("No nodes or edges");
             return;
         }
-
-        if(this.network != null){
-            console.log("no need to re initialzie");
-            return;
-        }
+        
         console.log("initiliazing network");
         this.network = new vis.Network(container, this.data, options);
         //this.network.setData({nodes: n, edges: e});
