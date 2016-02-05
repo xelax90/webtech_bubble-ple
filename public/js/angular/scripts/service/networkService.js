@@ -6,12 +6,13 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
     var dialog;
     var bubbleType;
 
-    var nodes;
-    var edges;
-    var data;
-    var network;
-    var container;
+    this.nodes;
+    this.edges;
+    this.data;
     
+    this.container;
+    this.network = null;
+
     var options = {
         autoResize: true,
         locale: 'en',
@@ -103,38 +104,47 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
     container = document.getElementById('bubbles');
 
     this.setNetworkData = function(n, e){
-        nodes = n;
-        edges = e;
-
-        // provide the data in the vis format
-        data = {
-            nodes: nodes,
-            edges: edges
+        this.nodes = n;
+        this.edges = e;
+        this.data = {
+            nodes: this.nodes,
+            edges: this.edges
         };
+        console.log("set network data");
     }
 
     this.initNetwork = function(){
         // initialize your network!
-        if(nodes == null || edges == null){
+        console.log("in init network");
+
+        if(this.nodes == null || this.edges == null){
             console.log("No nodes or edges");
             return;
         }
-        network = new vis.Network(container, data, options);
+
+        if(this.network != null){
+            console.log("no need to re initialzie");
+            return;
+        }
+        console.log("initiliazing network");
+        this.network = new vis.Network(container, this.data, options);
+        //this.network.setData({nodes: n, edges: e});
+        console.log("initialized");
     }
 
     this.getNetwork = function(){
-    	return network;
+    	return this.network;
     };
 
     this.getNodes = function(){
-    	return nodes;
+    	return this.nodes;
     };
 
     this.getEdges = function(){
-    	return edges;
+    	return this.edges;
     };
 
     // initialize your network!
-    network = new vis.Network(container, data, options);
+    //network = new vis.Network(container, data, options);
 
 }]);

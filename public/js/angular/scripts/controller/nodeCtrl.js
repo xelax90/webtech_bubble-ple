@@ -13,6 +13,7 @@
       var bubbleType = 'Bubble';
 
       $http.get('/admin/bubblePLE/semesters/rest').then(function(response) {
+        console.log("in gett");
           var semId = response.data[0].id;
           getCourses(semId);
           networkService.setmdDialog($mdDialog);
@@ -247,11 +248,12 @@
 
       /* Search node in network */
       $scope.searchNode = function (){
-        console.log(networkService.getNetwork());
+        console.log("searching node");
+        console.log(networkService.getNodes());
           $mdDialog.show({
               template: getSearchDialogTemplate(),    //template is in dialogtemplate file
               locals: {
-                  items: (networkService.getNodes()._data)
+                  items: (networkService.getNodes())
               },
               controller: searchController
           });
