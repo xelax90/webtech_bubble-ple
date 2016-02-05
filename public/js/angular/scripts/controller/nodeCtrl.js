@@ -14,8 +14,8 @@
       $scope.showProgressBar = false;
       var bubbleType = 'Bubble';
 
-      $http.get('/admin/bubblePLE/semesters/rest').then(function(response) {
-        console.log("in gett");
+      $http.get('admin/bubblePLE/semesters/rest').then(function(response) {
+          console.log("in gett");
           var semId = response.data[0].id;
           getCourses(semId);
           networkService.setmdDialog($mdDialog);
@@ -106,8 +106,12 @@
       }
 
       function getAttachments(courseId){
+<<<<<<< HEAD
         console.log("attachment is called");
           $http.get('/admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
+=======
+          $http.get('admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
+>>>>>>> 8257b9690b0798c76bd817c200d34662b301e3c2
               var bubbles = new Array();
               var items = response.data.bubbles;
               var edges = response.data.edges;
