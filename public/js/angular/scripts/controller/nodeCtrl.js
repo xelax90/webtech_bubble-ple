@@ -5,6 +5,7 @@
 
   app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService){
 
+      $scope.loadingData = true;
       $scope.breadCrumbs = "Personalized Learning Environment";
 
       $scope.toggleList = function(){
@@ -15,6 +16,8 @@
       var bubbleType = 'Bubble';
 
       $http.get('admin/bubblePLE/semesters/rest').then(function(response) {
+          $scope.loadingData = false;
+
           var semId = response.data[0].id;
           getCourses(semId);
           networkService.setmdDialog($mdDialog);
@@ -60,6 +63,7 @@
 
                   if (node.nodes[0]){
                       if (isCourse(node.nodes[0], items)){
+                          // getAttachments(0);
                           getAttachments(node.nodes[0]);
                       }
                   }

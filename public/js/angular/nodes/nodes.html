@@ -166,6 +166,10 @@
             </div>
         </md-toolbar>
         
+        <div id="mynetwork" flex layout-fill layout="row" layout-align="center" ng-show="loadingData">
+            <md-progress-circular md-mode="indeterminate" md-diameter="150"></md-progress-circular>
+        </div>
+
         <div id="bubbles" flex layout-fill></div>
         <div layout="row" layout-sm="column" layout-align="space-around">
             <md-progress-linear md-mode="determinate" value="{{progressBarValue}}" ng-show="showProgressBar"></md-progress-linear>
