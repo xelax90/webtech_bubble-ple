@@ -43,7 +43,6 @@ class L2PListener extends AbstractListenerAggregate implements ServiceLocatorAwa
 		$sm = $this->getServiceLocator();
 		/* @var $auth \Zend\Authentication\AuthenticationService */
 		$auth = $sm->get('zfcuser_auth_service');
-		
 		if($auth->hasIdentity()){
 			return;
 		}

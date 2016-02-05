@@ -51,12 +51,12 @@ class Bubble implements JsonSerializable{
 	protected $owner;
 	
 	/**
-	 * @ORM\OneToMany(targetEntity="Edge", mappedBy="from")
+	 * @ORM\OneToMany(targetEntity="Edge", mappedBy="from", cascade={"remove"})
 	 */
 	protected $children;
 	
 	/**
-	 * @ORM\OneToMany(targetEntity="Edge", mappedBy="to")
+	 * @ORM\OneToMany(targetEntity="Edge", mappedBy="to", cascade={"remove"})
 	 */
 	protected $parents;
 	
