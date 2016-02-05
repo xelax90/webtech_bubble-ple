@@ -247,15 +247,17 @@ class L2PSync implements ServiceLocatorAwareInterface{
 			// find child matching material
 			$children = $parent->getChildren();
 			$found = null;
-			foreach($children as $child){
-				/* @var $child Edge */
-				$childBubble = $child->getTo();
-				if(
-					($material->isDirectory && ($childBubble instanceof L2PMaterialFolder) && $childBubble->getL2pItemId() == $material->itemId) ||
-					(!$material->isDirectory && ($childBubble instanceof L2PMaterialAttachment) && $childBubble->getL2pItemId() == $material->itemId)
-				){
-					$found = $childBubble;
-					break;
+			if($children){
+				foreach($children as $child){
+					/* @var $child Edge */
+					$childBubble = $child->getTo();
+					if(
+						($material->isDirectory && ($childBubble instanceof L2PMaterialFolder) && $childBubble->getL2pItemId() == $material->itemId) ||
+						(!$material->isDirectory && ($childBubble instanceof L2PMaterialAttachment) && $childBubble->getL2pItemId() == $material->itemId)
+					){
+						$found = $childBubble;
+						break;
+					}
 				}
 			}
 			
