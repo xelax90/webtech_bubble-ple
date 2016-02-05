@@ -30,10 +30,11 @@
       function getCourses(semesterId){
           $http.get('/admin/bubblePLE/filter/parent/'+semesterId).then(function(response) {
               var bubbles = new Array();
+              console.log(response);
               var items = response.data.bubbles;
               var edges = response.data.edges;
               for (var i = 0; i < items.length; i++){
-                  if ((items[i].bubbleType.search("Semester") != -1) || (items[i].bubbleType.search("Course")) != -1) {
+                  if ((items[i].bubbleType.search("Semester") != -1) || (isChild(items[i], semesterId))) {
                       bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title});
                   }
               }
@@ -67,6 +68,15 @@
                       .hideDelay(3000)
               );
           });
+      }
+
+      function isChild(Node, parentId){
+            for (var i = 0; i < Node.parents.length; i++){
+                if (Node.parents[i] == parentId){
+                    return true;
+                }
+            }
+          return false;
       }
 
       function isCourse(id, items){
@@ -110,12 +120,13 @@
 
       $scope.addNewBubble = function (){
           bubbleType = 'Bubble';
+          showToast($mdToast, 'Click anywhere to add a Bubble');
           networkService.setBubbleType(bubbleType);
           networkService.getNetwork().addNodeMode();
       };
 
       $scope.addNewEdge = function (){
-          showToast($mdToast, 'Manipulation Mode enabled, drag a node from any Bubble!');
+          showToast($mdToast, 'Drag edge from parent to child Bubble');
           networkService.getNetwork().addEdgeMode();
       };
 
@@ -133,7 +144,7 @@
 
 
       $scope.deleteSelectedNodeEdge = function (){
-          deleteNodeorEdge(networkService, $mdToast);
+          deleteNodeorEdge(networkService, $mdToast, $http);
       };
 
       // for Opening the <form> to add text to node (UI hint : Edit Bubble)
