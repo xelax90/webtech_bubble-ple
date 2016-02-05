@@ -32,6 +32,7 @@ use BubblePle\Entity\FileAttachment;
 use BubblePle\Entity\Bubble;
 use BubblePle\Entity\L2PMaterialFolder;
 use BubblePle\Entity\L2PMaterialAttachment;
+use BubblePle\Entity\L2PAssignment;
 
 /**
  * Description of L2PSync
@@ -46,6 +47,8 @@ class L2PSync implements ServiceLocatorAwareInterface{
 	protected $auth;
 	
 	protected $em;
+	
+	protected $urlHelper;
 	
 	protected $l2pUrl = 'https://www3.elearning.rwth-aachen.de';
 	
@@ -69,6 +72,13 @@ class L2PSync implements ServiceLocatorAwareInterface{
 			$this->auth = $this->getServiceLocator()->get('zfcuser_auth_service');
 		}
 		return $this->auth;
+	}
+	
+	public function getUrlHelper(){
+		if(null === $this->urlHelper){
+			$this->urlHelper = $this->getServiceLocator()->get('ViewHelperManager')->get('url');
+		}
+		return $this->urlHelper;
 	}
 	
 	/**
@@ -108,6 +118,7 @@ class L2PSync implements ServiceLocatorAwareInterface{
 		$syncResult['sync']['semester'] = $this->syncSemesters();
 		$syncResult['sync']['courses'] = $this->syncCourses();
 		$syncResult['sync']['learningMaterial'] = $this->syncLearningMaterial();
+		$syncResult['sync']['assignments'] = $this->syncAssignments();
 		
 		return $syncResult;
 	}
@@ -211,7 +222,7 @@ class L2PSync implements ServiceLocatorAwareInterface{
 		
 	}
 	
-	public function syncLearningMaterial(){
+	protected function syncLearningMaterial(){
 		$em = $this->getEntityManager();
 		$courseRepo = $em->getRepository(Course::class);
 		$l2p = $this->getClient();
@@ -232,12 +243,12 @@ class L2PSync implements ServiceLocatorAwareInterface{
 			}
 			$materials = json_decode($response['output']);
 			$materialTree = $this->createMaterialTree($materials->dataSet);
-			$res[$course->getId()] = $this->syncMaterialTree($materialTree, $course);
+			$res[$course->getId()] = $this->syncMaterialTree($materialTree, $course, $course->getCourseroom());
 		}
 		return $res;
 	}
 	
-	protected function syncMaterialTree($materialTree, Bubble $parent){
+	protected function syncMaterialTree($materialTree, Bubble $parent, $cid){
 		$em = $this->getEntityManager();
 		$l2p = $this->getClient();
 		$owner = $this->getAuthService()->getIdentity();
@@ -266,11 +277,12 @@ class L2PSync implements ServiceLocatorAwareInterface{
 					$instance = new L2PMaterialFolder();
 				} else {
 					$instance = new L2PMaterialAttachment();
-					$instance->setFilename($this->l2pUrl . $material->selfUrl);
+					$instance->setFilename($this->getMaterialDownloadUrl($material, $cid));
 				}
 				$instance->setL2pItemId($material->itemId)
 						->setTitle($material->name)
 						->setOwner($owner);
+				
 				$em->persist($instance);
 				$em->flush($instance);
 				$edge = new Edge();
@@ -281,13 +293,36 @@ class L2PSync implements ServiceLocatorAwareInterface{
 				$found = $instance;
 			} else {
 				$found->setTitle($material->name);
+				if(!$material->isDirectory){
+					$found->setFilename($this->getMaterialDownloadUrl($material, $cid));
+				}
+				$em->flush($found);
 			}
 			
 			if($material->isDirectory){
-				$this->syncMaterialTree($material->children, $found);
+				$this->syncMaterialTree($material->children, $found, $cid);
 			}
 		}
 		return true;
+	}
+	
+	protected function getMaterialDownloadUrl($material, $cid){
+		if($material->isDirectory){
+			return '';
+		}
+		if($material->fileInformation){
+			return $this->getFileInfoDownloadUrl($material->fileInformation, $cid);
+		}
+		return $this->l2pUrl. $material->selfUrl;
+	}
+	
+	protected function getFileInfoDownloadUrl($fileInfo, $cid){
+		$urlHelper = $this->getUrlHelper();
+		$url = $urlHelper('l2p/download', array(
+			'cid' => $cid,
+			'downloadUrl' => $fileInfo->downloadUrl,
+		));
+		return str_replace('%2F', '/', $url);
 	}
 	
 	protected function createMaterialTree($allMaterials, $parent = 0){
@@ -304,6 +339,191 @@ class L2PSync implements ServiceLocatorAwareInterface{
 			}
 		}
 		return $children;
+	}
+	
+	protected function syncAssignments(){
+		$em = $this->getEntityManager();
+		$courseRepo = $em->getRepository(Course::class);
+		$l2p = $this->getClient();
+		$owner = $this->getAuthService()->getIdentity();
+		$courses = $courseRepo->findBy(array(
+			'owner' => $owner,
+		));
+		$res = array();
+		
+		foreach($courses as $course){
+			/* @var $course Course */
+			$response = $l2p->request('viewAllAssignments', false, array(
+				'cid' => $course->getCourseroom(),
+			));
+			if($response['code'] != 200){
+				$res[$course->getCourseroom()] = false;
+				continue;
+			}
+			
+			$assignments = json_decode($response['output']);
+			foreach($assignments->dataSet as $assignment){
+				$children = $course->getChildren();
+				$found = null;
+				if($children){
+					foreach($children as $child){
+						/* @var $child Edge */
+						$childBubble = $child->getTo();
+						if(($childBubble instanceof L2PAssignment) && $childBubble->getL2pItemId() == $assignment->itemId){
+							$found = $childBubble;
+							break;
+						}
+					}
+				}
+				
+				if(!$found){
+					$instance = new L2PAssignment();
+					$instance->setOwner($owner)
+							->setL2pItemId($assignment->itemId)
+							->setTitle($assignment->title);
+					
+					$em->persist($instance);
+					$em->flush($instance);
+					$edge = new Edge();
+					$edge->setFrom($course)
+							->setTo($instance);
+					$em->persist($edge);
+					$em->flush($edge);
+					$found = $instance;
+				} else {
+					$found->setTitle($assignment->title);
+				}
+				
+				$this->syncAssignment($assignment, $found, $course->getCourseroom());
+			}
+			
+			$res[$course->getCourseroom()] = true;
+		}
+		return $res;
+	}
+	
+	protected function syncAssignment($assignment, L2PAssignment $bubble, $cid){
+		
+		$documentsBubble = $bubble;
+		$sampleSolutionBubble = $bubble;
+		$correctionBubble = $bubble;
+		$solutionBubble = $bubble;
+		
+		$children = $bubble->getChildren();
+		if($children){
+			foreach($children as $child){
+				$childBubble = $child->getTo();
+				if($childBubble instanceof L2PMaterialFolder){
+					switch($childBubble->getL2pItemId()){
+						case 1:
+							$documentsBubble = $childBubble;
+							break;
+						case 2:
+							$sampleSolutionBubble = $childBubble;
+							break;
+						case 3:
+							$correctionBubble = $childBubble;
+							break;
+						case 4:
+							$solutionBubble = $childBubble;
+							break;
+					}
+				}
+			}
+		}
+		
+		if(!empty($assignment->assignmentDocuments)){
+			if($documentsBubble === $bubble){
+				$documentsBubble = $this->createFolderBubble($bubble, 'Assignment', 1);
+			}
+			foreach($assignment->assignmentDocuments as $document){
+				$this->createFileBubble($documentsBubble, $document, $cid);
+			}
+		}
+		
+		if(!empty($assignment->SampleSolutionDocuments)){
+			if($sampleSolutionBubble === $bubble){
+				$sampleSolutionBubble = $this->createFolderBubble($bubble, 'Sample Solution', 2);
+			}
+			foreach($assignment->SampleSolutionDocuments as $document){
+				$this->createFileBubble($sampleSolutionBubble, $document, $cid);
+			}
+		}
+		
+		if($assignment->correction && !empty($assignment->solution->correctionDocuments)){
+			if($correctionBubble === $bubble){
+				$correctionBubble = $this->createFolderBubble($bubble, 'Correction', 3);
+			}
+			foreach($assignment->correction->correctionDocuments as $document){
+				$this->createFileBubble($correctionBubble, $document, $cid);
+			}
+		}
+		
+		if($assignment->solution && !empty($assignment->solution->solutionDocuments)){
+			if($solutionBubble === $bubble){
+				$solutionBubble = $this->createFolderBubble($bubble, 'Solution', 4);
+			}
+			foreach($assignment->solution->solutionDocuments as $document){
+				$this->createFileBubble($solutionBubble, $document, $cid);
+			}
+		}
+		
+	}
+	
+	protected function createFolderBubble($parent, $title, $itemId = null){
+		$em = $this->getEntityManager();
+		$owner = $this->getAuthService()->getIdentity();
+		
+		$bubble = new L2PMaterialFolder();
+		$bubble->setOwner($owner)
+				->setL2pItemId($itemId)
+				->setTitle($title);
+		$em->persist($bubble);
+		$em->flush($bubble);
+		$this->createEdge($parent, $bubble);
+		return $bubble;
+	}
+	
+	protected function createEdge($from, $to){
+		$em = $this->getEntityManager();
+		$edge = new Edge();
+		$edge->setFrom($from)
+				->setTo($to);
+		$em->persist($edge);
+		$em->flush($edge);
+		return $edge;
+	}
+	
+	protected function createFileBubble($parent, $fileInfo, $cid){
+		$em = $this->getEntityManager();
+		$owner = $this->getAuthService()->getIdentity();
+		
+		$children = $parent->getChildren();
+		$found = null;
+		if($children){
+			foreach($children as $child){
+				$childBubble = $child->getTo();
+				if(($childBubble instanceof L2PMaterialAttachment) && $childBubble->getL2pItemId() == $fileInfo->itemId){
+					$found = $childBubble;
+				}
+			}
+		}
+		
+		$new = false;
+		if(!$found){
+			$new = true;
+			$found = new L2PMaterialAttachment();
+			$found->setL2pItemId($fileInfo->itemId);
+			$em->persist($found);
+		}
+		$found->setFilename($this->getFileInfoDownloadUrl($fileInfo, $cid))
+				->setOwner($owner)
+				->setTitle($fileInfo->fileName);
+		$em->flush($found);
+		if($new){
+			$this->createEdge($parent, $found);
+		}
+		return $found;
 	}
 	
 }
