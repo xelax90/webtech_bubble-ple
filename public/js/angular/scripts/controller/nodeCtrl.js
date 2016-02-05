@@ -14,7 +14,7 @@
       $scope.showProgressBar = false;
       var bubbleType = 'Bubble';
 
-      $http.get('/admin/bubblePLE/semesters/rest').then(function(response) {
+      $http.get('admin/bubblePLE/semesters/rest').then(function(response) {
           var semId = response.data[0].id;
           getCourses(semId);
           networkService.setmdDialog($mdDialog);
@@ -96,7 +96,7 @@
       }
 
       function getAttachments(courseId){
-          $http.get('/admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
+          $http.get('admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
               var bubbles = new Array();
               var items = response.data.bubbles;
               var edges = response.data.edges;
