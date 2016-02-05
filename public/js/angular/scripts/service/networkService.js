@@ -104,8 +104,8 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
     container = document.getElementById('bubbles');
 
     this.setNetworkData = function(n, e){
-        this.nodes = n;
-        this.edges = e;
+        this.nodes = new vis.DataSet(n);
+        this.edges = new vis.DataSet(e);
         this.data = {
             nodes: this.nodes,
             edges: this.edges
@@ -121,7 +121,7 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
             console.log("No nodes or edges");
             return;
         }
-        
+
         console.log("initiliazing network");
         this.network = new vis.Network(container, this.data, options);
         //this.network.setData({nodes: n, edges: e});
