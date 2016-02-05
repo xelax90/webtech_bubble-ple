@@ -126,10 +126,17 @@ class Bubble implements JsonSerializable{
 	 * @return array
 	 */
 	public function jsonSerialize() {
+		$parents = array();
+		if($this->getParents()){
+			foreach($this->getParents() as $parent){
+				$parents[] = $parent->getFrom()->getId();
+			}
+		}
 		return array(
 			'bubbleType' => get_class($this),
 			'id' => $this->getId(),
 			'title' => $this->getTitle(),
+			'parents' => $parents,
 		);
 	}
 	
