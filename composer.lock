@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2dda60a90bc5a8eb88cfda76885306e4",
-    "content-hash": "c60910a1ef364850f57667d760ae83ce",
+    "hash": "b67f255a2d9691c1d3b42fc56126bfc2",
+    "content-hash": "c825ea4d027b6da63f1a61780538161d",
     "packages": [
         {
             "name": "articus/zf2-bower-module",
@@ -2710,12 +2710,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/xelax90/l2p-client.git",
-                "reference": "1e67e0ca7ab0b442fef3a5b0226daec859941aa5"
+                "reference": "d753e5e92fb314f7b5c5712a65230f97a9af4582"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xelax90/l2p-client/zipball/1e67e0ca7ab0b442fef3a5b0226daec859941aa5",
-                "reference": "1e67e0ca7ab0b442fef3a5b0226daec859941aa5",
+                "url": "https://api.github.com/repos/xelax90/l2p-client/zipball/d753e5e92fb314f7b5c5712a65230f97a9af4582",
+                "reference": "d753e5e92fb314f7b5c5712a65230f97a9af4582",
                 "shasum": ""
             },
             "require": {
@@ -2738,7 +2738,7 @@
                 }
             ],
             "description": "Simple L2P API Client",
-            "time": "2016-02-04 13:23:40"
+            "time": "2016-02-04 18:44:24"
         },
         {
             "name": "xelax90/l2p-client-module",
@@ -2746,12 +2746,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/xelax90/l2p-client-module.git",
-                "reference": "d430cafe1fac70d428363840723f7a184056c5f3"
+                "reference": "0f759822c1b5ec147dbd80ecc4aeebb41601b8e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xelax90/l2p-client-module/zipball/d430cafe1fac70d428363840723f7a184056c5f3",
-                "reference": "d430cafe1fac70d428363840723f7a184056c5f3",
+                "url": "https://api.github.com/repos/xelax90/l2p-client-module/zipball/0f759822c1b5ec147dbd80ecc4aeebb41601b8e1",
+                "reference": "0f759822c1b5ec147dbd80ecc4aeebb41601b8e1",
                 "shasum": ""
             },
             "require": {
@@ -2774,7 +2774,44 @@
                 }
             ],
             "description": "ZF2 integration for L2P Client",
-            "time": "2016-02-04 13:22:52"
+            "time": "2016-02-04 18:43:53"
+        },
+        {
+            "name": "xelax90/l2p-client-module-doctrine-orm",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xelax90/l2p-client-module-doctrine-orm.git",
+                "reference": "95cfd9c336b4f1e29827fd6309162ff1266f3a52"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/xelax90/l2p-client-module-doctrine-orm/zipball/95cfd9c336b4f1e29827fd6309162ff1266f3a52",
+                "reference": "95cfd9c336b4f1e29827fd6309162ff1266f3a52",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-orm-module": "0.*",
+                "xelax90/l2p-client-module": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "L2PClientModuleDoctrineORM\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksandr",
+                    "email": "schurix@gmx.de"
+                }
+            ],
+            "description": "Doctrine ORM storage for xelax90/l2p-client-module",
+            "time": "2016-02-04 18:31:34"
         },
         {
             "name": "xelax90/password-generator-module",
@@ -4010,43 +4047,41 @@
         },
         {
             "name": "zendframework/zend-filter",
-            "version": "2.5.1",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-filter.git",
-                "reference": "93e6990a198e6cdd811064083acac4693f4b29ae"
+                "reference": "8682c12e9870c431cf29cbb7010627f3fa88dec8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-filter/zipball/93e6990a198e6cdd811064083acac4693f4b29ae",
-                "reference": "93e6990a198e6cdd811064083acac4693f4b29ae",
+                "url": "https://api.github.com/repos/zendframework/zend-filter/zipball/8682c12e9870c431cf29cbb7010627f3fa88dec8",
+                "reference": "8682c12e9870c431cf29cbb7010627f3fa88dec8",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.23",
-                "zendframework/zend-stdlib": "~2.5"
+                "php": "^5.5 || ^7.0",
+                "zendframework/zend-stdlib": "^2.7 || ^3.0"
             },
             "require-dev": {
                 "fabpot/php-cs-fixer": "1.7.*",
+                "pear/archive_tar": "^1.4",
                 "phpunit/phpunit": "~4.0",
-                "zendframework/zend-config": "~2.5",
-                "zendframework/zend-crypt": "~2.5",
-                "zendframework/zend-i18n": "~2.5",
-                "zendframework/zend-loader": "~2.5",
-                "zendframework/zend-servicemanager": "~2.5",
-                "zendframework/zend-uri": "~2.5"
+                "zendframework/zend-crypt": "^2.6",
+                "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3",
+                "zendframework/zend-uri": "^2.5"
             },
             "suggest": {
-                "zendframework/zend-crypt": "Zend\\Crypt component",
-                "zendframework/zend-i18n": "Zend\\I18n component",
-                "zendframework/zend-servicemanager": "Zend\\ServiceManager component",
-                "zendframework/zend-uri": "Zend\\Uri component for UriNormalize filter"
+                "zendframework/zend-crypt": "Zend\\Crypt component, for encryption filters",
+                "zendframework/zend-i18n": "Zend\\I18n component for filters depending on i18n functionality",
+                "zendframework/zend-servicemanager": "Zend\\ServiceManager component, for using the filter chain functionality",
+                "zendframework/zend-uri": "Zend\\Uri component, for the UriNormalize filter"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev",
-                    "dev-develop": "2.6-dev"
+                    "dev-master": "2.6-dev",
+                    "dev-develop": "2.7-dev"
                 }
             },
             "autoload": {
@@ -4064,7 +4099,7 @@
                 "filter",
                 "zf2"
             ],
-            "time": "2015-06-03 15:32:01"
+            "time": "2016-02-04 19:52:41"
         },
         {
             "name": "zendframework/zend-form",
@@ -6578,6 +6613,7 @@
         "xelax90/skeleton-module": 20,
         "xelax90/l2p-client": 20,
         "xelax90/l2p-client-module": 20,
+        "xelax90/l2p-client-module-doctrine-orm": 20,
         "doctrine/data-fixtures": 20,
         "hounddog/doctrine-data-fixture-module": 20,
         "danielss89/zfc-user-admin": 20,

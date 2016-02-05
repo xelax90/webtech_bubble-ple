@@ -1,5 +1,5 @@
   /**
-   * Created by Waqar Ahmed on 04/02/16.
+   * * Created by Waqar Ahmed on 04/02/16.
    */
   'use strict';
 
@@ -253,8 +253,36 @@
               },
               controller: colorChangeCtrl
           });
-
-
-      };
+              
+          };
+          
+          /* Collapsing sidebar */
+          $scope.collapse_sidebar = function(){
+            var icon_labels = document.getElementsByClassName('icon-label');
+            var icons = document.getElementsByClassName('sidebar-menu')[0].getElementsByTagName('md-icon');
+            var sidebar = document.getElementsByTagName('md-sidenav')[0]
+            var logo_label = document.getElementsByClassName('logo-label')[0]
+            for (var i = 0; i < icon_labels.length; i++) { 
+                if(icon_labels[i].style.opacity === ''){
+                    icon_labels[i].style.opacity = 0;
+                    icons[i].style.background = 'none';
+                    icons[i].style.color = 'rgba(0,0,0,0.54)';
+                    
+                } else {
+                    icon_labels[i].style.opacity = '';
+                    icons[i].style.background = '#5c6bc0';
+                    icons[i].style.color = '#ffffff';
+                }
+            }
+            
+            if (sidebar.style.width === ''){
+                sidebar.style.width = '90px';
+                logo_label.style.display = 'none';
+            } else {
+                sidebar.style.width = '';
+                logo_label.style.display = 'inline-block';
+            }
+            
+        };
 
   }]);

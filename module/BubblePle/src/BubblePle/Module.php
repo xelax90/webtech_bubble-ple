@@ -22,8 +22,18 @@ namespace BubblePle;
 
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\Mvc\MvcEvent;
 
 class Module implements ConfigProviderInterface, AutoloaderProviderInterface{
+	
+	public function onBootstrap(MvcEvent $e){
+		$app = $e->getApplication();
+		$eventManager = $app->getEventManager();
+		$sm = $app->getServiceManager();
+		// attach listener for automatic user creation after l2p auth
+		$listener = $sm->get(Listener\L2PListener::class);
+		$eventManager->attach($listener);
+	}
 	
 	public function getConfig(){
 		return include __DIR__ . '/../../config/module.config.php';
