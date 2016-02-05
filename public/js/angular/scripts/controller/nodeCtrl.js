@@ -102,12 +102,13 @@
 
       $scope.addNewBubble = function (){
           bubbleType = 'Bubble';
+          showToast($mdToast, 'Click anywhere to add a Bubble');
           networkService.setBubbleType(bubbleType);
           networkService.getNetwork().addNodeMode();
       };
 
       $scope.addNewEdge = function (){
-          showToast($mdToast, 'Manipulation Mode enabled, drag a node from any Bubble!');
+          showToast($mdToast, 'Drag edge from parent to child Bubble');
           networkService.getNetwork().addEdgeMode();
       };
 
@@ -125,7 +126,7 @@
 
 
       $scope.deleteSelectedNodeEdge = function (){
-          deleteNodeorEdge(networkService, $mdToast);
+          deleteNodeorEdge(networkService, $mdToast, $http);
       };
 
       // for Opening the <form> to add text to node (UI hint : Edit Bubble)

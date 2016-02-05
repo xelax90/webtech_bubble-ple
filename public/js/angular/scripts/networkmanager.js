@@ -1,24 +1,35 @@
  /**
    * Created by Waqar Ahmed on 04/02/16.
    */
-function deleteNodeorEdge(networkService, $mdToast){
+function deleteNodeorEdge(networkService, $mdToast, $http){
 	var selectedNodeId = networkService.getNetwork().getSelectedNodes();
-            var selectedEdgeId = networkService.getNetwork().getSelectedEdges();
+    var selectedEdgeId = networkService.getNetwork().getSelectedEdges();
 
-            console.log("Deleting Node: " + selectedNodeId);
-            console.log("Deleting Node: " + selectedEdgeId);
+    console.log("Deleting Node: " + selectedNodeId);
+    console.log("Deleting Node: " + selectedEdgeId);
 
-            var toastMessage = '';
-            if(selectedEdgeId){
-                networkService.getNetwork().deleteSelected();
-                toastMessage += 'Deleted ' + selectedEdgeId.length + ' Edge(s) and ';
-            } if(selectedNodeId){
-                networkService.getNetwork().deleteSelected();
-                toastMessage += 'Bubble(s) ' + selectedNodeId;
-            } if( selectedNodeId.length>0 || selectedEdgeId.length>0 ){
-                console.log(":"+selectedNodeId + ":" + selectedEdgeId+":");
-                showToast($mdToast, toastMessage);
-            } else {
-                showToast($mdToast, 'Please select a Bubble or an Edge!');
-            }
+    var toastMessage = '';
+    if(selectedEdgeId){
+        $http.delete('/admin/bubblePLE/edges/rest/'+ selectedEdgeId).then(function(response){
+            networkService.getNetwork().deleteSelected();
+            toastMessage += 'Deleted ' + selectedEdgeId.length + ' Edge(s) and ';
+        }, function(errResponse){
+            $mdToast.simple()
+                .textContent('Error while deleting edge!')
+                .position('bottom')
+                .hideDelay(3000);
+        });
+    }
+    if(selectedNodeId){
+         $http.delete('/admin/bubblePLE/bubbles/rest/'+ selectedNodeId).then(function(response){
+             networkService.getNetwork().deleteSelected();
+             toastMessage += 'Bubble(s) ' + selectedNodeId;
+             showToast($mdToast, 'Deleted: '+ toastMessage);
+         }, function(errResponse){
+             $mdToast.simple()
+                 .textContent('Error while deleting node!')
+                 .position('bottom')
+                 .hideDelay(3000);
+         });
+    }
 }
