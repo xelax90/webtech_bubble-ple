@@ -27,7 +27,7 @@
     </head>
     
     <body ng-app="myApp" layout="column">
-<!--        <md-toolbar>
+        <md-toolbar>
           <div class="md-toolbar-tools md-whiteframe-z2">
             <h2>
               <span>Bubble PLE</span>
@@ -43,24 +43,29 @@
               <md-icon class="material-design">help</md-icon>
             </md-button>
           </div>
-        </md-toolbar>-->
+        </md-toolbar>
         <md-content layout="column" flex layout-fill>
-            <div ng-view layout-fill></div>
+          <div ng-view layout-fill></div>
         </md-content>
-    
         <script type="text/javascript">
-            var applicationBasePath = '<?php echo $this->basePath('/') ?>';
+                var applicationBasePath = '<?php echo $this->basePath('/') ?>';
         </script>
-        
         <?php echo $this->inlineScript()
                 ->appendFile($this->basePath('/js/angular/app.js'))
-                ->appendFile($this->basePath('/js/angular/nodes/nodes.js'))
-                ->appendFile($this->basePath('/js/angular/courses/courses.js'))
-#			->appendFile($this->basePath('/js/dev/angular-file-upload.js'))
+                ->appendFile($this->basePath('/js/angular/scripts/controller/nodeCtrl.js'))
+                ->appendFile($this->basePath('/js/angular/scripts/controller/courseCtrl.js'))
+                ->appendFile($this->basePath('/js/angular/scripts/controller/searchCtrl.js'))
+                ->appendFile($this->basePath('/js/angular/scripts/controller/colorChangeCtrl.js'))
+                ->appendFile($this->basePath('/js/angular/scripts/controller/dialogCtrl.js'))
+                ->appendFile($this->basePath('/js/angular/scripts/configuration.js'))
+                ->appendFile($this->basePath('/js/angular/scripts/networkmanager.js'))
+                ->appendFile($this->basePath('/js/angular/scripts/utilities.js'))
+                ->appendFile($this->basePath('/js/angular/scripts/filemanager.js'))
+                ->appendFile($this->basePath('/js/angular/scripts/dialogtemplates.js'))
+                ->appendFile($this->basePath('/js/angular/scripts/service/networkService.js'))
                 ->appendFile($this->basePath('/js/angular/components/version/version.js'))
                 ->appendFile($this->basePath('/js/angular/components/version/version-directive.js'))
                 ->appendFile($this->basePath('/js/angular/components/version/interpolate-filter.js'))
         ; ?>
     </body>
-    
 </html>

@@ -46,7 +46,9 @@ $routerConfig = array(
 			'route' => '/test',
 			'defaults' => array(
 				'controller' => Controller\BubbleController::class,
-				'action'     => 'child',
+				'action'     => 'renderForm',
+				'bubbleType' => 'BubblePle\Entity\FileAttachment',
+				'bubbleId' => 10,
 			),
 		),
 	),
@@ -82,7 +84,31 @@ $routerConfig = array(
 								'action' => 'filter',
 							),
 						)
-					)
+					),
+					'form' => array(
+						'type' => 'Segment',
+						'options' => array(
+							'route' => '/form/:bubbleType[/:bubbleId]',
+							'constraints' => array(
+								'bubbleId' => '[0-9]*',
+								'bubbleType' => "[A-Za-z0-9%]*",
+							),
+							'defaults' => array(
+								'controller' => Controller\BubbleController::class,
+								'action' => 'renderForm',
+							),
+						)
+					),
+					'sync' => array(
+						'type' => 'Literal',
+						'options' => array(
+							'route' => '/sync',
+							'defaults' => array(
+								'controller' => Controller\BubbleController::class,
+								'action' => 'sync',
+							),
+						)
+					),
 				)
 			),
 		)
@@ -91,17 +117,19 @@ $routerConfig = array(
 
 $guardConfig = array(
 	'test' => ['route' => 'test', 'roles' => ['guest', 'user'] ],
-	['route' => 'zfcadmin/bubblePLE/filter',           'roles' => ['moderator'] ],
-	['route' => 'zfcadmin/bubblePLE/edges',            'roles' => ['moderator'] ],
-	['route' => 'zfcadmin/bubblePLE/bubbles',          'roles' => ['moderator'] ],
-	['route' => 'zfcadmin/bubblePLE/semesters',        'roles' => ['moderator'] ],
-	['route' => 'zfcadmin/bubblePLE/courses',          'roles' => ['moderator'] ],
-	['route' => 'zfcadmin/bubblePLE/attachments',      'roles' => ['moderator'] ],
-	['route' => 'zfcadmin/bubblePLE/fileAttachments',  'roles' => ['moderator'] ],
-	['route' => 'zfcadmin/bubblePLE/mediaAttachments', 'roles' => ['moderator'] ],
-	['route' => 'zfcadmin/bubblePLE/imageAttachments', 'roles' => ['moderator'] ],
-	['route' => 'zfcadmin/bubblePLE/videoAttachments', 'roles' => ['moderator'] ],
-	['route' => 'zfcadmin/bubblePLE/linkAttachments',  'roles' => ['moderator'] ],
+	['route' => 'zfcadmin/bubblePLE/sync',             'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/filter',           'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/form',             'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/edges',            'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/bubbles',          'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/semesters',        'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/courses',          'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/attachments',      'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/fileAttachments',  'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/mediaAttachments', 'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/imageAttachments', 'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/videoAttachments', 'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/linkAttachments',  'roles' => ['user'] ],
 );
 
 $ressources = array(
@@ -126,6 +154,7 @@ return array(
 		'invokables' => array(
 			Controller\IndexController::class => Controller\IndexController::class,
 			Controller\BubbleController::class => Controller\BubbleController::class,
+			Controller\SemesterController::class => Controller\SemesterController::class,
 		),
 	),
 	
@@ -169,6 +198,8 @@ return array(
 		'factories' => array(
 		),
 		'invokables' => array(
+			Service\L2PSync::class => Service\L2PSync::class,
+			Listener\L2PListener::class => Listener\L2PListener::class,
 		),
 	),
 				

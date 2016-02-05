@@ -26,6 +26,8 @@ $config = array(
 		'XelaxHTMLPurifier',
 		'XelaxPasswordGeneratorModule',
 		'XelaxTreeEditor',
+		'L2PClientModule',
+		'L2PClientModuleDoctrineORM',
 		'SkelletonApplication',
 		'BubblePle',
     ),

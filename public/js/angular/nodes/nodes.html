@@ -1,4 +1,5 @@
-<div ng-controller="NodesCtrl" flex layout="row" class="whole-container" >
+<!--<div ng-controller="NodesCtrl" flex layout="row" class="whole-container" >-->
+<div ng-controller="nodeCtrl" flex layout="row" class="whole-container">
 
     <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
       md-component-id="left"
@@ -132,9 +133,9 @@
                 </md-button>
             </md-list-item>
             <md-list-item>
-                <md-button aria-label="Priority" ng-click="collapse_sidebar();" flex>
+                <md-button aria-label="Priority" ng-click="collapse_sidebar()" flex>
                     <md-icon class="fa fa-minus fa-2x"></md-icon>
-                    <label class="icon-label">collapse</lable>
+                    <label class="icon-label">collapse</label>
                     
                 </md-button>
             </md-list-item>
@@ -150,13 +151,13 @@
             <div class="custom-breadcrumb-bar">abcd/lljkasd/mner asdfn/mbmnasde/mnbmna</div>
             <div class="search-box">
                 <md-icon class="fa fa-search"></md-icon>
-                <md-autocomplete ng-disabled="NodesCtrl.isDisabled"
-                    md-no-cache="NodesCtrl.noCache"
-                    md-selected-item="NodesCtrl.selectedItem"
-                    md-search-text-change="NodesCtrl.searchTextChange(NodesCtrl.searchText)"
-                    md-search-text="NodesCtrl.searchText"
-                    md-selected-item-change="NodesCtrl.selectedItemChange(item)"
-                    md-items="item in NodesCtrl.querySearch(ctrl.searchText)"
+                <md-autocomplete ng-disabled="nodeCtrl.isDisabled"
+                    md-no-cache="nodeCtrl.noCache"
+                    md-selected-item="nodeCtrl.selectedItem"
+                    md-search-text-change="nodeCtrl.searchTextChange(nodeCtrl.searchText)"
+                    md-search-text="nodeCtrl.searchText"
+                    md-selected-item-change="nodeCtrl.selectedItemChange(item)"
+                    md-items="item in nodeCtrl.querySearch(ctrl.searchText)"
                     md-item-text="item.display"
                     md-min-length="0"
                     placeholder="search bubble">
