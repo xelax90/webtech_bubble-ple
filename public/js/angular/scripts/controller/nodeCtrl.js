@@ -44,14 +44,20 @@
 
               //var edges = new vis.DataSet(edges);
 
-              networkService.getNetwork().setData({nodes: bubbles, edges: edges});
-              networkService.getNetwork().on('doubleClick', function(node){
-                  if (node.nodes[0]){
-                      if (isCourse(node.nodes[0], items)){
-                          getAttachments(node.nodes[0]);
-                      }
-                  }
-              });
+              //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
+              networkService.setNetworkData(bubbles, edges);
+              networkService.initNetwork();
+              console.log("looking..");
+              console.log(networkService.getNodes());
+              
+              // networkService.getNetwork().on('doubleClick', function(node){
+              //     if (node.nodes[0]){
+              //         if (isCourse(node.nodes[0], items)){
+              //             getAttachments(node.nodes[0]);
+              //         }
+              //     }
+              // });
+
           }, function(errResponse) {
               console.log('Error fetching data!');
               $mdToast.show(
@@ -75,6 +81,7 @@
       }
 
       function getAttachments(courseId){
+        console.log("attachment is called");
           $http.get('/admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
               var bubbles = new Array();
               var items = response.data.bubbles;
@@ -87,7 +94,8 @@
               }
               console.log(response);
 
-              networkService.getNetwork().setData({nodes: bubbles, edges: edges});
+              //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
+              networkService.setNetworkData(bubbles, edges);
 
           }, function(errResponse) {
               console.log('Error fetching data!');
@@ -228,6 +236,7 @@
 
       /* Search node in network */
       $scope.searchNode = function (){
+        console.log(networkService.getNetwork());
           $mdDialog.show({
               template: getSearchDialogTemplate(),    //template is in dialogtemplate file
               locals: {

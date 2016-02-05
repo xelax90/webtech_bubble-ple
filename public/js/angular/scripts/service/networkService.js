@@ -6,6 +6,8 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
     var dialog;
     var bubbleType;
 
+    var nodes;
+    var edges;
     var data;
     var network;
     var container;
@@ -72,14 +74,7 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
         }
     };
 
-    var nodes =[];
-    var edges = [];
-
-    // provide the data in the vis format
-    data = {
-        nodes: nodes,
-        edges: edges
-    };
+    
 
     this.setmdDialog = function(mdDialog){
         dialog = mdDialog;
@@ -107,6 +102,25 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
      //create a network
     container = document.getElementById('bubbles');
 
+    this.setNetworkData = function(n, e){
+        nodes = n;
+        edges = e;
+
+        // provide the data in the vis format
+        data = {
+            nodes: nodes,
+            edges: edges
+        };
+    }
+
+    this.initNetwork = function(){
+        // initialize your network!
+        if(nodes == null || edges == null){
+            console.log("No nodes or edges");
+            return;
+        }
+        network = new vis.Network(container, data, options);
+    }
 
     this.getNetwork = function(){
     	return network;

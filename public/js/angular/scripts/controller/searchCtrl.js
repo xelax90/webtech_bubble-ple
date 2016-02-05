@@ -14,7 +14,7 @@
         if($scope.searchTitle === "") return;
 
         console.log('searching for ' + $scope.searchTitle);
-
+        console.log(items);
         var i = 1;
         var isFound = false;
         for(var k in items){
