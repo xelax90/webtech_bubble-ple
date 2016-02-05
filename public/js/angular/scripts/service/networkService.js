@@ -1,7 +1,7 @@
 /**
 * Created by Waqar Ahmed on 04/02/16.
 */
-app.service('networkService', function(){
+app.service('networkService',['$http','$mdToast', function($http, $mdToast){
      
     var dialog;
     var bubbleType;
@@ -44,6 +44,30 @@ app.service('networkService', function(){
                   },                                
                     controller: dialogController
                 });
+            },
+            addEdge: function(edgeData,callback) {
+                edgeData.arrows = 'to';
+                var req = {edge: {from: edgeData.from, to: edgeData.to}};
+                $http.post('/admin/bubblePLE/edges/rest', req).then(function(response){
+                    console.log(response);
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .textContent('Bubbles connected.')
+                            .position('bottom')
+                            .hideDelay(3000)
+                    );
+                    callback(data);
+
+                }, function(errResponse){
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .textContent('Error connectiong Bubbles!')
+                            .position('bottom')
+                            .hideDelay(3000)
+                    );
+                });
+                callback(edgeData);
+
             }
         }
     };
@@ -99,4 +123,4 @@ app.service('networkService', function(){
     // initialize your network!
     network = new vis.Network(container, data, options);
 
-});
+}]);
