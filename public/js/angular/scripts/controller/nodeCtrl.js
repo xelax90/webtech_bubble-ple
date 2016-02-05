@@ -61,7 +61,7 @@
               
 
               networkService.getNetwork().on('doubleClick', function(node){
-
+                console.log("double click");
                 var index = items.map(function(el) {
                   return el.id;
                 }).indexOf( parseInt(node.nodes[0]) );
@@ -123,6 +123,7 @@
 
               //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
               networkService.setNetworkData(bubbles, edges);
+              networkService.initNetwork();
 
           }, function(errResponse) {
               console.log('Error fetching data!');
@@ -287,7 +288,7 @@
           $mdDialog.show({
               template: getColorChangeDialogTemplate(),   //template is in dialogtemplate file
               locals: {
-                  items: (networkService.getNodes()._data)
+                  items: (networkService.getNodes())
               },
               controller: colorChangeCtrl
           });
