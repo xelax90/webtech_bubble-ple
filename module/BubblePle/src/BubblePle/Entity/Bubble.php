@@ -61,6 +61,20 @@ class Bubble implements JsonSerializable{
 	protected $parents;
 	
 	/**
+	 * @ORM\Column(type="integer", nullable=true)
+	 */
+	protected $l2pItemId = null;
+	
+	public function getL2pItemId() {
+		return $this->l2pItemId;
+	}
+
+	public function setL2pItemId($l2pItemId) {
+		$this->l2pItemId = $l2pItemId;
+		return $this;
+	}
+
+	/**
 	 * @return int
 	 */
 	public function getId() {
@@ -135,6 +149,7 @@ class Bubble implements JsonSerializable{
 		return array(
 			'bubbleType' => get_class($this),
 			'id' => $this->getId(),
+			'l2pItemId' => $this->getL2pItemId(),
 			'title' => $this->getTitle(),
 			'parents' => $parents,
 		);

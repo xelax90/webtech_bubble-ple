@@ -59,6 +59,22 @@ $xelaxConfig = array(
 		'route_base' => 'zfcadmin/bubblePLE/courses',
 		'rest_enabled' => true,
 	),
+	'l2pmaterialfolders' => array(
+		'name' => 'L2PMaterialFolder', 
+		'controller_class' => Controller\BubbleController::class, 
+		'base_namespace' => __NAMESPACE__, 
+		'list_columns' => array('Id' => 'id', 'Title' => 'title', 'Item ID' => 'l2pItemId'),
+		'route_base' => 'zfcadmin/bubblePLE/l2pmaterialfolders',
+		'rest_enabled' => false,
+	),
+	'l2pmaterialattachments' => array(
+		'name' => 'L2PMaterialAttachment', 
+		'controller_class' => Controller\BubbleController::class, 
+		'base_namespace' => __NAMESPACE__, 
+		'list_columns' => array('Id' => 'id', 'Title' => 'title', 'File' => 'filename', 'Item ID' => 'l2pItemId'),
+		'route_base' => 'zfcadmin/bubblePLE/l2pmaterialattachments',
+		'rest_enabled' => false,
+	),
 	'attachments' => array(
 		'name' => 'Attachment', 
 		'controller_class' => Controller\BubbleController::class, 

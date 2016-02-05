@@ -28,6 +28,10 @@ use Doctrine\ORM\EntityManager;
 use BubblePle\Entity\Semester;
 use BubblePle\Entity\Course;
 use BubblePle\Entity\Edge;
+use BubblePle\Entity\FileAttachment;
+use BubblePle\Entity\Bubble;
+use BubblePle\Entity\L2PMaterialFolder;
+use BubblePle\Entity\L2PMaterialAttachment;
 
 /**
  * Description of L2PSync
@@ -42,6 +46,8 @@ class L2PSync implements ServiceLocatorAwareInterface{
 	protected $auth;
 	
 	protected $em;
+	
+	protected $l2pUrl = 'https://www3.elearning.rwth-aachen.de';
 	
 	/**
 	 * 
@@ -101,6 +107,7 @@ class L2PSync implements ServiceLocatorAwareInterface{
 		$syncResult['sync'] = array();
 		$syncResult['sync']['semester'] = $this->syncSemesters();
 		$syncResult['sync']['courses'] = $this->syncCourses();
+		$syncResult['sync']['learningMaterial'] = $this->syncLearningMaterial();
 		
 		return $syncResult;
 	}
@@ -202,6 +209,99 @@ class L2PSync implements ServiceLocatorAwareInterface{
 		}
 		return $result;
 		
+	}
+	
+	public function syncLearningMaterial(){
+		$em = $this->getEntityManager();
+		$courseRepo = $em->getRepository(Course::class);
+		$l2p = $this->getClient();
+		$owner = $this->getAuthService()->getIdentity();
+		$courses = $courseRepo->findBy(array(
+			'owner' => $owner,
+		));
+		$res = array();
+		foreach($courses as $course){
+			/* @var $course Course */
+			$response = $l2p->request('viewAllLearningMaterials', false, array(
+				'cid' => $course->getCourseroom(),
+			));
+			
+			if($response['code'] != 200){
+				$res[$course->getId()] = false;
+				continue;
+			}
+			$materials = json_decode($response['output']);
+			$materialTree = $this->createMaterialTree($materials->dataSet);
+			$res[$course->getId()] = $this->syncMaterialTree($materialTree, $course);
+		}
+		return $res;
+	}
+	
+	protected function syncMaterialTree($materialTree, Bubble $parent){
+		$em = $this->getEntityManager();
+		$l2p = $this->getClient();
+		$owner = $this->getAuthService()->getIdentity();
+		
+		foreach($materialTree as $material){
+			
+			// find child matching material
+			$children = $parent->getChildren();
+			$found = null;
+			foreach($children as $child){
+				/* @var $child Edge */
+				$childBubble = $child->getTo();
+				if(
+					($material->isDirectory && ($childBubble instanceof L2PMaterialFolder) && $childBubble->getL2pItemId() == $material->itemId) ||
+					(!$material->isDirectory && ($childBubble instanceof L2PMaterialAttachment) && $childBubble->getL2pItemId() == $material->itemId)
+				){
+					$found = $childBubble;
+					break;
+				}
+			}
+			
+			if(!$found){
+				if($material->isDirectory){
+					$instance = new L2PMaterialFolder();
+				} else {
+					$instance = new L2PMaterialAttachment();
+					$instance->setFilename($this->l2pUrl . $material->selfUrl);
+				}
+				$instance->setL2pItemId($material->itemId)
+						->setTitle($material->name)
+						->setOwner($owner);
+				$em->persist($instance);
+				$em->flush($instance);
+				$edge = new Edge();
+				$edge->setFrom($parent)
+						->setTo($instance);
+				$em->persist($edge);
+				$em->flush($edge);
+				$found = $instance;
+			} else {
+				$found->setTitle($material->name);
+			}
+			
+			if($material->isDirectory){
+				$this->syncMaterialTree($material->children, $found);
+			}
+		}
+		return true;
+	}
+	
+	protected function createMaterialTree($allMaterials, $parent = 0){
+		$children = array();
+		foreach($allMaterials as $material){
+			if(
+				($parent === 0 && $material->itemId == $material->parentFolderId) ||
+				($parent !== 0 && $material->itemId != $parent && $material->parentFolderId == $parent)
+			){
+				$children[] = $material;
+				if($material->isDirectory){
+					$material->children = $this->createMaterialTree($allMaterials, $material->itemId);
+				}
+			}
+		}
+		return $children;
 	}
 	
 }
