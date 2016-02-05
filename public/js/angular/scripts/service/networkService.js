@@ -42,8 +42,9 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
                 dialog.show({
                     template: getTemplate(bubbleType),
                     locals: {
-                      items: (data),
-                      callBack : (callback)
+                          items: (data),
+                          callBack : (callback),
+                          type: (bubbleType)
                   },                                
                     controller: dialogController
                 });
