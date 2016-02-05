@@ -12,7 +12,7 @@
       $scope.showProgressBar = false;
       var bubbleType = 'Bubble';
 
-      $http.get('admin/bubblePLE/semesters/rest').then(function(response) {
+      $http.get('/admin/bubblePLE/semesters/rest').then(function(response) {
           var semId = response.data[0].id;
           getCourses(semId);
           networkService.setmdDialog($mdDialog);
@@ -28,12 +28,13 @@
 
       //filter courses of one semester
       function getCourses(semesterId){
-          $http.get('admin/bubblePLE/filter/parent/'+semesterId).then(function(response) {
+          $http.get('/admin/bubblePLE/filter/parent/'+semesterId).then(function(response) {
               var bubbles = new Array();
+              console.log(response);
               var items = response.data.bubbles;
               var edges = response.data.edges;
               for (var i = 0; i < items.length; i++){
-                  if ((items[i].bubbleType.search("Semester") != -1) || (items[i].bubbleType.search("Course")) != -1) {
+                  if ((items[i].bubbleType.search("Semester") != -1) || (isChild(items[i], semesterId))) {
                       bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title});
                   }
               }
@@ -63,6 +64,15 @@
           });
       }
 
+      function isChild(Node, parentId){
+            for (var i = 0; i < Node.parents.length; i++){
+                if (Node.parents[i] == parentId){
+                    return true;
+                }
+            }
+          return false;
+      }
+
       function isCourse(id, items){
           for (var i = 0; i < items.length; i++){
               if (items[i].id == id){
@@ -75,7 +85,7 @@
       }
 
       function getAttachments(courseId){
-          $http.get('admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
+          $http.get('/admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
               var bubbles = new Array();
               var items = response.data.bubbles;
               var edges = response.data.edges;
