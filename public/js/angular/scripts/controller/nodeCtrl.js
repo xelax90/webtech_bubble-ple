@@ -17,7 +17,6 @@
 
       $http.get('admin/bubblePLE/semesters/rest').then(function(response) {
           $scope.loadingData = false;
-
           var semId = response.data[0].id;
           getCourses(semId);
           networkService.setmdDialog($mdDialog);
@@ -53,7 +52,14 @@
               //var nodes = new vis.DataSet(bubbles);
               //var edges = new vis.DataSet(edges);
 
-              networkService.getNetwork().setData({nodes: bubbles, edges: edges});
+
+              //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
+              networkService.setNetworkData(bubbles, edges);
+              networkService.initNetwork();
+              console.log("looking..");
+              console.log(networkService.getNodes());
+              
+
               networkService.getNetwork().on('doubleClick', function(node){
 
                 var index = items.map(function(el) {
@@ -68,6 +74,8 @@
                       }
                   }
               });
+
+
           }, function(errResponse) {
               console.log('Error fetching data!');
               $mdToast.show(
@@ -101,6 +109,7 @@
 
       function getAttachments(courseId){
           $http.get('admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
+              console.log("attachment is called");
               var bubbles = new Array();
               var items = response.data.bubbles;
               var edges = response.data.edges;
@@ -112,7 +121,8 @@
               }
               console.log(response);
 
-              networkService.getNetwork().setData({nodes: bubbles, edges: edges});
+              //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
+              networkService.setNetworkData(bubbles, edges);
 
           }, function(errResponse) {
               console.log('Error fetching data!');
@@ -254,10 +264,12 @@
 
       /* Search node in network */
       $scope.searchNode = function (){
+        console.log("searching node");
+        console.log(networkService.getNodes());
           $mdDialog.show({
               template: getSearchDialogTemplate(),    //template is in dialogtemplate file
               locals: {
-                  items: (networkService.getNodes()._data)
+                  items: (networkService.getNodes())
               },
               controller: searchController
           });
