@@ -17,8 +17,8 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, n
     //};
 
      $scope.addingNewNode = function() {
-         var req = {course: { title: $scope.bubbleName}};
-         $http.post('/admin/bubblePLE/courses/rest', req).then(function(response){
+         var req = {bubble: { title: $scope.bubbleName}};
+         $http.post('/admin/bubblePLE/bubbles/rest', req).then(function(response){
              items.id = response.data.item.id;
              items.label = response.data.item.title;
              items.title = response.data.item.title;

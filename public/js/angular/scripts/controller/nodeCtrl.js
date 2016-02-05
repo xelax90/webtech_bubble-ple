@@ -5,6 +5,8 @@
 
   app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService){
 
+      $scope.breadCrumbs = "Personalized Learning Environment";
+
       $scope.toggleList = function(){
         $mdSidenav('left').toggle();
       };
@@ -29,11 +31,14 @@
 
       //filter courses of one semester
       function getCourses(semesterId){
-          $http.get('/admin/bubblePLE/filter/parent/'+semesterId).then(function(response) {
+          $http.get('admin/bubblePLE/filter/parent/'+semesterId).then(function(response) {
               var bubbles = new Array();
               console.log(response);
               var items = response.data.bubbles;
               var edges = response.data.edges;
+
+              $scope.breadCrumbs = items[0].title;
+
               for (var i = 0; i < items.length; i++){
                   if ((items[i].bubbleType.search("Semester") != -1) || (isChild(items[i], semesterId))) {
                       bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title});
@@ -42,9 +47,10 @@
               for (var i = 0; i < edges.length; i++){
                   edges[i].arrows = 'to';
               }
-              //var nodes = new vis.DataSet(bubbles);
 
+              //var nodes = new vis.DataSet(bubbles);
               //var edges = new vis.DataSet(edges);
+
 
               //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
               networkService.setNetworkData(bubbles, edges);
@@ -52,13 +58,21 @@
               console.log("looking..");
               console.log(networkService.getNodes());
               
-              // networkService.getNetwork().on('doubleClick', function(node){
-              //     if (node.nodes[0]){
-              //         if (isCourse(node.nodes[0], items)){
-              //             getAttachments(node.nodes[0]);
-              //         }
-              //     }
-              // });
+
+              networkService.getNetwork().on('doubleClick', function(node){
+
+                var index = items.map(function(el) {
+                  return el.id;
+                }).indexOf( parseInt(node.nodes[0]) );
+                $scope.breadCrumbs += " > " + items[index].title;
+
+                  if (node.nodes[0]){
+                      if (isCourse(node.nodes[0], items)){
+                          getAttachments(node.nodes[0]);
+                      }
+                  }
+              });
+
 
           }, function(errResponse) {
               console.log('Error fetching data!');
