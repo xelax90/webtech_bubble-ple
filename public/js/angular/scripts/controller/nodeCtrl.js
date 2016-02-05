@@ -16,7 +16,6 @@
       var bubbleType = 'Bubble';
 
       $http.get('admin/bubblePLE/semesters/rest').then(function(response) {
-          $scope.loadingData = false;
           var semId = response.data[0].id;
           getCourses(semId);
           networkService.setmdDialog($mdDialog);
@@ -30,6 +29,13 @@
           );
       });
 
+      function navigateCourse(courseID){
+        console.log("navigateCourse: " + courseID);
+        if(courseID){          
+          getAttachments(courseID);
+        }
+      }
+
       //filter courses of one semester
       function getCourses(semesterId){
           $http.get('admin/bubblePLE/filter/parent/'+semesterId).then(function(response) {
@@ -38,11 +44,14 @@
               var items = response.data.bubbles;
               var edges = response.data.edges;
 
+              $scope.loadingData = false;
               $scope.breadCrumbs = items[0].title;
 
               for (var i = 0; i < items.length; i++){
                   if ((items[i].bubbleType.search("Semester") != -1) || (isChild(items[i], semesterId))) {
                       bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title});
+
+                      console.log(items[i].id + ": " + items[i].title);
                   }
               }
               for (var i = 0; i < edges.length; i++){
@@ -65,17 +74,15 @@
                 var index = items.map(function(el) {
                   return el.id;
                 }).indexOf( parseInt(node.nodes[0]) );
+                console.log(items[index].title);
                 $scope.breadCrumbs += " > " + items[index].title;
 
                   if (node.nodes[0]){
                       if (isCourse(node.nodes[0], items)){
-                          // getAttachments(0);
                           getAttachments(node.nodes[0]);
                       }
                   }
               });
-
-
           }, function(errResponse) {
               console.log('Error fetching data!');
               $mdToast.show(
