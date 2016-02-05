@@ -1,7 +1,7 @@
  /**
    * Created by Waqar Ahmed on 04/02/16.
    */
-function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, networkService) {
+function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, type, networkService) {
     //$scope.addingNewNode = function() {
     //    var data = items;
     //    data.label = $scope.bubbleName;
@@ -17,8 +17,18 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, n
     //};
 
      $scope.addingNewNode = function() {
-         var req = {bubble: { title: $scope.bubbleName}};
-         $http.post('/admin/bubblePLE/bubbles/rest', req).then(function(response){
+         var req;
+         var url;
+         if (type == 'Bubble') {
+             req = {bubble: { title: $scope.bubbleName}};
+             url= '/admin/bubblePLE/bubbles/rest';
+         }
+         if (type == 'LinkAttachment'){
+             req = {linkattachment: { title: $scope.bubbleName, url: $scope.url}};
+             url = '/admin/bubblePLE/linkAttachments/rest';
+         }
+         $http.post(url, req).then(function(response){
+             console.log(response);
              items.id = response.data.item.id;
              items.label = response.data.item.title;
              items.title = response.data.item.title;
