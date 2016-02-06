@@ -65,7 +65,15 @@ class BubblePermission implements ServiceLocatorAwareInterface{
 		return $bubble->getOwner() == $this->getAuthService()->getIdentity();
 	}
 	
-	public function isSharedWith(Bubble $bubble){
+	public function isSharedWith(Bubble $bubble = null, $depth = 0){
+		if($depth > 20){
+			return false;
+		}
+		
+		if(!$bubble){
+			return true;
+		}
+		
 		if(!$this->getAuthService()->hasIdentity()){
 			return false;
 		}
@@ -80,10 +88,17 @@ class BubblePermission implements ServiceLocatorAwareInterface{
 				return true;
 			}
 		}
+		
+		$parents = $bubble->getParents();
+		foreach($parents as $parent){
+			if($this->isSharedWith($parent->getFrom(), $depth+1)){
+				return true;
+			}
+		}
 		return false;
 	}
 	
-	protected function hasAccess($accessType, Bubble $bubble, $allowShare = false){
+	protected function hasAccess($accessType, Bubble $bubble = null, $allowShare = false){
 		if(!$bubble){
 			return true;
 		}
@@ -104,19 +119,19 @@ class BubblePermission implements ServiceLocatorAwareInterface{
 		return false;
 	}
 	
-	public function canEdit(Bubble $bubble){
+	public function canEdit(Bubble $bubble = null){
 		return $this->hasAccess('edit', $bubble);
 	}
 	
-	public function canDelete(Bubble $bubble){
+	public function canDelete(Bubble $bubble = null){
 		return $this->hasAccess('delete', $bubble);
 	}
 	
-	public function canView(Bubble $bubble){
+	public function canView(Bubble $bubble = null){
 		return $this->hasAccess('view', $bubble, true);
 	}
 	
-	public function canShare(Bubble $bubble){
+	public function canShare(Bubble $bubble = null){
 		return $this->canEdit($bubble);
 	}
 }

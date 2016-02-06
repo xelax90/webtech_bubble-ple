@@ -121,7 +121,7 @@ $routerConfig = array(
 							),
 							'defaults' => array(
 								'controller' => Controller\BubbleController::class,
-								'action' => 'shareBubble',
+								'action' => 'share',
 							),
 						)
 					),
@@ -135,7 +135,7 @@ $routerConfig = array(
 							),
 							'defaults' => array(
 								'controller' => Controller\BubbleController::class,
-								'action' => 'unShareBubble',
+								'action' => 'unShare',
 							),
 						)
 					),
