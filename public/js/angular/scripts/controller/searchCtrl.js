@@ -11,18 +11,23 @@
     /* This method will be called when user clicked on search button */
     $scope.search = function() {
 
+        var arr = [];
+
         if($scope.searchTitle === "") return;
 
         console.log('searching for ' + $scope.searchTitle);
-        console.log(items);
-        var i = 1;
+        console.log(items._data);
+        items = items._data;
+        var i = 0;
         var isFound = false;
         for(var k in items){
-          if(items[k].label == $scope.searchTitle){
+          ///if(items[k].label.toLowerCase() === $scope.searchTitle.toLowerCase()){
+           if(items[k].label.toLowerCase().indexOf($scope.searchTitle.toLowerCase()) > -1){
             console.log("hurray found");
-            networkService.getNetwork().selectNodes([items[k].id], true);
-            networkService.getNetwork().focus(items[k].id);
+            arr[i] = items[k].id;
+
             isFound = true;
+            i++;
         }
     }
 
@@ -33,6 +38,12 @@
         .position('bottom')
         .hideDelay(3000)
         );
+  }
+  else{
+    console.log(arr);
+     networkService.getNetwork().selectNodes(arr, true);
+     if(arr.length == 1)
+      networkService.getNetwork().focus(arr[0]);
   }
 
   $mdDialog.hide();

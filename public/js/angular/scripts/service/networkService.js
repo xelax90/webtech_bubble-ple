@@ -157,6 +157,10 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
         return this.orignalItems;
     };
 
+    this.setOrignalItems = function(items){
+        this.orignalItems = items;
+    };
+
     // initialize your network!
     //network = new vis.Network(container, data, options);
 

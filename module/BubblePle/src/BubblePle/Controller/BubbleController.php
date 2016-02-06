@@ -29,7 +29,8 @@ use Exception;
 use BubblePle\Service\BubblePermission;
 use BubblePle\Entity\BubbleShare;
 use SkelletonApplication\Entity\User;
-
+use BubblePle\Entity\Course;
+use BubblePle\Entity\Semester;
 
 /**
  * Controller that handles bubbles
@@ -258,9 +259,150 @@ class BubbleController extends ListController{
 		$share->setBubble($bubble)
 				->setSharedWith($user);
 		$em->persist($share);
-		$em->flush();
+		$em->flush($share);
+		
+		$isLinked = false;
+		$courseParent = $this->findCourseParent($bubble);
+		if($courseParent){
+			$course = $this->findCourse($courseParent->getCourseroom(), $user);
+			if($this->createEdge($course, $bubble)){
+				$isLinked = true;
+			}
+		}
+		
+		if(!$isLinked){
+			$semesterParent = $this->findSemesterParent($bubble);
+			if($semesterParent){
+				$semester = $this->findSemester($semesterParent->getYear(), $semesterParent->getIsWinter(), $user);
+				if(!$semester){
+					$semester = new Semester();
+					$semester->setYear($semesterParent->getYear())
+							->setIsWinter($semesterParent->getIsWinter())
+							->setOwner($user);
+					$em->persist($semester);
+					$em->flush($semester);
+				}
+				
+				if($courseParent){
+					$course = new Course();
+					$course->setCourseroom($courseParent->getCourseroom())
+							->setTitle($courseParent->getTitle())
+							->setOwner($user);
+					$em->persist($course);
+					$em->flush($course);
+					$this->createEdge($semester, $course);
+					$this->createEdge($course, $bubble);
+				} else {
+					$this->createEdge($semester, $bubble);
+				}
+			}
+		}
+		
 		
 		return array('success' => true);
+	}
+	
+	protected function edgeExists($from, $to){
+		$em = $this->getEntityManager();
+		$edgeRepo = $em->getRepository(Edge::class);
+		return $edgeRepo->findOneBy(array('from' => $from, 'to' => $to));
+	}
+	
+	protected function createEdge($from, $to){
+		if(!$from || !$to){
+			return null;
+		}
+		
+		$exists = $this->edgeExists($from, $to);
+		if($exists){
+			return $exists;
+		}
+		
+		$edge = new Edge();
+		$edge->setFrom($from)
+				->setTo($to);
+		$this->getEntityManager()->persist($edge);
+		$this->getEntityManager()->flush($edge);
+		return $edge;
+	}
+	
+	protected function findCourse($courseroom, $user = null){
+		if($user === null && !$this->zfcUserAuthentication()->hasIdentity()){
+			return null;
+		}
+		if($user === null){
+			$owner = $this->zfcUserAuthentication()->getIdentity();
+		} else {
+			$owner = $user;
+		}
+		
+		$em = $this->getEntityManager();
+		$courseRepo = $em->getRepository(Course::class);
+		$course = $courseRepo->findOneBy(array(
+			'owner' => $owner,
+			'courseroom' => $courseroom,
+		));
+		return $course;
+	}
+	
+	protected function findSemester($year, $isWinter, $user = null){
+		if($user === null && !$this->zfcUserAuthentication()->hasIdentity()){
+			return null;
+		}
+		if($user === null){
+			$owner = $this->zfcUserAuthentication()->getIdentity();
+		} else {
+			$owner = $user;
+		}
+		
+		$em = $this->getEntityManager();
+		$semesterRepo = $em->getRepository(Semester::class);
+		$semester = $semesterRepo->findOneBy(array(
+			'owner' => $owner,
+			'year' => $year,
+			'isWinter' => $isWinter,
+		));
+		return $semester;
+	}
+	
+	/**
+	 * Returns the first parrent which is an instance of Course
+	 * @param Bubble $bubble
+	 * @return Course
+	 */
+	protected function findCourseParent($bubble){
+		return $this->findParentInstance($bubble, function($item){return $item instanceof Course; });
+	}
+	
+	/**
+	 * Returns the first parrent which is an instance of Semester
+	 * @param Bubble $bubble
+	 * @return Semester
+	 */
+	protected function findSemesterParent($bubble){
+		return $this->findParentInstance($bubble, function($item){return $item instanceof Semester; });
+	}
+	
+	protected function findParentInstance($bubble, callable $check){
+		$visited = array($bubble);
+		$q = array($bubble);
+		
+		while(!empty($q)){
+			$current = array_pop($q);
+			if($check($current)){
+				return $current;
+			}
+			$parents = $current->getParents();
+			if($parents){
+				foreach($parents as $parent){
+					if(!in_array($parent->getFrom(), $visited)){
+						$q[] = $parent->getFrom();
+						$visited[] = $parent->getFrom();
+					}
+				}
+			}
+		}
+		return null;
 	}
 	
 	public function unShareAction(){

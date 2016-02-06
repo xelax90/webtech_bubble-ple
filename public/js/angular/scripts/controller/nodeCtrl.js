@@ -3,7 +3,11 @@
    */
   'use strict';
 
-  app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService){
+  app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', '$rootScope', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService, $rootScope){
+
+      $scope.myFile;
+
+      $scope.currentCourseId;
 
       $scope.loadingData = true;
       $scope.breadCrumbs = "Personalized Learning Environment";
@@ -98,20 +102,26 @@
                 this.items = networkService.getNodes();
                 var nodeId = node.nodes[0];
                 var node = this.items._data[nodeId];
-          
+                
+                console.log(nodeId);
+
+                console.log(node);
+
                 $scope.breadCrumbs += " > " + node.title;
 
                 if (nodeId){
                   if (isCourse(nodeId, networkService.getOrignalItems())){
+                    $scope.currentCourseId = nodeId;
                     getAttachments(nodeId);
                     return;
                   }
                 }
 
               var orignalNode = getOrignalNode(nodeId);
-              var fileDownloadType = "BubblePle\\Entity\\L2PMaterialAttachment";
-              if(orignalNode.bubbleType == fileDownloadType){
-                console.log(orignalNode);
+              var L2PFileType = "BubblePle\\Entity\\L2PMaterialAttachment";  //BubblePle\Entity\FileAttachment
+              var normalFileType = "BubblePle\\Entity\\FileAttachment";
+              console.log(orignalNode);
+              if(orignalNode.bubbleType == L2PFileType || orignalNode.bubbleType == normalFileType){
                 downloadFile(orignalNode.title, orignalNode.filename);
               }
 
@@ -119,8 +129,11 @@
 
        function getOrignalNode(nodeId){
         var allNodes = networkService.getOrignalItems();
+        console.log("getting orignal nodes");
+        console.log(allNodes);
         for(var i = 0; i < allNodes.length; i++){
           if(allNodes[i].id == nodeId){
+            console.log("found...");
             return allNodes[i];
           }
         }
@@ -254,6 +267,13 @@
           deleteNodeorEdge(networkService, $mdToast, $http);
       };
 
+      $scope.filUpload = function(){
+        bubbleType = 'fileAttachment';
+          showToast($mdToast, 'Click anywhere to add a Bubble for file');
+          networkService.setBubbleType(bubbleType);
+          networkService.getNetwork().addNodeMode();
+      }
+
       // for Opening the <form> to add text to node (UI hint : Edit Bubble)
       $scope.openTextBox = function(){
           if(networkService.getNetwork().getSelectedNodes().length > 0){
@@ -344,14 +364,17 @@
 
 
       //trigger onFileSelect method on clickUpload button clicked
-      $scope.clickUpload = function(){
-          document.getElementById('i_file').click();
-      };
+      // $scope.clickUpload = function(){
+      //     document.getElementById('i_file').click();
+      // };
 
-      // Upload actual file to the server
+      // // Upload actual file to the server
        $scope.onFileSelect = function(file) {
-        uploadFile($scope, $mdToast, $timeout, file, Upload, networkService);
-
+        //uploadFile($scope, $mdToast, $timeout, file, Upload, networkService);
+        console.log("in main mehtod");
+        $scope.$emit('uploadFileEvent', [file]);
+        console.log("emitte");
+        console.log(file);
       }
 
       /* Search node in network */
