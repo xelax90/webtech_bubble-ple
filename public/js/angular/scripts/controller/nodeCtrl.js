@@ -44,9 +44,6 @@
               var items = response.data.bubbles;
               var edges = response.data.edges;
 
-              console.log("orignal items");
-              console.log(items);
-
 
               $scope.loadingData = false;
               $scope.breadCrumbs = items[0].title;
@@ -163,10 +160,10 @@
                       bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#7BE141', font: {face: 'Verdana, Geneva, sans-serif'}});
                   }
                   else if (items[i].bubbleType.search("L2PAssignment") != -1) {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, parent: items[i].parents[0], color: '#ffc966', font: {face: 'Verdana, Geneva, sans-serif'}});
+                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title,  color: '#ffc966', font: {face: 'Verdana, Geneva, sans-serif'}});
                   }
                   else if (items[i].bubbleType.search("L2PMaterialAttachment") != -1) {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#C2FABC', font: {face: 'Verdana, Geneva, sans-serif'}});
+                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, cid: items[i].parents[0], color: '#C2FABC', font: {face: 'Verdana, Geneva, sans-serif'}});
                   } else {
                       bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, font: {face: 'Verdana, Geneva, sans-serif'}});
                   }
@@ -186,13 +183,24 @@
                   if (params.nodes.length == 1) {
                       if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
                           networkService.getNetwork().openCluster(params.nodes[0]);
+                          networkService.getNetwork().setOptions({physics:{stabilization:{fit: false}}});
+                          networkService.getNetwork().stabilize();
                       }
                   }
               });
 
-              console.log(bubbles);
-              //networkService.getNetwork().clusterByConnection(1);
 
+              for (var i in bubbles){
+                  if (!bubbles[i].cid && !isCourse(bubbles[i].id, items)){
+                      var clusterOptionsByData = {
+                          joinCondition:function(childOptions) {
+                              return childOptions.cid == bubbles[i].id || childOptions.id == bubbles[i].id;
+                          },
+                          clusterNodeProperties: {id:'cidCluster' + bubbles[i].id, label: bubbles[i].label}
+                      };
+                      networkService.getNetwork().cluster(clusterOptionsByData);
+                  }
+              }
               //since network nodes and edges change, therefore re assign the double click event to new network
               networkService.getNetwork().on('doubleClick', onDoubleClick);
 
