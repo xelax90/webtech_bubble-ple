@@ -37,6 +37,9 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
             tooltipDelay: 300,
             zoomView: true
         },
+        layout: {
+
+        },
         manipulation:{
             enabled: false,
             addNode: function(data, callback){
