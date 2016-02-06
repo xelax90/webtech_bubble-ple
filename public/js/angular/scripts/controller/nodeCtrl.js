@@ -5,6 +5,8 @@
 
   app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', '$rootScope', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService, $rootScope){
 
+      $scope.myFile;
+
       $scope.loadingData = true;
       $scope.breadCrumbs = "Personalized Learning Environment";
 

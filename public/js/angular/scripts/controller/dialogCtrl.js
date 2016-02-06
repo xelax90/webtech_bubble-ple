@@ -1,7 +1,7 @@
  /**
    * Created by Waqar Ahmed on 04/02/16.
    */
-function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, type, networkService, Upload, $timeout, fileUpload, $rootScope) {
+function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, type, networkService, Upload, $timeout, fileUpload, $rootScope, fileService) {
     //$scope.addingNewNode = function() {
     //    var data = items;
     //    data.label = $scope.bubbleName;
@@ -94,14 +94,13 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
 
       $scope.uploadFile = function(){
         $mdDialog.hide();
-        var file = $scope.myFile;
-        var fd = new FormData();
-        console.log($parent.myFile);
+        var file = fileService[0];
+        $scope.bubbleName = file.name;
         this.url = '/admin/bubblePLE/fileAttachments/rest';
         data = {fileattachment: {filename: file, title: $scope.bubbleName}};
         $http.post(this.url, data, {
             transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
+            headers: {'Content-Type': file.type}
         })
         .success(function(response){
             console.log("file uploaded");

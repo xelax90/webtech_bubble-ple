@@ -16,7 +16,7 @@ var app = angular.module(
         });
 }]);
 
-app.directive('fileModel', ['$parse', function ($parse) {
+app.directive('fileModel', ['$parse', 'fileService', function ($parse, fileService) {
     return {
         restrict: 'A',
         link: function(scope, element, attrs, rootScope) {
@@ -26,10 +26,9 @@ app.directive('fileModel', ['$parse', function ($parse) {
 
             
             element.bind('change', function(){
-                scope.$apply(function(){
-                    modelSetter(scope, element[0].files[0]);
+                modelSetter(scope, element[0].files[0]);
                     console.log("binding file");
-                });
+                    fileService.push(element[0].files[0]);
             });
         }
     };
@@ -50,3 +49,8 @@ app.service('fileUpload', ['$http', function ($http) {
         });
     }
 }]);
+
+app.factory('fileService', function() {
+    var files = [];
+    return files;
+});
