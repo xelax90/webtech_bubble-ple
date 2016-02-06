@@ -124,6 +124,7 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
                     .hideDelay(3000)
             );
             callBack(items);
+            
         });
     }, function (response) {
         if (response.status > 0)

@@ -7,6 +7,8 @@
 
       $scope.myFile;
 
+      $scope.currentCourseId;
+
       $scope.loadingData = true;
       $scope.breadCrumbs = "Personalized Learning Environment";
 
@@ -112,6 +114,7 @@
 
                 if (nodeId){
                   if (isCourse(nodeId, networkService.getOrignalItems())){
+                    $scope.currentCourseId = nodeId;
                     getAttachments(nodeId);
                     return;
                   }
