@@ -8,7 +8,7 @@
 
         <md-toolbar class="md-toolbar-tools md-whiteframe-z2">
             <h3>
-				<div class="bubble_logo"></div>
+		<div class="bubble_logo"></div>
                 <label class="logo-label" style="display: inline-block;">
                     Bubble PLE
                 </label>
@@ -146,26 +146,17 @@
     </md-sidenav>
 
     <md-content layout="column" flex id='content'>
-        <md-toolbar layout="row" class = "md-whiteframe-z2 breadcrumb-bar"> 
-            <md-button id="main" class="menu" ng-click="toggleList()" hide-gt-sm aria-label="Show Toolbar">
-                <md-icon class="material-icons">menu</md-icon>
+        <md-toolbar layout="row" class = "md-whiteframe-z2 breadcrumb-bar">
+            <md-button id="main" class="keyboard_backspace back-button" hide-gt-sm aria-label="Show Toolbar">
+                <md-icon class="material-icons">keyboard_backspace</md-icon>
             </md-button>
-            <div class="custom-breadcrumb-bar">{{breadCrumbs}}</div>
-            <div class="search-box">
-                <md-icon class="fa fa-search"></md-icon>
-                <md-autocomplete ng-disabled="nodeCtrl.isDisabled"
-                    md-no-cache="nodeCtrl.noCache"
-                    md-selected-item="nodeCtrl.selectedItem"
-                    md-search-text-change="nodeCtrl.searchTextChange(nodeCtrl.searchText)"
-                    md-search-text="nodeCtrl.searchText"
-                    md-selected-item-change="nodeCtrl.selectedItemChange(item)"
-                    md-items="item in nodeCtrl.querySearch(ctrl.searchText)"
-                    md-item-text="item.display"
-                    md-min-length="0"
-                    placeholder="search bubble">
-
-                </md-autocomplete>
-            </div>
+            <div class="custom-breadcrumb-bar">{{breadCrumbs}}</div>            
+            <md-button id="main" class="search- search-button" ng-click="searchNode()" aria-label="Show Toolbar">
+                <md-icon class="material-icons search-icon">search</md-icon>
+            </md-button>
+            <md-button id="main" class="menu menu-button" ng-click="toggleList()" hide-gt-sm aria-label="Show Toolbar">
+                <md-icon class="material-icons menu-icon">menu</md-icon>
+            </md-button>
         </md-toolbar>
         
         <div id="mynetwork" flex layout-fill layout="row" layout-align="center" ng-show="loadingData">

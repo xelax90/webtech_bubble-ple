@@ -6,6 +6,7 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
     var dialog;
     var bubbleType;
 
+    this.orignalItems;
     this.nodes;
     this.edges;
     this.data;
@@ -35,6 +36,9 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
             selectConnectedEdges: true,
             tooltipDelay: 300,
             zoomView: true
+        },
+        layout: {
+
         },
         manipulation:{
             enabled: false,
@@ -104,7 +108,19 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
      //create a network
     container = document.getElementById('bubbles');
 
-    this.setNetworkData = function(n, e){
+    this.setNetworkData = function(i, n, e){
+        console.log("argument length : " + arguments.length);
+        if(arguments.length == 3){
+            this.orignalItems = arguments[0];
+            this.setData(arguments[1], arguments[2]);
+        }
+        else{
+            this.setData(arguments[0], arguments[1]);
+        }
+        
+    }
+
+     this.setData = function(n, e){
         this.nodes = new vis.DataSet(n);
         this.edges = new vis.DataSet(e);
         this.data = {
@@ -113,6 +129,7 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
         };
         console.log("set network data");
     }
+
 
     this.initNetwork = function(){
         // initialize your network!
@@ -123,10 +140,27 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
             return;
         }
 
-        console.log("initiliazing network");
         this.network = new vis.Network(container, this.data, options);
-        //this.network.setData({nodes: n, edges: e});
-        console.log("initialized");
+        var colors = ['#ffc966','#C2FABC','#7BE141'];
+        var clusterOptionsByData;
+        for (var i = 0; i < colors.length; i++) {
+            var color = colors[i];
+            clusterOptionsByData = {
+                joinCondition: function (childOptions) {
+                    return childOptions.color.background == color; // the color is fully defined in the node.
+                },
+                processProperties: function (clusterOptions, childNodes, childEdges) {
+                    var totalMass = 0;
+                    for (var i = 0; i < childNodes.length; i++) {
+                        totalMass += childNodes[i].mass;
+                    }
+                    clusterOptions.mass = totalMass;
+                    return clusterOptions;
+                },
+                clusterNodeProperties: {id: 'cluster:' + color, borderWidth: 3, shape: 'database', color:color, label:'color:' + color}
+            };
+            this.network.cluster(clusterOptionsByData);
+        }
     }
 
     this.getNetwork = function(){
@@ -139,6 +173,10 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
 
     this.getEdges = function(){
     	return this.edges;
+    };
+
+    this.getOrignalItems = function(){
+        return this.orignalItems;
     };
 
     // initialize your network!

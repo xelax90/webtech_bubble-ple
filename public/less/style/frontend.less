@@ -55,11 +55,9 @@ md-toolbar.breadcrumb-bar {
     height: 100%;
 }
 
-.search-box {
-    right: 22px;
-    position: fixed;
-    width: 350px;
-    top: 12px;
+/*.search-box {
+    width: 3%;
+    margin: 10px 15px 0 0;
     
     > md-autocomplete {
         display: inline-block;
@@ -72,8 +70,9 @@ md-toolbar.breadcrumb-bar {
         color: rgba(0,0,0,0.54);
         vertical-align: top;
         margin: 8px 0px 0px;
+        cursor: pointer;
     }
-}
+}*/
 
 .fa-2x {
     background: rgb(92,107,192);;
@@ -93,13 +92,14 @@ md-toolbar.breadcrumb-bar {
 
 }
 
-.breadcrumb-bar {
+/*.breadcrumb-bar {
     position: fixed;
-}
+}*/
 
 .custom-breadcrumb-bar {
     margin: 20px 20px;
     color: black;
+    width: 97%;
 }
 
 .logo-label {
@@ -107,4 +107,97 @@ md-toolbar.breadcrumb-bar {
     padding: 0 0 0 10px;
     margin: 10px;
     font-size: 25px;
+}
+
+.search-icon {
+    margin: 0 10px 12px 0;
+    font-size: 35px;
+}
+
+.menu-icon {
+    margin: 0 10px 14px 0;
+    font-size: 35px;
+}
+
+.search-button {
+    min-width: 70px;
+}
+
+.menu-button {
+    min-width: 70px;
+}
+
+md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon, md-toolbar:not(.md-menu-toolbar) md-icon {
+    color: rgba(113, 111, 111, 0.87);
+}
+
+/*======================*/
+/*Media queries*/
+/*======================*/
+
+@media only screen and (max-width: 959px) and (min-width: 0) and (orientation: portrait)
+{
+  md-toolbar {
+    min-height: 64px; 
+  }
+  
+  .md-toolbar-tools {
+    height: 64px;
+    max-height: 64px;
+    
+  } 
+
+}
+
+@media only screen and (max-width: 959px) and (min-width: 0) and (orientation: landscape)
+{
+  md-toolbar {
+    min-height: 64px; 
+  }
+  
+  .md-toolbar-tools {
+    height: 64px;
+    max-height: 64px;
+    
+  } 
+
+}
+
+@media only screen and (max-width: 959px) {
+    .custom-breadcrumb-bar {
+        width: 95%;
+    }
+    
+    .search-icon {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .menu-icon {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .search-button {
+        margin: 0;
+        min-width: 50px;
+    }
+
+    .menu-button {
+        margin: 0;
+        min-width: 50px;
+    }
+    
+    .back-button {
+        margin: 0;
+        min-width: 50px;
+    }
+}
+
+@media screen and (max-width: 456px) {
+  md-sidenav.site-sidenav {
+    width: 320px;
+    min-width: calc(100% - 85px);
+    max-width: 320px; } 
+
 }

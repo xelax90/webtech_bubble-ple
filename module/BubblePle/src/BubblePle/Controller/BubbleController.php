@@ -26,6 +26,10 @@ use BubblePle\Entity\Edge;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Exception;
+use BubblePle\Service\BubblePermission;
+use BubblePle\Entity\BubbleShare;
+use SkelletonApplication\Entity\User;
+
 
 /**
  * Controller that handles bubbles
@@ -33,6 +37,30 @@ use Exception;
  * @author schurix
  */
 class BubbleController extends ListController{
+	
+	protected $bubblePermission;
+	
+	protected $userMapper;
+	
+	/**
+	 * @return BubblePermission
+	 */
+	public function getBubblePermission(){
+		if(null == $this->bubblePermission){
+			$this->bubblePermission = $this->getServiceLocator()->get(BubblePermission::class);
+		}
+		return $this->bubblePermission;
+	}
+	
+	/**
+	 * @return \ZfcUser\Mapper\UserInterface
+	 */
+	public function getUserMapper(){
+		if(null == $this->userMapper){
+			$this->userMapper = $this->getServiceLocator()->get('zfcuser_user_mapper');
+		}
+		return $this->userMapper;
+	}
 	
 	/**
 	 * Returns list of all items to show in list view. Overwrite to add custom filters
@@ -56,16 +84,19 @@ class BubbleController extends ListController{
 		
 		$user = $this->zfcUserAuthentication()->getIdentity();
 		
-		$params = array(
-			'owner' => $user,
-		);
+		$params = array();
 		
 		if(!empty($this->getParentControllerOptions())){
 			$parentId = $this->getEvent()->getRouteMatch()->getParam($this->getParentControllerOptions()->getIdParamName());
 			$params[$this->getOptions()->getParentAttributeName()] = $parentId;
 		}
 		
-		$items = $em->getRepository($entityClass)->findBy($params, $order);
+		$repo = $em->getRepository($entityClass);
+		if($repo instanceof \BubblePle\Model\BubbleRepository){
+			$items = $repo->getAccessableBubbles($user, $params, $order);
+		} else {
+			$items = $repo->findBy($params, $order);
+		}
 		
 		return $items;
 	}
@@ -76,7 +107,7 @@ class BubbleController extends ListController{
 		}
 		$item = parent::getItem($id, $option);
 		
-		if($id !== null && $option === null && !$this->canView($item)){
+		if($id !== null && $option === null && !$this->getBubblePermission()->canView($item)){
 			return null;
 		}
 		
@@ -89,71 +120,8 @@ class BubbleController extends ListController{
 		$item->setOwner($user);
 	}
 	
-	protected function canEdit($item){
-		if(!$item){
-			return true;
-		}
-		/* @var $item \BubblePle\Entity\Bubble */
-		$isAdmin = call_user_func($this->plugin('isAllowed'), 'bubble', 'edit');
-		if($isAdmin){
-			return true;
-		}
-		
-		if(!$this->zfcUserAuthentication()->hasIdentity()){
-			return false;
-		}
-		
-		if($this->zfcUserAuthentication()->getIdentity() === $item->getOwner()){
-			return true;
-		}
-		
-		return false;
-	}
-	
-	protected function canDelete($item){
-		if(!$item){
-			return true;
-		}
-		/* @var $item \BubblePle\Entity\Bubble */
-		$isAdmin = call_user_func($this->plugin('isAllowed'), 'bubble', 'delete');
-		if($isAdmin){
-			return true;
-		}
-		
-		if(!$this->zfcUserAuthentication()->hasIdentity()){
-			return false;
-		}
-		
-		if($this->zfcUserAuthentication()->getIdentity() === $item->getOwner()){
-			return true;
-		}
-		
-		return false;
-	}
-	
-	protected function canView($item){
-		if(!$item){
-			return true;
-		}
-		/* @var $item \BubblePle\Entity\Bubble */
-		$isAdmin = call_user_func($this->plugin('isAllowed'), 'bubble', 'view');
-		if($isAdmin){
-			return true;
-		}
-		
-		if(!$this->zfcUserAuthentication()->hasIdentity()){
-			return false;
-		}
-		
-		if($this->zfcUserAuthentication()->getIdentity() === $item->getOwner()){
-			return true;
-		}
-		
-		return false;
-	}
-	
 	protected function _editItem($item, $form, $data = null) {
-		if(!$this->canEdit($item)){
+		if(!$this->getBubblePermission()->canEdit($item)){
 			$this->flashMessenger()->addErrorMessage($this->getTranslator()->translate('Not authorized'));
 			return false;
 		}
@@ -161,7 +129,7 @@ class BubbleController extends ListController{
 	}
 	
 	protected function _delteItem($item) {
-		if(!$this->canDelete($item)){
+		if(!$this->getBubblePermission()->canDelete($item)){
 			$this->flashMessenger()->addErrorMessage($this->getTranslator()->translate('Not authorized'));
 			return false;
 		}
@@ -179,13 +147,13 @@ class BubbleController extends ListController{
 		
 		$em = $this->getEntityManager();
 		$bRepo = $em->getRepository(Bubble::class);
-		/* @var $repo \BubblePle\Model\BubbleRepository */
+		/* @var $bRepo \BubblePle\Model\BubbleRepository */
 		$eRepo = $em->getRepository(Edge::class);
 		/* @var $eRepo \BubblePle\Model\EdgeRepository */
 		
 		$parent = (int) $this->getEvent()->getRouteMatch()->getParam('parent');
 		$parentBubble = $bRepo->find($parent);
-		if(!$this->canView($parentBubble)){
+		if(!$this->getBubblePermission()->canView($parentBubble)){
 			$parentBubble = null;
 		}
 		
@@ -193,7 +161,7 @@ class BubbleController extends ListController{
 			return array('success' => false, 'error' => 'Not allowed');
 		}
 		
-		$children = $bRepo->getChildrenOf($parentBubble, array('owner' => $this->zfcUserAuthentication()->getIdentity()));
+		$children = $bRepo->getAccessableChildrenOf($this->zfcUserAuthentication()->getIdentity(), $parentBubble);
 		$edges = $eRepo->getConnectingEdges($children);
 		
 		$result = array(
@@ -260,5 +228,87 @@ class BubbleController extends ListController{
 			return null;
 		}
 		return $this->getServiceLocator()->get('FormElementManager')->get($formClass);
+	}
+	
+	public function shareAction(){
+		$bubbleId = (int) $this->getEvent()->getRouteMatch()->getParam('bubbleId');
+		$userId = (int) $this->getEvent()->getRouteMatch()->getParam('userId');
+		return new JsonModel($this->shareBubble($bubbleId, $userId));
+	}
+	
+	protected function shareBubble($bubbleId, $userId){
+		$user = $this->getUserMapper()->findById($userId);
+		if(!$user){
+			return array( 'success' => false, 'error' => 'User not found' );
+		}
+		
+		$em = $this->getEntityManager();
+		$bubbleRepo = $em->getRepository(Bubble::class);
+		
+		$bubble = $bubbleRepo->find($bubbleId);
+		if(!$bubble){
+			return array('success' => false, 'error' => 'Bubble not found' );
+		}
+		
+		if(!$this->getBubblePermission()->canShare($bubble)){
+			return array('success' => false, 'error' => 'Not authorized');
+		}
+		
+		$share = new BubbleShare();
+		$share->setBubble($bubble)
+				->setSharedWith($user);
+		$em->persist($share);
+		$em->flush();
+		
+		return array('success' => true);
+	}
+	
+	public function unShareAction(){
+		$bubbleId = (int) $this->getEvent()->getRouteMatch()->getParam('bubbleId');
+		$userId = (int) $this->getEvent()->getRouteMatch()->getParam('userId');
+		return new JsonModel($this->unShareBubble($bubbleId, $userId));
+	}
+	
+	protected function unShareBubble($bubbleId, $userId){
+		$user = $this->getUserMapper()->findById($userId);
+		if(!$user){
+			return array( 'success' => false, 'error' => 'User not found' );
+		}
+		
+		$em = $this->getEntityManager();
+		$bubbleRepo = $em->getRepository(Bubble::class);
+		
+		/* @var $bubble Bubble */
+		$bubble = $bubbleRepo->find($bubbleId);
+		if(!$bubble){
+			return array('success' => false, 'error' => 'Bubble not found' );
+		}
+		
+		if(!$this->getBubblePermission()->canShare($bubble)){
+			return array('success' => false, 'error' => 'Not authorized');
+		}
+		
+		$shares = $bubble->getShares();
+		foreach($shares as $share){
+			if($share->getSharedWith() == $user){
+				$em->remove($share);
+			}
+		}
+		$em->flush();
+		
+		return array('success' => true);
+	}
+	
+	public function usernamesAction(){
+		$userRepo = $this->getEntityManager()->getRepository(User::class);
+		$users = $userRepo->findAll();
+		$res = array();
+		foreach($users as $user){
+			$res[] = array(
+				'name' => $user->getDisplayName() ?: 'User '.$user->getId(),
+				'id' => $user->getId(),
+			);
+		}
+		return new JsonModel($res);
 	}
 }
