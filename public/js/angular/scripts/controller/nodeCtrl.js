@@ -120,14 +120,6 @@
                   }
                 }
 
-              var orignalNode = getOrignalNode(nodeId);
-              var L2PFileType = "BubblePle\\Entity\\L2PMaterialAttachment";  //BubblePle\Entity\FileAttachment
-              var normalFileType = "BubblePle\\Entity\\FileAttachment";
-              console.log(orignalNode);
-              if(orignalNode.bubbleType == L2PFileType || orignalNode.bubbleType == normalFileType){
-                downloadFile(orignalNode.title, orignalNode.filename);
-              }
-
        }              
 
        function getOrignalNode(nodeId){
@@ -191,7 +183,12 @@
               networkService.setNetworkData(bubbles, edges);
               networkService.initNetwork();
               networkService.getNetwork().on('doubleClick', function(item){
-                  if (isL2Plink(item.nodes[0], items)!= false) {
+                  var orignalNode = getOrignalNode(item.nodes[0]);
+                  var normalFileType = "BubblePle\\Entity\\FileAttachment";
+                  console.log(orignalNode);
+                  if(orignalNode.bubbleType == normalFileType){
+                    downloadFile(orignalNode.title, orignalNode.filename);
+                  } else if (isL2Plink(item.nodes[0], items)!= false) {
                       window.location = isL2Plink(item.nodes[0], items);
                   }
               });
