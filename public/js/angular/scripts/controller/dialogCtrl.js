@@ -96,21 +96,63 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
         $mdDialog.hide();
         var file = fileService[0];
         $scope.bubbleName = file.name;
+        console.log(file);
         this.url = '/admin/bubblePLE/fileAttachments/rest';
-        data = {fileattachment: {filename: file, title: $scope.bubbleName}};
-        $http.post(this.url, data, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': file.type}
-        })
-        .success(function(response){
-            console.log("file uploaded");
-            callBack(items);
-            console.log(response);
-        })
-        .error(function(response){
-            console.log("erro");
-            console.log(response);
+        data = {fileattachment: {filename: file, title: $scope.bubbleName}}
+        console.log(data);
+        console.log(this.url);
+        
+        file.upload = Upload.upload({
+            url: '/admin/bubblePLE/fileAttachments/rest',
+            data: {fileattachment: {filename: file, title: file.name}},
         });
+
+        file.upload.then(function (response) {
+        $timeout(function () {
+            file.result = response.data;
+            console.log(response);
+            showToast($mdToast, 'File Uploaded Successfully');
+            console.log(response.data.item.filename);
+            $scope.showProgressBar = false;
+            items.id = response.data.item.id;
+            items.label = response.data.item.title;
+            items.title = response.data.item.title;
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent('Bubble Added')
+                    .position('bottom')
+                    .hideDelay(3000)
+            );
+            callBack(items);
+        });
+    }, function (response) {
+        if (response.status > 0)
+            $scope.errorMsg = response.status + ': ' + response.data;
+        showToast($mdToast, 'Error Uploading File');
+        $scope.showProgressBar = false;
+    }, function (evt) {
+                // Math.min is to fix IE which reports 200% sometimes
+                file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                console.log(file.progress);
+                $scope.progressBarValue = file.progress;
+            });
+
+
+
+
+        // $http.post(this.url, data, {
+        //     transformRequest: angular.identity,
+        //     headers: {'Content-Type': undefined}
+        // })
+        // .success(function(response){
+        //     console.log("file uploaded");
+        //     callBack(items);
+        //     console.log(response);
+        // })
+        // .error(function(response){
+        //     console.log("erro");
+        //     console.log(response);
+        // });
     };
 
 

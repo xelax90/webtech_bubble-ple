@@ -1,7 +1,7 @@
  /**
    * Created by Waqar Ahmed on 04/02/16.
    */
-   function uploadFile($scope, $mdToast, $timeout, file, Upload, networkService, $http, $route){
+   function uploadFile($scope, $mdToast, $timeout, file, Upload, networkService, $http){
    	if(!file) return;
 
    	console.log("in file select");

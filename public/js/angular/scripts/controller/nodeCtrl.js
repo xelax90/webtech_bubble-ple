@@ -103,7 +103,13 @@
                 this.items = networkService.getNodes();
                 var nodeId = node.nodes[0];
                 var node = this.items._data[nodeId];
-          
+                
+                console.log(nodeId);
+
+                console.log(node);
+                
+                console.log(networkService.getOrignalItems());
+
                 $scope.breadCrumbs += " > " + node.title;
 
                 if (nodeId){
