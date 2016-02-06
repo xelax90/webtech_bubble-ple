@@ -3,7 +3,11 @@
    */
   'use strict';
 
-  app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService){
+  app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', '$rootScope', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService, $rootScope){
+
+      $scope.myFile;
+
+      $scope.currentCourseId;
 
       $scope.loadingData = true;
       $scope.breadCrumbs = "Personalized Learning Environment";
@@ -43,9 +47,6 @@
               console.log(response);
               var items = response.data.bubbles;
               var edges = response.data.edges;
-
-              console.log("orignal items");
-              console.log(items);
 
 
               $scope.loadingData = false;
@@ -101,29 +102,30 @@
                 this.items = networkService.getNodes();
                 var nodeId = node.nodes[0];
                 var node = this.items._data[nodeId];
-          
+                
+                console.log(nodeId);
+
+                console.log(node);
+
                 $scope.breadCrumbs += " > " + node.title;
 
                 if (nodeId){
                   if (isCourse(nodeId, networkService.getOrignalItems())){
+                    $scope.currentCourseId = nodeId;
                     getAttachments(nodeId);
                     return;
                   }
                 }
 
-              var orignalNode = getOrignalNode(nodeId);
-              var fileDownloadType = "BubblePle\\Entity\\L2PMaterialAttachment";
-              if(orignalNode.bubbleType == fileDownloadType){
-                console.log(orignalNode);
-                downloadFile(orignalNode.title, orignalNode.filename);
-              }
-
        }              
 
        function getOrignalNode(nodeId){
         var allNodes = networkService.getOrignalItems();
+        console.log("getting orignal nodes");
+        console.log(allNodes);
         for(var i = 0; i < allNodes.length; i++){
           if(allNodes[i].id == nodeId){
+            console.log("found...");
             return allNodes[i];
           }
         }
@@ -163,15 +165,14 @@
                       bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#7BE141', font: {face: 'Verdana, Geneva, sans-serif'}});
                   }
                   else if (items[i].bubbleType.search("L2PAssignment") != -1) {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#ffc966', font: {face: 'Verdana, Geneva, sans-serif'}});
+                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title,  color: '#ffc966', font: {face: 'Verdana, Geneva, sans-serif'}});
                   }
                   else if (items[i].bubbleType.search("L2PMaterialAttachment") != -1) {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#C2FABC', font: {face: 'Verdana, Geneva, sans-serif'}});
+                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, cid: items[i].parents[0], color: '#C2FABC', font: {face: 'Verdana, Geneva, sans-serif'}});
                   } else {
                       bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, font: {face: 'Verdana, Geneva, sans-serif'}});
                   }
               }
-              console.log(items);
               for (var i = 0; i < edges.length; i++){
                   edges[i].arrows = 'to';
               }
@@ -179,7 +180,12 @@
               networkService.setNetworkData(bubbles, edges);
               networkService.initNetwork();
               networkService.getNetwork().on('doubleClick', function(item){
-                  if (isL2Plink(item.nodes[0], items)!= false) {
+                  var orignalNode = getOrignalNode(item.nodes[0]);
+                  var normalFileType = "BubblePle\\Entity\\FileAttachment";
+                  console.log(orignalNode);
+                  if(orignalNode.bubbleType == normalFileType){
+                    downloadFile(orignalNode.title, orignalNode.filename);
+                  } else if (isL2Plink(item.nodes[0], items)!= false) {
                       window.location = isL2Plink(item.nodes[0], items);
                   }
               });
@@ -187,10 +193,24 @@
                   if (params.nodes.length == 1) {
                       if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
                           networkService.getNetwork().openCluster(params.nodes[0]);
+                          networkService.getNetwork().setOptions({physics:{stabilization:{fit: false}}});
+                          networkService.getNetwork().stabilize();
                       }
                   }
               });
 
+
+              for (var i in bubbles){
+                  if (!bubbles[i].cid && !isCourse(bubbles[i].id, items)){
+                      var clusterOptionsByData = {
+                          joinCondition:function(childOptions) {
+                              return childOptions.cid == bubbles[i].id || childOptions.id == bubbles[i].id;
+                          },
+                          clusterNodeProperties: {id:'cidCluster' + bubbles[i].id, label: bubbles[i].label}
+                      };
+                      networkService.getNetwork().cluster(clusterOptionsByData);
+                  }
+              }
               //since network nodes and edges change, therefore re assign the double click event to new network
               networkService.getNetwork().on('doubleClick', onDoubleClick);
 
@@ -249,6 +269,13 @@
       $scope.deleteSelectedNodeEdge = function (){
           deleteNodeorEdge(networkService, $mdToast, $http);
       };
+
+      $scope.filUpload = function(){
+        bubbleType = 'fileAttachment';
+          showToast($mdToast, 'Click anywhere to add a Bubble for file');
+          networkService.setBubbleType(bubbleType);
+          networkService.getNetwork().addNodeMode();
+      }
 
       // for Opening the <form> to add text to node (UI hint : Edit Bubble)
       $scope.openTextBox = function(){
@@ -340,14 +367,17 @@
 
 
       //trigger onFileSelect method on clickUpload button clicked
-      $scope.clickUpload = function(){
-          document.getElementById('i_file').click();
-      };
+      // $scope.clickUpload = function(){
+      //     document.getElementById('i_file').click();
+      // };
 
-      // Upload actual file to the server
+      // // Upload actual file to the server
        $scope.onFileSelect = function(file) {
-        uploadFile($scope, $mdToast, $timeout, file, Upload, networkService);
-
+        //uploadFile($scope, $mdToast, $timeout, file, Upload, networkService);
+        console.log("in main mehtod");
+        $scope.$emit('uploadFileEvent', [file]);
+        console.log("emitte");
+        console.log(file);
       }
 
       /* Search node in network */

@@ -104,7 +104,7 @@ class BubbleRepository extends EntityRepository{
 					
 					// If owner is given and the child does not belong to owner, 
 					// it must be shared and can be accessed
-					if($user !== null && $edge->getTo()->getOwner() !== $user){
+					if($user !== null && $edge->getTo()->getOwner() !== null && $edge->getTo()->getOwner() !== $user && !in_array($edge->getTo(), $bubbles)){
 						$bubbles[] = $edge->getTo();
 					}
 				}
