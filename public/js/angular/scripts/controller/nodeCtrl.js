@@ -49,7 +49,12 @@
 
               for (var i = 0; i < items.length; i++){
                   if ((items[i].bubbleType.search("Semester") != -1) || (isChild(items[i], semesterId))) {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title});
+                      if (items[i].bubbleType.search("Semester") != -1){
+                          bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#004c99', font: {color: 'white', size: 25, strokeWidth: 1, strokeColor: 'black', face: 'Verdana, Geneva, sans-serif'}});
+                      }
+                      else {
+                        bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, font:{face: 'Verdana, Geneva, sans-serif'}});
+                      }
                   }
               }
               for (var i = 0; i < edges.length; i++){
@@ -112,13 +117,26 @@
 
       function getAttachments(courseId){
           $http.get('admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
-              console.log("attachment is called");
               var bubbles = new Array();
               var items = response.data.bubbles;
               var edges = response.data.edges;
               for (var i = 0; i < items.length; i++){
-                  bubbles.push({id: items[i].id, label:items[i].title, title: items[i].title});
+                  if (items[i].bubbleType.search("Course") != -1){
+                      bubbles.push({id: items[i].id, label:items[i].title, title: items[i].title, color: '#004c99', font:{color: 'white', face: 'Verdana, Geneva, sans-serif', size: 25}});
+                  }
+                  else if (items[i].bubbleType.search("L2PMaterialFolder") != -1) {
+                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#7BE141', font: {face: 'Verdana, Geneva, sans-serif'}});
+                  }
+                  else if (items[i].bubbleType.search("L2PAssignment") != -1) {
+                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#ffc966', font: {face: 'Verdana, Geneva, sans-serif'}});
+                  }
+                  else if (items[i].bubbleType.search("L2PMaterialAttachment") != -1) {
+                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#C2FABC', font: {face: 'Verdana, Geneva, sans-serif'}});
+                  } else {
+                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, font: {face: 'Verdana, Geneva, sans-serif'}});
+                  }
               }
+              console.log(items);
               for (var i = 0; i < edges.length; i++){
                   edges[i].arrows = 'to';
               }
@@ -133,7 +151,6 @@
               });
 
           }, function(errResponse) {
-              console.log('Error fetching data!');
               $mdToast.show(
                   $mdToast.simple()
                       .textContent('Error fetching courses')
