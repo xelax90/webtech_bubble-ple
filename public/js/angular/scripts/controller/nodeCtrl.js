@@ -107,8 +107,6 @@
                 console.log(nodeId);
 
                 console.log(node);
-                
-                console.log(networkService.getOrignalItems());
 
                 $scope.breadCrumbs += " > " + node.title;
 
@@ -120,9 +118,10 @@
                 }
 
               var orignalNode = getOrignalNode(nodeId);
-              var fileDownloadType = "BubblePle\\Entity\\L2PMaterialAttachment";
-              if(orignalNode.bubbleType == fileDownloadType){
-                console.log(orignalNode);
+              var L2PFileType = "BubblePle\\Entity\\L2PMaterialAttachment";  //BubblePle\Entity\FileAttachment
+              var normalFileType = "BubblePle\\Entity\\FileAttachment";
+              console.log(orignalNode);
+              if(orignalNode.bubbleType == L2PFileType || orignalNode.bubbleType == normalFileType){
                 downloadFile(orignalNode.title, orignalNode.filename);
               }
 
@@ -130,8 +129,11 @@
 
        function getOrignalNode(nodeId){
         var allNodes = networkService.getOrignalItems();
+        console.log("getting orignal nodes");
+        console.log(allNodes);
         for(var i = 0; i < allNodes.length; i++){
           if(allNodes[i].id == nodeId){
+            console.log("found...");
             return allNodes[i];
           }
         }

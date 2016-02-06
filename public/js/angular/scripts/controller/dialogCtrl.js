@@ -95,10 +95,10 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
       $scope.uploadFile = function(){
         $mdDialog.hide();
         var file = fileService[0];
-        $scope.bubbleName = file.name;
+        //$scope.bubbleName = file.name;
         console.log(file);
         this.url = '/admin/bubblePLE/fileAttachments/rest';
-        data = {fileattachment: {filename: file, title: $scope.bubbleName}}
+        data = {fileattachment: {filename: file, title: file.name}}
         console.log(data);
         console.log(this.url);
         
@@ -115,7 +115,7 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
             console.log(response.data.item.filename);
             $scope.showProgressBar = false;
             items.id = response.data.item.id;
-            items.label = response.data.item.title;
+            items.label = $scope.bubbleName;
             items.title = response.data.item.title;
             $mdToast.show(
                 $mdToast.simple()
