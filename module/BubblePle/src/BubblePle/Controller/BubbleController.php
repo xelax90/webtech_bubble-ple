@@ -308,6 +308,21 @@ class BubbleController extends ListController{
 		return $edgeRepo->findOneBy(array('from' => $from, 'to' => $to));
 	}
 	
+	protected function removeEdge($from, $to){
+		if(!$from || !$to){
+			return null;
+		}
+		
+		$exists = $this->edgeExists($from, $to);
+		if($exists){
+			
+			$exists->getTo()->getParents()->removeElement($exists);
+			$exists->getFrom()->getChildren()->removeElement($exists);
+			$this->getEntityManager()->remove($exists);
+			$this->getEntityManager()->flush();
+		}
+	}
+	
 	protected function createEdge($from, $to){
 		if(!$from || !$to){
 			return null;
@@ -370,8 +385,8 @@ class BubbleController extends ListController{
 	 * @param Bubble $bubble
 	 * @return Course
 	 */
-	protected function findCourseParent($bubble){
-		return $this->findParentInstance($bubble, function($item){return $item instanceof Course; });
+	protected function findCourseParent($bubble, $user = null){
+		return $this->findParentInstance($bubble, function($item) use ($user) {return $item instanceof Course && ($user == null || $item->getOwner() == $user); });
 	}
 	
 	/**
@@ -379,8 +394,8 @@ class BubbleController extends ListController{
 	 * @param Bubble $bubble
 	 * @return Semester
 	 */
-	protected function findSemesterParent($bubble){
-		return $this->findParentInstance($bubble, function($item){return $item instanceof Semester; });
+	protected function findSemesterParent($bubble, $user = null){
+		return $this->findParentInstance($bubble, function($item) use ($user) {return $item instanceof Semester && ($user == null || $item->getOwner() == $user); });
 	}
 	
 	protected function findParentInstance($bubble, callable $check){
@@ -433,6 +448,11 @@ class BubbleController extends ListController{
 		$shares = $bubble->getShares();
 		foreach($shares as $share){
 			if($share->getSharedWith() == $user){
+				$parent = $this->findCourseParent($share->getBubble(), $user);
+				if(!$parent){
+					$parent = $this->findSemesterParent($share->getBubble(), $user);
+				}
+				$this->removeEdge($parent, $share->getBubble());
 				$em->remove($share);
 			}
 		}
