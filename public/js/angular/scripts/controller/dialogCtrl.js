@@ -101,10 +101,16 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
         data = {fileattachment: {filename: file, title: file.name}}
         console.log(data);
         console.log(this.url);
-        
+
+        var text;
+
+        if($scope.bubbleName === ""){
+            $scope.bubbleName = file.name;
+        }
+
         file.upload = Upload.upload({
             url: '/admin/bubblePLE/fileAttachments/rest',
-            data: {fileattachment: {filename: file, title: file.name}},
+            data: {fileattachment: {filename: file, title: $scope.bubbleName}},
         });
 
         file.upload.then(function (response) {
@@ -124,7 +130,7 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
                     .hideDelay(3000)
             );
             callBack(items);
-            
+
         });
     }, function (response) {
         if (response.status > 0)

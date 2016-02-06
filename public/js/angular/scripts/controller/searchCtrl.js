@@ -26,8 +26,6 @@
             console.log("hurray found");
             arr[i] = items[k].id;
 
-            // networkService.getNetwork().selectNodes([items[k].id], true);
-            // networkService.getNetwork().focus(items[k].id);
             isFound = true;
             i++;
         }
