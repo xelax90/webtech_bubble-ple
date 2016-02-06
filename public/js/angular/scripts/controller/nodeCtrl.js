@@ -72,6 +72,10 @@
 
               networkService.setNetworkData(items, bubbles, edges);
               networkService.initNetwork();
+
+
+              //it is done in this way, so we can re assign double click event to new network when network object changes
+              networkService.getNetwork().on('doubleClick', onDoubleClick);
               networkService.getNetwork().on("selectNode", function(params) {
                   if (params.nodes.length == 1) {
                       if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
@@ -79,7 +83,7 @@
                       }
                   }
               });
-             
+              
 
               //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
 
