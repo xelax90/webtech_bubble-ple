@@ -53,7 +53,12 @@
 
               for (var i = 0; i < items.length; i++){
                   if ((items[i].bubbleType.search("Semester") != -1) || (isChild(items[i], semesterId))) {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title});
+                      if (items[i].bubbleType.search("Semester") != -1){
+                          bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#004c99', font: {color: 'white', size: 25, strokeWidth: 1, strokeColor: 'black', face: 'Verdana, Geneva, sans-serif'}});
+                      }
+                      else {
+                        bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, font:{face: 'Verdana, Geneva, sans-serif'}});
+                      }
                   }
               }
               for (var i = 0; i < edges.length; i++){
@@ -65,9 +70,14 @@
 
               networkService.setNetworkData(items, bubbles, edges);
               networkService.initNetwork();
-
-              //it is done in this way, so we can re assign double click event to new network when network object changes
-              networkService.getNetwork().on('doubleClick', onDoubleClick);
+              networkService.getNetwork().on("selectNode", function(params) {
+                  if (params.nodes.length == 1) {
+                      if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
+                          networkService.getNetwork().openCluster(params.nodes[0]);
+                      }
+                  }
+              });
+             
 
               //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
 
@@ -138,13 +148,26 @@
 
       function getAttachments(courseId){
           $http.get('admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
-              console.log("attachment is called");
               var bubbles = new Array();
               var items = response.data.bubbles;
               var edges = response.data.edges;
               for (var i = 0; i < items.length; i++){
-                  bubbles.push({id: items[i].id, label:items[i].title, title: items[i].title});
+                  if (items[i].bubbleType.search("Course") != -1){
+                      bubbles.push({id: items[i].id, label:items[i].title, title: items[i].title, color: '#004c99', font:{color: 'white', face: 'Verdana, Geneva, sans-serif', size: 25}});
+                  }
+                  else if (items[i].bubbleType.search("L2PMaterialFolder") != -1) {
+                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#7BE141', font: {face: 'Verdana, Geneva, sans-serif'}});
+                  }
+                  else if (items[i].bubbleType.search("L2PAssignment") != -1) {
+                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#ffc966', font: {face: 'Verdana, Geneva, sans-serif'}});
+                  }
+                  else if (items[i].bubbleType.search("L2PMaterialAttachment") != -1) {
+                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#C2FABC', font: {face: 'Verdana, Geneva, sans-serif'}});
+                  } else {
+                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, font: {face: 'Verdana, Geneva, sans-serif'}});
+                  }
               }
+              console.log(items);
               for (var i = 0; i < edges.length; i++){
                   edges[i].arrows = 'to';
               }
@@ -156,12 +179,18 @@
                       window.location = isL2Plink(item.nodes[0], items);
                   }
               });
+              networkService.getNetwork().on("selectNode", function(params) {
+                  if (params.nodes.length == 1) {
+                      if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
+                          networkService.getNetwork().openCluster(params.nodes[0]);
+                      }
+                  }
+              });
 
               //since network nodes and edges change, therefore re assign the double click event to new network
               networkService.getNetwork().on('doubleClick', onDoubleClick);
 
           }, function(errResponse) {
-              console.log('Error fetching data!');
               $mdToast.show(
                   $mdToast.simple()
                       .textContent('Error fetching courses')

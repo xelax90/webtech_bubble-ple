@@ -27,6 +27,6 @@ namespace BubblePle\Controller;
  */
 class SemesterController extends BubbleController{
 	protected function getAll() {
-		return $this->getAllOrdered(array('year' => 'desc', 'isWinter' => 'desc'));
+		return $this->getAllOrdered(array('b.year' => 'desc', 'b.isWinter' => 'desc'));
 	}
 }

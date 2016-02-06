@@ -111,6 +111,44 @@ $routerConfig = array(
 							),
 						)
 					),
+					'share' => array(
+						'type' => 'Segment',
+						'options' => array(
+							'route' => '/share/:bubbleId/:userId',
+							'constraints' => array(
+								'bubbleId' => '[0-9]+',
+								'userId' => '[0-9]+',
+							),
+							'defaults' => array(
+								'controller' => Controller\BubbleController::class,
+								'action' => 'share',
+							),
+						)
+					),
+					'unshare' => array(
+						'type' => 'Segment',
+						'options' => array(
+							'route' => '/unshare/:bubbleId/:userId',
+							'constraints' => array(
+								'bubbleId' => '[0-9]+',
+								'userId' => '[0-9]+',
+							),
+							'defaults' => array(
+								'controller' => Controller\BubbleController::class,
+								'action' => 'unShare',
+							),
+						)
+					),
+					'usernames' => array(
+						'type' => 'Literal',
+						'options' => array(
+							'route' => '/usernames',
+							'defaults' => array(
+								'controller' => Controller\BubbleController::class,
+								'action' => 'usernames',
+							),
+						)
+					),
 				)
 			),
 		)
@@ -122,6 +160,9 @@ $guardConfig = array(
 	['route' => 'zfcadmin/bubblePLE/sync',               'roles' => ['user'] ],
 	['route' => 'zfcadmin/bubblePLE/filter',             'roles' => ['user'] ],
 	['route' => 'zfcadmin/bubblePLE/form',               'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/usernames',          'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/share',              'roles' => ['user'] ],
+	['route' => 'zfcadmin/bubblePLE/unshare',            'roles' => ['user'] ],
 	['route' => 'zfcadmin/bubblePLE/edges',              'roles' => ['user'] ],
 	['route' => 'zfcadmin/bubblePLE/bubbles',            'roles' => ['user'] ],
 	['route' => 'zfcadmin/bubblePLE/semesters',          'roles' => ['user'] ],
@@ -205,6 +246,7 @@ return array(
 		),
 		'invokables' => array(
 			Service\L2PSync::class => Service\L2PSync::class,
+			Service\BubblePermission::class => Service\BubblePermission::class,
 			Listener\L2PListener::class => Listener\L2PListener::class,
 		),
 	),
