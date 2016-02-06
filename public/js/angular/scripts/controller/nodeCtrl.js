@@ -68,7 +68,13 @@
               //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
               networkService.setNetworkData(bubbles, edges);
               networkService.initNetwork();
-
+              networkService.getNetwork().on("selectNode", function(params) {
+                  if (params.nodes.length == 1) {
+                      if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
+                          networkService.getNetwork().openCluster(params.nodes[0]);
+                      }
+                  }
+              });
               
 
               networkService.getNetwork().on('doubleClick', function(node){
@@ -147,6 +153,13 @@
               networkService.getNetwork().on('doubleClick', function(item){
                   if (isL2Plink(item.nodes[0], items)!= false) {
                       window.location = isL2Plink(item.nodes[0], items);
+                  }
+              });
+              networkService.getNetwork().on("selectNode", function(params) {
+                  if (params.nodes.length == 1) {
+                      if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
+                          networkService.getNetwork().openCluster(params.nodes[0]);
+                      }
                   }
               });
 
