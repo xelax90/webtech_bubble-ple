@@ -54,8 +54,6 @@
               for (var i = 0; i < items.length; i++){
                   if ((items[i].bubbleType.search("Semester") != -1) || (isChild(items[i], semesterId))) {
                       bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title});
-
-                      console.log(items[i].id + ": " + items[i].title);
                   }
               }
               for (var i = 0; i < edges.length; i++){
@@ -72,6 +70,7 @@
               networkService.getNetwork().on('doubleClick', onDoubleClick);
 
               //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
+
           }, function(errResponse) {
               console.log('Error fetching data!');
               $mdToast.show(
@@ -152,6 +151,11 @@
 
               networkService.setNetworkData(bubbles, edges);
               networkService.initNetwork();
+              networkService.getNetwork().on('doubleClick', function(item){
+                  if (isL2Plink(item.nodes[0], items)!= false) {
+                      window.location = isL2Plink(item.nodes[0], items);
+                  }
+              });
 
               //since network nodes and edges change, therefore re assign the double click event to new network
               networkService.getNetwork().on('doubleClick', onDoubleClick);
@@ -165,6 +169,17 @@
                       .hideDelay(3000)
               );
           });
+      }
+
+      function isL2Plink(nodeId, items){
+          for (var i = 0; i < items.length; i++){
+              if (items[i].id == nodeId){
+                  if (items[i].bubbleType.search("L2PMaterialAttachment") != -1) {
+                      return applicationBasePath + items[i].filename.substring(1);
+                  }
+              }
+          }
+          return false;
       }
 
       $scope.addNewBubble = function (){
