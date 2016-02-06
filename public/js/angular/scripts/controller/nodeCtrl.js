@@ -44,6 +44,10 @@
               var items = response.data.bubbles;
               var edges = response.data.edges;
 
+              console.log("orignal items");
+              console.log(items);
+
+
               $scope.loadingData = false;
               $scope.breadCrumbs = items[0].title;
 
@@ -61,28 +65,13 @@
               //var nodes = new vis.DataSet(bubbles);
               //var edges = new vis.DataSet(edges);
 
+              networkService.setNetworkData(items, bubbles, edges);
+              networkService.initNetwork();
+
+              //it is done in this way, so we can re assign double click event to new network when network object changes
+              networkService.getNetwork().on('doubleClick', onDoubleClick);
 
               //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
-              networkService.setNetworkData(bubbles, edges);
-              networkService.initNetwork();
-              console.log("looking..");
-              console.log(networkService.getNodes());
-              
-
-              networkService.getNetwork().on('doubleClick', function(node){
-                console.log("double click");
-                var index = items.map(function(el) {
-                  return el.id;
-                }).indexOf( parseInt(node.nodes[0]) );
-                console.log(items[index].title);
-                $scope.breadCrumbs += " > " + items[index].title;
-
-                  if (node.nodes[0]){
-                      if (isCourse(node.nodes[0], items)){
-                          getAttachments(node.nodes[0]);
-                      }
-                  }
-              });
           }, function(errResponse) {
               console.log('Error fetching data!');
               $mdToast.show(
@@ -93,6 +82,39 @@
               );
           });
       }
+
+
+       function onDoubleClick(node){
+                this.items = networkService.getNodes();
+                var nodeId = node.nodes[0];
+                var node = this.items._data[nodeId];
+          
+                $scope.breadCrumbs += " > " + node.title;
+
+                if (nodeId){
+                  if (isCourse(nodeId, networkService.getOrignalItems())){
+                    getAttachments(nodeId);
+                    return;
+                  }
+                }
+
+              var orignalNode = getOrignalNode(nodeId);
+              var fileDownloadType = "BubblePle\\Entity\\L2PMaterialAttachment";
+              if(orignalNode.bubbleType == fileDownloadType){
+                console.log(orignalNode);
+                downloadFile(orignalNode.title, orignalNode.filename);
+              }
+
+       }              
+
+       function getOrignalNode(nodeId){
+        var allNodes = networkService.getOrignalItems();
+        for(var i = 0; i < allNodes.length; i++){
+          if(allNodes[i].id == nodeId){
+            return allNodes[i];
+          }
+        }
+       }
 
       function isChild(Node, parentId){
             for (var i = 0; i < Node.parents.length; i++){
@@ -107,6 +129,7 @@
           for (var i = 0; i < items.length; i++){
               if (items[i].id == id){
                   if (items[i].bubbleType.search("Course") != -1) {
+                      console.log("it is course");
                       return true;
                   }
               }
@@ -126,11 +149,12 @@
               for (var i = 0; i < edges.length; i++){
                   edges[i].arrows = 'to';
               }
-              console.log(response);
 
-              //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
               networkService.setNetworkData(bubbles, edges);
               networkService.initNetwork();
+
+              //since network nodes and edges change, therefore re assign the double click event to new network
+              networkService.getNetwork().on('doubleClick', onDoubleClick);
 
           }, function(errResponse) {
               console.log('Error fetching data!');
@@ -228,6 +252,8 @@
       var doubleClickTime = 0;
       var threshold = 200;
 
+
+
       /*When user click on bubble then this method will be called to check whether user click once or twice*/
       function onClick(properties) {
           var t0 = new Date();
@@ -246,17 +272,17 @@
       }
 
       /*If user double click on the bubble then this method will be called*/
-      function onDoubleClick(properties) {
-          doubleClickTime = new Date();
-          console.log(properties);
+      // function onDoubleClick(properties) {
+      //     doubleClickTime = new Date();
+      //     console.log(properties);
 
-          var nodeId = properties.nodes[0];
-          var node = networkService.getNodes().get(nodeId);
-          var filename = node.label;
-          console.log("in double click");
-          //downloadFile(filename);
-          fileExist($http, filename);
-      }
+      //     var nodeId = properties.nodes[0];
+      //     var node = networkService.getNodes().get(nodeId);
+      //     var filename = node.label;
+      //     console.log("in double click");
+      //     //downloadFile(filename);
+      //     fileExist($http, filename);
+      // }
 
 
       //trigger onFileSelect method on clickUpload button clicked

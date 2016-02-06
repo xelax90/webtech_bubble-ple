@@ -6,6 +6,7 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
     var dialog;
     var bubbleType;
 
+    this.orignalItems;
     this.nodes;
     this.edges;
     this.data;
@@ -104,7 +105,19 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
      //create a network
     container = document.getElementById('bubbles');
 
-    this.setNetworkData = function(n, e){
+    this.setNetworkData = function(i, n, e){
+        console.log("argument length : " + arguments.length);
+        if(arguments.length == 3){
+            this.orignalItems = arguments[0];
+            this.setData(arguments[1], arguments[2]);
+        }
+        else{
+            this.setData(arguments[0], arguments[1]);
+        }
+        
+    }
+
+     this.setData = function(n, e){
         this.nodes = new vis.DataSet(n);
         this.edges = new vis.DataSet(e);
         this.data = {
@@ -113,6 +126,7 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
         };
         console.log("set network data");
     }
+
 
     this.initNetwork = function(){
         // initialize your network!
@@ -139,6 +153,10 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
 
     this.getEdges = function(){
     	return this.edges;
+    };
+
+    this.getOrignalItems = function(){
+        return this.orignalItems;
     };
 
     // initialize your network!

@@ -127,16 +127,15 @@
 
 
         /*Serve file to download*/
-        function downloadFile(filename){
+        function downloadFile(name, filePath){
 
-        	var fileattachmentPath = "/files/fileattachment/";
-        	var completePath = fileattachmentPath + filename;
+        	// var fileattachmentPath = "/files/fileattachment/";
+        	// var completePath = fileattachmentPath + filename;
 
-        	console.log("file exists ...");
         	var hiddenElement = document.createElement('a');
-        	hiddenElement.href = completePath;
+        	hiddenElement.href = filePath;
         	hiddenElement.target = '_blank';
-        	hiddenElement.download = filename;
+        	hiddenElement.download = name;
         	hiddenElement.click();
         }
 
