@@ -44,8 +44,11 @@
         '    </md-button>' +
         '  </md-dialog-actions>' +
         '</md-dialog>';
-    } 
-    
+    }
+    else if(type === "fileAttachment") {
+        template = uploadFileDialogTemplate(); 
+    }
+
     return template;
 }
 
@@ -106,6 +109,25 @@ function changeLabelDialogTemplate(){
     '       </md-button>' +
     '   </md-dialog-actions>' +
     '</md-dialog>';
+}
+
+function uploadFileDialogTemplate(){
+    return '<md-dialog aria-label="List dialog">' +
+        '  <md-dialog-content>'+
+        '    <br>'+
+        '    <md-input-container>'+
+        '        <label>Title</label>'+
+        '        <input type="text" ng-model="bubbleName">'+
+        '    </md-input-container>'+
+        '  <md-dialog-actions>' +
+        '    <md-button ng-click="clickUpload()" class="md-primary">' +
+        '      Browse' +
+        '    </md-button>' +
+        '    <md-button ng-click="closeDialog()" class="md-primary">' +
+        '      Cancel' +
+        '    </md-button>' +
+        '  </md-dialog-actions>' +
+        '</md-dialog>';
 }
 
 function addTextToNodeDialog(){

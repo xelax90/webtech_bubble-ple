@@ -1,7 +1,7 @@
  /**
    * Created by Waqar Ahmed on 04/02/16.
    */
-   function uploadFile($scope, $mdToast, $timeout, file, Upload, networkService){
+   function uploadFile($scope, $mdToast, $timeout, file, Upload, networkService, $http, $route){
    	if(!file) return;
 
    	console.log("in file select");
@@ -30,8 +30,10 @@
 
    			var filePath = String(response.data.item.filename);
    			var res = filePath.split("/files/fileattachment/");
-   			addFileNode(res[1], filePath, networkService);
-   			$scope.showProgressBar = false;
+   			//addFileNode(res[1], filePath, networkService);
+   			//$route.reload();
+        //addFileBubble();
+        $scope.showProgressBar = false;
    		});
    	}, function (response) {
    		if (response.status > 0)
@@ -47,6 +49,20 @@
 	            $scope.progressBarValue = file.progress;
 	        });
    }
+
+   function addFileBubble(){
+    $http.post(url, req).then(function(response){
+             console.log(response);
+             items.id = response.data.item.id;
+             items.label = response.data.item.title;
+             items.title = response.data.item.title;
+             $mdToast.show(
+                 $mdToast.simple()
+                     .textContent('Bubble Added')
+                     .position('bottom')
+                     .hideDelay(3000)
+             );
+   })};
 
 
    function addFileNode(name, path, networkService){

@@ -183,6 +183,13 @@
           deleteNodeorEdge(networkService, $mdToast, $http);
       };
 
+      $scope.filUpload = function(){
+        bubbleType = 'fileAttachment';
+          showToast($mdToast, 'Click anywhere to add a Bubble for file');
+          networkService.setBubbleType(bubbleType);
+          networkService.getNetwork().addNodeMode();
+      }
+
       // for Opening the <form> to add text to node (UI hint : Edit Bubble)
       $scope.openTextBox = function(){
           if(networkService.getNetwork().getSelectedNodes().length > 0){
@@ -271,15 +278,15 @@
 
 
       //trigger onFileSelect method on clickUpload button clicked
-      $scope.clickUpload = function(){
-          document.getElementById('i_file').click();
-      };
+      // $scope.clickUpload = function(){
+      //     document.getElementById('i_file').click();
+      // };
 
-      // Upload actual file to the server
-       $scope.onFileSelect = function(file) {
-        uploadFile($scope, $mdToast, $timeout, file, Upload, networkService);
+      // // Upload actual file to the server
+      //  $scope.onFileSelect = function(file) {
+      //   //uploadFile($scope, $mdToast, $timeout, file, Upload, networkService);
 
-      }
+      // }
 
       /* Search node in network */
       $scope.searchNode = function (){
