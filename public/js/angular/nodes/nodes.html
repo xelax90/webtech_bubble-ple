@@ -53,7 +53,8 @@
             <md-list-item>
                 <!-- Hidden element to upload file -->
                 <div>
-                    <input type="file" id="i_file" name="fileattachment[]" ngf-select="onFileSelect($file)" style="display: none;"/>
+                    <!-- <input type="file" id="i_file" name="fileattachment[]" ngf-select="onFileSelect($file)" style="display: none;"/> -->
+                    <input type="file" file-model="myFile" name="fileattachment[]" id="i_file" style="display: none;" />
                 </div>
                 <md-button aria-label="file" ng-click="filUpload()" flex>
                     <md-icon class="fa fa-file-o fa-2x"></md-icon>

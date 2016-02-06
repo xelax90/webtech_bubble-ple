@@ -3,7 +3,7 @@
    */
   'use strict';
 
-  app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService){
+  app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', '$rootScope', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService, $rootScope){
 
       $scope.loadingData = true;
       $scope.breadCrumbs = "Personalized Learning Environment";
@@ -300,10 +300,13 @@
       // };
 
       // // Upload actual file to the server
-      //  $scope.onFileSelect = function(file) {
-      //   //uploadFile($scope, $mdToast, $timeout, file, Upload, networkService);
-
-      // }
+       $scope.onFileSelect = function(file) {
+        //uploadFile($scope, $mdToast, $timeout, file, Upload, networkService);
+        console.log("in main mehtod");
+        $scope.$emit('uploadFileEvent', [file]);
+        console.log("emitte");
+        console.log(file);
+      }
 
       /* Search node in network */
       $scope.searchNode = function (){

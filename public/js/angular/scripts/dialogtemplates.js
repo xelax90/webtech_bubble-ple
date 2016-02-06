@@ -119,9 +119,12 @@ function uploadFileDialogTemplate(){
         '        <label>Title</label>'+
         '        <input type="text" ng-model="bubbleName">'+
         '    </md-input-container>'+
-        '  <md-dialog-actions>' +
         '    <md-button ng-click="clickUpload()" class="md-primary">' +
         '      Browse' +
+        '    </md-button>' +
+        '  <md-dialog-actions>' +
+        '    <md-button ng-click="uploadFile()" class="md-primary">' +
+        '      Upload' +
         '    </md-button>' +
         '    <md-button ng-click="closeDialog()" class="md-primary">' +
         '      Cancel' +

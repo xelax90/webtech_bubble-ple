@@ -1,7 +1,7 @@
  /**
    * Created by Waqar Ahmed on 04/02/16.
    */
-function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, type, networkService, Upload, $timeout) {
+function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, type, networkService, Upload, $timeout, fileUpload, $rootScope) {
     //$scope.addingNewNode = function() {
     //    var data = items;
     //    data.label = $scope.bubbleName;
@@ -15,6 +15,9 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
     //    networkService.getNetwork().disableEditMode();
     //    $mdDialog.hide();
     //};
+
+     $scope.myFile = {};
+
 
      $scope.addingNewNode = function() {
          var req;
@@ -70,13 +73,57 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
 
      $scope.clickUpload = function(){
         console.log("click uplaod button click");
-          document.getElementById('i_file').click();
+          setTimeout(function() {
+            document.getElementById('i_file').click();
+        }, 0);
+          //$mdDialog.hide();
       };
 
+     
+
+      $scope.$on('uploadFileEvent',function(event,data){    
+        $scope.myData = data;
+        console.log("recevide");
+        console.log(data);
+    });
+
+      $scope.$on('myFile', function (event, myFile) {
+    $scope.myFile = myFile;
+    console.log("adsdsad");
+});
+
+      $scope.uploadFile = function(){
+        $mdDialog.hide();
+        var file = $scope.myFile;
+        var fd = new FormData();
+        console.log($parent.myFile);
+        this.url = '/admin/bubblePLE/fileAttachments/rest';
+        data = {fileattachment: {filename: file, title: $scope.bubbleName}};
+        $http.post(this.url, data, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+        .success(function(response){
+            console.log("file uploaded");
+            callBack(items);
+            console.log(response);
+        })
+        .error(function(response){
+            console.log("erro");
+            console.log(response);
+        });
+    };
+
+
+
       // Upload actual file to the server
-       $scope.onFileSelect = function(file) {
+        function uploadFileToServer(file) {
         //uploadFile($scope, $mdToast, $timeout, file, Upload, networkService);
         console.log("file selected");
+        
+
+
+        return ;
         $scope.showProgressBar = true;
         console.log("hiding dialog");
             $mdDialog.hide();
