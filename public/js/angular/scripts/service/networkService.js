@@ -64,7 +64,7 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
                             .position('bottom')
                             .hideDelay(3000)
                     );
-                    callback(data);
+                    callback(edgeData);
 
                 }, function(errResponse){
                     $mdToast.show(
@@ -127,13 +127,11 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
             nodes: this.nodes,
             edges: this.edges
         };
-        console.log("set network data");
     }
 
 
     this.initNetwork = function(){
         // initialize your network!
-        console.log("in init network");
 
         if(this.nodes == null || this.edges == null){
             console.log("No nodes or edges");
@@ -141,26 +139,6 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
         }
 
         this.network = new vis.Network(container, this.data, options);
-        var colors = ['#ffc966','#C2FABC','#7BE141'];
-        var clusterOptionsByData;
-        for (var i = 0; i < colors.length; i++) {
-            var color = colors[i];
-            clusterOptionsByData = {
-                joinCondition: function (childOptions) {
-                    return childOptions.color.background == color; // the color is fully defined in the node.
-                },
-                processProperties: function (clusterOptions, childNodes, childEdges) {
-                    var totalMass = 0;
-                    for (var i = 0; i < childNodes.length; i++) {
-                        totalMass += childNodes[i].mass;
-                    }
-                    clusterOptions.mass = totalMass;
-                    return clusterOptions;
-                },
-                clusterNodeProperties: {id: 'cluster:' + color, borderWidth: 3, shape: 'database', color:color, label:'color:' + color}
-            };
-            this.network.cluster(clusterOptionsByData);
-        }
     }
 
     this.getNetwork = function(){

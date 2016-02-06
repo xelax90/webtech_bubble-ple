@@ -163,7 +163,7 @@
                       bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#7BE141', font: {face: 'Verdana, Geneva, sans-serif'}});
                   }
                   else if (items[i].bubbleType.search("L2PAssignment") != -1) {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#ffc966', font: {face: 'Verdana, Geneva, sans-serif'}});
+                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, parent: items[i].parents[0], color: '#ffc966', font: {face: 'Verdana, Geneva, sans-serif'}});
                   }
                   else if (items[i].bubbleType.search("L2PMaterialAttachment") != -1) {
                       bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#C2FABC', font: {face: 'Verdana, Geneva, sans-serif'}});
@@ -171,7 +171,6 @@
                       bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, font: {face: 'Verdana, Geneva, sans-serif'}});
                   }
               }
-              console.log(items);
               for (var i = 0; i < edges.length; i++){
                   edges[i].arrows = 'to';
               }
@@ -190,6 +189,9 @@
                       }
                   }
               });
+
+              console.log(bubbles);
+              //networkService.getNetwork().clusterByConnection(1);
 
               //since network nodes and edges change, therefore re assign the double click event to new network
               networkService.getNetwork().on('doubleClick', onDoubleClick);
