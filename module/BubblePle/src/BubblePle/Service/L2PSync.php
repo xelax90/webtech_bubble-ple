@@ -64,7 +64,6 @@ class L2PSync implements ServiceLocatorAwareInterface{
 	}
 	
 	/**
-	 * 
 	 * @return \Zend\Authentication\AuthenticationService
 	 */
 	public function getAuthService(){

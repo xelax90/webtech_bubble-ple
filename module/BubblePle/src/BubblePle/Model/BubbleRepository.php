@@ -31,10 +31,38 @@ use Traversable;
  * @author schurix
  */
 class BubbleRepository extends EntityRepository{
-	public function getChildrenOf(Bubble $bubble, $filter = array()){
-		$bubbles = $this->findBy($filter);
-		$children = array($bubble);
-		$q = array($bubble);
+	
+	public function getAccessableBubbles($user, $filter = array(), $order = array()){
+		$query = $this->createQueryBuilder('b');
+		$query->leftJoin('shares', 's')
+			->addCriteria($filter)
+			->andWhere($query->expr()->orX('s.sharedWith = :user', 'b.owner = :user'))
+			->setParameter('user', $user);
+		if(!empty($order)){
+			foreach($order as $column => $dir){
+				if(is_int($column)){
+					$query->addOrderBy($dir);
+				} else {
+					$query->addOrderBy($column, $dir);
+				}
+			}
+		}
+		return $query->getQuery()->execute();
+	}
+	
+	public function getAccessableChildrenOf($user, Bubble $bubble, $filter = array(), $order = array()){
+		$bubbles = $this->getAccessableBubbles($user, $filter, $order);
+		return $this->filterChildren($bubble, $bubbles);
+	}
+	
+	public function getChildrenOf(Bubble $bubble, $filter = array(), $order = null){
+		$bubbles = $this->findBy($filter, $order);
+		return $this->filterChildren($bubble, $bubbles);
+	}
+	
+	public function filterChildren(Bubble $parent, $bubbles){
+		$children = array($parent);
+		$q = array($parent);
 		while(!empty($q)){
 			$currentBubble = array_pop($q);
 			/* @var $currentBubble Bubble */

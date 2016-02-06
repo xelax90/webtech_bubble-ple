@@ -65,6 +65,12 @@ class Bubble implements JsonSerializable{
 	 */
 	protected $l2pItemId = null;
 	
+	/**
+	 * @ORM\OneToMany(targetEntity="BubbleShare", mappedBy="bubble", cascade={"remove"})
+	 */
+	protected $shares;
+	
+	
 	public function getL2pItemId() {
 		return $this->l2pItemId;
 	}
@@ -98,7 +104,10 @@ class Bubble implements JsonSerializable{
 		$this->title = $title;
 		return $this;
 	}
-
+	
+	/**
+	 * @return \SkelletonApplication\Entity\User
+	 */
 	public function getOwner() {
 		return $this->owner;
 	}
@@ -123,6 +132,15 @@ class Bubble implements JsonSerializable{
 
 	public function setParents($parents) {
 		$this->parents = $parents;
+		return $this;
+	}
+	
+	public function getShares() {
+		return $this->shares;
+	}
+
+	public function setShares($shares) {
+		$this->shares = $shares;
 		return $this;
 	}
 
