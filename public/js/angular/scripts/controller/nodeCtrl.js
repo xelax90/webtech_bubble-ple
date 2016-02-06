@@ -231,6 +231,12 @@
           bubbleType = 'LinkAttachment';
           networkService.setBubbleType(bubbleType);
           networkService.getNetwork().addNodeMode();
+          $mdToast.show(
+            $mdToast.simple()
+            .textContent("Click anywhere to add a LinkBubble")
+            .position('bottom')
+            .hideDelay(3000)
+          );
       };
 
       $scope.addDocumentBubble = function (){
