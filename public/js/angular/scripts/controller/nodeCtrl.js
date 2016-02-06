@@ -50,8 +50,6 @@
               for (var i = 0; i < items.length; i++){
                   if ((items[i].bubbleType.search("Semester") != -1) || (isChild(items[i], semesterId))) {
                       bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title});
-
-                      console.log(items[i].id + ": " + items[i].title);
                   }
               }
               for (var i = 0; i < edges.length; i++){
@@ -65,12 +63,10 @@
               //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
               networkService.setNetworkData(bubbles, edges);
               networkService.initNetwork();
-              console.log("looking..");
-              console.log(networkService.getNodes());
+
               
 
               networkService.getNetwork().on('doubleClick', function(node){
-                console.log("double click");
                 var index = items.map(function(el) {
                   return el.id;
                 }).indexOf( parseInt(node.nodes[0]) );
@@ -126,11 +122,15 @@
               for (var i = 0; i < edges.length; i++){
                   edges[i].arrows = 'to';
               }
-              console.log(response);
 
               //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
               networkService.setNetworkData(bubbles, edges);
               networkService.initNetwork();
+              networkService.getNetwork().on('doubleClick', function(item){
+                  if (isL2Plink(item.nodes[0], items)!= false) {
+                      window.location = isL2Plink(item.nodes[0], items);
+                  }
+              });
 
           }, function(errResponse) {
               console.log('Error fetching data!');
@@ -141,6 +141,17 @@
                       .hideDelay(3000)
               );
           });
+      }
+
+      function isL2Plink(nodeId, items){
+          for (var i = 0; i < items.length; i++){
+              if (items[i].id == nodeId){
+                  if (items[i].bubbleType.search("L2PMaterialAttachment") != -1) {
+                      return applicationBasePath + items[i].filename.substring(1);
+                  }
+              }
+          }
+          return false;
       }
 
       $scope.addNewBubble = function (){
