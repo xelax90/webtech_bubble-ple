@@ -150,7 +150,11 @@
             <md-button id="main" class="keyboard_backspace back-button" hide-gt-sm aria-label="Show Toolbar">
                 <md-icon class="fa fa-minus fa-2x"></md-icon>
             </md-button>
-            <div class="custom-breadcrumb-bar">{{breadCrumbs}}</div>
+            <div class="custom-breadcrumb-bar">
+                <span ng-click="clickBreadCrumbsParent(bcSemesterId)">{{breadCrumbsParent}}</span>
+                <span ng-show="breadCrumbsChild"> &gt; </span>
+                <span ng-click="clickBreadCrumbsChild(bcCourseId)">{{breadCrumbsChild}}</span>
+            </div>
             <md-menu  >
                 <md-button id="main" aria-label="Show Toolbar" class="search- search-button" ng-click="$mdOpenMenu($event)">
                     <md-icon class="material-icons search-icon">swap_vert</md-icon>
