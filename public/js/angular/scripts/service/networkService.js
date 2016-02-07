@@ -152,6 +152,8 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
 			}
 		} else {
 			this.network.setData(this.data);
+			var that = this;
+			setTimeout(function(){that.network.fit({animation: true}); }, 1000);
 		}
 		globalnetwork = this.network;
 		globaldata = this.data;
