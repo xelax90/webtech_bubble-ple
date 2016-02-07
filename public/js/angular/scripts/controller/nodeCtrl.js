@@ -123,9 +123,23 @@
                     return;
                   }
                   else{
-                    console.log(getOrignalNode(nodeId));
-                    if(getOrignalNode(nodeId).bubbleType.search("MediaAttachment") != -1){
+                    var myNode = getOrignalNode(nodeId);
+                    if(myNode.bubbleType.search("MediaAttachment") != -1){
                       console.log("yeah it is a video");
+                      var myTemplate;
+                      if(myNode.filename.search("youtube") != -1) myTemplate = PlayYoutubeVideoDialogTemplate(myNode.title, myNode.filename);
+                      else myTemplate = PlayVideoDialogTemplate(myNode.title, myNode.filename);
+                      $mdDialog.show({
+                        template: myTemplate,
+                        controller : function($scope, $mdDialog){
+                          $scope.closeMediaDialog = function() {
+                           console.log("in close media dialgo");
+                           $mdDialog.hide();
+                          };
+                        }
+                      });
+                      
+                    //window.open(myNode.filename, '_blank');
                     }
                     if(isLinkAttachment(nodeId, networkService.getOrignalItems()) != false){
                       console.log("in link attac");
@@ -145,7 +159,6 @@
 
 
        }              
-
 
       function getOrignalNode(nodeId){
         var allNodes = networkService.getOrignalItems();

@@ -164,25 +164,31 @@ function uploadMediaDialogTemplate(){
 }
 
 
-function PlayVideoDialogTemplate(url){
+function PlayVideoDialogTemplate(title, url){
     return '<md-dialog aria-label="List dialog">' +
         '  <md-dialog-content>'+
         '    <br>'+
-         '<h2>Video Playing</h2>' +
+
         '<video width="320" height="240" controls> '+
         '<source src="'+
         url+
-        ' type="video/mp4"> '+
+        '" type="video/mp4"> '+
         'Your browser does not support the video tag. '+
         '        </video>'+
-        '    </md-button>' +
-        '    <md-button ng-click="closeDialog()" class="md-primary">' +
+        '  </md-dialog-content>'+
+        '  <md-dialog-actions>' +
+        '    <md-button ng-click="closeMediaDialog()" class="md-primary">' +
         '      Cancel' +
         '    </md-button>' +
         '  </md-dialog-actions>' +
         '</md-dialog>';
 }
 
+function PlayYoutubeVideoDialogTemplate(title, url){
+    return ' <md-dialog aria-label="Mango (Fruit)"  ng-cloak> <md-dialog-content><iframe width="420" height="345" src="'+
+    url+
+    '"></iframe></md-dialog-content><md-dialog-actions><md-button ng-click="closeMediaDialog()" class="md-primary">Cancel</md-button></md-dialog-actions></md-dialog>';
+}
 
 
 function addTextToNodeDialog(){
