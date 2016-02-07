@@ -80,7 +80,7 @@ class SemesterFieldset extends BubbleFieldset{
 				'required' => false,
 			),
 		);
-		$filters = array_merge(parent::getInputFilterSpecification(), $filters);
+		$filters = array_replace_recursive(parent::getInputFilterSpecification(), $filters);
 		return $filters;
 	}
 }

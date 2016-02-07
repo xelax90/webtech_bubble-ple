@@ -60,7 +60,7 @@ class FileAttachmentFieldset extends AttachmentFieldset{
 				"type" => "Zend\InputFilter\FileInput",
 				'required' => false,
 				'filters' => array(
-					array(
+					'rename' => array(
 						'name' => 'Zend\Filter\File\RenameUpload',
 						'options' => array(
 							'target' => 'public/files/fileattachment/',
@@ -82,7 +82,7 @@ class FileAttachmentFieldset extends AttachmentFieldset{
 				),
 			),
 		);
-		$filters = array_merge(parent::getInputFilterSpecification(), $filters);
+		$filters = array_replace_recursive(parent::getInputFilterSpecification(), $filters);
 		return $filters;
 	}
 }

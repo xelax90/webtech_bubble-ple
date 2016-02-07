@@ -25,7 +25,7 @@ class MediaAttachmentFieldset extends FileAttachmentFieldset {
 		$filters = array(
 			'filename' => array(
 				'filters' => array(
-					array(
+					'rename' => array(
 						'options' => array(
 							'target' => 'public/files/mediaattachment/',
 						),
@@ -33,7 +33,7 @@ class MediaAttachmentFieldset extends FileAttachmentFieldset {
 				),
 			),
 		);
-		$filters = array_merge(parent::getInputFilterSpecification(), $filters);
+		$filters = array_replace_recursive(parent::getInputFilterSpecification(), $filters);
 		return $filters;
 	}
 }
