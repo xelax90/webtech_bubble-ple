@@ -149,6 +149,16 @@ $routerConfig = array(
 							),
 						)
 					),
+					'updatePositions' => array(
+						'type' => 'Literal',
+						'options' => array(
+							'route' => '/updatePositions',
+							'defaults' => array(
+								'controller' => Controller\BubbleController::class,
+								'action' => 'updatePositions',
+							),
+						)
+					),
 				)
 			),
 		)
@@ -157,6 +167,7 @@ $routerConfig = array(
 
 $guardConfig = array(
 	'test' => ['route' => 'test', 'roles' => ['guest', 'user'] ],
+	['route' => 'zfcadmin/bubblePLE/updatePositions',    'roles' => ['user'] ],
 	['route' => 'zfcadmin/bubblePLE/sync',               'roles' => ['user'] ],
 	['route' => 'zfcadmin/bubblePLE/filter',             'roles' => ['user'] ],
 	['route' => 'zfcadmin/bubblePLE/form',               'roles' => ['user'] ],
