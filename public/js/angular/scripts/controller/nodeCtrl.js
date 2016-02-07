@@ -113,6 +113,9 @@
                 var nodeId = node.nodes[0];
                 var node = this.items._data[nodeId];
 
+                console.log("this double click called");
+                console.log(nodeId);
+
                 if (nodeId){
                   if (isCourse(nodeId, networkService.getOrignalItems())){
 
@@ -125,7 +128,23 @@
                     getAttachments(nodeId);
                     return;
                   }
+                  else{
+                    if(isLinkAttachment(nodeId, networkService.getOrignalItems()) != false){
+                      console.log("in link attac");
+                      window.open(isLinkAttachment(nodeId, networkService.getOrignalItems()), '_blank');
+                    }
+                    if(isFile(nodeId, networkService.getOrignalItems())){
+                      console.log("in filw attac");
+                      downloadFile(orignalNode.title, orignalNode.filename);
+                    }
+                    if (isL2Plink(nodeId, networkService.getOrignalItems())!= false) {
+                      console.log("in l20 link attac");
+                        window.location = isL2Plink(nodeId, networkService.getOrignalItems());
+                    }
+                  }
                 }
+
+
 
        }              
 
@@ -180,18 +199,19 @@
 
               networkService.setNetworkData(bubbles, edges);
               networkService.initNetwork();
-              networkService.getNetwork().on('doubleClick', function(item){
+              networkService.getNetwork().on('doubleClick', onDoubleClick); 
+                //function(item){
 
-                  if(isLinkAttachment(item.nodes[0], items) != false){
-                      window.open(isLinkAttachment(item.nodes[0], items), '_blank');
-                  }
-                  if(isFile(item.nodes[0], items)){
-                    downloadFile(orignalNode.title, orignalNode.filename);
-                  }
-                  if (isL2Plink(item.nodes[0], items)!= false) {
-                      window.location = isL2Plink(item.nodes[0], items);
-                  }
-              });
+                  // if(isLinkAttachment(item.nodes[0], items) != false){
+                  //     window.open(isLinkAttachment(item.nodes[0], items), '_blank');
+                  // }
+                  // if(isFile(item.nodes[0], items)){
+                  //   downloadFile(orignalNode.title, orignalNode.filename);
+                  // }
+                  // if (isL2Plink(item.nodes[0], items)!= false) {
+                  //     window.location = isL2Plink(item.nodes[0], items);
+                  // }
+              //});
               networkService.getNetwork().on("selectNode", function(params) {
                   if (params.nodes.length == 1) {
                       if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
@@ -232,6 +252,7 @@
               if (items[i].id == nodeId){
                   if (items[i].bubbleType.search("L2PMaterialAttachment") != -1) {
                       return applicationBasePath + items[i].filename.substring(1);
+                      //return items[i].filename.substring(1);
                   }
               }
           }
@@ -241,6 +262,8 @@
           for (var i = 0; i < items.length; i++){
               if (items[i].id == nodeId){
                   if (items[i].bubbleType.search("LinkAttachment") != -1) {
+                    console.log("returning link");
+                    console.log(items[i].url);
                       return items[i].url;
                   }
               }
