@@ -129,14 +129,6 @@
 
        }              
 
-       function getOrignalNode(nodeId){
-        var allNodes = networkService.getOrignalItems();
-        for(var i = 0; i < allNodes.length; i++){
-          if(allNodes[i].id == nodeId){
-            return allNodes[i];
-          }
-        }
-       }
 
       function isChild(Node, parentId){
             for (var i = 0; i < Node.parents.length; i++){
@@ -189,12 +181,11 @@
               networkService.setNetworkData(bubbles, edges);
               networkService.initNetwork();
               networkService.getNetwork().on('doubleClick', function(item){
-                  var orignalNode = getOrignalNode(item.nodes[0]);
 
                   if(isLinkAttachment(item.nodes[0], items) != false){
                       window.open(isLinkAttachment(item.nodes[0], items), '_blank');
                   }
-                  if(isFile(orignalNode, items)){
+                  if(isFile(item.nodes[0], items)){
                     downloadFile(orignalNode.title, orignalNode.filename);
                   }
                   if (isL2Plink(item.nodes[0], items)!= false) {
