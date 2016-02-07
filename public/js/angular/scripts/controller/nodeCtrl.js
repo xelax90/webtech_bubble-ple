@@ -190,8 +190,13 @@
 			  id: bubble.id,
 			  label: bubble.title,
 			  title: bubble.title,
-			  font: {face: 'Verdana, Geneva, sans-serif'}
+			  font: {face: 'Verdana, Geneva, sans-serif'},
 		  };
+		  
+		  if(bubble.posX){
+			  node.x = bubble.posX;
+			  node.y = bubble.posY;
+		  }
 		
 		if (bubble.bubbleType.search("Semester") != -1){
 			node.color = '#004c99';
@@ -216,7 +221,37 @@
 		}
 		return node;
 	  }
-
+	  
+	  $scope.savePositions = function(){
+		  networkService.getNetwork().storePositions();
+		  var nodes = networkService.getNodes().get();
+		  var request = {bubbles: []};
+		  for(var i in nodes){
+			  var node = nodes[i];
+			  var pos = networkService.getNetwork().getPositions(['cidCluster'+node.id]);
+			  if(pos['cidCluster'+node.id]){
+				  request.bubbles.push({id: node.id, x: pos['cidCluster'+node.id].x, y: pos['cidCluster'+node.id].y});
+			  } else {
+				  request.bubbles.push({id: node.id, x: node.x, y: node.y});
+			  }
+		  }
+		  $http.post('admin/bubblePLE/updatePositions', request).then(function(response){
+			$mdToast.show(
+				$mdToast.simple()
+					.textContent('Layout saved!')
+					.position('bottom')
+					.hideDelay(3000)
+			);
+		  }, function(errResponse){
+                 $mdToast.show(
+                     $mdToast.simple()
+                         .textContent('Error saving layout!')
+                         .position('bottom')
+                         .hideDelay(3000)
+                 );
+          });
+	  }
+	  
       function getAttachments(courseId){
 		  console.log('getAttachments');
           $http.get('admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
@@ -271,6 +306,10 @@
                   },
                   clusterNodeProperties: {id:'cidCluster' + bubble.id, label: bubble.title}
               };
+			  if(bubble.x){
+				  clusterOptionsByData.clusterNodeProperties.x = bubble.x;
+				  clusterOptionsByData.clusterNodeProperties.y = bubble.y;
+			  }
               networkService.getNetwork().cluster(clusterOptionsByData);
           }
       }
