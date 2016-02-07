@@ -14,6 +14,10 @@ var app = angular.module(
             templateUrl: (applicationBasePath ? applicationBasePath : '') + 'js/angular/nodes/nodes.html',
             controller: 'nodeCtrl'
         });
+    $routeProvider.when('/login',{
+            templateUrl: (applicationBasePath ? applicationBasePath : '') + 'js/angular/login/login.html',
+            controller: 'loginCtrl'
+        });
 }]);
 
 app.directive('fileModel', ['$parse', 'fileService', function ($parse, fileService) {
