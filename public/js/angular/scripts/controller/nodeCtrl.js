@@ -134,8 +134,8 @@
                       window.open(isLinkAttachment(nodeId, networkService.getOrignalItems()), '_blank');
                     }
                     if(isFile(nodeId, networkService.getOrignalItems())){
-                      console.log("in filw attac");
-                      downloadFile(orignalNode.title, orignalNode.filename);
+                      window.open(isFile(nodeId, networkService.getOrignalItems()), '_blank');
+                      //window.location.assign(isFile(nodeId, networkService.getOrignalItems()));
                     }
                     if (isL2Plink(nodeId, networkService.getOrignalItems())!= false) {
                       console.log("in l20 link attac");
@@ -274,7 +274,7 @@
           for (var i = 0; i < items.length; i++){
               if (items[i].id == nodeId){
                   if (items[i].bubbleType.search("FileAttachment") != -1) {
-                      return true;
+                      return applicationBasePath + items[i].filename.substring(1);
                   }
               }
           }
