@@ -40,6 +40,7 @@
       });
 
       $scope.announceSemester = function(sId){
+          $scope.breadCrumbsChild = "";
           $scope.bcSemesterId = sId;
           getCourses(sId);
           networkService.setmdDialog($mdDialog);
@@ -237,6 +238,7 @@
       }
 
       $scope.clickBreadCrumbsParent = function(bcSemesterId){
+        $scope.breadCrumbsChild = "";
         $scope.loadingData = true;
         getCourses(bcSemesterId);
       };
