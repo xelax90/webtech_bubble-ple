@@ -95,7 +95,7 @@
                 </md-button>
             </md-list-item>
             <md-list-item>
-                <md-button aria-label="share" flex>
+                <md-button aria-label="share" ng-click="openShareBox($event)" flex>
                     <md-icon class="fa fa-share-alt fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
                         Share Bubble and sub-bubbles
@@ -147,7 +147,7 @@
 
     <md-content layout="column" flex id='content'>
         <md-toolbar layout="row" class = "md-whiteframe-z2 breadcrumb-bar">
-            <md-button id="main" class="keyboard_backspace back-button" hide-gt-sm aria-label="Show Toolbar">
+            <md-button  ng-click="clickBreadCrumbsParent(bcSemesterId)" class="keyboard_backspace back-button" hide-gt-sm aria-label="Show Toolbar">
                 <md-icon class="material-icons">keyboard_backspace</md-icon>
             </md-button>
             <div class="custom-breadcrumb-bar">
@@ -155,8 +155,8 @@
                 <!--<span ng-show="breadCrumbsChild"> &gt; </span>-->
                 <md-button class="md-raised" ng-show="breadCrumbsChild" ng-click="clickBreadCrumbsChild(bcCourseId)">{{breadCrumbsChild}}</md-button>
             </div>
-            <md-menu  >
-                <md-button id="main" aria-label="Show Toolbar" class="search- search-button" ng-click="$mdOpenMenu($event)">
+            <md-menu>
+                <md-button aria-label="Show Toolbar" class="search- search-button" ng-click="$mdOpenMenu($event)">
                     <md-icon class="material-icons search-icon">swap_vert</md-icon>
                 </md-button>
                 <md-menu-content width="4">
@@ -165,10 +165,10 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
-            <md-button id="main" class="search- search-button" ng-click="searchNode()" aria-label="Show Toolbar">
+            <md-button class="search- search-button" ng-click="searchNode()" aria-label="Show Toolbar">
                 <md-icon class="material-icons search-icon">search</md-icon>
             </md-button>
-            <md-button id="main" class="menu menu-button" ng-click="toggleList()" hide-gt-sm aria-label="Show Toolbar">
+            <md-button class="menu menu-button" ng-click="toggleList()" hide-gt-sm aria-label="Show Toolbar">
                 <md-icon class="material-icons menu-icon">menu</md-icon>
             </md-button>
         </md-toolbar>
