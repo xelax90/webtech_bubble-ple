@@ -10,7 +10,11 @@
       $scope.currentCourseId;
 
       $scope.loadingData = true;
-      $scope.breadCrumbs = "Personalized Learning Environment";
+      $scope.breadCrumbsParent = "Personalized Learning Environment";
+      $scope.breadCrumbsChild;
+
+      $scope.bcSemesterId;
+      $scope.bcCourseId;
 
       $scope.toggleList = function(){
         $mdSidenav('left').toggle();
@@ -21,6 +25,7 @@
 
       $http.get('admin/bubblePLE/semesters/rest').then(function(response) {
           var semId = response.data[0].id;
+          $scope.bcSemesterId = semId;
           getCourses(semId);
           networkService.setmdDialog($mdDialog);
       }, function(errResponse) {
@@ -33,13 +38,6 @@
           );
       });
 
-      function navigateCourse(courseID){
-        console.log("navigateCourse: " + courseID);
-        if(courseID){          
-          getAttachments(courseID);
-        }
-      }
-
       //filter courses of one semester
       function getCourses(semesterId){
           $http.get('admin/bubblePLE/filter/parent/'+semesterId).then(function(response) {
@@ -50,7 +48,7 @@
 
 
               $scope.loadingData = false;
-              $scope.breadCrumbs = items[0].title;
+              $scope.breadCrumbsParent = items[0].title;
 
               for (var i = 0; i < items.length; i++){
                   if ((items[i].bubbleType.search("Semester") != -1) || (isChild(items[i], semesterId))) {
@@ -106,11 +104,15 @@
                 console.log(nodeId);
 
                 console.log(node);
-
-                $scope.breadCrumbs += " > " + node.title;
+                console.log(node.id);
+                console.log(node.title);
 
                 if (nodeId){
                   if (isCourse(nodeId, networkService.getOrignalItems())){
+
+                    $scope.bcCourseId = node.id;
+                    $scope.breadCrumbsChild = node.title;
+                    
                     $scope.currentCourseId = nodeId;
                     getAttachments(nodeId);
                     return;
@@ -234,6 +236,14 @@
           }
           return false;
       }
+
+      $scope.clickBreadCrumbsParent = function(bcSemesterId){
+        getCourses(bcSemesterId);
+      };
+
+      $scope.clickBreadCrumbsChild = function(bcCourseId){
+        getAttachments(bcCourseId);
+      };
 
       $scope.addNewBubble = function (){
           bubbleType = 'Bubble';
