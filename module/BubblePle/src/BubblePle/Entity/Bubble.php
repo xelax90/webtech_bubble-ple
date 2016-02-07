@@ -70,6 +70,20 @@ class Bubble implements JsonSerializable{
 	 */
 	protected $shares;
 	
+	/**
+	 * @ORM\Column(type="integer")
+	 */
+	protected $posX;
+	
+	/**
+	 * @ORM\Column(type="integer")
+	 */
+	protected $posY;
+	
+	/**
+	 * @ORM\Column(type="string")
+	 */
+	protected $priority;
 	
 	public function getL2pItemId() {
 		return $this->l2pItemId;
@@ -143,6 +157,33 @@ class Bubble implements JsonSerializable{
 		$this->shares = $shares;
 		return $this;
 	}
+	
+	public function getPosX() {
+		return $this->posX;
+	}
+
+	public function getPosY() {
+		return $this->posY;
+	}
+
+	public function setPosX($posX) {
+		$this->posX = $posX;
+		return $this;
+	}
+
+	public function setPosY($posY) {
+		$this->posY = $posY;
+		return $this;
+	}
+	
+	public function getPriority() {
+		return $this->priority;
+	}
+
+	public function setPriority($priority) {
+		$this->priority = $priority;
+		return $this;
+	}
 
 	/**
 	 * Returns json String
@@ -170,6 +211,9 @@ class Bubble implements JsonSerializable{
 			'l2pItemId' => $this->getL2pItemId(),
 			'title' => $this->getTitle(),
 			'parents' => $parents,
+			'posX' => $this->getPosX(),
+			'posY' => $this->getPosY(),
+			'priority' => $this->getPriority(),
 		);
 	}
 	

@@ -473,4 +473,33 @@ class BubbleController extends ListController{
 		}
 		return new JsonModel($res);
 	}
+	
+	public function updatePositionsAction(){
+		$res = array('success' => false, 'error' => 'No data');
+		$request = $this->getRequest();
+		if($request->isPost()){
+			$data = $request->getPost();
+			if(!empty($data['bubbles'])){
+				$res = $this->updatePositions($data['bubbles']);
+			}
+		}
+		return new JsonModel($res);
+	}
+	
+	protected function updatePositions($bubbles){
+		$em = $this->getEntityManager();
+		$bubbleRepo = $em->getRepository(Bubble::class);
+		$permission = $this->getBubblePermission();
+		foreach($bubbles as $bubbleData){
+			/* @var $bubble Bubble */
+			$bubble = $bubbleRepo->find((int) $bubbleData['id']);
+			if(!$bubble || !$permission->canEdit($bubble)){
+				continue;
+			}
+			$bubble->setPosX((int) $bubbleData['x'])
+					->setPosY((int) $bubbleData['y']);
+		}
+		$em->flush();
+		return array('success' => true);
+	}
 }
