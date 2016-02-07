@@ -33,8 +33,21 @@ class FileAttachment extends Attachment{
 	 */
 	protected $filename;
 	
+	protected $fileLink;
+	
 	public function getFilename() {
 		return $this->filename;
+	}
+
+	public function getFileLink() {
+		return $this->getFilename();
+	}
+
+	public function setFileLink($fileLink) {
+		if(!empty($fileLink)){
+			return $this->setFilename($fileLink);
+		}
+		return $this;
 	}
 
 	public function setFilename($filename) {

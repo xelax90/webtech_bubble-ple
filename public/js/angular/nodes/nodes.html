@@ -1,5 +1,5 @@
 <!--<div ng-controller="NodesCtrl" flex layout="row" class="whole-container" >-->
-<div ng-controller="nodeCtrl" flex layout="row" class="whole-container">
+<div flex layout="row" class="whole-container">
 
     <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
       md-component-id="left"
@@ -148,10 +148,10 @@
     <md-content layout="column" flex id='content'>
         <md-toolbar layout="row" class = "md-whiteframe-z2 breadcrumb-bar">
             <md-button id="main" class="keyboard_backspace back-button" hide-gt-sm aria-label="Show Toolbar">
-                <md-icon class="fa fa-minus fa-2x"></md-icon>
+                <md-icon class="material-icons">keyboard_backspace</md-icon>
             </md-button>
             <div class="custom-breadcrumb-bar">
-                <md-button class="md-raised" ng-click="clickBreadCrumbsParent(bcSemesterId)">{{breadCrumbsParent}}</md-button>
+                <md-button class="md-raised breadcrumb-link" ng-click="clickBreadCrumbsParent(bcSemesterId)">{{breadCrumbsParent}}</md-button>
                 <!--<span ng-show="breadCrumbsChild"> &gt; </span>-->
                 <md-button class="md-raised" ng-show="breadCrumbsChild" ng-click="clickBreadCrumbsChild(bcCourseId)">{{breadCrumbsChild}}</md-button>
             </div>

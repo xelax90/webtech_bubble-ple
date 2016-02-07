@@ -10,7 +10,7 @@
       $scope.currentCourseId;
 
       $scope.loadingData = true;
-      $scope.breadCrumbsParent = "Personalized Learning Environment";
+      $scope.breadCrumbsParent = "Personal Learning Environment";
       $scope.breadCrumbsChild;
 
       $scope.bcSemesterId;
@@ -112,6 +112,9 @@
                 var nodeId = node.nodes[0];
                 var node = this.items._data[nodeId];
 
+                console.log("this double click called");
+                console.log(nodeId);
+
                 if (nodeId){
                   if (isCourse(nodeId, networkService.getOrignalItems())){
 
@@ -124,18 +127,26 @@
                     getAttachments(nodeId);
                     return;
                   }
+                  else{
+                    if(isLinkAttachment(nodeId, networkService.getOrignalItems()) != false){
+                      console.log("in link attac");
+                      window.open(isLinkAttachment(nodeId, networkService.getOrignalItems()), '_blank');
+                    }
+                    if(isFile(nodeId, networkService.getOrignalItems())){
+                      window.open(isFile(nodeId, networkService.getOrignalItems()), '_blank');
+                      //window.location.assign(isFile(nodeId, networkService.getOrignalItems()));
+                    }
+                    if (isL2Plink(nodeId, networkService.getOrignalItems())!= false) {
+                      console.log("in l20 link attac");
+                        window.location = isL2Plink(nodeId, networkService.getOrignalItems());
+                    }
+                  }
                 }
+
+
 
        }              
 
-       function getOrignalNode(nodeId){
-        var allNodes = networkService.getOrignalItems();
-        for(var i = 0; i < allNodes.length; i++){
-          if(allNodes[i].id == nodeId){
-            return allNodes[i];
-          }
-        }
-       }
 
       function isChild(Node, parentId){
             for (var i = 0; i < Node.parents.length; i++){
@@ -187,15 +198,19 @@
 
               networkService.setNetworkData(bubbles, edges);
               networkService.initNetwork();
-              networkService.getNetwork().on('doubleClick', function(item){
-                  var orignalNode = getOrignalNode(item.nodes[0]);
-                  var normalFileType = "BubblePle\\Entity\\FileAttachment";
-                  if(orignalNode.bubbleType == normalFileType){
-                    downloadFile(orignalNode.title, orignalNode.filename);
-                  } else if (isL2Plink(item.nodes[0], items)!= false) {
-                      window.location = isL2Plink(item.nodes[0], items);
-                  }
-              });
+              networkService.getNetwork().on('doubleClick', onDoubleClick); 
+                //function(item){
+
+                  // if(isLinkAttachment(item.nodes[0], items) != false){
+                  //     window.open(isLinkAttachment(item.nodes[0], items), '_blank');
+                  // }
+                  // if(isFile(item.nodes[0], items)){
+                  //   downloadFile(orignalNode.title, orignalNode.filename);
+                  // }
+                  // if (isL2Plink(item.nodes[0], items)!= false) {
+                  //     window.location = isL2Plink(item.nodes[0], items);
+                  // }
+              //});
               networkService.getNetwork().on("selectNode", function(params) {
                   if (params.nodes.length == 1) {
                       if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
@@ -235,6 +250,29 @@
           for (var i = 0; i < items.length; i++){
               if (items[i].id == nodeId){
                   if (items[i].bubbleType.search("L2PMaterialAttachment") != -1) {
+                      return applicationBasePath + items[i].filename.substring(1);
+                      //return items[i].filename.substring(1);
+                  }
+              }
+          }
+          return false;
+      }
+      function isLinkAttachment(nodeId, items){
+          for (var i = 0; i < items.length; i++){
+              if (items[i].id == nodeId){
+                  if (items[i].bubbleType.search("LinkAttachment") != -1) {
+                    console.log("returning link");
+                    console.log(items[i].url);
+                      return items[i].url;
+                  }
+              }
+          }
+          return false;
+      }
+      function isFile(nodeId, items){
+          for (var i = 0; i < items.length; i++){
+              if (items[i].id == nodeId){
+                  if (items[i].bubbleType.search("FileAttachment") != -1) {
                       return applicationBasePath + items[i].filename.substring(1);
                   }
               }
