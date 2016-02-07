@@ -147,7 +147,7 @@
 
     <md-content layout="column" flex id='content'>
         <md-toolbar layout="row" class = "md-whiteframe-z2 breadcrumb-bar">
-            <md-button class="keyboard_backspace back-button" hide-gt-sm aria-label="Show Toolbar">
+            <md-button  ng-click="clickBreadCrumbsParent(bcSemesterId)" class="keyboard_backspace back-button" hide-gt-sm aria-label="Show Toolbar">
                 <md-icon class="material-icons">keyboard_backspace</md-icon>
             </md-button>
             <div class="custom-breadcrumb-bar">
@@ -155,7 +155,7 @@
                 <!--<span ng-show="breadCrumbsChild"> &gt; </span>-->
                 <md-button class="md-raised" ng-show="breadCrumbsChild" ng-click="clickBreadCrumbsChild(bcCourseId)">{{breadCrumbsChild}}</md-button>
             </div>
-            <md-menu  >
+            <md-menu>
                 <md-button id="main" aria-label="Show Toolbar" class="search- search-button" ng-click="$mdOpenMenu($event)">
                     <md-icon class="material-icons search-icon">swap_vert</md-icon>
                 </md-button>

@@ -63,6 +63,7 @@
               for (var i in items){
                   if ((items[i].bubbleType.search("Semester") != -1) || (isChild(items[i], semesterId))) {
                       if (items[i].bubbleType.search("Semester") != -1){
+                          $scope.bcSemesterId = items[i].id;
                           $scope.breadCrumbsParent = items[i].title;
                           bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#004c99', font: {color: 'white', size: 25, strokeWidth: 1, strokeColor: 'black', face: 'Verdana, Geneva, sans-serif'}});
                       }
