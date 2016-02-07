@@ -2,7 +2,6 @@
 * Created by Waqar Ahmed on 04/02/16.
 */
 app.service('networkService',['$http','$mdToast', function($http, $mdToast){
-     
     var dialog;
     var bubbleType;
 
@@ -40,6 +39,18 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
         layout: {
 
         },
+/*		configure: {
+          filter:function (option, path) {
+            if (path.indexOf('physics') !== -1) {
+              return true;
+            }
+            if (path.indexOf('smooth') !== -1 || option === 'smooth') {
+              return true;
+            }
+            return false;
+          },
+          container: document.getElementById('config')
+        },*/
         manipulation:{
             enabled: false,
             addNode: function(data, callback){
@@ -131,14 +142,19 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
 
 
     this.initNetwork = function(){
+	    //console.log(printStackTrace());
         // initialize your network!
 
         if(this.nodes == null || this.edges == null){
             console.log("No nodes or edges");
             return;
         }
-
-        this.network = new vis.Network(container, this.data, options);
+		if(!this.network){
+	        this.network = new vis.Network(container, this.data, options);
+		} else {
+			this.network.setData(this.data);
+		}
+		globalnetwork = this.network;
     }
 
     this.getNetwork = function(){
