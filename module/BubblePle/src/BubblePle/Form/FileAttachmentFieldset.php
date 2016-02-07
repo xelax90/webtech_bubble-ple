@@ -37,13 +37,28 @@ class FileAttachmentFieldset extends AttachmentFieldset{
 				'id' => "",
 			)
 		));
+		
+		$this->add(array(
+			'name' => 'fileLink',
+			'type' => 'Text',
+			'options' => array(
+				'label' => gettext_noop('File Link'),
+				'column-size' => 'sm-10',
+				'label_attributes' => array(
+					'class' => 'col-sm-2',
+				),
+			),
+			'attributes' => array(
+				'id' => "",
+			)
+		));
 	}
 
 	public function getInputFilterSpecification() {
 		$filters = array(
 			'filename' => array(
 				"type" => "Zend\InputFilter\FileInput",
-				'required' => true,
+				'required' => false,
 				'filters' => array(
 					array(
 						'name' => 'Zend\Filter\File\RenameUpload',
@@ -56,6 +71,14 @@ class FileAttachmentFieldset extends AttachmentFieldset{
 					),
 				),
 				'validators' => array(
+				),
+			),
+			'flieLink' => array(
+				'required' => false,
+				'filters' => array(
+					array('name' => 'StringTrim'),
+					array('name' => 'StripTags'),
+					array('name' => 'XelaxHTMLPurifier\Filter\HTMLPurifier'),
 				),
 			),
 		);
