@@ -49,9 +49,23 @@
           getCourses(sId);
           networkService.setmdDialog($mdDialog);
       };
-
+	  
+	  var networkInitializer = function(network){
+            network.on('doubleClick', onDoubleClick);
+            network.on("selectNode", function(params) {
+				if (params.nodes.length == 1) {
+					if (network.isCluster(params.nodes[0]) == true) {
+						network.openCluster(params.nodes[0]);
+						network.setOptions({physics:{stabilization:{fit: false}}});
+						network.stabilize();
+					}
+				}
+			});
+	  }
+	  
       //filter courses of one semester
       function getCourses(semesterId){
+		  console.log('getCourses');
           $http.get('admin/bubblePLE/filter/parent/'+semesterId).then(function(response) {
               var bubbles = new Array();
               console.log(response);
@@ -80,19 +94,7 @@
               //var edges = new vis.DataSet(edges);
 
               networkService.setNetworkData(items, bubbles, edges);
-              networkService.initNetwork();
-
-
-              //it is done in this way, so we can re assign double click event to new network when network object changes
-              networkService.getNetwork().on('doubleClick', onDoubleClick);
-              networkService.getNetwork().on("selectNode", function(params) {
-                  if (params.nodes.length == 1) {
-                      if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
-                          networkService.getNetwork().openCluster(params.nodes[0]);
-                      }
-                  }
-              });
-              
+              networkService.initNetwork(networkInitializer);
 
               //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
 
@@ -171,6 +173,7 @@
       }
 
       function getAttachments(courseId){
+		  console.log('getAttachments');
           $http.get('admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
 
               $scope.loadingData = false;
@@ -198,8 +201,7 @@
               }
 
               networkService.setNetworkData(bubbles, edges);
-              networkService.initNetwork();
-              networkService.getNetwork().on('doubleClick', onDoubleClick); 
+              networkService.initNetwork(networkInitializer);
                 //function(item){
 
                   // if(isLinkAttachment(item.nodes[0], items) != false){
@@ -212,15 +214,6 @@
                   //     window.location = isL2Plink(item.nodes[0], items);
                   // }
               //});
-              networkService.getNetwork().on("selectNode", function(params) {
-                  if (params.nodes.length == 1) {
-                      if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
-                          networkService.getNetwork().openCluster(params.nodes[0]);
-                          networkService.getNetwork().setOptions({physics:{stabilization:{fit: false}}});
-                          networkService.getNetwork().stabilize();
-                      }
-                  }
-              });
 
 
               for (var i in bubbles){
@@ -234,8 +227,6 @@
                       networkService.getNetwork().cluster(clusterOptionsByData);
                   }
               }
-              //since network nodes and edges change, therefore re assign the double click event to new network
-              networkService.getNetwork().on('doubleClick', onDoubleClick);
 
           }, function(errResponse) {
               $mdToast.show(

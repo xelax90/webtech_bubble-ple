@@ -136,7 +136,7 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
     }
 
 
-    this.initNetwork = function(){
+    this.initNetwork = function(initializerCallback){
 	    //console.log(printStackTrace());
         // initialize your network!
 
@@ -144,8 +144,12 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
             console.log("No nodes or edges");
             return;
         }
+		
 		if(!this.network){
-	        this.network = new vis.Network(container, this.data, options);
+			this.network = new vis.Network(container, this.data, options);
+			if(initializerCallback){
+				initializerCallback(this.network);
+			}
 		} else {
 			this.network.setData(this.data);
 		}
