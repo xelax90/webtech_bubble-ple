@@ -151,9 +151,9 @@
                 <md-icon class="fa fa-minus fa-2x"></md-icon>
             </md-button>
             <div class="custom-breadcrumb-bar">
-                <span ng-click="clickBreadCrumbsParent(bcSemesterId)">{{breadCrumbsParent}}</span>
-                <span ng-show="breadCrumbsChild"> &gt; </span>
-                <span ng-click="clickBreadCrumbsChild(bcCourseId)">{{breadCrumbsChild}}</span>
+                <md-button class="md-raised" ng-click="clickBreadCrumbsParent(bcSemesterId)">{{breadCrumbsParent}}</md-button>
+                <!--<span ng-show="breadCrumbsChild"> &gt; </span>-->
+                <md-button class="md-raised" ng-show="breadCrumbsChild" ng-click="clickBreadCrumbsChild(bcCourseId)">{{breadCrumbsChild}}</md-button>
             </div>
             <md-menu  >
                 <md-button id="main" aria-label="Show Toolbar" class="search- search-button" ng-click="$mdOpenMenu($event)">
