@@ -51,6 +51,7 @@
       };
 	  
 	  var networkInitializer = function(network){
+      network.on('click', onClick);
             network.on('doubleClick', onDoubleClick);
             network.on("selectNode", function(params) {
 				if (params.nodes.length == 1) {
