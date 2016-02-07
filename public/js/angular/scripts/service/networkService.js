@@ -154,6 +154,7 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
 			this.network.setData(this.data);
 		}
 		globalnetwork = this.network;
+		globaldata = this.data;
     }
 
     this.getNetwork = function(){

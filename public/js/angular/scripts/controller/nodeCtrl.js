@@ -84,11 +84,8 @@
                       if (items[i].bubbleType.search("Semester") != -1){
                           $scope.bcSemesterId = items[i].id;
                           $scope.breadCrumbsParent = items[i].title;
-                          bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#004c99', font: {color: 'white', size: 25, strokeWidth: 1, strokeColor: 'black', face: 'Verdana, Geneva, sans-serif'}});
                       }
-                      else {
-                        bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, font:{face: 'Verdana, Geneva, sans-serif'}});
-                      }
+                      bubbles.push(createNode(items[i], true));
                   }
               }
               for (var i = 0; i < edges.length; i++){
@@ -187,6 +184,38 @@
           }
           return false;
       }
+	  
+	  function createNode(bubble, isSemester){
+		  var node = {
+			  id: bubble.id,
+			  label: bubble.title,
+			  title: bubble.title,
+			  font: {face: 'Verdana, Geneva, sans-serif'}
+		  };
+		
+		if (bubble.bubbleType.search("Semester") != -1){
+			node.color = '#004c99';
+			node.font.color = 'white';
+			node.font.size = 25;
+			node.font.strokeWidth = 1;
+			node.font.strokeColor = 'black';
+		} else if (bubble.bubbleType.search("Course") != -1){
+			// do not do this in semester
+			if(!isSemester){
+				node.color = '#004c99';
+				node.font.color = 'white';
+				node.font.size = 25;
+			}
+		} else if (bubble.bubbleType.search("L2PMaterialFolder") != -1) {
+			node.color = '#7BE141';
+		} else if (bubble.bubbleType.search("L2PAssignment") != -1) {
+			node.color = '#ffc966';
+		} else if (bubble.bubbleType.search("L2PMaterialAttachment") != -1) {
+			node.color = '#C2FABC';
+			node.cid = bubble.parents[0];
+		}
+		return node;
+	  }
 
       function getAttachments(courseId){
 		  console.log('getAttachments');
@@ -197,20 +226,7 @@
               var items = response.data.bubbles;
               var edges = response.data.edges;
               for (var i = 0; i < items.length; i++){
-                  if (items[i].bubbleType.search("Course") != -1){
-                      bubbles.push({id: items[i].id, label:items[i].title, title: items[i].title, color: '#004c99', font:{color: 'white', face: 'Verdana, Geneva, sans-serif', size: 25}});
-                  }
-                  else if (items[i].bubbleType.search("L2PMaterialFolder") != -1) {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#7BE141', font: {face: 'Verdana, Geneva, sans-serif'}});
-                  }
-                  else if (items[i].bubbleType.search("L2PAssignment") != -1) {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title,  color: '#ffc966', font: {face: 'Verdana, Geneva, sans-serif'}});
-                  }
-                  else if (items[i].bubbleType.search("L2PMaterialAttachment") != -1) {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, cid: items[i].parents[0], color: '#C2FABC', font: {face: 'Verdana, Geneva, sans-serif'}});
-                  } else {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, font: {face: 'Verdana, Geneva, sans-serif'}});
-                  }
+                  bubbles.push(createNode(items[i]));
               }
               for (var i = 0; i < edges.length; i++){
                   edges[i].arrows = 'to';
