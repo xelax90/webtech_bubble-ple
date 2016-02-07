@@ -4596,6 +4596,9 @@ md-input-container .mediaurl {
     height: 64px;
     max-height: 64px;
   }
+  .breadcrumb-link {
+    display: none;
+  }
 }
 @media only screen and (max-width: 959px) and (min-width: 0) and (orientation: landscape) {
   md-toolbar {

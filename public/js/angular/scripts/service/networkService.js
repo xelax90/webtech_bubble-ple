@@ -39,18 +39,13 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
         layout: {
 
         },
-/*		configure: {
-          filter:function (option, path) {
-            if (path.indexOf('physics') !== -1) {
-              return true;
-            }
-            if (path.indexOf('smooth') !== -1 || option === 'smooth') {
-              return true;
-            }
-            return false;
-          },
-          container: document.getElementById('config')
-        },*/
+		physics: {
+			barnesHut: {
+				springLength: 240,
+				gravitationalConstant: -5000,
+			},
+			maxVelocity: 25
+		},
         manipulation:{
             enabled: false,
             addNode: function(data, callback){
@@ -141,7 +136,7 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
     }
 
 
-    this.initNetwork = function(){
+    this.initNetwork = function(initializerCallback){
 	    //console.log(printStackTrace());
         // initialize your network!
 
@@ -149,8 +144,12 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
             console.log("No nodes or edges");
             return;
         }
+		
 		if(!this.network){
-	        this.network = new vis.Network(container, this.data, options);
+			this.network = new vis.Network(container, this.data, options);
+			if(initializerCallback){
+				initializerCallback(this.network);
+			}
 		} else {
 			this.network.setData(this.data);
 		}
