@@ -100,12 +100,6 @@
                 this.items = networkService.getNodes();
                 var nodeId = node.nodes[0];
                 var node = this.items._data[nodeId];
-                
-                console.log(nodeId);
-
-                console.log(node);
-                console.log(node.id);
-                console.log(node.title);
 
                 if (nodeId){
                   if (isCourse(nodeId, networkService.getOrignalItems())){
@@ -123,11 +117,8 @@
 
        function getOrignalNode(nodeId){
         var allNodes = networkService.getOrignalItems();
-        console.log("getting orignal nodes");
-        console.log(allNodes);
         for(var i = 0; i < allNodes.length; i++){
           if(allNodes[i].id == nodeId){
-            console.log("found...");
             return allNodes[i];
           }
         }
@@ -186,7 +177,6 @@
               networkService.getNetwork().on('doubleClick', function(item){
                   var orignalNode = getOrignalNode(item.nodes[0]);
                   var normalFileType = "BubblePle\\Entity\\FileAttachment";
-                  console.log(orignalNode);
                   if(orignalNode.bubbleType == normalFileType){
                     downloadFile(orignalNode.title, orignalNode.filename);
                   } else if (isL2Plink(item.nodes[0], items)!= false) {
@@ -328,10 +318,12 @@
                 // for saving the added text to the node
                 controller: function($scope, $mdDialog){
                   $scope.changeNodeLabel = function(){
-                      var selectedNodes = networkService.getNetwork().getSelectedNodes();
-                      for(var i = 0; i < selectedNodes.length; i++){
-                          networkService.getNodes().update({id: selectedNodes[i], label: $scope.node.text});
-                      }
+                      var selectedNode = networkService.getNetwork().getSelectedNodes()[0];
+                      var req = {bubble: {title: $scope.node.text}};
+                      $http.post('admin/bubblePLE/bubbles/rest/'+selectedNode, req).then(function(response){
+                          console.log(response);
+                      });
+                      networkService.getNodes().update({id: selectedNode, label: $scope.node.text, title: $scope.node.text});
                       $mdDialog.hide();
                   }
                 }
