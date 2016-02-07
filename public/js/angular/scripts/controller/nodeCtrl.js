@@ -27,6 +27,8 @@
           $scope.semesters = response.data;
           var semId = response.data[0].id;
           $scope.bcSemesterId = semId;
+
+          $scope.loadingData = true;
           getCourses(semId);
           networkService.setmdDialog($mdDialog);
       }, function(errResponse) {
@@ -42,6 +44,8 @@
       $scope.announceSemester = function(sId){
           $scope.breadCrumbsChild = "";
           $scope.bcSemesterId = sId;
+
+          $scope.loadingData = true;
           getCourses(sId);
           networkService.setmdDialog($mdDialog);
       };
@@ -116,6 +120,8 @@
                     $scope.breadCrumbsChild = node.title;
                     
                     $scope.currentCourseId = nodeId;
+
+                    $scope.loadingData = true;
                     getAttachments(nodeId);
                     return;
                   }
@@ -239,6 +245,7 @@
 
       $scope.clickBreadCrumbsParent = function(bcSemesterId){
         $scope.breadCrumbsChild = "";
+
         $scope.loadingData = true;
         getCourses(bcSemesterId);
       };

@@ -177,7 +177,7 @@
             <md-progress-circular md-mode="indeterminate" md-diameter="150"></md-progress-circular>
         </div>
 
-        <div id="bubbles" flex layout-fill></div>
+        <div id="bubbles" flex layout-fill ng-hide="loadingData"></div>
         <div layout="row" layout-sm="column" layout-align="space-around">
             <md-progress-linear md-mode="determinate" value="{{progressBarValue}}" ng-show="showProgressBar"></md-progress-linear>
         </div>
