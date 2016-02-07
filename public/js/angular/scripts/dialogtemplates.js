@@ -48,6 +48,9 @@
     else if(type === "fileAttachment") {
         template = uploadFileDialogTemplate(); 
     }
+    else if(type === "mediaAttachment") {
+        template = uploadMediaDialogTemplate(); 
+    }
 
     return template;
 }
@@ -132,6 +135,55 @@ function uploadFileDialogTemplate(){
         '  </md-dialog-actions>' +
         '</md-dialog>';
 }
+
+function uploadMediaDialogTemplate(){
+    return '<md-dialog aria-label="List dialog">' +
+        '  <md-dialog-content>'+
+        '    <br>'+
+        '    <md-input-container>'+
+        '        <label>Title</label>'+
+        '        <input type="text" ng-model="bubbleName">'+
+        '    </md-input-container>'+
+        '    <md-button ng-click="clickUpload()" class="md-primary">' +
+        '      Browse' +
+        '    </md-button>' +
+         '<h2>OR</h2>' +
+        '    <md-input-container>'+
+        '        <label>Url</label>'+
+        '        <input type="text" ng-model="mediaUrl" class="mediaurl">'+
+        '    </md-input-container>'+
+        '  <md-dialog-actions>' +
+        '    <md-button ng-click="uploadFile()" class="md-primary">' +
+        '      Upload' +
+        '    </md-button>' +
+        '    <md-button ng-click="closeDialog()" class="md-primary">' +
+        '      Cancel' +
+        '    </md-button>' +
+        '  </md-dialog-actions>' +
+        '</md-dialog>';
+}
+
+
+function PlayVideoDialogTemplate(url){
+    return '<md-dialog aria-label="List dialog">' +
+        '  <md-dialog-content>'+
+        '    <br>'+
+         '<h2>Video Playing</h2>' +
+        '<video width="320" height="240" controls> '+
+        '<source src="'+
+        url+
+        ' type="video/mp4"> '+
+        'Your browser does not support the video tag. '+
+        '        </video>'+
+        '    </md-button>' +
+        '    <md-button ng-click="closeDialog()" class="md-primary">' +
+        '      Cancel' +
+        '    </md-button>' +
+        '  </md-dialog-actions>' +
+        '</md-dialog>';
+}
+
+
 
 function addTextToNodeDialog(){
     return '<md-dialog>' +

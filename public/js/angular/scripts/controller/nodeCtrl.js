@@ -129,6 +129,10 @@
                     return;
                   }
                   else{
+                    console.log(getOrignalNode(nodeId));
+                    if(getOrignalNode(nodeId).bubbleType.search("MediaAttachment") != -1){
+                      console.log("yeah it is a video");
+                    }
                     if(isLinkAttachment(nodeId, networkService.getOrignalItems()) != false){
                       console.log("in link attac");
                       window.open(isLinkAttachment(nodeId, networkService.getOrignalItems()), '_blank');
@@ -148,6 +152,13 @@
 
        }              
 
+
+      function getOrignalNode(nodeId){
+        var allNodes = networkService.getOrignalItems();
+        for (var i = 0; i < allNodes.length; i++){
+          if(allNodes[i].id == nodeId) return allNodes[i];  
+        }
+       }
 
       function isChild(Node, parentId){
             for (var i = 0; i < Node.parents.length; i++){
@@ -331,6 +342,13 @@
       $scope.filUpload = function(){
         bubbleType = 'fileAttachment';
           showToast($mdToast, 'Click anywhere to add a Bubble for file');
+          networkService.setBubbleType(bubbleType);
+          networkService.getNetwork().addNodeMode();
+      }
+
+      $scope.mediaUpload = function(){
+        bubbleType = 'mediaAttachment';
+          showToast($mdToast, 'Click anywhere to add a Bubble for Media');
           networkService.setBubbleType(bubbleType);
           networkService.getNetwork().addNodeMode();
       }
