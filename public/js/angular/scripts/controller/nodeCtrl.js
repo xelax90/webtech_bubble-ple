@@ -156,6 +156,8 @@
 
       function getAttachments(courseId){
           $http.get('admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
+
+              $scope.loadingData = false;
               var bubbles = new Array();
               var items = response.data.bubbles;
               var edges = response.data.edges;
@@ -238,10 +240,12 @@
       }
 
       $scope.clickBreadCrumbsParent = function(bcSemesterId){
+        $scope.loadingData = true;
         getCourses(bcSemesterId);
       };
 
       $scope.clickBreadCrumbsChild = function(bcCourseId){
+        $scope.loadingData = true;
         getAttachments(bcCourseId);
       };
 
