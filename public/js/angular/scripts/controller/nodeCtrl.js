@@ -52,20 +52,7 @@
 	  
 	  var networkInitializer = function(network){
             network.on('doubleClick', onDoubleClick);
-            network.on("selectNode", function(params) {
-				if (params.nodes.length == 1) {
-					if (network.isCluster(params.nodes[0]) == true) {
-						network.openCluster(params.nodes[0]);
-						network.setOptions({physics:{stabilization:{fit: false}}});
-						network.stabilize();
-					}
-                    else {
-                        makeCluster(getOrignalNode(params.nodes[0]), networkService.getOrignalItems());
-                        network.setOptions({physics:{stabilization:{fit: false}}});
-                        network.stabilize();
-                    }
-				}
-			});
+            network.on("click", onClick);
 	  }
 	  
       //filter courses of one semester
@@ -510,8 +497,19 @@
       }
 
       /*If user single click on the bubble then this method will be called*/
-      function doOnClick(properties) {
-        console.log('single click');
+      function doOnClick(params) {
+          if (params.nodes.length == 1) {
+              if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
+                  networkService.getNetwork().openCluster(params.nodes[0]);
+                  networkService.getNetwork().setOptions({physics:{stabilization:{fit: false}}});
+                  networkService.getNetwork().stabilize();
+              }
+              else {
+                  makeCluster(getOrignalNode(params.nodes[0]), networkService.getOrignalItems());
+                  networkService.getNetwork().setOptions({physics:{stabilization:{fit: false}}});
+                  networkService.getNetwork().stabilize();
+              }
+          }
       }
 
       /*If user double click on the bubble then this method will be called*/
