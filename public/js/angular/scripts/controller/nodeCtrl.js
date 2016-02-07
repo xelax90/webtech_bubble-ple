@@ -10,7 +10,7 @@
       $scope.currentCourseId;
 
       $scope.loadingData = true;
-      $scope.breadCrumbsParent = "Personalized Learning Environment";
+      $scope.breadCrumbsParent = "Personal Learning Environment";
       $scope.breadCrumbsChild;
 
       $scope.bcSemesterId;
@@ -183,10 +183,14 @@
               networkService.initNetwork();
               networkService.getNetwork().on('doubleClick', function(item){
                   var orignalNode = getOrignalNode(item.nodes[0]);
-                  var normalFileType = "BubblePle\\Entity\\FileAttachment";
-                  if(orignalNode.bubbleType == normalFileType){
+
+                  if(isLinkAttachment(item.nodes[0], items) != false){
+                      window.open(isLinkAttachment(item.nodes[0], items), '_blank');
+                  }
+                  if(isFile(orignalNode, items)){
                     downloadFile(orignalNode.title, orignalNode.filename);
-                  } else if (isL2Plink(item.nodes[0], items)!= false) {
+                  }
+                  if (isL2Plink(item.nodes[0], items)!= false) {
                       window.location = isL2Plink(item.nodes[0], items);
                   }
               });
@@ -230,6 +234,26 @@
               if (items[i].id == nodeId){
                   if (items[i].bubbleType.search("L2PMaterialAttachment") != -1) {
                       return applicationBasePath + items[i].filename.substring(1);
+                  }
+              }
+          }
+          return false;
+      }
+      function isLinkAttachment(nodeId, items){
+          for (var i = 0; i < items.length; i++){
+              if (items[i].id == nodeId){
+                  if (items[i].bubbleType.search("LinkAttachment") != -1) {
+                      return items[i].url;
+                  }
+              }
+          }
+          return false;
+      }
+      function isFile(nodeId, items){
+          for (var i = 0; i < items.length; i++){
+              if (items[i].id == nodeId){
+                  if (items[i].bubbleType.search("FileAttachment") != -1) {
+                      return true;
                   }
               }
           }
