@@ -24,6 +24,7 @@
       var bubbleType = 'Bubble';
 
       $http.get('admin/bubblePLE/semesters/rest').then(function(response) {
+          $scope.semesters = response.data;
           var semId = response.data[0].id;
           $scope.bcSemesterId = semId;
           getCourses(semId);
@@ -37,6 +38,12 @@
                   .hideDelay(3000)
           );
       });
+
+      $scope.announceSemester = function(sId){
+          $scope.bcSemesterId = sId;
+          getCourses(sId);
+          networkService.setmdDialog($mdDialog);
+      };
 
       //filter courses of one semester
       function getCourses(semesterId){

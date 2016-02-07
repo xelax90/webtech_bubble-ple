@@ -108,13 +108,13 @@
                 <md-button aria-label="delete" ng-click="deleteSelectedNodeEdge()" flex>
                     <md-icon class="fa fa-trash fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
-                        Delete
+                        Delete Bubble
                     </md-tooltip>
-                    <label class="icon-label">Delete</label>
+                    <label class="icon-label">Delete Bubble</label>
                     
                 </md-button>
             </md-list-item>
-<!--            <md-list-item>
+            <md-list-item>
                 <md-button aria-label="search" ng-click="searchNode()" flex>
                     <md-icon class="fa fa-search fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
@@ -123,7 +123,7 @@
                     <label class="icon-label">Search in bubbles</label>
                     
                 </md-button>
-            </md-list-item>-->
+            </md-list-item>
             <md-list-item>
                 <md-button aria-label="Priority" ng-click="changeColor()" flex>
                     <md-icon class="fa fa-bolt fa-2x"></md-icon>
@@ -148,13 +148,19 @@
     <md-content layout="column" flex id='content'>
         <md-toolbar layout="row" class = "md-whiteframe-z2 breadcrumb-bar">
             <md-button id="main" class="keyboard_backspace back-button" hide-gt-sm aria-label="Show Toolbar">
-                <md-icon class="material-icons">keyboard_backspace</md-icon>
+                <md-icon class="fa fa-minus fa-2x"></md-icon>
             </md-button>
-            <div class="custom-breadcrumb-bar">
-                <span ng-click="clickBreadCrumbsParent(bcSemesterId)">{{breadCrumbsParent}}</span>
-                <span ng-show="breadCrumbsChild"> &gt; </span>
-                <span ng-click="clickBreadCrumbsChild(bcCourseId)">{{breadCrumbsChild}}</span>
-            </div>            
+            <div class="custom-breadcrumb-bar">{{breadCrumbs}}</div>
+            <md-menu  >
+                <md-button id="main" aria-label="Show Toolbar" class="search- search-button" ng-click="$mdOpenMenu($event)">
+                    <md-icon class="material-icons search-icon">compare_arrows</md-icon>
+                </md-button>
+                <md-menu-content width="4">
+                    <md-menu-item ng-repeat="semester in semesters">
+                        <md-button ng-click="announceSemester(semester.id)"> <span md-menu-align-target>{{semester.title}}</span></md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
             <md-button id="main" class="search- search-button" ng-click="searchNode()" aria-label="Show Toolbar">
                 <md-icon class="material-icons search-icon">search</md-icon>
             </md-button>
@@ -167,7 +173,7 @@
             <md-progress-circular md-mode="indeterminate" md-diameter="150"></md-progress-circular>
         </div>
 
-        <div id="bubbles" flex layout-fill ng-hide="loadingData"></div>
+        <div id="bubbles" flex layout-fill></div>
         <div layout="row" layout-sm="column" layout-align="space-around">
             <md-progress-linear md-mode="determinate" value="{{progressBarValue}}" ng-show="showProgressBar"></md-progress-linear>
         </div>
