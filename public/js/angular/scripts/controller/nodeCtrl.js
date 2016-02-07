@@ -59,6 +59,11 @@
 						network.setOptions({physics:{stabilization:{fit: false}}});
 						network.stabilize();
 					}
+                    else {
+                        makeCluster(getOrignalNode(params.nodes[0]), networkService.getOrignalItems());
+                        network.setOptions({physics:{stabilization:{fit: false}}});
+                        network.stabilize();
+                    }
 				}
 			});
 	  }
@@ -228,16 +233,9 @@
 
 
               for (var i in bubbles){
-                  if (!bubbles[i].cid && !isCourse(bubbles[i].id, items)){
-                      var clusterOptionsByData = {
-                          joinCondition:function(childOptions) {
-                              return childOptions.cid == bubbles[i].id || childOptions.id == bubbles[i].id;
-                          },
-                          clusterNodeProperties: {id:'cidCluster' + bubbles[i].id, label: bubbles[i].label}
-                      };
-                      networkService.getNetwork().cluster(clusterOptionsByData);
-                  }
+                  makeCluster(bubbles[i], items);
               }
+
 
           }, function(errResponse) {
               $mdToast.show(
@@ -247,6 +245,18 @@
                       .hideDelay(3000)
               );
           });
+      }
+
+      function makeCluster(bubble, items){
+          if (!bubble.cid && !isCourse(bubble.id, items)){
+              var clusterOptionsByData = {
+                  joinCondition:function(childOptions) {
+                      return childOptions.cid == bubble.id || childOptions.id == bubble.id;
+                  },
+                  clusterNodeProperties: {id:'cidCluster' + bubble.id, label: bubble.title}
+              };
+              networkService.getNetwork().cluster(clusterOptionsByData);
+          }
       }
 
       function isL2Plink(nodeId, items){
