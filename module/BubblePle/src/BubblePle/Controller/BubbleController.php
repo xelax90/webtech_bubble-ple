@@ -478,7 +478,7 @@ class BubbleController extends ListController{
 		$res = array('success' => false, 'error' => 'No data');
 		$request = $this->getRequest();
 		if($request->isPost()){
-			$data = $request->getPost();
+			$data = $this->processBodyContent($request);
 			if(!empty($data['bubbles'])){
 				$res = $this->updatePositions($data['bubbles']);
 			}
