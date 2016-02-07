@@ -1,3 +1,4 @@
+@import "angular-material.css";
 /*
 Copyright (C) 2015 schurix
 
@@ -19,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     Created on : 15.07.2015, 23:16:54
     Author     : schurix
 */
-@import "angular-material.css";
 /*!
  *  Font Awesome 4.5.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -83,7 +83,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 }
 .fa-border {
   padding: .2em .25em .15em;
-  border: solid 0.08em #eee;
+  border: solid 0.08em #eeeeee;
   border-radius: .1em;
 }
 .fa-pull-left {
@@ -198,7 +198,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   font-size: 2em;
 }
 .fa-inverse {
-  color: #fff;
+  color: #ffffff;
 }
 /* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
    readers do not read off random characters that represent icons */
@@ -4282,15 +4282,6 @@ div.vis-color-picker input.vis-range {
   width: 290px;
   height: 20px;
 }
-/* TODO: is this redundant?
-div.vis-color-picker input.vis-range-brightness {
-  width: 289px !important;
-}
-
-
-div.vis-color-picker input.vis-saturation-range {
-  width: 289px !important;
-}*/
 /*
 Copyright (C) 2016 schurix
 
@@ -4360,48 +4351,6 @@ div.vis-network div.vis-navigation div.vis-button.vis-zoomExtends {
 .lang-sm {
   background-image: url('../img/languages.png');
 }
-/*
-Copyright (C) 2015 schurix
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
-/* 
-    Created on : 15.07.2015, 23:17:25
-    Author     : schurix
-*/
-/*
-Copyright (C) 2015 schurix
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
-/* 
-    Created on : 15.07.2015, 23:17:18
-    Author     : schurix
-*/
 body {
   padding-top: 60px;
 }
@@ -4530,11 +4479,14 @@ md-toolbar.breadcrumb-bar {
     }
 }*/
 .fa-2x {
-  background: #5c6bc0;
-  padding: 16px;
-  border-radius: 30px;
+  background-color: #5c6bc0;
   margin-right: 11px;
   color: #ffffff;
+  text-align: center;
+  line-height: 56px;
+  height: 56px;
+  width: 56px;
+  border-radius: 50%;
 }
 .sidebar-menu .md-button {
   text-align: left;
@@ -4547,6 +4499,7 @@ md-toolbar.breadcrumb-bar {
   margin: 20px 20px;
   color: black;
   width: 97%;
+  overflow: hidden;
 }
 .logo-label {
   vertical-align: top;
@@ -4567,6 +4520,9 @@ md-toolbar.breadcrumb-bar {
 }
 .menu-button {
   min-width: 70px;
+}
+.icon-label {
+  cursor: pointer;
 }
 md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon,
 md-toolbar:not(.md-menu-toolbar) md-icon {
@@ -4625,3 +4581,4 @@ md-toolbar:not(.md-menu-toolbar) md-icon {
     max-width: 320px;
   }
 }
+/*# sourceMappingURL=angular.css.map */
