@@ -52,20 +52,7 @@
 	  
 	  var networkInitializer = function(network){
             network.on('doubleClick', onDoubleClick);
-            network.on("selectNode", function(params) {
-				if (params.nodes.length == 1) {
-					if (network.isCluster(params.nodes[0]) == true) {
-						network.openCluster(params.nodes[0]);
-						network.setOptions({physics:{stabilization:{fit: false}}});
-						network.stabilize();
-					}
-                    else {
-                        makeCluster(getOrignalNode(params.nodes[0]), networkService.getOrignalItems());
-                        network.setOptions({physics:{stabilization:{fit: false}}});
-                        network.stabilize();
-                    }
-				}
-			});
+            network.on("click", onClick);
 	  }
 	  
       //filter courses of one semester
@@ -133,9 +120,23 @@
                     return;
                   }
                   else{
-                    console.log(getOrignalNode(nodeId));
-                    if(getOrignalNode(nodeId).bubbleType.search("MediaAttachment") != -1){
+                    var myNode = getOrignalNode(nodeId);
+                    if(myNode.bubbleType.search("MediaAttachment") != -1){
                       console.log("yeah it is a video");
+                      var myTemplate;
+                      if(myNode.filename.search("youtube") != -1) myTemplate = PlayYoutubeVideoDialogTemplate(myNode.title, myNode.filename);
+                      else myTemplate = PlayVideoDialogTemplate(myNode.title, myNode.filename);
+                      $mdDialog.show({
+                        template: myTemplate,
+                        controller : function($scope, $mdDialog){
+                          $scope.closeMediaDialog = function() {
+                           console.log("in close media dialgo");
+                           $mdDialog.hide();
+                          };
+                        }
+                      });
+                      
+                    //window.open(myNode.filename, '_blank');
                     }
                     if(isLinkAttachment(nodeId, networkService.getOrignalItems()) != false){
                       console.log("in link attac");
@@ -155,7 +156,6 @@
 
 
        }              
-
 
       function getOrignalNode(nodeId){
         var allNodes = networkService.getOrignalItems();
@@ -526,8 +526,19 @@
       }
 
       /*If user single click on the bubble then this method will be called*/
-      function doOnClick(properties) {
-        console.log('single click');
+      function doOnClick(params) {
+          if (params.nodes.length == 1) {
+              if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
+                  networkService.getNetwork().openCluster(params.nodes[0]);
+                  networkService.getNetwork().setOptions({physics:{stabilization:{fit: false}}});
+                  networkService.getNetwork().stabilize();
+              }
+              else {
+                  makeCluster(getOrignalNode(params.nodes[0]), networkService.getOrignalItems());
+                  networkService.getNetwork().setOptions({physics:{stabilization:{fit: false}}});
+                  networkService.getNetwork().stabilize();
+              }
+          }
       }
 
       /*If user double click on the bubble then this method will be called*/
