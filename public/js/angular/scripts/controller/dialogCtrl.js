@@ -77,7 +77,6 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
      $scope.closeDialog = function() {
          networkService.getNetwork().disableEditMode();
          $mdDialog.hide();
-
      };
 
      $scope.clickUpload = function(){
@@ -124,6 +123,32 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
             $scope.bubbleName = file.name;
         }
 
+        if(file == null){
+            $http.post(this.url, data).then(function(response){
+                 console.log(response);
+                 networkService.updateOrignalItems(response.data.item);
+                 items.id = response.data.item.id;
+                 items.label = response.data.item.title;
+                 items.title = response.data.item.title;
+                 $mdToast.show(
+                     $mdToast.simple()
+                         .textContent('ADDED MEDIA')
+                         .position('bottom')
+                         .hideDelay(3000)
+                 );
+                 callBack(items);
+
+             }, function(errResponse){
+                 $mdToast.show(
+                     $mdToast.simple()
+                         .textContent('Error adding Bubble!')
+                         .position('bottom')
+                         .hideDelay(3000)
+                 );
+             });
+        }
+        else{
+
         file.upload = Upload.upload({
             url: this.url,
             data: data,
@@ -162,6 +187,7 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
                 console.log(file.progress);
                 $scope.progressBarValue = file.progress;
             });
+}
 
 
 
