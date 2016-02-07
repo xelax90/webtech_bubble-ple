@@ -40,6 +40,7 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
          else{
              $http.post(url, req).then(function(response){
                  console.log(response);
+                 networkService.updateOrignalItems(response.data.item);
                  items.id = response.data.item.id;
                  items.label = response.data.item.title;
                  items.title = response.data.item.title;
@@ -117,6 +118,7 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
         $timeout(function () {
             file.result = response.data;
             console.log(response);
+            networkService.updateOrignalItems(response.data.item);
             showToast($mdToast, 'File Uploaded Successfully');
             console.log(response.data.item.filename);
             $scope.showProgressBar = false;

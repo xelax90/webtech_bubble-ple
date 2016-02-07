@@ -177,6 +177,12 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
         this.orignalItems = items;
     };
 
+    this.updateOrignalItems = function(item){
+        this.orignalItems.push(item);
+        console.log("added item");
+        console.log(item);
+    }
+
     // initialize your network!
     //network = new vis.Network(container, data, options);
 
