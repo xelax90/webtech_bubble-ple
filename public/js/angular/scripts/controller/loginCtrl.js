@@ -69,7 +69,7 @@ app.controller('loginCtrl',['$location', '$scope', '$http','$mdToast', function(
             $http.get('admin/bubblePLE/sync').then(function(response){
                 if(response.data['success'] === true){
                     setTimeout(function(){
-                        $location.path('/#/');
+                        $location.path('/bubbles');
                         $mdToast.show(
                         $mdToast.simple()
                           .textContent('hooray! L2P is synced.')

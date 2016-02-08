@@ -1,3 +1,4 @@
+@import "angular-material.css";
 /*
 Copyright (C) 2015 schurix
 
@@ -19,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     Created on : 15.07.2015, 23:16:54
     Author     : schurix
 */
-@import "angular-material.css";
 /*!
  *  Font Awesome 4.5.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -83,7 +83,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 }
 .fa-border {
   padding: .2em .25em .15em;
-  border: solid 0.08em #eee;
+  border: solid 0.08em #eeeeee;
   border-radius: .1em;
 }
 .fa-pull-left {
@@ -198,7 +198,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   font-size: 2em;
 }
 .fa-inverse {
-  color: #fff;
+  color: #ffffff;
 }
 /* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
    readers do not read off random characters that represent icons */
@@ -4282,15 +4282,6 @@ div.vis-color-picker input.vis-range {
   width: 290px;
   height: 20px;
 }
-/* TODO: is this redundant?
-div.vis-color-picker input.vis-range-brightness {
-  width: 289px !important;
-}
-
-
-div.vis-color-picker input.vis-saturation-range {
-  width: 289px !important;
-}*/
 /*
 Copyright (C) 2016 schurix
 
@@ -4360,48 +4351,6 @@ div.vis-network div.vis-navigation div.vis-button.vis-zoomExtends {
 .lang-sm {
   background-image: url('../img/languages.png');
 }
-/*
-Copyright (C) 2015 schurix
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
-/* 
-    Created on : 15.07.2015, 23:17:25
-    Author     : schurix
-*/
-/*
-Copyright (C) 2015 schurix
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
-/* 
-    Created on : 15.07.2015, 23:17:18
-    Author     : schurix
-*/
 body {
   padding-top: 60px;
 }
@@ -4578,9 +4527,55 @@ md-toolbar.breadcrumb-bar {
 .breadcrumb-link {
   margin: 13px 0 0 0;
 }
+.center-logo {
+  background-image: url('../img/logo.png');
+  background-repeat: no-repeat;
+  background-color: #3f51b5;
+  background-position: center;
+  border-radius: 50%;
+  height: 300px;
+  width: 300px;
+  margin: 100px auto;
+}
+.center-logo-label {
+  margin: -50px 0 20px 0;
+  font-size: 40px;
+  text-align: center;
+}
+.authenticate-button {
+  width: 300px;
+  margin: 0 auto;
+  border-radius: 6px;
+}
+.authenticate-button-content {
+  font-size: 20px;
+  height: 54px;
+}
+.md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon,
+md-toolbar:not(.md-menu-toolbar) md-icon.authenticate-icon {
+  color: white;
+}
 md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon,
 md-toolbar:not(.md-menu-toolbar) md-icon {
   color: rgba(113, 111, 111, 0.87);
+}
+.notice {
+  color: green;
+  text-align: center;
+  font-size: 20px;
+  margin: 20px 0 0 0;
+}
+.loading-circle {
+  background-image: url('../img/white-loading.gif');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  margin: 0 6px -8px 0;
+}
+.loading-message {
+  display: inline-block;
 }
 md-input-container .mediaurl {
   width: 295px;
@@ -4641,3 +4636,4 @@ md-input-container .mediaurl {
     max-width: 320px;
   }
 }
+/*# sourceMappingURL=angular.css.map */
