@@ -436,8 +436,13 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                     targetEvent: $event,
                     template:
                             '<md-dialog aria-label="List dialog">' +
+                            '  <md-toolbar>' +
+                            '     <div class="md-toolbar-tools">' +
+                            '      <h2>Share Bubble</h2>' +
+                            '      <span flex></span>' +
+                            '    </div>' +
+                            '  </md-toolbar>' +
                             '  <md-dialog-content>' +
-                            '     <div>Select Recipient User</div>' +
                             '     <br>' +
                             '     <md-input-container style="margin-right: 10px;">' +
                             '       <label>Target User</label>' +

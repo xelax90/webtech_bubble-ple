@@ -4501,7 +4501,7 @@ body > md-content {
   top: 0;
   right: 0;
 }
-md-dialog {
+md-dialog > md-dialog-content {
   padding: 20px;
   text-align: center;
 }
