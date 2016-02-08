@@ -519,6 +519,13 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                         };
                     }
                 });
+            } else {
+                $mdToast.show(
+                $mdToast.simple()
+                    .textContent('Select a bubble first.')
+                    .position('bottom')
+                    .hideDelay(3000)
+                );
             }
 
         };
