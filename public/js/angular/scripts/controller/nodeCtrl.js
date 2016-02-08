@@ -1,59 +1,67 @@
-<<<<<<< HEAD
-  /**
-   * * Created by Waqar Ahmed on 04/02/16.
-   */
-  'use strict';
+/**
+ * * Created by Waqar Ahmed on 04/02/16.
+ */
+'use strict';
 
-  app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', '$rootScope', function($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService, $rootScope){
+app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', '$rootScope', function ($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService, $rootScope) {
 
-      $scope.myFile;
+    $http.get('l2p/authenticate').then(function(response) {
+        if (response.data['success'] === false) {
+            $location.path('/login');
+        }
+        else {
+            runApp();
+        }
+    });
 
-      $scope.currentCourseId;
+    function runApp(){
+        $scope.myFile;
 
-      $scope.loadingData = true;
-      $scope.breadCrumbsParent = "Personal Learning Environment";
-      $scope.breadCrumbsChild;
+        $scope.currentCourseId;
 
-      $scope.bcSemesterId;
-      $scope.bcCourseId;
+        $scope.loadingData = true;
+        $scope.breadCrumbsParent = "Personal Learning Environment";
+        $scope.breadCrumbsChild;
 
-      $scope.toggleList = function(){
-        $mdSidenav('left').toggle();
-      };
+        $scope.bcSemesterId;
+        $scope.bcCourseId;
 
-      $scope.showProgressBar = false;
-      var bubbleType = 'Bubble';
+        $scope.toggleList = function () {
+            $mdSidenav('left').toggle();
+        };
 
-      $http.get('admin/bubblePLE/semesters/rest').then(function(response) {
-          $scope.semesters = response.data;
-          var semId = response.data[0].id;
-          $scope.bcSemesterId = semId;
+        $scope.showProgressBar = false;
+        var bubbleType = 'Bubble';
 
-          $scope.loadingData = true;
-          getCourses(semId);
-          networkService.setmdDialog($mdDialog);
-      }, function(errResponse) {
-          console.log('Error fetching data!');
-          $mdToast.show(
-              $mdToast.simple()
-                  .textContent('Error fetching semester')
-                  .position('bottom')
-                  .hideDelay(3000)
-          );
-      });
+        $http.get('admin/bubblePLE/semesters/rest').then(function (response) {
+            $scope.semesters = response.data;
+            var semId = response.data[0].id;
+            $scope.bcSemesterId = semId;
 
-      $scope.announceSemester = function(sId){
-          $scope.breadCrumbsChild = "";
-          $scope.bcSemesterId = sId;
+            $scope.loadingData = true;
+            getCourses(semId);
+            networkService.setmdDialog($mdDialog);
+        }, function (errResponse) {
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent('Error fetching semester')
+                    .position('bottom')
+                    .hideDelay(3000)
+                );
+        });
 
-          $scope.loadingData = true;
-          getCourses(sId);
-          networkService.setmdDialog($mdDialog);
-      };
-	  
-	  var networkInitializer = function(network){
-      network.on('click', onClick);
-      network.on('doubleClick', onDoubleClick);
+        $scope.announceSemester = function (sId) {
+            $scope.breadCrumbsChild = "";
+            $scope.bcSemesterId = sId;
+
+            $scope.loadingData = true;
+            getCourses(sId);
+            networkService.setmdDialog($mdDialog);
+        };
+
+        var networkInitializer = function (network) {
+            network.on('doubleClick', onDoubleClick);
+            network.on("click", onClick);
         }
 
         //filter courses of one semester
