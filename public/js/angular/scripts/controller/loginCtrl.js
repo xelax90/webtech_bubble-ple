@@ -68,13 +68,15 @@ app.controller('loginCtrl',['$location', '$scope', '$http','$mdToast', function(
             $scope.noticeMessage = 'L2P is syncing...it may take 1 to 2 minutes';
             $http.get('admin/bubblePLE/sync').then(function(response){
                 if(response.data['success'] === true){
-                    $location.path('/#/');
-                    $mdToast.show(
-                    $mdToast.simple()
-                      .textContent('hooray! L2P is synced.')
-                      .position('bottom')
-                      .hideDelay(5000)
-                    );
+                    setTimeout(function(){
+                        $location.path('/#/');
+                        $mdToast.show(
+                        $mdToast.simple()
+                          .textContent('hooray! L2P is synced.')
+                          .position('bottom')
+                          .hideDelay(3000)
+                        );
+                    }, 1500);
                 } else if(response.data['success'] === false){
                     $scope.sync = true;
                     $scope.loading = false;
