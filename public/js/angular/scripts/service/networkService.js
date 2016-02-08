@@ -14,6 +14,9 @@ app.service('networkService', ['$http', '$mdToast', 'bubbleService', function ($
         this.network = null;
 
         var isSemesterView = true;
+        var clusterClickDisabled = false;
+        var deleteMode = false;
+        var editMode = false;
 
         var options = {
             autoResize: true,
@@ -196,6 +199,30 @@ app.service('networkService', ['$http', '$mdToast', 'bubbleService', function ($
 
         this.setIsSemesterView = function (isSemester) {
             isSemesterView = isSemester;
+        }
+
+        this.getClusterClickDisabled = function () {
+            return clusterClickDisabled;
+        }
+
+        this.setClusterClickDisabled = function (clusterClick) {
+            clusterClickDisabled = clusterClick;
+        }
+
+        this.getDeleteMode = function () {
+            return deleteMode;
+        }
+
+        this.setDeleteMode = function (delMode) {
+            deleteMode = delMode;
+        }
+
+        this.getEditMode = function () {
+            return editMode;
+        }
+
+        this.setEditMode = function (edtMode) {
+            editMode = edtMode;
         }
 
         this.createNode = function (bubble) {
