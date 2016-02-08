@@ -5,6 +5,12 @@
     var template = "";
     if(type === 'Bubble'){
         template =  '<md-dialog aria-label="List dialog">' +
+        '  <md-toolbar>' +
+        '     <div class="md-toolbar-tools">' +
+        '      <h2>Add Bubble</h2>' +
+        '      <span flex></span>' +
+        '    </div>' +
+        '  </md-toolbar>' +
         '  <md-dialog-content>'+
         '    <br>'+
         '    <md-input-container>'+
@@ -24,6 +30,12 @@
         
     } else if(type === 'LinkAttachment') {
         template =  '<md-dialog aria-label="List dialog">' +
+        '  <md-toolbar>' +
+        '     <div class="md-toolbar-tools">' +
+        '      <h2>Add Link to Bubble</h2>' +
+        '      <span flex></span>' +
+        '    </div>' +
+        '  </md-toolbar>' +
         '  <md-dialog-content>'+
         '    <br>'+
         '    <md-input-container>'+
@@ -58,6 +70,12 @@
 
 function getSearchDialogTemplate(){
     return '<md-dialog aria-label="List dialog">' +
+    '  <md-toolbar>' +
+    '     <div class="md-toolbar-tools">' +
+    '      <h2>Search Bubble</h2>' +
+    '      <span flex></span>' +
+    '    </div>' +
+    '  </md-toolbar>' +
     '  <md-dialog-content>'+
     '    <br>'+
     '    <md-input-container>'+
@@ -78,6 +96,12 @@ function getSearchDialogTemplate(){
 
 function getColorChangeDialogTemplate(){
     return '<md-dialog aria-label="List dialog">' +
+    '  <md-toolbar>' +
+    '     <div class="md-toolbar-tools">' +
+    '      <h2>Set Bubble Priority</h2>' +
+    '      <span flex></span>' +
+    '    </div>' +
+    '  </md-toolbar>' +
     '  <md-dialog-content>'+
     '    <br>'+
     '      <h2>Select Priority</h2>'+
@@ -100,6 +124,12 @@ function getColorChangeDialogTemplate(){
 
 function changeLabelDialogTemplate(){
     return '<md-dialog aria-label="List dialog">' +
+    '  <md-toolbar>' +
+    '     <div class="md-toolbar-tools">' +
+    '      <h2>Change Bubble Label</h2>' +
+    '      <span flex></span>' +
+    '    </div>' +
+    '  </md-toolbar>' +
     '   <md-dialog-content>'+
     '    <br>'+
     '    <md-input-container>' +
@@ -117,6 +147,12 @@ function changeLabelDialogTemplate(){
 
 function uploadFileDialogTemplate(){
     return '<md-dialog aria-label="List dialog">' +
+        '  <md-toolbar>' +
+        '     <div class="md-toolbar-tools">' +
+        '      <h2>Upload Bubble File</h2>' +
+        '      <span flex></span>' +
+        '    </div>' +
+        '  </md-toolbar>' +
         '  <md-dialog-content>'+
         '    <br>'+
         '    <md-input-container>'+
@@ -139,6 +175,12 @@ function uploadFileDialogTemplate(){
 
 function uploadMediaDialogTemplate(){
     return '<md-dialog aria-label="List dialog">' +
+        '  <md-toolbar>' +
+        '     <div class="md-toolbar-tools">' +
+        '      <h2>Upload Bubble Media</h2>' +
+        '      <span flex></span>' +
+        '    </div>' +
+        '  </md-toolbar>' +
         '  <md-dialog-content>'+
         '    <br>'+
         '    <md-input-container>'+
@@ -169,7 +211,6 @@ function PlayVideoDialogTemplate(title, url){
     return '<md-dialog aria-label="List dialog">' +
         '  <md-dialog-content>'+
         '    <br>'+
-
         '<video width="320" height="240" controls> '+
         '<source src="'+
         url+
@@ -194,6 +235,12 @@ function PlayYoutubeVideoDialogTemplate(title, url){
 
 function addTextToNodeDialog(){
     return '<md-dialog>' +
+    '  <md-toolbar>' +
+    '     <div class="md-toolbar-tools">' +
+    '      <h2>Add Bubble Text</h2>' +
+    '      <span flex></span>' +
+    '    </div>' +
+    '  </md-toolbar>' +
     '   <md-dialog-content>'+
     '       <md-input-container>' +
     '           <label>Add Note</label>'+ //Additional Line

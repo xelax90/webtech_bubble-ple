@@ -24,7 +24,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
         $scope.bcSemesterId;
         $scope.bcCourseId;
-        var onClickTimeout;
+//        var onClickTimeout;
 
         $scope.toggleList = function () {
             $mdSidenav('left').toggle();
@@ -108,8 +108,8 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
 
         function onDoubleClick(node) {
-            clearTimeout(onClickTimeout);
-            onClickTimeout = false;
+//            clearTimeout(onClickTimeout);
+//            onClickTimeout = false;
             this.items = networkService.getNodes();
             var nodeId = node.nodes[0];
             var node = this.items.get(nodeId);
@@ -436,8 +436,13 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                     targetEvent: $event,
                     template:
                             '<md-dialog aria-label="List dialog">' +
+                            '  <md-toolbar>' +
+                            '     <div class="md-toolbar-tools">' +
+                            '      <h2>Share Bubble</h2>' +
+                            '      <span flex></span>' +
+                            '    </div>' +
+                            '  </md-toolbar>' +
                             '  <md-dialog-content>' +
-                            '     <div>Select Recipient User</div>' +
                             '     <br>' +
                             '     <md-input-container style="margin-right: 10px;">' +
                             '       <label>Target User</label>' +
@@ -566,7 +571,8 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         function onClick(properties) {
             var t0 = new Date();
             if (t0 - doubleClickTime > threshold && !onClickTimeout) {
-                onClickTimeout = setTimeout(function () {
+//                onClickTimeout = 
+                setTimeout(function () {
                     if (t0 - doubleClickTime > threshold) {
                         doOnClick(properties);
                     }
