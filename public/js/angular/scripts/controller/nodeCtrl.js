@@ -221,6 +221,9 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
             } else if (bubbleService.isL2PMaterialAttachment(bubble)) {
                 node.color = '#C2FABC';
                 node.cid = bubble.parents[0];
+            } else if (bubbleService.isAttachment(bubble)){
+                node.color = '#e9fde7';
+                node.cid = bubble.parents[0];
             }
             return node;
         }
@@ -534,7 +537,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                             var req = {bubble: {title: $scope.node.text}};
                             $http.post('admin/bubblePLE/bubbles/rest/' + selectedNode, req).then(function (response) {
                                 $mdDialog.hide();
-                                networkService.getNodes().update(createNode(response.item));
+                                networkService.getNodes().update(createNode(response.data.item));
                                 $mdToast.show(
                                     $mdToast.simple()
                                         .textContent('Bubble updated!')
