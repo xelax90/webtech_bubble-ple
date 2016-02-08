@@ -14,8 +14,6 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
     });
 
     function runApp(){
-        var isSemesterView = true;
-        
         $scope.myFile;
 
         $scope.currentCourseId;
@@ -67,7 +65,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
         //filter courses of one semester
         function getCourses(semesterId) {
-            isSemesterView = true;
+            networkService.setIsSemesterView(true);
             $http.get('admin/bubblePLE/filter/parent/' + semesterId).then(function (response) {
                 var bubbles = new Array();
                 var items = response.data.bubbles;
@@ -190,44 +188,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         }
 
         function createNode(bubble) {
-            var node = {
-                id: bubble.id,
-                label: bubble.title,
-                title: bubble.title,
-                font: {face: 'Verdana, Geneva, sans-serif'},
-                bubbleType: bubble.bubbleType
-            };
-
-            if (bubble.posX) {
-                node.x = bubble.posX;
-                node.y = bubble.posY;
-            }
-
-            if (bubbleService.isSemester(bubble)) {
-                node.color = '#004c99';
-                node.font.color = 'white';
-                node.font.size = 25;
-                node.font.strokeWidth = 1;
-                node.font.strokeColor = 'black';
-            } else if (bubbleService.isCourse(bubble)) {
-                // do not do this in semester
-                if (!isSemesterView) {
-                    node.color = '#004c99';
-                    node.font.color = 'white';
-                    node.font.size = 25;
-                }
-            } else if (bubbleService.isL2PMaterialFolder(bubble)) {
-                node.color = '#7BE141';
-            } else if (bubbleService.isL2PAssignment(bubble)) {
-                node.color = '#ffc966';
-            } else if (bubbleService.isL2PMaterialAttachment(bubble)) {
-                node.color = '#C2FABC';
-                node.cid = bubble.parents[0];
-            } else if (bubbleService.isAttachment(bubble)){
-                node.color = '#e9fde7';
-                node.cid = bubble.parents[0];
-            }
-            return node;
+            return networkService.createNode(bubble);
         }
 
         $scope.savePositions = function () {
@@ -261,7 +222,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         }
 
         function getAttachments(courseId) {
-            isSemesterView = false;
+            networkService.setIsSemesterView(false);
             $http.get('admin/bubblePLE/filter/parent/' + courseId).then(function (response) {
 
                 $scope.loadingData = false;
@@ -561,6 +522,13 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                         };
                     }
                 });
+            } else {
+                $mdToast.show(
+                $mdToast.simple()
+                    .textContent('Select a bubble first.')
+                    .position('bottom')
+                    .hideDelay(3000)
+                );
             }
 
         };
