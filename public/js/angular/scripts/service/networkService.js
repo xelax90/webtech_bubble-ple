@@ -1,7 +1,7 @@
 /**
-* Created by Waqar Ahmed on 04/02/16.
-*/
-app.service('networkService',['$http','$mdToast', 'bubbleService', function($http, $mdToast, bubbleService){
+ * Created by Waqar Ahmed on 04/02/16.
+ */
+app.service('networkService', ['$http', '$mdToast', 'bubbleService', function ($http, $mdToast, bubbleService) {
     var dialog;
     var bubbleType;
 
@@ -9,18 +9,18 @@ app.service('networkService',['$http','$mdToast', 'bubbleService', function($htt
     this.nodes;
     this.edges;
     this.data;
-    
+
     this.container;
     this.network = null;
-    
+
     var isSemesterView = true;
-    
+
     var options = {
         autoResize: true,
         locale: 'en',
         clickToUse: false,
-        interaction:{
-            dragNodes:true,
+        interaction: {
+            dragNodes: true,
             dragView: true,
             hideEdgesOnDrag: false,
             hideNodesOnDrag: false,
@@ -39,48 +39,47 @@ app.service('networkService',['$http','$mdToast', 'bubbleService', function($htt
             zoomView: true
         },
         layout: {
-
         },
-		physics: {
-			barnesHut: {
-				springLength: 240,
-				gravitationalConstant: -5000,
-			},
-			maxVelocity: 25
-		},
-        manipulation:{
+        physics: {
+            barnesHut: {
+                springLength: 240,
+                gravitationalConstant: -5000,
+            },
+            maxVelocity: 25
+        },
+        manipulation: {
             enabled: false,
-            addNode: function(data, callback){
+            addNode: function (data, callback) {
                 dialog.show({
                     template: getTemplate(bubbleType),
                     locals: {
-                          items: (data),
-                          callBack : (callback),
-                          type: (bubbleType)
-                  },                                
+                        items: (data),
+                        callBack: (callback),
+                        type: (bubbleType)
+                    },
                     controller: dialogController
                 });
             },
-            addEdge: function(edgeData,callback) {
+            addEdge: function (edgeData, callback) {
                 edgeData.arrows = 'to';
                 var req = {edge: {from: edgeData.from, to: edgeData.to}};
-                $http.post('/admin/bubblePLE/edges/rest', req).then(function(response){
+                $http.post('/admin/bubblePLE/edges/rest', req).then(function (response) {
                     console.log(response);
                     $mdToast.show(
-                        $mdToast.simple()
+                            $mdToast.simple()
                             .textContent('Bubbles connected.')
                             .position('bottom')
                             .hideDelay(3000)
-                    );
+                            );
                     callback(edgeData);
 
-                }, function(errResponse){
+                }, function (errResponse) {
                     $mdToast.show(
-                        $mdToast.simple()
+                            $mdToast.simple()
                             .textContent('Error connectiong Bubbles!')
                             .position('bottom')
                             .hideDelay(3000)
-                    );
+                            );
                 });
                 callback(edgeData);
 
@@ -88,19 +87,19 @@ app.service('networkService',['$http','$mdToast', 'bubbleService', function($htt
         }
     };
 
-    
 
-    this.setmdDialog = function(mdDialog){
+
+    this.setmdDialog = function (mdDialog) {
         dialog = mdDialog;
     };
 
-    this.setBubbleType = function(type){
+    this.setBubbleType = function (type) {
         bubbleType = type;
     };
 
     options.nodes = {
-      color : baseColor
-     };
+        color: baseColor
+    };
 
     //nodes = new vis.DataSet([
     //    {id: 1, label: 'Node 1'},
@@ -110,25 +109,25 @@ app.service('networkService',['$http','$mdToast', 'bubbleService', function($htt
     //    {id: 5, label: 'Node 5'}
     //]);
 
-     //create an array with edges
+    //create an array with edges
     //edges = new vis.DataSet([]);
 
-     //create a network
+    //create a network
     container = document.getElementById('bubbles');
 
-    this.setNetworkData = function(i, n, e){
+    this.setNetworkData = function (i, n, e) {
         console.log("argument length : " + arguments.length);
-        if(arguments.length == 3){
+        if (arguments.length == 3) {
             this.orignalItems = arguments[0];
             this.setData(arguments[1], arguments[2]);
         }
-        else{
+        else {
             this.setData(arguments[0], arguments[1]);
         }
-        
+
     }
 
-     this.setData = function(n, e){
+    this.setData = function (n, e) {
         this.nodes = new vis.DataSet(n);
         this.edges = new vis.DataSet(e);
         this.data = {
@@ -138,64 +137,66 @@ app.service('networkService',['$http','$mdToast', 'bubbleService', function($htt
     }
 
 
-    this.initNetwork = function(initializerCallback){
-	    //console.log(printStackTrace());
+    this.initNetwork = function (initializerCallback) {
+        //console.log(printStackTrace());
         // initialize your network!
 
-        if(this.nodes == null || this.edges == null){
+        if (this.nodes == null || this.edges == null) {
             console.log("No nodes or edges");
             return;
         }
-		
-		if(!this.network){
-			this.network = new vis.Network(container, this.data, options);
-			if(initializerCallback){
-				initializerCallback(this.network);
-			}
-		} else {
-			this.network.setData(this.data);
-			var that = this;
-			setTimeout(function(){that.network.fit({animation: true}); }, 1000);
-		}
-		globalnetwork = this.network;
-		globaldata = this.data;
+
+        if (!this.network) {
+            this.network = new vis.Network(container, this.data, options);
+            if (initializerCallback) {
+                initializerCallback(this.network);
+            }
+        } else {
+            this.network.setData(this.data);
+            var that = this;
+            setTimeout(function () {
+                that.network.fit({animation: true});
+            }, 1000);
+        }
+        globalnetwork = this.network;
+        globaldata = this.data;
     }
 
-    this.getNetwork = function(){
-    	return this.network;
+    this.getNetwork = function () {
+        return this.network;
     };
 
-    this.getNodes = function(){
-    	return this.nodes;
+    this.getNodes = function () {
+        return this.nodes;
     };
 
-    this.getEdges = function(){
-    	return this.edges;
+    this.getEdges = function () {
+        return this.edges;
     };
 
-    this.getOrignalItems = function(){
+    this.getOrignalItems = function () {
         return this.orignalItems;
     };
 
-    this.setOrignalItems = function(items){
+    this.setOrignalItems = function (items) {
         this.orignalItems = items;
     };
 
-    this.updateOrignalItems = function(item){
+    this.updateOrignalItems = function (item) {
         this.orignalItems.push(item);
         console.log("added item");
         console.log(item);
     }
-    
-    this.getIsSemesterView = function(){
+
+    this.getIsSemesterView = function () {
         return isSemesterView;
     }
-    
-    this.setIsSemesterView = function(isSemester){
+
+    this.setIsSemesterView = function (isSemester) {
         isSemesterView = isSemester;
     }
-    
-    this.createNode = function(bubble){
+
+    this.createNode = function (bubble) {
         var node = {
             id: bubble.id,
             label: bubble.title,
@@ -229,7 +230,7 @@ app.service('networkService',['$http','$mdToast', 'bubbleService', function($htt
         } else if (bubbleService.isL2PMaterialAttachment(bubble)) {
             node.color = '#C2FABC';
             node.cid = bubble.parents[0];
-        } else if (bubbleService.isAttachment(bubble)){
+        } else if (bubbleService.isAttachment(bubble)) {
             node.color = '#e9fde7';
             node.cid = bubble.parents[0];
         }

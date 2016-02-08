@@ -137,4 +137,29 @@ app.service('bubbleService',[function(){
     this.isVideoAttachment = function(bubble){
         return this.isOfType(bubble, 'VideoAttachment');
     }
+    
+    this.getFileAttachmentUrl = function(bubble){
+        if(!this.isFileAttachment(bubble)){
+            return false;
+        }
+        var prefix = 'http';
+        if(bubble.filename.substr(0, prefix.length) === prefix){
+            return bubble.filename;
+        }
+        
+        var res = applicationBasePath;
+        if(bubble.filename.substr(0,1) === '/'){
+            res += bubble.filename.substr(1);
+        } else {
+            res += bubble.filename;
+        }
+    }
+    
+    this.getLinkAttachmentUrl = function(bubble){
+        if(!this.isLinkAttachment(bubble)){
+            return false;
+        }
+        
+        return bubble.url;
+    }
 }]);
