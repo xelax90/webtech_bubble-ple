@@ -24,12 +24,12 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
         var url;
         if (type == 'Bubble') {
             req = {bubble: {title: $scope.bubbleName}};
-            url = '/admin/bubblePLE/bubbles/rest';
+            url = 'admin/bubblePLE/bubbles/rest';
         }
 
         if (type == 'LinkAttachment') {
             req = {linkattachment: {title: $scope.bubbleName, url: $scope.url}};
-            url = '/admin/bubblePLE/linkAttachments/rest';
+            url = 'admin/bubblePLE/linkAttachments/rest';
         }
 
 
@@ -106,11 +106,11 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
 
         if (type == 'fileAttachment') {
             data = {fileattachment: {filename: file, title: file.name}};
-            this.url = '/admin/bubblePLE/fileAttachments/rest';
+            this.url = 'admin/bubblePLE/fileAttachments/rest';
         }
         else if (type == 'mediaAttachment') {
             data = {mediaattachment: {title: $scope.bubbleName, fileLink: $scope.mediaUrl, filename: file}};
-            this.url = '/admin/bubblePLE/mediaAttachments/rest';
+            this.url = 'admin/bubblePLE/mediaAttachments/rest';
         }
         console.log(data);
         console.log(this.url);

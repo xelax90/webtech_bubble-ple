@@ -63,7 +63,7 @@ app.service('networkService', ['$http', '$mdToast', 'bubbleService', function ($
                 addEdge: function (edgeData, callback) {
                     edgeData.arrows = 'to';
                     var req = {edge: {from: edgeData.from, to: edgeData.to}};
-                    $http.post('/admin/bubblePLE/edges/rest', req).then(function (response) {
+                    $http.post('admin/bubblePLE/edges/rest', req).then(function (response) {
                         console.log(response);
                         $mdToast.show(
                                 $mdToast.simple()

@@ -11,7 +11,7 @@
    	$scope.showProgressBar = true;
 
    	file.upload = Upload.upload({
-   		url: '/admin/bubblePLE/fileAttachments/rest',
+   		url: 'admin/bubblePLE/fileAttachments/rest',
    		data: {fileattachment: {filename: file, title: file.name}},
    	});
 
