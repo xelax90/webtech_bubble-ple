@@ -25,6 +25,9 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\Event;
+use BubblePle\Entity\Semester;
+use DateTime;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Description of L2PListener
@@ -68,5 +71,17 @@ class L2PListener extends AbstractListenerAggregate implements ServiceLocatorAwa
 		$userMapper->update($user);
 		
 		$auth->getStorage()->write($user->getId());
+		
+		$semester = new Semester();
+		$date = new DateTime();
+		$month = (int) $date->format('m');
+		$year = (int) $date->format('Y');
+		$semester->setYear($month <= 3 ? $year - 1 : $year)
+				->setIsWinter($month <= 3 || $month >= 10 )
+				->setOwner($user);
+		$em = $this->getServiceLocator()->get(EntityManager::class);
+		$em->persist($semester);
+		$em->flush($semester);
+		
 	}
 }
