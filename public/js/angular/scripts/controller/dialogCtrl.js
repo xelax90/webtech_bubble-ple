@@ -49,16 +49,14 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
              $http.post(url, req).then(function(response){
                  console.log(response);
                  networkService.updateOrignalItems(response.data.item);
-                 items.id = response.data.item.id;
-                 items.label = response.data.item.title;
-                 items.title = response.data.item.title;
+                 var node = networkService.createNode(response.data.item);
                  $mdToast.show(
                      $mdToast.simple()
                          .textContent('Bubble Added')
                          .position('bottom')
                          .hideDelay(3000)
                  );
-                 callBack(items);
+                 callBack(node);
 
              }, function(errResponse){
                  $mdToast.show(
@@ -127,16 +125,14 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
             $http.post(this.url, data).then(function(response){
                  console.log(response);
                  networkService.updateOrignalItems(response.data.item);
-                 items.id = response.data.item.id;
-                 items.label = response.data.item.title;
-                 items.title = response.data.item.title;
+                 var node = networkService.createNode(response.data.item);
                  $mdToast.show(
                      $mdToast.simple()
                          .textContent('ADDED MEDIA')
                          .position('bottom')
                          .hideDelay(3000)
                  );
-                 callBack(items);
+                 callBack(node);
 
              }, function(errResponse){
                  $mdToast.show(
@@ -162,16 +158,14 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
             showToast($mdToast, 'File Uploaded Successfully');
             console.log(response.data.item.filename);
             $scope.showProgressBar = false;
-            items.id = response.data.item.id;
-            items.label = $scope.bubbleName;
-            items.title = response.data.item.title;
+            var node = networkService.createNode(response.data.item);
             $mdToast.show(
                 $mdToast.simple()
                     .textContent('Bubble Added')
                     .position('bottom')
                     .hideDelay(3000)
             );
-            callBack(items);
+            callBack(node);
 
         });
     }, function (response) {
