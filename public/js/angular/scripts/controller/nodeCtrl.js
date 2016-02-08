@@ -24,6 +24,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
         $scope.bcSemesterId;
         $scope.bcCourseId;
+        var onClickTimeout;
 
         $scope.toggleList = function () {
             $mdSidenav('left').toggle();
@@ -107,6 +108,8 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
 
         function onDoubleClick(node) {
+            clearTimeout(onClickTimeout);
+            onClickTimeout = false;
             this.items = networkService.getNodes();
             var nodeId = node.nodes[0];
             var node = this.items.get(nodeId);
@@ -267,7 +270,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         function makeCluster(bubble, items) {
             var needsCluster = !bubble.cid;
             if(bubble.bubbleType){
-                needsCluster = needsCluster && !bubbleService.isCourse(bubble);
+                needsCluster = needsCluster && !bubbleService.isCourse(bubble) && !bubbleService.isSemester(bubble);
             } else {
                 needsCluster = needsCluster && !isCourse(bubble.id, items);
             }
@@ -363,6 +366,30 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
         $scope.deleteSelectedNodeEdge = function () {
             deleteNodeorEdge(networkService, $mdToast, $http);
+        };
+        
+        $scope.deleteSelectedNodeEdgeMode = function () {
+            networkService.setClusterClickDisabled(true);
+            networkService.setDeleteMode(true);
+            $mdToast.show(
+            $mdToast.simple()
+                .textContent('Now select a bubble to delete.')
+                .position('bottom')
+                .hideDelay(3000)
+            );
+            
+        };
+
+        $scope.enableEditMode = function () {
+            networkService.setClusterClickDisabled(true);
+            networkService.setEditMode(true);
+            $mdToast.show(
+            $mdToast.simple()
+                .textContent('Now select a bubble to edit.')
+                .position('bottom')
+                .hideDelay(3000)
+            );
+            
         };
 
         $scope.filUpload = function () {
@@ -538,8 +565,8 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         /*When user click on bubble then this method will be called to check whether user click once or twice*/
         function onClick(properties) {
             var t0 = new Date();
-            if (t0 - doubleClickTime > threshold) {
-                setTimeout(function () {
+            if (t0 - doubleClickTime > threshold && !onClickTimeout) {
+                onClickTimeout = setTimeout(function () {
                     if (t0 - doubleClickTime > threshold) {
                         doOnClick(properties);
                     }
@@ -549,7 +576,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
         /*If user single click on the bubble then this method will be called*/
         function doOnClick(params) {
-            if (params.nodes.length == 1) {
+            if (params.nodes.length == 1 && !networkService.getClusterClickDisabled()) {
                 if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
                     networkService.getNetwork().openCluster(params.nodes[0]);
                     networkService.getNetwork().setOptions({physics: {stabilization: {fit: false}}});
@@ -560,6 +587,36 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                     makeCluster(networkService.getNodes().get(params.nodes[0]));
                     networkService.getNetwork().setOptions({physics: {stabilization: {fit: false}}});
                     networkService.getNetwork().stabilize();
+                }
+            }
+            console.log(params);
+            if(params.nodes.length > 0 && networkService.getClusterClickDisabled()){
+                if(networkService.getEditMode()){
+                    if(networkService.getNetwork().isCluster(params.nodes[0]) == true){
+                        $mdToast.show(
+                        $mdToast.simple()
+                            .textContent('Cannot edit cluster.')
+                            .position('bottom')
+                            .hideDelay(3000)
+                        );
+                    } else {
+                        $scope.openNodeChangeBox();
+                    }
+                    networkService.setEditMode(false);
+                    networkService.setClusterClickDisabled(false);
+                } else if(networkService.getDeleteMode()) {
+                    if(networkService.getNetwork().isCluster(params.nodes[0]) == true){
+                        $mdToast.show(
+                        $mdToast.simple()
+                            .textContent('Cannot delete cluster.')
+                            .position('bottom')
+                            .hideDelay(3000)
+                        );
+                    } else {
+                        $scope.deleteSelectedNodeEdge();
+                    }
+                    networkService.setDeleteMode(false);
+                    networkService.setClusterClickDisabled(false);
                 }
             }
         }
