@@ -85,7 +85,7 @@
                     
                 </md-button>
             </md-list-item>
-            <md-list-item>
+<!--            <md-list-item>
                 <md-button aria-label="note" ng-click="openTextBox()" flex>
                     <md-icon class="fa fa-font fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
@@ -93,7 +93,7 @@
                     </md-tooltip>
                     <label class="icon-label">Add note to Bubble</label>
                 </md-button>
-            </md-list-item>
+            </md-list-item>-->
             <md-list-item>
                 <md-button aria-label="share" ng-click="openShareBox($event)" flex>
                     <md-icon class="fa fa-share-alt fa-2x"></md-icon>
@@ -163,7 +163,7 @@
             <div class="custom-breadcrumb-bar">
                 <md-button class="md-raised breadcrumb-link" ng-click="clickBreadCrumbsParent(bcSemesterId)">{{breadCrumbsParent}}</md-button>
                 <!--<span ng-show="breadCrumbsChild"> &gt; </span>-->
-                <md-button class="md-raised" ng-show="breadCrumbsChild" ng-click="clickBreadCrumbsChild(bcCourseId)">{{breadCrumbsChild}}</md-button>
+                <md-button class="md-raised breadcrumb-link-child" ng-show="breadCrumbsChild" ng-click="clickBreadCrumbsChild(bcCourseId)">{{breadCrumbsChild}}</md-button>
             </div>
             <md-menu>
                 <md-button aria-label="Show Toolbar" class="search- search-button" ng-click="$mdOpenMenu($event)">

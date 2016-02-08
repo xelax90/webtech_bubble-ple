@@ -99,12 +99,13 @@ function getColorChangeDialogTemplate(){
 }
 
 function changeLabelDialogTemplate(){
-    return '<md-dialog>' +
+    return '<md-dialog aria-label="List dialog">' +
     '   <md-dialog-content>'+
-    '       <md-input-container>' +
-    '           <textarea ng-model="node.text" placeholder="change label">' +
-    '           </textarea>' +
-    '       </md-input-container>'+
+    '    <br>'+
+    '    <md-input-container>' +
+    '        <label>Change Label</label>'+
+    '        <input type="text" ng-model="node.text">'+
+    '    </md-input-container>'+
     '   </md-dialog-content>' +
     '   <md-dialog-actions>' +
     '       <md-button ng-click="changeNodeLabel()" class="md-primary">' +
@@ -195,15 +196,15 @@ function addTextToNodeDialog(){
     return '<md-dialog>' +
     '   <md-dialog-content>'+
     '       <md-input-container>' +
-                    '           <label>Add Note</label>'+ //Additional Line
-                    '           <textarea ng-model="node.text" placeholder="Add Note">' +
-                    '           </textarea>' +
-                    '       </md-input-container>'+
-                    '   </md-dialog-content>' +
-                    '   <md-dialog-actions>' +
-                    '       <md-button ng-click="addTextToNodes()" class="md-primary">' +
-                    '           Save' +
-                    '       </md-button>' +
-                    '   </md-dialog-actions>' +
-                    '</md-dialog>';
-                }
+    '           <label>Add Note</label>'+ //Additional Line
+    '           <textarea ng-model="node.text" placeholder="Add Note">' +
+    '           </textarea>' +
+    '       </md-input-container>'+
+    '   </md-dialog-content>' +
+    '   <md-dialog-actions>' +
+    '       <md-button ng-click="addTextToNodes()" class="md-primary">' +
+    '           Save' +
+    '       </md-button>' +
+    '   </md-dialog-actions>' +
+    '</md-dialog>';
+}

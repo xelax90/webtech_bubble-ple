@@ -429,6 +429,13 @@
                   }
                 }
               });
+         }else {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('Select a Bubble first.')
+                    .position('bottom')
+                    .hideDelay(3000)
+              );
          }
 
       };
@@ -539,6 +546,13 @@
                   }
                 }
               });
+         } else {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent('Select a Bubble you want to change.')
+                    .position('bottom')
+                    .hideDelay(3000)
+              );
          }
 
       };
