@@ -1,7 +1,7 @@
 /**
 * Created by Waqar Ahmed on 04/02/16.
 */
-app.service('networkService',['$http','$mdToast', function($http, $mdToast){
+app.service('networkService',['$http','$mdToast', 'bubbleService', function($http, $mdToast, bubbleService){
     var dialog;
     var bubbleType;
 
@@ -12,7 +12,9 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
     
     this.container;
     this.network = null;
-
+    
+    var isSemesterView = true;
+    
     var options = {
         autoResize: true,
         locale: 'en',
@@ -183,6 +185,55 @@ app.service('networkService',['$http','$mdToast', function($http, $mdToast){
         this.orignalItems.push(item);
         console.log("added item");
         console.log(item);
+    }
+    
+    this.getIsSemesterView = function(){
+        return isSemesterView;
+    }
+    
+    this.setIsSemesterView = function(isSemester){
+        isSemesterView = isSemester;
+    }
+    
+    this.createNode = function(bubble){
+        var node = {
+            id: bubble.id,
+            label: bubble.title,
+            title: bubble.title,
+            font: {face: 'Verdana, Geneva, sans-serif'},
+            bubbleType: bubble.bubbleType
+        };
+
+        if (bubble.posX) {
+            node.x = bubble.posX;
+            node.y = bubble.posY;
+        }
+
+        if (bubbleService.isSemester(bubble)) {
+            node.color = '#004c99';
+            node.font.color = 'white';
+            node.font.size = 25;
+            node.font.strokeWidth = 1;
+            node.font.strokeColor = 'black';
+        } else if (bubbleService.isCourse(bubble)) {
+            // do not do this in semester
+            if (!isSemesterView) {
+                node.color = '#004c99';
+                node.font.color = 'white';
+                node.font.size = 25;
+            }
+        } else if (bubbleService.isL2PMaterialFolder(bubble)) {
+            node.color = '#7BE141';
+        } else if (bubbleService.isL2PAssignment(bubble)) {
+            node.color = '#ffc966';
+        } else if (bubbleService.isL2PMaterialAttachment(bubble)) {
+            node.color = '#C2FABC';
+            node.cid = bubble.parents[0];
+        } else if (bubbleService.isAttachment(bubble)){
+            node.color = '#e9fde7';
+            node.cid = bubble.parents[0];
+        }
+        return node;
     }
 
     // initialize your network!
