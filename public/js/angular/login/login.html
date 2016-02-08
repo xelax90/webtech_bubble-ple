@@ -1,3 +1,29 @@
-<div ng-controller="loginCtrl">
+<div ng-controller="loginCtrl" >
+    <div class="center-logo">
+        
+    </div>
+    <div class="center-logo-label">
+        Bubble PLE
+    </div>
+
+    <md-toolbar class="authenticate-button">
+        <md-button class="authenticate-button-content" ng-click="l2pAuthenticate()" ng-show="authenticate" aria-label="Show Toolbar">
+            <md-icon class="material-icons authenticate-icon">account_circle</md-icon>
+            l2p Authenticate
+        </md-button>
+        <md-button class="authenticate-button-content" ng-show="loading" aria-label="Show Toolbar">
+            <div class="loading-circle"></div>
+            <div class="loading-message">{{loadingMessage}}</div>
+        </md-button>
+        <md-button class="authenticate-button-content" ng-click="l2pSync()" ng-show="sync" aria-label="Show Toolbar">
+            <md-icon class="material-icons authenticate-icon">sync</md-icon>
+            sync l2p data
+        </md-button>
+    </md-toolbar>
+    
+    <div class="notice" ng-show="noticeMessageShow">
+        {{noticeMessage}}
+    </div>
+
 
 </div>
