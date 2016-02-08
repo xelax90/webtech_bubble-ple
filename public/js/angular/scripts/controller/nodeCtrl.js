@@ -15,6 +15,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
     function runApp(){
         var isSemesterView = true;
+        $scope.showBreadCrumb = true;
         
         $scope.myFile;
 

@@ -157,12 +157,11 @@
 
     <md-content layout="column" flex id='content'>
         <md-toolbar layout="row" class = "md-whiteframe-z2 breadcrumb-bar">
-            <md-button  ng-click="clickBreadCrumbsParent(bcSemesterId)" class="keyboard_backspace back-button" hide-gt-sm aria-label="Show Toolbar">
+<!--            <md-button  ng-click="clickBreadCrumbsParent(bcSemesterId)" class="keyboard_backspace back-button" hide-gt-sm aria-label="Show Toolbar">
                 <md-icon class="material-icons">keyboard_backspace</md-icon>
-            </md-button>
+            </md-button>-->
             <div class="custom-breadcrumb-bar">
-                <md-button class="md-raised breadcrumb-link" ng-click="clickBreadCrumbsParent(bcSemesterId)">{{breadCrumbsParent}}</md-button>
-                <!--<span ng-show="breadCrumbsChild"> &gt; </span>-->
+                <md-button class="md-raised breadcrumb-link" ng-show='showBreadCrumb' ng-click="clickBreadCrumbsParent(bcSemesterId)">{{breadCrumbsParent}}</md-button>
                 <md-button class="md-raised breadcrumb-link-child" ng-show="breadCrumbsChild" ng-click="clickBreadCrumbsChild(bcCourseId)">{{breadCrumbsChild}}</md-button>
             </div>
             <md-menu>

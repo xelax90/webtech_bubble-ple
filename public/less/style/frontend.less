@@ -198,6 +198,16 @@ md-input-container .mediaurl{
     width : 295px; 
 }
 
+.breadcrumb-link{
+    max-width: 45%;
+    text-overflow: ellipsis;
+}
+
+.breadcrumb-link-child {
+    max-width: 45%;
+    text-overflow: ellipsis;
+}
+
 /*======================*/
 /*Media queries*/
 /*======================*/
@@ -212,14 +222,6 @@ md-input-container .mediaurl{
     height: 64px;
     max-height: 64px;
     
-  }
-
-  .breadcrumb-link{
-    display: none;
-  }
-  
-  .breadcrumb-link-child {
-      width: 94%;
   }
 
 }
@@ -241,7 +243,6 @@ md-input-container .mediaurl{
 @media only screen and (max-width: 959px) {
     .custom-breadcrumb-bar {
         width: 95%;
-        margin: 7px 5px;
     }
     
     .search-icon {
@@ -271,9 +272,10 @@ md-input-container .mediaurl{
 }
 
 @media screen and (max-width: 456px) {
-  md-sidenav.site-sidenav {
-    width: 320px;
-    min-width: calc(100% - 85px);
-    max-width: 320px; } 
+    md-sidenav.site-sidenav {
+      width: 320px;
+      min-width: calc(100% - 85px);
+      max-width: 320px; 
 
+    }
 }
