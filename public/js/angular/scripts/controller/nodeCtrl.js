@@ -5,6 +5,16 @@
 
 app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', '$rootScope', 'bubbleService', function ($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService, $rootScope, bubbleService) {
 
+    $http.get('l2p/authenticate').then(function(response) {
+        if (response.data['success'] === false) {
+            $location.path('/login');
+        }
+        else {
+            runApp();
+        }
+    });
+
+    function runApp(){
         $scope.myFile;
 
         $scope.currentCourseId;
@@ -647,5 +657,6 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
             }
 
         };
+    }
 
     }]);

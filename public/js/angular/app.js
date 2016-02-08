@@ -9,8 +9,8 @@ var app = angular.module(
         'ngFileUpload'
 ])
 .config(['$routeProvider', '$mdThemingProvider', function($routeProvider, $mdThemingProvider) {
-    $routeProvider.otherwise({redirectTo: '/'});
-    $routeProvider.when('/',{
+    $routeProvider.otherwise({redirectTo: '/bubbles'});
+    $routeProvider.when('/bubbles',{
             templateUrl: (applicationBasePath ? applicationBasePath : '') + 'js/angular/nodes/nodes.html',
             controller: 'nodeCtrl'
         });
