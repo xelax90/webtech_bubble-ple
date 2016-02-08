@@ -109,7 +109,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         function onDoubleClick(node) {
             this.items = networkService.getNodes();
             var nodeId = node.nodes[0];
-            var node = this.items._data[nodeId];
+            var node = this.items.get(nodeId);
 
             if (nodeId) {
                 if (isCourse(nodeId, networkService.getOrignalItems())) {
@@ -141,16 +141,13 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                         });
 
                         //window.open(myNode.filename, '_blank');
-                    }
-                    if (isLinkAttachment(nodeId, networkService.getOrignalItems()) != false) {
-                        window.open(isLinkAttachment(nodeId, networkService.getOrignalItems()), '_blank');
-                    }
-                    if (isFile(nodeId, networkService.getOrignalItems())) {
-                        window.open(isFile(nodeId, networkService.getOrignalItems()), '_blank');
+                    } else if(bubbleService.isLinkAttachment(myNode)) {
+                        window.open(bubbleService.getLinkAttachmentUrl(myNode), '_blank');
+                    } else if(bubbleService.isL2PMaterialAttachment(myNode)){
+                        window.open(bubbleService.getFileAttachmentUrl(myNode), '_blank');
+                    } else if (bubbleService.isFileAttachment(myNode)) {
+                        window.open(bubbleService.getFileAttachmentUrl(myNode), '_blank');
                         //window.location.assign(isFile(nodeId, networkService.getOrignalItems()));
-                    }
-                    if (isL2Plink(nodeId, networkService.getOrignalItems()) != false) {
-                        window.location = isL2Plink(nodeId, networkService.getOrignalItems());
                     }
                 }
             }

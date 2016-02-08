@@ -18,6 +18,10 @@
             <md-icon class="material-icons authenticate-icon">sync</md-icon>
             sync l2p data
         </md-button>
+        <md-button class="authenticate-button-content" ng-click="skipToHomepage()" ng-show="skipL2pSync" aria-label="Show Toolbar">
+            <md-icon class="material-icons authenticate-icon">skip_next</md-icon>
+            Skip
+        </md-button>
     </md-toolbar>
     
     <div class="notice" ng-show="noticeMessageShow">

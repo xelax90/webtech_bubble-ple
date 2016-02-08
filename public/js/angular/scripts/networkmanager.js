@@ -10,7 +10,7 @@ function deleteNodeorEdge(networkService, $mdToast, $http){
 
     var toastMessage = '';
     if(selectedEdgeId){
-        $http.delete('/admin/bubblePLE/edges/rest/'+ selectedEdgeId).then(function(response){
+        $http.delete('admin/bubblePLE/edges/rest/'+ selectedEdgeId).then(function(response){
             networkService.getNetwork().deleteSelected();
             toastMessage += 'Deleted ' + selectedEdgeId.length + ' Edge(s) and ';
         }, function(errResponse){
@@ -21,7 +21,7 @@ function deleteNodeorEdge(networkService, $mdToast, $http){
         });
     }
     if(selectedNodeId){
-         $http.delete('/admin/bubblePLE/bubbles/rest/'+ selectedNodeId).then(function(response){
+         $http.delete('admin/bubblePLE/bubbles/rest/'+ selectedNodeId).then(function(response){
              networkService.getNetwork().deleteSelected();
              toastMessage += 'Bubble(s) ' + selectedNodeId;
              showToast($mdToast, 'Deleted: '+ toastMessage);

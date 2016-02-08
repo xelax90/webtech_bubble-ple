@@ -7,10 +7,10 @@ app.service('bubbleService',[function(){
             { name: 'L2PAssignment', children: [] },
             { name: 'L2PMaterialFolder', children: [] },
             { name: 'Attachment', children: [
-                { name: 'L2PMaterialAttachment', children: [] },
                 { name: 'LinkAttachment', children: [] },
                 { name: 'TextAttachment', children: [] },
                 { name: 'FileAttachment', children: [
+                    { name: 'L2PMaterialAttachment', children: [] },
                     { name: 'MediaAttachment', children: [
                         { name: 'ImageAttachment', children: [] },
                         { name: 'VideoAttachment', children: [] },
@@ -136,5 +136,36 @@ app.service('bubbleService',[function(){
 
     this.isVideoAttachment = function(bubble){
         return this.isOfType(bubble, 'VideoAttachment');
+    }
+    
+    this.getFileAttachmentUrl = function(bubble){
+        if(!this.isFileAttachment(bubble)){
+            return false;
+        }
+        var prefix = 'http';
+        if(bubble.filename.substr(0, prefix.length) === prefix){
+            return bubble.filename;
+        }
+        
+        var res = '/';
+        if(bubble.filename.substr(0, applicationBasePath.length) !== applicationBasePath ) {
+            res = applicationBasePath;
+        } 
+        
+        if(bubble.filename.substr(0,1) === '/'){
+            res += bubble.filename.substr(1);
+        } else {
+            res += bubble.filename;
+        }
+        console.log(res);
+        return res;
+    }
+    
+    this.getLinkAttachmentUrl = function(bubble){
+        if(!this.isLinkAttachment(bubble)){
+            return false;
+        }
+        
+        return bubble.url;
     }
 }]);

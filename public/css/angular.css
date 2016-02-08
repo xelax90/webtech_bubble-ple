@@ -4636,7 +4636,7 @@ md-input-container .mediaurl {
   text-overflow: ellipsis;
 }
 .breadcrumb-link-child {
-  max-width: 45%;
+  max-width: 40%;
   text-overflow: ellipsis;
 }
 /*======================*/

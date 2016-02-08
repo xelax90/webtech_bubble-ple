@@ -28,7 +28,7 @@
                 </md-button>
             </md-list-item>
             <md-list-item>
-                <md-button aria-label="link" ng-click="addNewEdge()" flex>
+                <md-button aria-label="link" ng-click="addNewEdge();toggleList()" flex>
                     <md-icon class="fa fa-arrows-h fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
                         Add Edge
@@ -40,7 +40,7 @@
                 </md-button>
             </md-list-item>
             <md-list-item>
-                <md-button aria-label="link" ng-click="addLinkBubble()" flex>
+                <md-button aria-label="link" ng-click="addLinkBubble();toggleList()" flex>
                     <md-icon class="fa fa-link fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
                         Add Link Bubble
@@ -56,7 +56,7 @@
                     <!-- <input type="file" id="i_file" name="fileattachment[]" ngf-select="onFileSelect($file)" style="display: none;"/> -->
                     <input type="file" file-model="myFile" name="fileattachment[]" id="i_file" style="display: none;" />
                 </div>
-                <md-button aria-label="file" ng-click="filUpload()" flex>
+                <md-button aria-label="file" ng-click="filUpload();toggleList()" flex>
                     <md-icon class="fa fa-file-o fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
                         Upload Document
@@ -66,7 +66,7 @@
                 </md-button>
             </md-list-item>
             <md-list-item>
-                <md-button aria-label="media"  ng-click="mediaUpload()" flex>
+                <md-button aria-label="media"  ng-click="mediaUpload();toggleList()" flex>
                     <md-icon class="fa fa-film fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
                         Upload Media
@@ -76,7 +76,7 @@
                 </md-button>
             </md-list-item>
             <md-list-item>
-                <md-button aria-label="edit" ng-click="openNodeChangeBox()" flex>
+                <md-button aria-label="edit" ng-click="openNodeChangeBox();toggleList()" flex>
                     <md-icon class="fa fa-pencil fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
                         Edit Bubble
@@ -95,7 +95,7 @@
                 </md-button>
             </md-list-item>-->
             <md-list-item>
-                <md-button aria-label="share" ng-click="openShareBox($event)" flex>
+                <md-button aria-label="share" ng-click="openShareBox($event);toggleList()" flex>
                     <md-icon class="fa fa-share-alt fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
                         Share Bubble and sub-bubbles
@@ -105,7 +105,7 @@
                 </md-button>
             </md-list-item>
             <md-list-item>
-                <md-button aria-label="delete" ng-click="deleteSelectedNodeEdge()" flex>
+                <md-button aria-label="delete" ng-click="deleteSelectedNodeEdge();toggleList()" flex>
                     <md-icon class="fa fa-trash fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
                         Delete Bubble
@@ -115,7 +115,7 @@
                 </md-button>
             </md-list-item>
             <md-list-item>
-                <md-button aria-label="search" ng-click="searchNode()" flex>
+                <md-button aria-label="search" ng-click="searchNode();toggleList()" flex>
                     <md-icon class="fa fa-search fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
                         Search in bubbles
@@ -125,7 +125,7 @@
                 </md-button>
             </md-list-item>
             <md-list-item>
-                <md-button aria-label="Priority" ng-click="changeColor()" flex>
+                <md-button aria-label="Priority" ng-click="changeColor();toggleList()" flex>
                     <md-icon class="fa fa-bolt fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
                         Mark Priority
@@ -135,7 +135,7 @@
                 </md-button>
             </md-list-item>
             <md-list-item>
-                <md-button aria-label="file" ng-click="savePositions()" flex>
+                <md-button aria-label="file" ng-click="savePositions();toggleList()" flex>
                     <md-icon class="fa fa-arrows fa-2x"></md-icon>
                     <md-tooltip md-direction="right">
                         Save layout
