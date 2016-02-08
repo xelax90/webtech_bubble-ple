@@ -32,13 +32,12 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
             getCourses(semId);
             networkService.setmdDialog($mdDialog);
         }, function (errResponse) {
-            console.log('Error fetching data!');
             $mdToast.show(
-                    $mdToast.simple()
+                $mdToast.simple()
                     .textContent('Error fetching semester')
                     .position('bottom')
                     .hideDelay(3000)
-                    );
+                );
         });
 
         $scope.announceSemester = function (sId) {
@@ -57,10 +56,8 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
         //filter courses of one semester
         function getCourses(semesterId) {
-            console.log('getCourses');
             $http.get('admin/bubblePLE/filter/parent/' + semesterId).then(function (response) {
                 var bubbles = new Array();
-                console.log(response);
                 var items = response.data.bubbles;
                 var edges = response.data.edges;
 
@@ -88,13 +85,12 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                 //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
 
             }, function (errResponse) {
-                console.log('Error fetching data!');
                 $mdToast.show(
-                        $mdToast.simple()
+                    $mdToast.simple()
                         .textContent('Error fetching courses')
                         .position('bottom')
                         .hideDelay(3000)
-                        );
+                    );
             });
         }
 
@@ -103,9 +99,6 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
             this.items = networkService.getNodes();
             var nodeId = node.nodes[0];
             var node = this.items._data[nodeId];
-
-            console.log("this double click called");
-            console.log(nodeId);
 
             if (nodeId) {
                 if (isCourse(nodeId, networkService.getOrignalItems())) {
@@ -122,7 +115,6 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                 else {
                     var myNode = getOrignalNode(nodeId);
                     if (myNode.bubbleType.search("MediaAttachment") != -1) {
-                        console.log("yeah it is a video");
                         var myTemplate;
                         if (myNode.filename.search("youtube") != -1)
                             myTemplate = PlayYoutubeVideoDialogTemplate(myNode.title, myNode.filename);
@@ -132,7 +124,6 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                             template: myTemplate,
                             controller: function ($scope, $mdDialog) {
                                 $scope.closeMediaDialog = function () {
-                                    console.log("in close media dialgo");
                                     $mdDialog.hide();
                                 };
                             }
@@ -141,7 +132,6 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                         //window.open(myNode.filename, '_blank');
                     }
                     if (isLinkAttachment(nodeId, networkService.getOrignalItems()) != false) {
-                        console.log("in link attac");
                         window.open(isLinkAttachment(nodeId, networkService.getOrignalItems()), '_blank');
                     }
                     if (isFile(nodeId, networkService.getOrignalItems())) {
@@ -149,7 +139,6 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                         //window.location.assign(isFile(nodeId, networkService.getOrignalItems()));
                     }
                     if (isL2Plink(nodeId, networkService.getOrignalItems()) != false) {
-                        console.log("in l20 link attac");
                         window.location = isL2Plink(nodeId, networkService.getOrignalItems());
                     }
                 }
@@ -180,7 +169,6 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
             for (var i = 0; i < items.length; i++) {
                 if (items[i].id == id) {
                     if (items[i].bubbleType.search("Course") != -1) {
-                        console.log("it is course");
                         return true;
                     }
                 }
@@ -223,9 +211,6 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                 node.color = '#C2FABC';
                 node.cid = bubble.parents[0];
             }
-            if(node.id == 332){
-                console.log(node);
-            }
             return node;
         }
 
@@ -260,7 +245,6 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         }
 
         function getAttachments(courseId) {
-            console.log('getAttachments');
             $http.get('admin/bubblePLE/filter/parent/' + courseId).then(function (response) {
 
                 $scope.loadingData = false;
@@ -342,8 +326,6 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
             for (var i = 0; i < items.length; i++) {
                 if (items[i].id == nodeId) {
                     if (items[i].bubbleType.search("LinkAttachment") != -1) {
-                        console.log("returning link");
-                        console.log(items[i].url);
                         return items[i].url;
                     }
                 }
@@ -543,11 +525,20 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                                 $mdDialog.hide();
                                 networkService.getNodes().update(createNode(response.item));
                                 $mdToast.show(
-                                        $mdToast.simple()
+                                    $mdToast.simple()
                                         .textContent('Bubble updated!')
                                         .position('bottom')
                                         .hideDelay(3000)
-                                        );
+                                    );
+                                
+                            }, function(errResponse){
+                                $mdDialog.hide();
+                                $mdToast.show(
+                                    $mdToast.simple()
+                                        .textContent('Error updating bubble!')
+                                        .position('bottom')
+                                        .hideDelay(3000)
+                                    );
                                 
                             });
                         };
@@ -556,10 +547,6 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
             }
 
         };
-
-        /* added single and double click event to bubbles */
-        //networkService.getNetwork().on('click', onClick);
-        //networkService.getNetwork().on('doubleClick', onDoubleClick);
 
         var doubleClickTime = 0;
         var threshold = 200;
@@ -595,38 +582,14 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
             }
         }
 
-        /*If user double click on the bubble then this method will be called*/
-        // function onDoubleClick(properties) {
-        //     doubleClickTime = new Date();
-        //     console.log(properties);
-
-        //     var nodeId = properties.nodes[0];
-        //     var node = networkService.getNodes().get(nodeId);
-        //     var filename = node.label;
-        //     console.log("in double click");
-        //     //downloadFile(filename);
-        //     fileExist($http, filename);
-        // }
-
-
-        //trigger onFileSelect method on clickUpload button clicked
-        // $scope.clickUpload = function(){
-        //     document.getElementById('i_file').click();
-        // };
-
-        // // Upload actual file to the server
+        // Upload actual file to the server
         $scope.onFileSelect = function (file) {
             //uploadFile($scope, $mdToast, $timeout, file, Upload, networkService);
-            console.log("in main mehtod");
             $scope.$emit('uploadFileEvent', [file]);
-            console.log("emitte");
-            console.log(file);
-        }
+        };
 
         /* Search node in network */
         $scope.searchNode = function () {
-            console.log("searching node");
-            console.log(networkService.getNodes());
             $mdDialog.show({
                 template: getSearchDialogTemplate(), //template is in dialogtemplate file
                 locals: {
