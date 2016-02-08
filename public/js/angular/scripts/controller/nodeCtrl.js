@@ -570,7 +570,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         /*When user click on bubble then this method will be called to check whether user click once or twice*/
         function onClick(properties) {
             var t0 = new Date();
-            if (t0 - doubleClickTime > threshold && !onClickTimeout) {
+            if (t0 - doubleClickTime > threshold) {
 //                onClickTimeout = 
                 setTimeout(function () {
                     if (t0 - doubleClickTime > threshold) {
