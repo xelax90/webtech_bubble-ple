@@ -27,7 +27,7 @@ class AttachmentFieldset extends BubbleFieldset{
 	public function getInputFilterSpecification() {
 		$filters = array(
 		);
-		$filters = array_merge(parent::getInputFilterSpecification(), $filters);
+		$filters = array_replace_recursive(parent::getInputFilterSpecification(), $filters);
 		return $filters;
 	}
 }

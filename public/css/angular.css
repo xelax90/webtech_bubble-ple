@@ -4582,6 +4582,9 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon,
 md-toolbar:not(.md-menu-toolbar) md-icon {
   color: rgba(113, 111, 111, 0.87);
 }
+md-input-container .mediaurl {
+  width: 295px;
+}
 /*======================*/
 /*Media queries*/
 /*======================*/
@@ -4592,6 +4595,9 @@ md-toolbar:not(.md-menu-toolbar) md-icon {
   .md-toolbar-tools {
     height: 64px;
     max-height: 64px;
+  }
+  .breadcrumb-link {
+    display: none;
   }
 }
 @media only screen and (max-width: 959px) and (min-width: 0) and (orientation: landscape) {

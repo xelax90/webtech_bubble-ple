@@ -33,8 +33,16 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
          }
          
 
-         if(type == 'fileattachment'){
-            console.log("in type file fileAttachments");       
+         // if(type == 'fileattachment'){
+         //    console.log("in type file fileAttachments"); 
+         //    this.url = '/admin/bubblePLE/fileAttachments/rest';
+                 
+         // }
+
+         if(type == 'mediaAttachment'){
+            console.log("in type file fileAttachments");
+            //req = {mediaAttachment: { title: $scope.bubbleName, fileLink : $scope.fileLink , url: $scope.mediaUrl}};
+            //url = '/admin/bubblePLE/mediaAttachments/rest';       
          }
          
          else{
@@ -69,7 +77,6 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
      $scope.closeDialog = function() {
          networkService.getNetwork().disableEditMode();
          $mdDialog.hide();
-
      };
 
      $scope.clickUpload = function(){
@@ -98,8 +105,15 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
         var file = fileService[0];
         //$scope.bubbleName = file.name;
         console.log(file);
-        this.url = '/admin/bubblePLE/fileAttachments/rest';
-        data = {fileattachment: {filename: file, title: file.name}}
+
+        if(type == 'fileAttachment'){
+            data = {fileattachment: {filename: file, title: file.name}};
+            this.url = '/admin/bubblePLE/fileAttachments/rest';
+        }
+        else if(type == 'mediaAttachment'){
+            data = {mediaattachment: { title: $scope.bubbleName, fileLink : $scope.mediaUrl , filename: file}};
+            this.url = '/admin/bubblePLE/mediaAttachments/rest'; 
+        }
         console.log(data);
         console.log(this.url);
 
@@ -109,9 +123,35 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
             $scope.bubbleName = file.name;
         }
 
+        if(file == null){
+            $http.post(this.url, data).then(function(response){
+                 console.log(response);
+                 networkService.updateOrignalItems(response.data.item);
+                 items.id = response.data.item.id;
+                 items.label = response.data.item.title;
+                 items.title = response.data.item.title;
+                 $mdToast.show(
+                     $mdToast.simple()
+                         .textContent('ADDED MEDIA')
+                         .position('bottom')
+                         .hideDelay(3000)
+                 );
+                 callBack(items);
+
+             }, function(errResponse){
+                 $mdToast.show(
+                     $mdToast.simple()
+                         .textContent('Error adding Bubble!')
+                         .position('bottom')
+                         .hideDelay(3000)
+                 );
+             });
+        }
+        else{
+
         file.upload = Upload.upload({
-            url: '/admin/bubblePLE/fileAttachments/rest',
-            data: {fileattachment: {filename: file, title: $scope.bubbleName}},
+            url: this.url,
+            data: data,
         });
 
         file.upload.then(function (response) {
@@ -135,6 +175,8 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
 
         });
     }, function (response) {
+        console.log("in error response");
+        console.log(response);
         if (response.status > 0)
             $scope.errorMsg = response.status + ': ' + response.data;
         showToast($mdToast, 'Error Uploading File');
@@ -145,6 +187,7 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
                 console.log(file.progress);
                 $scope.progressBarValue = file.progress;
             });
+}
 
 
 
@@ -163,50 +206,4 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
         //     console.log(response);
         // });
     };
-
-
-
-      // Upload actual file to the server
-        function uploadFileToServer(file) {
-        //uploadFile($scope, $mdToast, $timeout, file, Upload, networkService);
-        console.log("file selected");
-        
-
-
-        return ;
-        $scope.showProgressBar = true;
-        console.log("hiding dialog");
-            $mdDialog.hide();
-            console.log("dialog hidden");
-            file.upload = Upload.upload({
-                url: '/admin/bubblePLE/fileAttachments/rest',
-                data: {fileattachment: {filename: file, title: $scope.bubbleName}},
-            });
-
-
-            file.upload.progress(function(evt){
-                console.log('percent: ' +parseInt(100.0 * evt.loaded / evt.total));
-            });
-
-
-            file.upload.then(function (response) {
-                $timeout(function () {
-                    file.result = response.data;
-                    console.log(response);
-                    showToast($mdToast, 'File Uploaded Successfully');
-                    $scope.showProgressBar = false;
-                    callBack(items);
-                });
-            }, function (response) {
-                if (response.status > 0)
-                    $scope.errorMsg = response.status + ': ' + response.data;
-                    showToast($mdToast, 'Error Uploading File');
-                    $scope.showProgressBar = false;
-            }, function (evt) {
-                        // Math.min is to fix IE which reports 200% sometimes
-                        file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-                        console.log(file.progress);
-                        $scope.progressBarValue = file.progress;
-                    });
-      }
 }

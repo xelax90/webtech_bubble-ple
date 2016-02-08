@@ -49,9 +49,15 @@
           getCourses(sId);
           networkService.setmdDialog($mdDialog);
       };
-
+	  
+	  var networkInitializer = function(network){
+            network.on('doubleClick', onDoubleClick);
+            network.on("click", onClick);
+	  }
+	  
       //filter courses of one semester
       function getCourses(semesterId){
+		  console.log('getCourses');
           $http.get('admin/bubblePLE/filter/parent/'+semesterId).then(function(response) {
               var bubbles = new Array();
               console.log(response);
@@ -63,12 +69,10 @@
               for (var i in items){
                   if ((items[i].bubbleType.search("Semester") != -1) || (isChild(items[i], semesterId))) {
                       if (items[i].bubbleType.search("Semester") != -1){
+                          $scope.bcSemesterId = items[i].id;
                           $scope.breadCrumbsParent = items[i].title;
-                          bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#004c99', font: {color: 'white', size: 25, strokeWidth: 1, strokeColor: 'black', face: 'Verdana, Geneva, sans-serif'}});
                       }
-                      else {
-                        bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, font:{face: 'Verdana, Geneva, sans-serif'}});
-                      }
+                      bubbles.push(createNode(items[i], true));
                   }
               }
               for (var i = 0; i < edges.length; i++){
@@ -79,19 +83,7 @@
               //var edges = new vis.DataSet(edges);
 
               networkService.setNetworkData(items, bubbles, edges);
-              networkService.initNetwork();
-
-
-              //it is done in this way, so we can re assign double click event to new network when network object changes
-              networkService.getNetwork().on('doubleClick', onDoubleClick);
-              networkService.getNetwork().on("selectNode", function(params) {
-                  if (params.nodes.length == 1) {
-                      if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
-                          networkService.getNetwork().openCluster(params.nodes[0]);
-                      }
-                  }
-              });
-              
+              networkService.initNetwork(networkInitializer);
 
               //networkService.getNetwork().setData({nodes: bubbles, edges: edges});
 
@@ -128,6 +120,24 @@
                     return;
                   }
                   else{
+                    var myNode = getOrignalNode(nodeId);
+                    if(myNode.bubbleType.search("MediaAttachment") != -1){
+                      console.log("yeah it is a video");
+                      var myTemplate;
+                      if(myNode.filename.search("youtube") != -1) myTemplate = PlayYoutubeVideoDialogTemplate(myNode.title, myNode.filename);
+                      else myTemplate = PlayVideoDialogTemplate(myNode.title, myNode.filename);
+                      $mdDialog.show({
+                        template: myTemplate,
+                        controller : function($scope, $mdDialog){
+                          $scope.closeMediaDialog = function() {
+                           console.log("in close media dialgo");
+                           $mdDialog.hide();
+                          };
+                        }
+                      });
+                      
+                    //window.open(myNode.filename, '_blank');
+                    }
                     if(isLinkAttachment(nodeId, networkService.getOrignalItems()) != false){
                       console.log("in link attac");
                       window.open(isLinkAttachment(nodeId, networkService.getOrignalItems()), '_blank');
@@ -147,6 +157,12 @@
 
        }              
 
+      function getOrignalNode(nodeId){
+        var allNodes = networkService.getOrignalItems();
+        for (var i = 0; i < allNodes.length; i++){
+          if(allNodes[i].id == nodeId) return allNodes[i];  
+        }
+       }
 
       function isChild(Node, parentId){
             for (var i = 0; i < Node.parents.length; i++){
@@ -168,8 +184,76 @@
           }
           return false;
       }
-
+	  
+	  function createNode(bubble, isSemester){
+		  var node = {
+			  id: bubble.id,
+			  label: bubble.title,
+			  title: bubble.title,
+			  font: {face: 'Verdana, Geneva, sans-serif'},
+		  };
+		  
+		  if(bubble.posX){
+			  node.x = bubble.posX;
+			  node.y = bubble.posY;
+		  }
+		
+		if (bubble.bubbleType.search("Semester") != -1){
+			node.color = '#004c99';
+			node.font.color = 'white';
+			node.font.size = 25;
+			node.font.strokeWidth = 1;
+			node.font.strokeColor = 'black';
+		} else if (bubble.bubbleType.search("Course") != -1){
+			// do not do this in semester
+			if(!isSemester){
+				node.color = '#004c99';
+				node.font.color = 'white';
+				node.font.size = 25;
+			}
+		} else if (bubble.bubbleType.search("L2PMaterialFolder") != -1) {
+			node.color = '#7BE141';
+		} else if (bubble.bubbleType.search("L2PAssignment") != -1) {
+			node.color = '#ffc966';
+		} else if (bubble.bubbleType.search("L2PMaterialAttachment") != -1) {
+			node.color = '#C2FABC';
+			node.cid = bubble.parents[0];
+		}
+		return node;
+	  }
+	  
+	  $scope.savePositions = function(){
+		  networkService.getNetwork().storePositions();
+		  var nodes = networkService.getNodes().get();
+		  var request = {bubbles: []};
+		  for(var i in nodes){
+			  var node = nodes[i];
+			  var pos = networkService.getNetwork().getPositions(['cidCluster'+node.id]);
+			  if(pos['cidCluster'+node.id]){
+				  request.bubbles.push({id: node.id, x: pos['cidCluster'+node.id].x, y: pos['cidCluster'+node.id].y});
+			  } else {
+				  request.bubbles.push({id: node.id, x: node.x, y: node.y});
+			  }
+		  }
+		  $http.post('admin/bubblePLE/updatePositions', request).then(function(response){
+			$mdToast.show(
+				$mdToast.simple()
+					.textContent('Layout saved!')
+					.position('bottom')
+					.hideDelay(3000)
+			);
+		  }, function(errResponse){
+                 $mdToast.show(
+                     $mdToast.simple()
+                         .textContent('Error saving layout!')
+                         .position('bottom')
+                         .hideDelay(3000)
+                 );
+          });
+	  }
+	  
       function getAttachments(courseId){
+		  console.log('getAttachments');
           $http.get('admin/bubblePLE/filter/parent/'+courseId).then(function(response) {
 
               $scope.loadingData = false;
@@ -177,28 +261,14 @@
               var items = response.data.bubbles;
               var edges = response.data.edges;
               for (var i = 0; i < items.length; i++){
-                  if (items[i].bubbleType.search("Course") != -1){
-                      bubbles.push({id: items[i].id, label:items[i].title, title: items[i].title, color: '#004c99', font:{color: 'white', face: 'Verdana, Geneva, sans-serif', size: 25}});
-                  }
-                  else if (items[i].bubbleType.search("L2PMaterialFolder") != -1) {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, color: '#7BE141', font: {face: 'Verdana, Geneva, sans-serif'}});
-                  }
-                  else if (items[i].bubbleType.search("L2PAssignment") != -1) {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title,  color: '#ffc966', font: {face: 'Verdana, Geneva, sans-serif'}});
-                  }
-                  else if (items[i].bubbleType.search("L2PMaterialAttachment") != -1) {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, cid: items[i].parents[0], color: '#C2FABC', font: {face: 'Verdana, Geneva, sans-serif'}});
-                  } else {
-                      bubbles.push({id: items[i].id, label: items[i].title, title: items[i].title, font: {face: 'Verdana, Geneva, sans-serif'}});
-                  }
+                  bubbles.push(createNode(items[i]));
               }
               for (var i = 0; i < edges.length; i++){
                   edges[i].arrows = 'to';
               }
 
               networkService.setNetworkData(bubbles, edges);
-              networkService.initNetwork();
-              networkService.getNetwork().on('doubleClick', onDoubleClick); 
+              networkService.initNetwork(networkInitializer);
                 //function(item){
 
                   // if(isLinkAttachment(item.nodes[0], items) != false){
@@ -211,30 +281,12 @@
                   //     window.location = isL2Plink(item.nodes[0], items);
                   // }
               //});
-              networkService.getNetwork().on("selectNode", function(params) {
-                  if (params.nodes.length == 1) {
-                      if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
-                          networkService.getNetwork().openCluster(params.nodes[0]);
-                          networkService.getNetwork().setOptions({physics:{stabilization:{fit: false}}});
-                          networkService.getNetwork().stabilize();
-                      }
-                  }
-              });
 
 
               for (var i in bubbles){
-                  if (!bubbles[i].cid && !isCourse(bubbles[i].id, items)){
-                      var clusterOptionsByData = {
-                          joinCondition:function(childOptions) {
-                              return childOptions.cid == bubbles[i].id || childOptions.id == bubbles[i].id;
-                          },
-                          clusterNodeProperties: {id:'cidCluster' + bubbles[i].id, label: bubbles[i].label}
-                      };
-                      networkService.getNetwork().cluster(clusterOptionsByData);
-                  }
+                  makeCluster(bubbles[i], items);
               }
-              //since network nodes and edges change, therefore re assign the double click event to new network
-              networkService.getNetwork().on('doubleClick', onDoubleClick);
+
 
           }, function(errResponse) {
               $mdToast.show(
@@ -244,6 +296,22 @@
                       .hideDelay(3000)
               );
           });
+      }
+
+      function makeCluster(bubble, items){
+          if (!bubble.cid && !isCourse(bubble.id, items)){
+              var clusterOptionsByData = {
+                  joinCondition:function(childOptions) {
+                      return childOptions.cid == bubble.id || childOptions.id == bubble.id;
+                  },
+                  clusterNodeProperties: {id:'cidCluster' + bubble.id, label: bubble.title}
+              };
+			  if(bubble.x){
+				  clusterOptionsByData.clusterNodeProperties.x = bubble.x;
+				  clusterOptionsByData.clusterNodeProperties.y = bubble.y;
+			  }
+              networkService.getNetwork().cluster(clusterOptionsByData);
+          }
       }
 
       function isL2Plink(nodeId, items){
@@ -330,6 +398,13 @@
       $scope.filUpload = function(){
         bubbleType = 'fileAttachment';
           showToast($mdToast, 'Click anywhere to add a Bubble for file');
+          networkService.setBubbleType(bubbleType);
+          networkService.getNetwork().addNodeMode();
+      }
+
+      $scope.mediaUpload = function(){
+        bubbleType = 'mediaAttachment';
+          showToast($mdToast, 'Click anywhere to add a Bubble for Media');
           networkService.setBubbleType(bubbleType);
           networkService.getNetwork().addNodeMode();
       }
@@ -490,8 +565,19 @@
       }
 
       /*If user single click on the bubble then this method will be called*/
-      function doOnClick(properties) {
-        console.log('single click');
+      function doOnClick(params) {
+          if (params.nodes.length == 1) {
+              if (networkService.getNetwork().isCluster(params.nodes[0]) == true) {
+                  networkService.getNetwork().openCluster(params.nodes[0]);
+                  networkService.getNetwork().setOptions({physics:{stabilization:{fit: false}}});
+                  networkService.getNetwork().stabilize();
+              }
+              else {
+                  makeCluster(getOrignalNode(params.nodes[0]), networkService.getOrignalItems());
+                  networkService.getNetwork().setOptions({physics:{stabilization:{fit: false}}});
+                  networkService.getNetwork().stabilize();
+              }
+          }
       }
 
       /*If user double click on the bubble then this method will be called*/
