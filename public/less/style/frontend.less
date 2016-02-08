@@ -75,7 +75,7 @@ md-toolbar.breadcrumb-bar {
 }*/
 
 .fa-2x {
-	background-color: #5c6bc0;
+    background-color: #5c6bc0;
     margin-right: 11px;
     color: #ffffff;
     color: #ffffff;
@@ -137,16 +137,66 @@ md-toolbar.breadcrumb-bar {
     margin: 13px 0 0 0;
 }
 
+.center-logo {
+    background-image: url('../img/logo.png');
+    background-repeat: no-repeat;
+    background-color: rgb(63,81,181);
+    background-position: center;
+    border-radius: 50%;
+    height: 300px;
+    width: 300px;
+    margin: 100px auto;
+    
+}
+
+.center-logo-label {
+    margin: -50px 0 20px 0;
+    font-size: 40px;
+    text-align: center;
+}
+
+.authenticate-button {
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 6px;
+}
+.authenticate-button-content {
+    font-size: 20px;
+    height: 54px;
+}
+
+.md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon, md-toolbar:not(.md-menu-toolbar) md-icon.authenticate-icon {
+    color: white
+}
+
 md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon, md-toolbar:not(.md-menu-toolbar) md-icon {
     color: rgba(113, 111, 111, 0.87);
 }
 
+.notice {
+    color: green;
+    text-align: center;
+    font-size: 20px;
+    margin: 20px 0 0 0;
+}
+
+.loading-circle {
+    background-image: url('../img/white-loading.gif');
+    background-repeat: no-repeat;
+    background-size: 30px;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    margin: 0 6px -8px 0;
+}
+
+.loading-message {
+    display: inline-block;
+}
 
 md-input-container .mediaurl{
     width : 295px; 
 }
-
-
 
 /*======================*/
 /*Media queries*/
