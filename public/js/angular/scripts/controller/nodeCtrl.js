@@ -3,7 +3,7 @@
  */
 'use strict';
 
-app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', '$rootScope', function ($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService, $rootScope) {
+app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', '$rootScope', 'bubbleService', function ($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService, $rootScope, bubbleService) {
 
         $scope.myFile;
 
@@ -64,8 +64,9 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                 $scope.loadingData = false;
 
                 for (var i in items) {
-                    if ((items[i].bubbleType.search("Semester") != -1) || (isChild(items[i], semesterId))) {
-                        if (items[i].bubbleType.search("Semester") != -1) {
+                    var isSemester = bubbleService.isSemester(items[i]);
+                    if (isSemester || (isChild(items[i], semesterId))) {
+                        if (isSemester) {
                             $scope.bcSemesterId = items[i].id;
                             $scope.breadCrumbsParent = items[i].title;
                         }
@@ -114,7 +115,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                 }
                 else {
                     var myNode = getOrignalNode(nodeId);
-                    if (myNode.bubbleType.search("MediaAttachment") != -1) {
+                    if (bubbleService.isMediaAttachment(myNode)) {
                         var myTemplate;
                         if (myNode.filename.search("youtube") != -1)
                             myTemplate = PlayYoutubeVideoDialogTemplate(myNode.title, myNode.filename);
@@ -168,7 +169,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         function isCourse(id, items) {
             for (var i = 0; i < items.length; i++) {
                 if (items[i].id == id) {
-                    if (items[i].bubbleType.search("Course") != -1) {
+                    if (bubbleService.isCourse(items[i])) {
                         return true;
                     }
                 }
@@ -190,24 +191,24 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                 node.y = bubble.posY;
             }
 
-            if (bubble.bubbleType.search("Semester") != -1) {
+            if (bubbleService.isSemester(bubble)) {
                 node.color = '#004c99';
                 node.font.color = 'white';
                 node.font.size = 25;
                 node.font.strokeWidth = 1;
                 node.font.strokeColor = 'black';
-            } else if (bubble.bubbleType.search("Course") != -1) {
+            } else if (bubbleService.isCourse(bubble)) {
                 // do not do this in semester
                 if (!isSemester) {
                     node.color = '#004c99';
                     node.font.color = 'white';
                     node.font.size = 25;
                 }
-            } else if (bubble.bubbleType.search("L2PMaterialFolder") != -1) {
+            } else if (bubbleService.isL2PMaterialFolder(bubble)) {
                 node.color = '#7BE141';
-            } else if (bubble.bubbleType.search("L2PAssignment") != -1) {
+            } else if (bubbleService.isL2PAssignment(bubble)) {
                 node.color = '#ffc966';
-            } else if (bubble.bubbleType.search("L2PMaterialAttachment") != -1) {
+            } else if (bubbleService.isL2PMaterialAttachment(bubble)) {
                 node.color = '#C2FABC';
                 node.cid = bubble.parents[0];
             }
@@ -292,7 +293,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         function makeCluster(bubble, items) {
             var needsCluster = !bubble.cid;
             if(bubble.bubbleType){
-                needsCluster = needsCluster && (bubble.bubbleType.search("Course") === -1);
+                needsCluster = needsCluster && !bubbleService.isCourse(bubble);
             } else {
                 needsCluster = needsCluster && !isCourse(bubble.id, items);
             }
@@ -314,7 +315,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         function isL2Plink(nodeId, items) {
             for (var i = 0; i < items.length; i++) {
                 if (items[i].id == nodeId) {
-                    if (items[i].bubbleType.search("L2PMaterialAttachment") != -1) {
+                    if (bubbleService.isL2PMaterialAttachment(items[i])) {
                         return applicationBasePath + items[i].filename.substring(1);
                         //return items[i].filename.substring(1);
                     }
@@ -325,7 +326,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         function isLinkAttachment(nodeId, items) {
             for (var i = 0; i < items.length; i++) {
                 if (items[i].id == nodeId) {
-                    if (items[i].bubbleType.search("LinkAttachment") != -1) {
+                    if (bubbleService.isLinkAttachment(items[i])) {
                         return items[i].url;
                     }
                 }
@@ -335,7 +336,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         function isFile(nodeId, items) {
             for (var i = 0; i < items.length; i++) {
                 if (items[i].id == nodeId) {
-                    if (items[i].bubbleType.search("FileAttachment") != -1) {
+                    if (bubbleService.isFileAttachment(items[i])) {
                         return applicationBasePath + items[i].filename.substring(1);
                     }
                 }
