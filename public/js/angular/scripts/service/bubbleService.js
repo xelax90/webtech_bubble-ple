@@ -102,6 +102,10 @@ app.service('bubbleService',[function(){
         return this.isOfType(bubble, 'FileAttachment');
     }
 
+    this.isAttachment = function(bubble){
+        return this.isOfType(bubble, 'Attachment');
+    }
+
     this.isImageAttachment = function(bubble){
         return this.isOfType(bubble, 'ImageAttachment');
     }
