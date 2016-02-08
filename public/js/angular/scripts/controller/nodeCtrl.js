@@ -4,7 +4,6 @@
 'use strict';
 
 app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Upload', '$mdToast', '$mdDialog', '$http', '$anchorScroll', 'networkService', '$rootScope', 'bubbleService', function ($mdSidenav, $location, $scope, $timeout, Upload, $mdToast, $mdDialog, $http, $anchorScroll, networkService, $rootScope, bubbleService) {
-
     $http.get('l2p/authenticate').then(function(response) {
         if (response.data['success'] === false) {
             $location.path('/login');
@@ -15,6 +14,8 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
     });
 
     function runApp(){
+        var isSemesterView = true;
+        
         $scope.myFile;
 
         $scope.currentCourseId;
@@ -66,6 +67,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
         //filter courses of one semester
         function getCourses(semesterId) {
+            isSemesterView = true;
             $http.get('admin/bubblePLE/filter/parent/' + semesterId).then(function (response) {
                 var bubbles = new Array();
                 var items = response.data.bubbles;
@@ -80,7 +82,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                             $scope.bcSemesterId = items[i].id;
                             $scope.breadCrumbsParent = items[i].title;
                         }
-                        bubbles.push(createNode(items[i], true));
+                        bubbles.push(createNode(items[i]));
                     }
                 }
                 for (var i = 0; i < edges.length; i++) {
@@ -187,7 +189,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
             return false;
         }
 
-        function createNode(bubble, isSemester) {
+        function createNode(bubble) {
             var node = {
                 id: bubble.id,
                 label: bubble.title,
@@ -209,7 +211,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                 node.font.strokeColor = 'black';
             } else if (bubbleService.isCourse(bubble)) {
                 // do not do this in semester
-                if (!isSemester) {
+                if (!isSemesterView) {
                     node.color = '#004c99';
                     node.font.color = 'white';
                     node.font.size = 25;
@@ -220,6 +222,9 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                 node.color = '#ffc966';
             } else if (bubbleService.isL2PMaterialAttachment(bubble)) {
                 node.color = '#C2FABC';
+                node.cid = bubble.parents[0];
+            } else if (bubbleService.isAttachment(bubble)){
+                node.color = '#e9fde7';
                 node.cid = bubble.parents[0];
             }
             return node;
@@ -256,6 +261,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         }
 
         function getAttachments(courseId) {
+            isSemesterView = false;
             $http.get('admin/bubblePLE/filter/parent/' + courseId).then(function (response) {
 
                 $scope.loadingData = false;
@@ -534,7 +540,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                             var req = {bubble: {title: $scope.node.text}};
                             $http.post('admin/bubblePLE/bubbles/rest/' + selectedNode, req).then(function (response) {
                                 $mdDialog.hide();
-                                networkService.getNodes().update(createNode(response.item));
+                                networkService.getNodes().update(createNode(response.data.item));
                                 $mdToast.show(
                                     $mdToast.simple()
                                         .textContent('Bubble updated!')
