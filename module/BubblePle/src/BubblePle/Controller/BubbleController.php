@@ -87,7 +87,7 @@ class BubbleController extends ListController{
 		
 		$params = array();
 		if($entityClass === Semester::class){
-			$params['owner'] = $user;
+			$params['owner'] = $user->getId();
 		}
 		
 		if(!empty($this->getParentControllerOptions())){
