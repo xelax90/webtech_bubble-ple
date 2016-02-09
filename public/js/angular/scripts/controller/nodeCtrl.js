@@ -236,7 +236,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                     edges[i].arrows = 'to';
                 }
 
-                networkService.setNetworkData(bubbles, edges);
+                networkService.setNetworkData(items, bubbles, edges);
                 networkService.initNetwork(networkInitializer);
                 //function(item){
 

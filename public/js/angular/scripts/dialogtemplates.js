@@ -209,6 +209,12 @@ function uploadMediaDialogTemplate(){
 
 function PlayVideoDialogTemplate(title, url){
     return '<md-dialog aria-label="List dialog">' +
+        '  <md-toolbar>' +
+        '     <div class="md-toolbar-tools">' +
+        '      <h2>Video Bubble</h2>' +
+        '      <span flex></span>' +
+        '    </div>' +
+        '  </md-toolbar>' +
         '  <md-dialog-content>'+
         '    <br>'+
         '<video width="320" height="240" controls> '+
