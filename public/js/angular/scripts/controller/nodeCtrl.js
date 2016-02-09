@@ -279,11 +279,20 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                     joinCondition: function (childOptions) {
                         return childOptions.cid == bubble.id || childOptions.id == bubble.id;
                     },
-                    clusterNodeProperties: {id: 'cidCluster' + bubble.id, label: bubble.title}
+                    clusterNodeProperties: {id: 'cidCluster' + bubble.id, label: bubble.title, borderWidth: 2, borderWidthSelected: 3}
                 };
                 if (bubble.x) {
                     clusterOptionsByData.clusterNodeProperties.x = bubble.x;
                     clusterOptionsByData.clusterNodeProperties.y = bubble.y;
+                }
+                if(bubble.color){
+                    var colorSpec = {background: bubble.color, border: ColorLuminance(bubble.color, -0.5)};
+                    clusterOptionsByData.clusterNodeProperties.color = {
+                        background: colorSpec.background, 
+                        border: colorSpec.border, 
+                        hover: {background: ColorLuminance(colorSpec.background, 0.1), border: ColorLuminance(colorSpec.border, 0.1)}, 
+                        highlight: {background: ColorLuminance(colorSpec.background, 0.2), border: ColorLuminance(colorSpec.border, 0.2)}
+                    };
                 }
                 networkService.getNetwork().cluster(clusterOptionsByData);
             }
@@ -683,6 +692,26 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
             }
 
         };
+        
+        function ColorLuminance(hex, lum) {
+
+            // validate hex string
+            hex = String(hex).replace(/[^0-9a-f]/gi, '');
+            if (hex.length < 6) {
+                hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+            }
+            lum = lum || 0;
+
+            // convert to decimal and change luminosity
+            var rgb = "#", c, i;
+            for (i = 0; i < 3; i++) {
+                c = parseInt(hex.substr(i*2,2), 16);
+                c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+                rgb += ("00"+c).substr(c.length);
+            }
+
+            return rgb;
+        }        
     }
 
     }]);
