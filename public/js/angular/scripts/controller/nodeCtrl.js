@@ -24,7 +24,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
         $scope.bcSemesterId;
         $scope.bcCourseId;
-//        var onClickTimeout;
+        var onClickTimeout;
 
         $scope.toggleList = function () {
             $mdSidenav('left').toggle();
@@ -108,8 +108,8 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
 
         function onDoubleClick(node) {
-//            clearTimeout(onClickTimeout);
-//            onClickTimeout = false;
+            clearTimeout(onClickTimeout);
+            onClickTimeout = false;
             this.items = networkService.getNodes();
             var nodeId = node.nodes[0];
             var node = this.items.get(nodeId);
@@ -236,7 +236,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                     edges[i].arrows = 'to';
                 }
 
-                networkService.setNetworkData(bubbles, edges);
+                networkService.setNetworkData(items, bubbles, edges);
                 networkService.initNetwork(networkInitializer);
                 //function(item){
 
@@ -279,11 +279,20 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                     joinCondition: function (childOptions) {
                         return childOptions.cid == bubble.id || childOptions.id == bubble.id;
                     },
-                    clusterNodeProperties: {id: 'cidCluster' + bubble.id, label: bubble.title}
+                    clusterNodeProperties: {id: 'cidCluster' + bubble.id, label: bubble.title, borderWidth: 2, borderWidthSelected: 3}
                 };
                 if (bubble.x) {
                     clusterOptionsByData.clusterNodeProperties.x = bubble.x;
                     clusterOptionsByData.clusterNodeProperties.y = bubble.y;
+                }
+                if(bubble.color){
+                    var colorSpec = {background: bubble.color, border: ColorLuminance(bubble.color, -0.5)};
+                    clusterOptionsByData.clusterNodeProperties.color = {
+                        background: colorSpec.background, 
+                        border: colorSpec.border, 
+                        hover: {background: ColorLuminance(colorSpec.background, 0.1), border: ColorLuminance(colorSpec.border, 0.1)}, 
+                        highlight: {background: ColorLuminance(colorSpec.background, 0.2), border: ColorLuminance(colorSpec.border, 0.2)}
+                    };
                 }
                 networkService.getNetwork().cluster(clusterOptionsByData);
             }
@@ -367,7 +376,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         $scope.deleteSelectedNodeEdge = function () {
             deleteNodeorEdge(networkService, $mdToast, $http);
         };
-        
+
         $scope.deleteSelectedNodeEdgeMode = function () {
             networkService.setClusterClickDisabled(true);
             networkService.setDeleteMode(true);
@@ -377,7 +386,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                 .position('bottom')
                 .hideDelay(3000)
             );
-            
+
         };
 
         $scope.enableEditMode = function () {
@@ -389,7 +398,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                 .position('bottom')
                 .hideDelay(3000)
             );
-            
+
         };
 
         $scope.filUpload = function () {
@@ -431,87 +440,14 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
         // Dialog Box to share the selected bubble
         $scope.openShareBox = function ($event) {
-            if (networkService.getNetwork().getSelectedNodes().length > 0) {
-                $mdDialog.show({
-                    targetEvent: $event,
-                    template:
-                            '<md-dialog aria-label="List dialog">' +
-                            '  <md-toolbar>' +
-                            '     <div class="md-toolbar-tools">' +
-                            '      <h2>Share Bubble</h2>' +
-                            '      <span flex></span>' +
-                            '    </div>' +
-                            '  </md-toolbar>' +
-                            '  <md-dialog-content>' +
-                            '     <br>' +
-                            '     <md-input-container style="margin-right: 10px;">' +
-                            '       <label>Target User</label>' +
-                            '       <md-select ng-model="userId">' +
-                            '       <md-option ng-repeat="user in users" value="{{user.id}}">{{user.name}}</md-option>' +
-                            '     </md-select>' +
-                            '   </md-input-container>' +
-                            '  </md-dialog-content>' +
-                            '  <md-dialog-actions>' +
-                            '    <md-button ng-click="shareBubble()" class="md-primary">' +
-                            '      Share' +
-                            '    </md-button>' +
-                            '    <md-button ng-click="closeDialog()" class="md-primary">' +
-                            '      Close Dialog' +
-                            '    </md-button>' +
-                            '  </md-dialog-actions>' +
-                            '</md-dialog>',
-                    controller: ShareBubbleDialogController
-                });
-            } else {
-                $mdToast.show(
-                        $mdToast.simple()
-                        .textContent('Select a Bubble you need to share.')
-                        .position('bottom')
-                        .hideDelay(3000)
-                        );
-            }
-
-            function ShareBubbleDialogController($scope, $mdDialog) {
-                $http.get('admin/bubblePLE/usernames').then(function (response) {
-                    $scope.users = response.data;
-                }, function (errResponse) {
-                    $mdToast.show(
-                            $mdToast.simple()
-                            .textContent('Error fetching Users')
-                            .position('bottom')
-                            .hideDelay(3000)
-                            );
-                });
-
-                $scope.shareBubble = function () {
-                    if ($scope.userId) {
-                        var selectedBubble = networkService.getNetwork().getSelectedNodes();
-                        angular.forEach(selectedBubble, function (value, key) {
-                            $http.get('admin/bubblePLE/share/' + value + '/' + $scope.userId).then(function (response) {
-                                //    Bubble Sharing Done
-                            }, function (errResponse) {
-                                $mdToast.show(
-                                        $mdToast.simple()
-                                        .textContent('Error sharing Bubble')
-                                        .position('bottom')
-                                        .hideDelay(3000)
-                                        );
-                            });
-                        });
-                        $mdDialog.hide();
-                        $mdToast.show(
-                                $mdToast.simple()
-                                .textContent('Bubble(s) shared!')
-                                .position('bottom')
-                                .hideDelay(3000)
-                                );
-                    }
-                };
-
-                $scope.closeDialog = function () {
-                    $mdDialog.hide();
-                }
-            }
+            networkService.setClusterClickDisabled(true);
+            networkService.setShareMode(true);
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent('Select a bubble, you need to share.')
+                    .position('bottom')
+                    .hideDelay(3000)
+            );
         };
 
 
@@ -537,7 +473,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                                         .position('bottom')
                                         .hideDelay(3000)
                                     );
-                                
+
                             }, function(errResponse){
                                 $mdDialog.hide();
                                 $mdToast.show(
@@ -546,7 +482,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                                         .position('bottom')
                                         .hideDelay(3000)
                                     );
-                                
+
                             });
                         };
                     }
@@ -566,13 +502,54 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         var threshold = 200;
 
 
+        function ShareBubbleDialogController($scope, $mdDialog) {
+            $http.get('admin/bubblePLE/usernames').then(function (response) {
+                $scope.users = response.data;
+            }, function (errResponse) {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent('Error fetching Users')
+                        .position('bottom')
+                        .hideDelay(3000)
+                );
+            });
+
+            $scope.shareBubble = function () {
+                if ($scope.userId) {
+                    var selectedBubble = networkService.getNetwork().getSelectedNodes();
+                    angular.forEach(selectedBubble, function (value, key) {
+                        $http.get('admin/bubblePLE/share/' + value + '/' + $scope.userId).then(function (response) {
+                            //    Bubble Sharing Done
+                        }, function (errResponse) {
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .textContent('Error sharing Bubble')
+                                    .position('bottom')
+                                    .hideDelay(3000)
+                            );
+                        });
+                    });
+                    $mdDialog.hide();
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .textContent('Bubble(s) shared!')
+                            .position('bottom')
+                            .hideDelay(3000)
+                    );
+                }
+            };
+
+            $scope.closeDialog = function () {
+                $mdDialog.hide();
+            }
+        }
 
         /*When user click on bubble then this method will be called to check whether user click once or twice*/
         function onClick(properties) {
             var t0 = new Date();
-            if (t0 - doubleClickTime > threshold) {
-//                onClickTimeout = 
-                setTimeout(function () {
+            if (t0 - doubleClickTime > threshold && !onClickTimeout) {
+                onClickTimeout = setTimeout(function () {
+                    onClickTimeout = false;
                     if (t0 - doubleClickTime > threshold) {
                         doOnClick(properties);
                     }
@@ -589,7 +566,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                     networkService.getNetwork().stabilize();
                 }
                 else {
-                    
+
                     makeCluster(networkService.getNodes().get(params.nodes[0]));
                     networkService.getNetwork().setOptions({physics: {stabilization: {fit: false}}});
                     networkService.getNetwork().stabilize();
@@ -622,6 +599,30 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                         $scope.deleteSelectedNodeEdge();
                     }
                     networkService.setDeleteMode(false);
+                    networkService.setClusterClickDisabled(false);
+                } else if(networkService.getShareMode()) {
+                    if(networkService.getNetwork().isCluster(params.nodes[0]) == true){
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .textContent('Cannot share cluster.')
+                                .position('bottom')
+                                .hideDelay(3000)
+                        );
+                    } else if (networkService.getNetwork().getSelectedNodes().length > 0) {
+                        $mdDialog.show({
+                            //targetEvent: $event,
+                            template: shareDialogTemplate(),
+                            controller: ShareBubbleDialogController
+                        });
+                    } else {
+                        $mdToast.show(
+                            $mdToast.simple()
+                                .textContent('Select a Bubble you need to share.')
+                                .position('bottom')
+                                .hideDelay(3000)
+                        );
+                    }
+                    networkService.setShareMode(false);
                     networkService.setClusterClickDisabled(false);
                 }
             }
@@ -691,6 +692,26 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
             }
 
         };
+        
+        function ColorLuminance(hex, lum) {
+
+            // validate hex string
+            hex = String(hex).replace(/[^0-9a-f]/gi, '');
+            if (hex.length < 6) {
+                hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+            }
+            lum = lum || 0;
+
+            // convert to decimal and change luminosity
+            var rgb = "#", c, i;
+            for (i = 0; i < 3; i++) {
+                c = parseInt(hex.substr(i*2,2), 16);
+                c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+                rgb += ("00"+c).substr(c.length);
+            }
+
+            return rgb;
+        }        
     }
 
     }]);
