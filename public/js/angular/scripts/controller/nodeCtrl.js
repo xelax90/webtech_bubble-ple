@@ -431,87 +431,98 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
         // Dialog Box to share the selected bubble
         $scope.openShareBox = function ($event) {
-            if (networkService.getNetwork().getSelectedNodes().length > 0) {
-                $mdDialog.show({
-                    targetEvent: $event,
-                    template:
-                            '<md-dialog aria-label="List dialog">' +
-                            '  <md-toolbar>' +
-                            '     <div class="md-toolbar-tools">' +
-                            '      <h2>Share Bubble</h2>' +
-                            '      <span flex></span>' +
-                            '    </div>' +
-                            '  </md-toolbar>' +
-                            '  <md-dialog-content>' +
-                            '     <br>' +
-                            '     <md-input-container style="margin-right: 10px;">' +
-                            '       <label>Target User</label>' +
-                            '       <md-select ng-model="userId">' +
-                            '       <md-option ng-repeat="user in users" value="{{user.id}}">{{user.name}}</md-option>' +
-                            '     </md-select>' +
-                            '   </md-input-container>' +
-                            '  </md-dialog-content>' +
-                            '  <md-dialog-actions>' +
-                            '    <md-button ng-click="shareBubble()" class="md-primary">' +
-                            '      Share' +
-                            '    </md-button>' +
-                            '    <md-button ng-click="closeDialog()" class="md-primary">' +
-                            '      Close Dialog' +
-                            '    </md-button>' +
-                            '  </md-dialog-actions>' +
-                            '</md-dialog>',
-                    controller: ShareBubbleDialogController
-                });
-            } else {
-                $mdToast.show(
-                        $mdToast.simple()
-                        .textContent('Select a Bubble you need to share.')
-                        .position('bottom')
-                        .hideDelay(3000)
-                        );
-            }
 
-            function ShareBubbleDialogController($scope, $mdDialog) {
-                $http.get('admin/bubblePLE/usernames').then(function (response) {
-                    $scope.users = response.data;
-                }, function (errResponse) {
-                    $mdToast.show(
-                            $mdToast.simple()
-                            .textContent('Error fetching Users')
-                            .position('bottom')
-                            .hideDelay(3000)
-                            );
-                });
+            networkService.setClusterClickDisabled(true);
+            networkService.setShareMode(true);
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent('Select a bubble, you need to share.')
+                    .position('bottom')
+                    .hideDelay(3000)
+            );
 
-                $scope.shareBubble = function () {
-                    if ($scope.userId) {
-                        var selectedBubble = networkService.getNetwork().getSelectedNodes();
-                        angular.forEach(selectedBubble, function (value, key) {
-                            $http.get('admin/bubblePLE/share/' + value + '/' + $scope.userId).then(function (response) {
-                                //    Bubble Sharing Done
-                            }, function (errResponse) {
-                                $mdToast.show(
-                                        $mdToast.simple()
-                                        .textContent('Error sharing Bubble')
-                                        .position('bottom')
-                                        .hideDelay(3000)
-                                        );
-                            });
-                        });
-                        $mdDialog.hide();
-                        $mdToast.show(
-                                $mdToast.simple()
-                                .textContent('Bubble(s) shared!')
-                                .position('bottom')
-                                .hideDelay(3000)
-                                );
-                    }
-                };
 
-                $scope.closeDialog = function () {
-                    $mdDialog.hide();
-                }
-            }
+            //if (networkService.getNetwork().getSelectedNodes().length > 0) {
+            //    $mdDialog.show({
+            //        targetEvent: $event,
+            //        template:
+            //                '<md-dialog aria-label="List dialog">' +
+            //                '  <md-toolbar>' +
+            //                '     <div class="md-toolbar-tools">' +
+            //                '      <h2>Share Bubble</h2>' +
+            //                '      <span flex></span>' +
+            //                '    </div>' +
+            //                '  </md-toolbar>' +
+            //                '  <md-dialog-content>' +
+            //                '     <br>' +
+            //                '     <md-input-container style="margin-right: 10px;">' +
+            //                '       <label>Target User</label>' +
+            //                '       <md-select ng-model="userId">' +
+            //                '       <md-option ng-repeat="user in users" value="{{user.id}}">{{user.name}}</md-option>' +
+            //                '     </md-select>' +
+            //                '   </md-input-container>' +
+            //                '  </md-dialog-content>' +
+            //                '  <md-dialog-actions>' +
+            //                '    <md-button ng-click="shareBubble()" class="md-primary">' +
+            //                '      Share' +
+            //                '    </md-button>' +
+            //                '    <md-button ng-click="closeDialog()" class="md-primary">' +
+            //                '      Close Dialog' +
+            //                '    </md-button>' +
+            //                '  </md-dialog-actions>' +
+            //                '</md-dialog>',
+            //        controller: ShareBubbleDialogController
+            //    });
+            //} else {
+            //    $mdToast.show(
+            //            $mdToast.simple()
+            //            .textContent('Select a Bubble you need to share.')
+            //            .position('bottom')
+            //            .hideDelay(3000)
+            //            );
+            //}
+
+            //function ShareBubbleDialogController($scope, $mdDialog) {
+            //    $http.get('admin/bubblePLE/usernames').then(function (response) {
+            //        $scope.users = response.data;
+            //    }, function (errResponse) {
+            //        $mdToast.show(
+            //                $mdToast.simple()
+            //                .textContent('Error fetching Users')
+            //                .position('bottom')
+            //                .hideDelay(3000)
+            //                );
+            //    });
+            //
+            //    $scope.shareBubble = function () {
+            //        if ($scope.userId) {
+            //            var selectedBubble = networkService.getNetwork().getSelectedNodes();
+            //            angular.forEach(selectedBubble, function (value, key) {
+            //                $http.get('admin/bubblePLE/share/' + value + '/' + $scope.userId).then(function (response) {
+            //                    //    Bubble Sharing Done
+            //                }, function (errResponse) {
+            //                    $mdToast.show(
+            //                            $mdToast.simple()
+            //                            .textContent('Error sharing Bubble')
+            //                            .position('bottom')
+            //                            .hideDelay(3000)
+            //                            );
+            //                });
+            //            });
+            //            $mdDialog.hide();
+            //            $mdToast.show(
+            //                    $mdToast.simple()
+            //                    .textContent('Bubble(s) shared!')
+            //                    .position('bottom')
+            //                    .hideDelay(3000)
+            //                    );
+            //        }
+            //    };
+            //
+            //    $scope.closeDialog = function () {
+            //        $mdDialog.hide();
+            //    }
+            //}
         };
 
 
@@ -566,11 +577,52 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         var threshold = 200;
 
 
+        function ShareBubbleDialogController($scope, $mdDialog) {
+            $http.get('admin/bubblePLE/usernames').then(function (response) {
+                $scope.users = response.data;
+            }, function (errResponse) {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent('Error fetching Users')
+                        .position('bottom')
+                        .hideDelay(3000)
+                );
+            });
+
+            $scope.shareBubble = function () {
+                if ($scope.userId) {
+                    var selectedBubble = networkService.getNetwork().getSelectedNodes();
+                    angular.forEach(selectedBubble, function (value, key) {
+                        $http.get('admin/bubblePLE/share/' + value + '/' + $scope.userId).then(function (response) {
+                            //    Bubble Sharing Done
+                        }, function (errResponse) {
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .textContent('Error sharing Bubble')
+                                    .position('bottom')
+                                    .hideDelay(3000)
+                            );
+                        });
+                    });
+                    $mdDialog.hide();
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .textContent('Bubble(s) shared!')
+                            .position('bottom')
+                            .hideDelay(3000)
+                    );
+                }
+            };
+
+            $scope.closeDialog = function () {
+                $mdDialog.hide();
+            }
+        }
 
         /*When user click on bubble then this method will be called to check whether user click once or twice*/
         function onClick(properties) {
             var t0 = new Date();
-            if (t0 - doubleClickTime > threshold) {
+            if (t0 - doubleClickTime > threshold && !onClickTimeout) {
 //                onClickTimeout = 
                 setTimeout(function () {
                     if (t0 - doubleClickTime > threshold) {
@@ -624,6 +676,49 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                     networkService.setDeleteMode(false);
                     networkService.setClusterClickDisabled(false);
                 }
+                //else if(networkService.getShareMode()) {
+                //    if (networkService.getNetwork().getSelectedNodes().length > 0) {
+                //        $mdDialog.show({
+                //            targetEvent: $event,
+                //            template:
+                //            '<md-dialog aria-label="List dialog">' +
+                //            '  <md-toolbar>' +
+                //            '     <div class="md-toolbar-tools">' +
+                //            '      <h2>Share Bubble</h2>' +
+                //            '      <span flex></span>' +
+                //            '    </div>' +
+                //            '  </md-toolbar>' +
+                //            '  <md-dialog-content>' +
+                //            '     <br>' +
+                //            '     <md-input-container style="margin-right: 10px;">' +
+                //            '       <label>Target User</label>' +
+                //            '       <md-select ng-model="userId">' +
+                //            '       <md-option ng-repeat="user in users" value="{{user.id}}">{{user.name}}</md-option>' +
+                //            '     </md-select>' +
+                //            '   </md-input-container>' +
+                //            '  </md-dialog-content>' +
+                //            '  <md-dialog-actions>' +
+                //            '    <md-button ng-click="shareBubble()" class="md-primary">' +
+                //            '      Share' +
+                //            '    </md-button>' +
+                //            '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                //            '      Close Dialog' +
+                //            '    </md-button>' +
+                //            '  </md-dialog-actions>' +
+                //            '</md-dialog>',
+                //            controller: ShareBubbleDialogController
+                //        });
+                //    } else {
+                //        $mdToast.show(
+                //            $mdToast.simple()
+                //                .textContent('Select a Bubble you need to share.')
+                //                .position('bottom')
+                //                .hideDelay(3000)
+                //        );
+                //    }
+                //    networkService.setShareMode(false);
+                //    networkService.setClusterClickDisabled(false);
+                //}
             }
         }
 

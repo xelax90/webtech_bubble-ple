@@ -17,6 +17,7 @@ app.service('networkService', ['$http', '$mdToast', 'bubbleService', function ($
         var clusterClickDisabled = false;
         var deleteMode = false;
         var editMode = false;
+        var shareMode = false;
 
         var options = {
             autoResize: true,
@@ -223,6 +224,14 @@ app.service('networkService', ['$http', '$mdToast', 'bubbleService', function ($
 
         this.setEditMode = function (edtMode) {
             editMode = edtMode;
+        }
+
+        this.getShareMode = function () {
+            return shareMode;
+        }
+
+        this.setShareMode = function (shareMode) {
+            shareMode = shareMode;
         }
 
         this.createNode = function (bubble) {
