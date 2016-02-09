@@ -232,8 +232,8 @@ app.service('networkService', ['$http', '$mdToast', 'bubbleService', function ($
             return shareMode;
         }
 
-        this.setShareMode = function (shareMode) {
-            shareMode = shareMode;
+        this.setShareMode = function (shrMode) {
+            shareMode = shrMode;
         }
 
         this.createNode = function (bubble) {
