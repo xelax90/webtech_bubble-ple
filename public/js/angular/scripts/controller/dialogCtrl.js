@@ -100,7 +100,8 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
 
     $scope.uploadFile = function () {
         $mdDialog.hide();
-        var file = fileService[0];
+        //var file = fileService[0];
+        var file = fileService.getUploadedFile();
         //$scope.bubbleName = file.name;
         console.log(file);
 
