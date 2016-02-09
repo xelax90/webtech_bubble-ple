@@ -173,6 +173,34 @@ function uploadFileDialogTemplate(){
         '</md-dialog>';
 }
 
+function shareDialogTemplate(){
+    return '<md-dialog aria-label="List dialog">' +
+        '  <md-toolbar>' +
+        '     <div class="md-toolbar-tools">' +
+        '      <h2>Share Bubble</h2>' +
+        '      <span flex></span>' +
+        '    </div>' +
+        '  </md-toolbar>' +
+        '  <md-dialog-content>' +
+        '     <br>' +
+        '     <md-input-container style="margin-right: 10px;">' +
+        '       <label>Target User</label>' +
+        '       <md-select ng-model="userId">' +
+        '       <md-option ng-repeat="user in users" value="{{user.id}}">{{user.name}}</md-option>' +
+        '     </md-select>' +
+        '   </md-input-container>' +
+        '  </md-dialog-content>' +
+        '  <md-dialog-actions>' +
+        '    <md-button ng-click="shareBubble()" class="md-primary">' +
+        '      Share' +
+        '    </md-button>' +
+        '    <md-button ng-click="closeDialog()" class="md-primary">' +
+        '      Close Dialog' +
+        '    </md-button>' +
+        '  </md-dialog-actions>' +
+        '</md-dialog>';
+}
+
 function uploadMediaDialogTemplate(){
     return '<md-dialog aria-label="List dialog">' +
         '  <md-toolbar>' +
