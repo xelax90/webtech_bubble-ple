@@ -17,6 +17,7 @@ app.service('networkService', ['$http', '$mdToast', 'bubbleService', function ($
         var clusterClickDisabled = false;
         var deleteMode = false;
         var editMode = false;
+        var thisService = this;
 
         var options = {
             autoResize: true,
@@ -75,7 +76,8 @@ app.service('networkService', ['$http', '$mdToast', 'bubbleService', function ($
                                 .hideDelay(3000)
                                 );
                         callback(edgeData);
-
+                        thisService.nodes.update(thisService.createNode(response.data.item.fromBubble));
+                        thisService.nodes.update(thisService.createNode(response.data.item.toBubble));
                     }, function (errResponse) {
                         $mdToast.show(
                                 $mdToast.simple()
