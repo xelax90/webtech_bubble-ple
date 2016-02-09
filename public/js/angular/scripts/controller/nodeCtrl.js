@@ -24,7 +24,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
         $scope.bcSemesterId;
         $scope.bcCourseId;
-//        var onClickTimeout;
+        var onClickTimeout;
 
         $scope.toggleList = function () {
             $mdSidenav('left').toggle();
@@ -108,8 +108,8 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
 
 
         function onDoubleClick(node) {
-//            clearTimeout(onClickTimeout);
-//            onClickTimeout = false;
+            clearTimeout(onClickTimeout);
+            onClickTimeout = false;
             this.items = networkService.getNodes();
             var nodeId = node.nodes[0];
             var node = this.items.get(nodeId);
@@ -236,7 +236,7 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
                     edges[i].arrows = 'to';
                 }
 
-                networkService.setNetworkData(bubbles, edges);
+                networkService.setNetworkData(items, bubbles, edges);
                 networkService.initNetwork(networkInitializer);
                 //function(item){
 
@@ -623,8 +623,8 @@ app.controller('nodeCtrl', ['$mdSidenav', '$location', '$scope', '$timeout', 'Up
         function onClick(properties) {
             var t0 = new Date();
             if (t0 - doubleClickTime > threshold && !onClickTimeout) {
-//                onClickTimeout = 
-                setTimeout(function () {
+                onClickTimeout = setTimeout(function () {
+                    onClickTimeout = false;
                     if (t0 - doubleClickTime > threshold) {
                         doOnClick(properties);
                     }

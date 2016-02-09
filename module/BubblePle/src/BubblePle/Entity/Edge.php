@@ -121,6 +121,8 @@ class Edge implements JsonSerializable{
 			'id' => $this->getId(),
 			'from' => $this->getFrom()->getId(),
 			'to' => $this->getTo()->getId(),
+			'fromBubble' => $this->getFrom(),
+			'toBubble' => $this->getTo(),
 		);
 	}
 

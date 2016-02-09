@@ -86,6 +86,9 @@ class BubbleController extends ListController{
 		$user = $this->zfcUserAuthentication()->getIdentity();
 		
 		$params = array();
+		if($entityClass === Semester::class){
+			$params['owner'] = array($user);
+		}
 		
 		if(!empty($this->getParentControllerOptions())){
 			$parentId = $this->getEvent()->getRouteMatch()->getParam($this->getParentControllerOptions()->getIdParamName());
