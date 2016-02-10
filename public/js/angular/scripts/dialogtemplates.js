@@ -261,7 +261,7 @@ function PlayVideoDialogTemplate(title, url){
 }
 
 function PlayYoutubeVideoDialogTemplate(title, url){
-    return ' <md-dialog aria-label="Mango (Fruit)"  ng-cloak> <md-dialog-content><iframe width="420" height="345" src="'+
+    return ' <md-dialog aria-label="Mango (Fruit)"  ng-cloak> <md-dialog-content><iframe width="420" allowfullscreen="true" height="345" src="'+
     url+
     '"></iframe></md-dialog-content><md-dialog-actions><md-button ng-click="closeMediaDialog()" class="md-primary">Cancel</md-button></md-dialog-actions></md-dialog>';
 }

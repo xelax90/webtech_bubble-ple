@@ -26,7 +26,7 @@ body{
 #bubbles,
 #mynetwork{
 	position: relative;
-	
+	margin-top: 64px;
 	.vis-network{
 		position: absolute !important;
 		top: 0;
@@ -49,6 +49,7 @@ md-dialog > md-dialog-content{
 
 md-toolbar.breadcrumb-bar {
     background: #f6f6f6 !important;
+	position: fixed;
 }
 
 .whole-container {
@@ -178,6 +179,12 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar) md-icon, md-toolbar:not(.md-me
     text-align: center;
     font-size: 20px;
     margin: 20px 0 0 0;
+}
+
+#mynetwork{
+	md-progress-circular{
+		margin: 0 auto;
+	}
 }
 
 .loading-circle {
