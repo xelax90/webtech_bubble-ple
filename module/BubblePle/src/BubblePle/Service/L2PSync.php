@@ -352,16 +352,41 @@ class L2PSync implements ServiceLocatorAwareInterface{
 		
 		foreach($courses as $course){
 			/* @var $course Course */
+			
 			$response = $l2p->request('viewAllAssignments', false, array(
 				'cid' => $course->getCourseroom(),
 			));
-			if($response['code'] != 200){
+			if($response['code'] == 500){
+				$skipped = 0;
+				$assignments = array();
+				for($assignmentId = 1; $assignmentId < 100; $assignmentId++){
+					$response = $l2p->request('viewAssignment', false, array(
+						'cid' => $course->getCourseroom(),
+						'itemid' => $assignmentId,
+					));
+					if($response['code'] != 200){
+						$res[$course->getCourseroom()][$assignmentId] = false;
+						$skipped++;
+						continue;
+					}
+					$assignmentResponse = json_decode($response['output']);
+					if(empty($assignmentResponse->dataSet)){
+						$skipped++;
+						continue;
+					}
+					$assignments[] = $assignmentResponse->dataSet[0];
+					$skipped = 0;
+				}
+			} elseif($response['code'] != 200){
 				$res[$course->getCourseroom()] = false;
 				continue;
+			} else {
+				$assignmentsResponse = json_decode($response['output']);
+				$assignments = $assignmentsResponse->dataSet;
 			}
 			
-			$assignments = json_decode($response['output']);
-			foreach($assignments->dataSet as $assignment){
+			$skipped = 0;
+			foreach($assignments as $assignment){
 				$children = $course->getChildren();
 				$found = null;
 				if($children){
