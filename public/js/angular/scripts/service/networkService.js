@@ -236,7 +236,7 @@ app.service('networkService', ['$http', '$mdToast', 'bubbleService', function ($
             shareMode = shrMode;
         }
 
-        this.createNode = function (bubble) {
+        this.createNode = function (bubble, item) {
             var node = {
                 id: bubble.id,
                 label: bubble.title,
@@ -245,7 +245,12 @@ app.service('networkService', ['$http', '$mdToast', 'bubbleService', function ($
                 bubbleType: bubble.bubbleType
             };
 
-            if (bubble.posX) {
+            if(item){
+                if(item.x){
+                    node.x = item.x;
+                    node.y = item.y;
+                }
+            } else if (bubble.posX > 0) {
                 node.x = bubble.posX;
                 node.y = bubble.posY;
             }

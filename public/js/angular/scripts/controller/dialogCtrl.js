@@ -49,7 +49,7 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
             $http.post(url, req).then(function (response) {
                 console.log(response);
                 networkService.updateOrignalItems(response.data.item);
-                var node = networkService.createNode(response.data.item);
+                var node = networkService.createNode(response.data.item, items);
                 $mdToast.show(
                         $mdToast.simple()
                         .textContent('Bubble Added')
@@ -126,7 +126,7 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
             $http.post(this.url, data).then(function (response) {
                 console.log(response);
                 networkService.updateOrignalItems(response.data.item);
-                var node = networkService.createNode(response.data.item);
+                var node = networkService.createNode(response.data.item, items);
                 $mdToast.show(
                         $mdToast.simple()
                         .textContent('ADDED MEDIA')
@@ -159,7 +159,7 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
                     showToast($mdToast, 'File Uploaded Successfully');
                     console.log(response.data.item.filename);
                     $scope.showProgressBar = false;
-                    var node = networkService.createNode(response.data.item);
+                    var node = networkService.createNode(response.data.item, items);
                     $mdToast.show(
                             $mdToast.simple()
                             .textContent('Bubble Added')
