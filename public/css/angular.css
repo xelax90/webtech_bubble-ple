@@ -4436,7 +4436,6 @@ body > md-content {
 #bubbles,
 #mynetwork {
   position: relative;
-  margin-top: 64px;
 }
 #bubbles .vis-network,
 #mynetwork .vis-network {
@@ -4457,7 +4456,6 @@ md-dialog > md-dialog-content {
 }
 md-toolbar.breadcrumb-bar {
   background: #f6f6f6 !important;
-  position: fixed;
 }
 .whole-container {
   height: 100%;
