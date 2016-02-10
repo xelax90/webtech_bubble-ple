@@ -66,6 +66,10 @@ app.factory('fileService', function() {
 
         getUploadedFile : function(){
             return uploadedFile;
+        },
+        
+        resetUploadedFile : function(){
+            uploadedFile = null;
         }
     }
 });

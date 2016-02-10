@@ -106,7 +106,7 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
         console.log(file);
 
         if (type == 'fileAttachment') {
-            data = {fileattachment: {filename: file, title: file.name}};
+            data = {fileattachment: {filename: file, title: $scope.bubbleName}};
             this.url = 'admin/bubblePLE/fileAttachments/rest';
         }
         else if (type == 'mediaAttachment') {
@@ -160,6 +160,7 @@ function dialogController($scope, $mdDialog, $mdToast, $http, items, callBack, t
                     console.log(response.data.item.filename);
                     $scope.showProgressBar = false;
                     var node = networkService.createNode(response.data.item, items);
+                    fileService.resetUploadedFile();
                     $mdToast.show(
                             $mdToast.simple()
                             .textContent('Bubble Added')
