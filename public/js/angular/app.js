@@ -32,7 +32,8 @@ app.directive('fileModel', ['$parse', 'fileService', function ($parse, fileServi
             element.bind('change', function(){
                 modelSetter(scope, element[0].files[0]);
                     console.log("binding file");
-                    fileService.push(element[0].files[0]);
+                    //fileService.push(element[0].files[0]);
+                    fileService.setUploadedFile(element[0].files[0]);
             });
         }
     };
@@ -55,6 +56,16 @@ app.service('fileUpload', ['$http', function ($http) {
 }]);
 
 app.factory('fileService', function() {
-    var files = [];
-    return files;
+    // var files = [];
+    // return files;
+    var uploadedFile;
+    return{
+        setUploadedFile : function(file){
+            uploadedFile = file;
+        },
+
+        getUploadedFile : function(){
+            return uploadedFile;
+        }
+    }
 });
