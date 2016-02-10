@@ -250,7 +250,7 @@ app.service('networkService', ['$http', '$mdToast', 'bubbleService', function ($
                     node.x = item.x;
                     node.y = item.y;
                 }
-            } else if (bubble.posX > 0) {
+            } else if (bubble.posX) {
                 node.x = bubble.posX;
                 node.y = bubble.posY;
             }
